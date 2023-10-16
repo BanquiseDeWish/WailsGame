@@ -3,7 +3,7 @@ import LogInButton from '@/Components/Buttons/LogInButton';
 import GlobalLayout from '@/Layouts/GlobalLayout';
 import KoolButton from '@/Components/Buttons/KoolButton';
 
-import VipGames from '../../assets/games/vip_games.png'
+import VipGames from '../../assets/games/vip_games_title.png'
 import VipGamesCover from '../../assets/games/vip_games_cover.png'
 import VipGamesCharacter from '../../assets/games/vip_games_character.png'
 
