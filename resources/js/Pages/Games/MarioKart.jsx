@@ -1,9 +1,9 @@
 import { Head } from '@inertiajs/react';
 
-export default function Dashboard({ auth }) {
+export default function MarioKart({ auth }) {
     return (
         <>
-            <Head title="Dashboard" />
+            <Head title="Mario Kart" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">

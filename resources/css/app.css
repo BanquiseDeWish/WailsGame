@@ -1,3 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    z-index: 5;
+    box-sizing: border-box;
+}
+
+.choose_item {
+    width: 380px;
+    height: 540px;
+    border-radius: 16px;
+    background: linear-gradient(225deg, #79604A 0%, #1E1C1A 93.23%);
+    transform: rotateX(35deg);
+    transition: 0.5s;
+}
+
+.choose_item:hover {
+    transform: rotateX(0deg);
+    transition: 0.5s;
+}
+
+html, body{
+    background-color: #1E1C1A;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

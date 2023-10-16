@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GameController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,14 +25,21 @@ Route::get('/', function () {
     ]);
 })->name('/');
 
+Route::middleware(['dashboard', 'vip_games'])->group(function () {
+
+});
+
+Route::prefix('games')->name('games.')->group(function () {
+    Route::get('/vipgames', function() { return Inertia::render('Games/VipGames'); })->name('vipgames');
+    Route::get('/mariokart', function() { return Inertia::render('Games/MarioKart'); })->name('mariokart');
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth_twitch', 'is_weils'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::get('/vip_games', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth_twitch', 'is_weils'])->name('vip_games');
 
 require __DIR__.'/auth.php';

@@ -36,6 +36,15 @@ class TwitchController extends Controller
         return redirect(route('/'));
     }
 
+    public function destroy(Request $request)
+    {
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect(route('/'));
+    }
+
     function requestUserId($token) {
         $ch = curl_init('https://id.twitch.tv/oauth2/validate');
         $authorization = "Authorization: Bearer ".$token;
