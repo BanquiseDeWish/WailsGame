@@ -38,7 +38,18 @@ class User extends Model
 
     }
 
+    public static function registerOrUpdateUser($userId, $userInfo) {
+        $user = User::where('twitch_id', $userId)->first();
+        if($user) {
+            $user->twitch_username = $userInfo->data[0]->display_name;
+            $user->save();
+        } else {
+            $user = new User;
+            $user->twitch_id = $userId;
+            $user->twitch_username = $userInfo->data[0]->display_name;
+            $user->save();
+        }
+    }
     
-
     use HasFactory;
 }

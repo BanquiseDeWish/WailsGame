@@ -19,7 +19,7 @@ export default function Welcome({ auth }) {
     return (
         <>
             <GlobalLayout>
-                <Head title="Welcome" />
+                <Head title="Accueil" />
                 {auth.twitch ? (
                     <>
                         <div className="flex flex-row w-full items-center justify-end p-8">
