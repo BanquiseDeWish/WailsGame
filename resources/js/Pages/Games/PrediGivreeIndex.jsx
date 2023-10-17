@@ -1,10 +1,10 @@
 import { Head } from '@inertiajs/react';
 import GlobalLayout from '@/Layouts/GlobalLayout';
 
-export default function MarioKart({ auth }) {
+export default function PrediGivreeIndex({ auth }) {
     return (
         <GlobalLayout>
-            <Head title="Mario Kart" />
+            <Head title="Prédictions Givrées" />
         </GlobalLayout>
     );
 }

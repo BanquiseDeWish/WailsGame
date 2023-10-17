@@ -34,7 +34,7 @@ class TwitchController extends Controller
         $userInfo = $this->requestUserDatas($token['access_token'], $userId->user_id);
         $request->session()->put('twitch', $userInfo->data[0]);
 
-        User::class::registerOrUpdateUser($userId->user_id, $userInfo);
+        User::registerOrUpdateUser($userId->user_id, $userInfo);
 
         return redirect(route('/'));
     }

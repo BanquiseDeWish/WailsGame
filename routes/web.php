@@ -32,6 +32,7 @@ Route::middleware(['dashboard', 'vip_games'])->group(function () {
 Route::prefix('games')->name('games.')->group(function ()
 {
     Route::get('/{game}', [GameController::class, 'show'])->name('show');
+    Route::get('/{game}/play', [GameController::class, 'play'])->name('play');
 });
 
 Route::get('/dashboard', function () {
