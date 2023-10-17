@@ -1,6 +1,6 @@
 import IceBerg from "@/Components/Svg/IceBerg";
 import BgEffect from '../../assets/bg_effect.png'
-import AppBackground from '../../assets/backgrounds/4.png'
+import AppBackground from '../../assets/backgrounds/20.png'
 
 export default function GlobalLayout({ children }) {
     return (
@@ -35,7 +35,7 @@ export default function GlobalLayout({ children }) {
                     position: absolute;
                     width: 100%;
                     height: 100%;
-                    background: radial-gradient(60.52% 59.95% at 50% 50%, rgba(4, 25, 37, 0.21) 0%, rgba(2, 12, 17, 0.70) 100%);
+                    background: radial-gradient(60.52% 59.95% at 50% 50%, rgba(4, 25, 37, 0.35) 0%, rgba(2, 12, 17, 0.85) 100%);
                 }
             `}
             </style>

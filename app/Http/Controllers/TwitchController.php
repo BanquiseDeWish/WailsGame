@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use romanzipp\Twitch\Twitch;
-use romanzipp\Twitch\Objects\AccessToken;
-use romanzipp\Twitch\Enums\GrantType;
+
+use App\Models\User;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -33,6 +33,9 @@ class TwitchController extends Controller
 
         $userInfo = $this->requestUserDatas($token['access_token'], $userId->user_id);
         $request->session()->put('twitch', $userInfo->data[0]);
+
+        $this->registerOrUpdateUser($userId->user_id, $userInfo);
+
         return redirect(route('/'));
     }
 
@@ -79,4 +82,16 @@ class TwitchController extends Controller
         return json_decode($result);
     }
 
+    function registerOrUpdateUser($userId, $userInfo) {
+        $user = User::where('twitch_id', $userId)->first();
+        if($user) {
+            $user->twitch_username = $userInfo->data[0]->display_name;
+            $user->save();
+        } else {
+            $user = new User;
+            $user->twitch_id = $userId;
+            $user->twitch_username = $userInfo->data[0]->display_name;
+            $user->save();
+        }
+    }
 }

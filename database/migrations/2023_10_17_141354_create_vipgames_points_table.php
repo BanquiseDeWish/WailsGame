@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('vipgames_points', function (Blueprint $table) {
             $table->id();
-            $table->integer('twitch_id')->unique();
-            $table->string('twitch_username', 32)->unique();
-            $table->integer('actual_vipgames_points')->default(0);
+            $table->integer('user_id');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('vipgames_points');
     }
 };
