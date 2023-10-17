@@ -29,9 +29,9 @@ Route::middleware(['dashboard', 'vip_games'])->group(function () {
 
 });
 
-Route::prefix('games')->name('games.')->group(function () {
-    Route::get('/vipgames', function() { return Inertia::render('Games/VipGames'); })->name('vipgames');
-    Route::get('/mariokart', function() { return Inertia::render('Games/MarioKart'); })->name('mariokart');
+Route::prefix('games')->name('games.')->group(function ()
+{
+    Route::get('/{game}', [GameController::class, 'show'])->name('show');
 });
 
 Route::get('/dashboard', function () {

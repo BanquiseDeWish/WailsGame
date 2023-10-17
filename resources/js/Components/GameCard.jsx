@@ -1,11 +1,11 @@
 import '../../css/cards.css';
 import { Link } from '@inertiajs/react';
 
-export default function GameCard({ titleImg, coverImg, characterImg, routeName }) {
+export default function GameCard({ titleImg, coverImg, characterImg, route }) {
 
     return (
         <>
-            <Link href={route(routeName)}>
+            <Link href={route}>
             <div className="gameCard">
                 <div className="wrapper">
                     <img src={coverImg} className="cover-image pointer-events-none select-none" />

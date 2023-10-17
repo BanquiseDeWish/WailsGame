@@ -9,13 +9,13 @@ class GameController extends Controller
 {
     //
 
-    public function vip_games()
+    public function show($game)
     {
-        return Inertia::location($this->twitch->getOAuthAuthorizeUrl('code', ['user_read']));
-    }
+        if($game == 'vipgames')
+            return Inertia::render('Games/VipGames');
+        else if($game == 'predi_grivee')
+            return Inertia::render('Games/PrediGivree');
 
-    public function mario_kart()
-    {
-        return Inertia::location($this->twitch->getOAuthAuthorizeUrl('code', ['user_read']));
+        return Inertia::render('Games/VipGames');
     }
 }
