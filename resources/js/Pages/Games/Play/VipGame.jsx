@@ -47,6 +47,14 @@ export default function VipGame() {
                 case 'flip_tickets':
                     flipTicketWithDelay(data.tickets, 0);
                     break;
+
+                case 'shuffle_players':
+                    console.log(data.players);
+                    let data2 = DATA;
+                    data2.players = data.players;
+                    setData(data2);
+                    console.log(DATA.players)
+                    break;
             }
 
         }
