@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { socket, DATA, setData } from '../../../socket';
 import '../../../../css/vipgames.css';
 import Ticket from '@/Components/Games/Ticket';
-
+import axios from 'axios'
 import GlobalLayout from '@/Layouts/GlobalLayout';
 
 export default function VipGame() {
@@ -11,6 +11,11 @@ export default function VipGame() {
     const [values, setValues] = useState({tickets: []});
 
     useEffect(() => {
+
+        /* POUR LAPI QUI CHECK ET ENREGISTRE LUTILISATEUR SI NON EXISTANT
+            axios.post(route('api.user.register'), {userId: user.id, userName: user.name})
+                    .then((response) => { {user: User::class - Object} console.log("Réponse de l'api") })
+        */
 
         function flipTicketWithDelay(tickets, amount) {
             setTimeout(() => {
@@ -39,7 +44,7 @@ export default function VipGame() {
                     }
                     document.getElementById("ticket_" + data.ticket_id).onClick = null;
                     break;
-                
+
                 case 'player_turn':
 
                     break;
