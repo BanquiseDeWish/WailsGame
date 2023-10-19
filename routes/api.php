@@ -15,4 +15,4 @@ use App\Http\Controllers\TwitchController;
 |
 */
 
-Route::post('/user/register', [TwitchController::class, 'register'])->name('user.register');
+Route::post('/user/register', [TwitchController::class, 'register'])->name('api.user.register');

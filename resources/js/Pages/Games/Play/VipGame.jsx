@@ -12,11 +12,6 @@ export default function VipGame() {
 
     useEffect(() => {
 
-        /* POUR LAPI QUI CHECK ET ENREGISTRE LUTILISATEUR SI NON EXISTANT
-            axios.post(route('api.user.register'), {userId: user.id, userName: user.name})
-                    .then((response) => { {user: User::class - Object} console.log("Réponse de l'api") })
-        */
-
         function flipTicketWithDelay(tickets, amount) {
             setTimeout(() => {
                 document.getElementById("ticket_" + tickets[amount]).classList.add('ticket_miss');
@@ -54,11 +49,22 @@ export default function VipGame() {
                     break;
 
                 case 'shuffle_players':
-                    console.log(data.players);
                     let data2 = DATA;
                     data2.players = data.players;
                     setData(data2);
-                    console.log(DATA.players)
+                    break;
+
+                case 'new_player':
+                    axios.post(route('api.user.register'), {userId: data.userId, userName: data.userName})
+                    .then((response) => { 
+                        console.log("Réponse de l'api"); 
+                        console.log(response.data);
+                        DATA.players.push(response.data.user.userName);
+                    });
+                    break;
+
+                case 'chance':
+                    DATA.players.push(data.userName);
                     break;
             }
 
