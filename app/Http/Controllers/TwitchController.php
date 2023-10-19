@@ -34,7 +34,7 @@ class TwitchController extends Controller
         $userInfo = $this->requestUserDatas($token['access_token'], $userId->user_id);
         $request->session()->put('twitch', $userInfo->data[0]);
 
-        User::registerOrUpdateUser($userId->user_id, $userInfo);
+        User::registerOrUpdateUser($userId->user_id, $userInfo->data[0]->display_name);
 
         return redirect(route('/'));
     }
@@ -80,5 +80,13 @@ class TwitchController extends Controller
         $result = curl_exec($ch);
         curl_close($ch);
         return json_decode($result);
+    }
+
+    function register(Request $request) {
+        $inputs = $request->all();
+        $userId = $inputs['userId'];
+        $userName = $inputs['userName'];
+        $user = User::registerOrUpdateUser($userId, $userName);
+        return response()->json(["state" => "success", "user" => $user]);
     }
 }
