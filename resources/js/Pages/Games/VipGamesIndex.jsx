@@ -1,7 +1,8 @@
 import { Head, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import { router } from '@inertiajs/react'
-import { socket, DATA, setData } from '../../socket';
+import { socket } from '../../Game/socket';
+import { setData } from '../../Game/vipgames';
 
 import GlobalLayout from '@/Layouts/GlobalLayout';
 

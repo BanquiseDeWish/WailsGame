@@ -23,6 +23,13 @@ html, body{
     background-color: #1E1C1A;
 }
 
+.very-hidden {
+    display: none;
+    visibility: hidden;
+    height: 0;
+    width: 0;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

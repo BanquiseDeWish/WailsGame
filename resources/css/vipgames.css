@@ -1,31 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-.row {
-    display: flex;
-    flex-direction: row;
-}
-
-.col {
-    display: flex;
-    flex-direction: column;
-}
-
-.w-100 {
-    width: 100%;
-}
-
-.gap-8 {
-    gap: 8px;
-}
-
-.gap-12 {
-    gap: 12px;
-}
-
-.gap-16 {
-    gap: 16px;
-}
-
 :root {
     --background: #0e1014;
     --ticket: linear-gradient(99deg, #ffc700 0%, #905510 100%);
@@ -51,16 +25,15 @@ html {
     user-select: none;
 }
 
-body,
-#game_menu,
-#start_menu {
+#game_menu {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-direction: column;
     gap: 40px;
     width: 100vw;
     height: 100vh;
+    padding: 32px;
 }
 
 .button {
@@ -194,7 +167,11 @@ input,
     border-color: #08b010;
 }
 
-.hidden {
+.transition-back {
+    transition: 0.1s linear;
+}
+
+.my-hidden {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s 0.1s, opacity 0.1s linear;

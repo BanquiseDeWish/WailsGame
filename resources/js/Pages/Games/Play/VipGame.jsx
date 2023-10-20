@@ -1,118 +1,38 @@
 import { Head } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
-import { socket, DATA, setData } from '../../../socket';
+import { DATA, setupGame, endPhase } from '../../../Game/vipgames';
+import { socket } from '../../../Game/socket';
 import '../../../../css/vipgames.css';
-import Ticket from '@/Components/Games/Ticket';
-import axios from 'axios'
 import GlobalLayout from '@/Layouts/GlobalLayout';
+import Ticket from '../../../Components/Games/Ticket';
 
-import Player from '../../../player';
+import VipGamesLogo from '../../../../assets/games/vip_games_inline.png'
 
 export default function VipGame() {
     const [isConnected, setIsConnected] = useState(socket.connected);
-    const [values, setValues] = useState({tickets: []});
+    const [values, setValues] = useState({ tickets: [], current_player: 'Aucun Joueur', playCount: 0 });
+
+    function modifyValue(key, value) {
+        setValues(values => ({ ...values, [key]: value }));
+        console.log(values);
+    }
+
+    function fade(id) {
+        let e = document.getElementById(id);
+        if (e.classList.contains('my-hidden')) {
+            e.classList.remove('my-hidden');
+        }
+        else {
+            e.classList.add('my-hidden');
+        }
+    }
+
+    function getTicket(i, className, onClick) {
+        return (<Ticket key={i} id={"ticket_" + i} number={i + 1} className={className} onClick={onClick} />);
+    }
 
     useEffect(() => {
-
-        function flipTicketWithDelay(tickets, amount) {
-            setTimeout(() => {
-                document.getElementById("ticket_" + tickets[amount]).classList.add('ticket_miss');
-                if(amount < tickets.length - 1) {
-                    flipTicketWithDelay(tickets, amount + 1);
-                }
-            }, 1000);
-        }
-
-        function playTicket(id) {
-            socket.emit('play_ticket', id);
-        }
-
-        function receiveInfo(data) {
-            switch (data.name) {
-                case 'play_ticket':
-                    if(data.action == 'miss') {
-                        document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_miss');
-                    }
-                    else if(data.action == 'bonus') {
-                        document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_bonus', 'animate__flip');
-                    }
-                    else if(data.action == 'win') {
-                        document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_win', 'animate__flip');
-                    }
-                    document.getElementById("ticket_" + data.ticket_id).onClick = null;
-                    break;
-
-                case 'player_turn':
-                    console.log("Tour de : " + data.userName + " qui joue " + data.playCount + " fois.");
-                    break;
-
-                case 'flip_tickets':
-                    flipTicketWithDelay(data.tickets, 0);
-                    break;
-
-                case 'shuffle_players':
-                    let data2 = DATA;
-                    data2.players = data.players;
-                    setData(data2);
-                    break;
-
-                case 'all_players_info':
-                    DATA.players = data.players;
-                    break;
-
-                case 'new_player':
-                    axios.post(route('api.user.register'), {userId: data.player.id, userName: data.player.name})
-                    .then((response) => { 
-                        console.log("Réponse de l'api"); 
-                        console.log(response.data);
-                        DATA.players.push(new Player(response.data.id, response.data.name, 0));
-                    });
-                    break;
-
-                case 'chance':
-                    DATA.roll_players.push(data.userName);
-                    break;
-            }
-
-        }
-
-        function onConnect() {
-            setIsConnected(true);
-        }
-
-        function onDisconnect() {
-            setIsConnected(false);
-        }
-
-        function getFirstGameInfo(data) {
-            setData(data);
-            let tickets = [];
-            console.log(DATA);
-            for (let i = 0; i < DATA.number_of_tickets; i++) {
-                if(DATA.tickets.includes(i)) {
-                    tickets.push(<Ticket key={i} id={"ticket_" + i} number={i + 1} onClick={() => playTicket(i)} />);
-                }
-                else {
-                    if(DATA.bonus_tickets.includes(i)) {
-                        tickets.push(<Ticket key={i} id={"ticket_" + i} number={i + 1} className="ticket ticket_bonus animate__flip" />);
-                    }
-                    else if (i == DATA.winning_ticket) {
-                        tickets.push(<Ticket key={i} id={"ticket_" + i} number={i + 1} className="ticket ticket_win animate__flip"/>);
-                    }
-                    else {
-                        tickets.push(<Ticket key={i} id={"ticket_" + i} number={i + 1} className="ticket ticket_miss"/>);
-                    }
-                }
-            }
-            setValues({tickets: tickets})
-        }
-
-        socket.on('connect', onConnect);
-        socket.on('disconnect', onDisconnect);
-        socket.on('first_game_info', getFirstGameInfo);
-        socket.on('game_info', receiveInfo);
-
-        socket.emit('need_game_info', null);
+        setupGame(modifyValue, setIsConnected, getTicket);
     }, []);
 
     return (
@@ -120,8 +40,29 @@ export default function VipGame() {
             <Head title="VIP Game" />
 
             <div id="game_menu">
-                <div id="tickets_pack">
-                    {values.tickets}
+                <img src={VipGamesLogo} width={312} alt="Logo VipGames" />
+
+                <div className='flex flex-grow w-full justify-center items-center'>
+
+                    <div id="tickets_pack" className='transition-back absolute'>
+                        <div className='w-full'>
+                            <div id='user'>
+                                <img id='user_icon' src=''/>
+                                <div id='user_name'>{values.current_player}</div>
+                            </div>
+
+                        </div>
+                        <div className='flex flex-row flex-wrap gap-3 justify-center'>
+                            {values.tickets}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className='flex flex-row gap-8'>
+                    <button onClick={() => fade('tickets_pack')}>FADE</button>
+                    <button onClick={() => endPhase('waiting')}>Arrêter d'attendre les joueurs</button>
+                    <button onClick={() => endPhase('chance')}>Fin des CHANCES</button>
                 </div>
             </div>
 
