@@ -38,11 +38,14 @@ function setupGame(modifyValue, setIsConnected, getTicket) {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_win', 'animate__flip');
                 }
                 document.getElementById("ticket_" + data.ticket_id).onClick = null;
+                modifyValue('playCount', --DATA.playCount);
                 break;
 
             case 'player_turn':
-                console.log("Tour de : " + data.userName + " qui joue " + data.playCount + " fois.");
-                modifyValue('current_player', data.userName);
+                console.log("Tour de : " + data.player.name + " qui joue " + data.playCount + " fois.");
+                DATA.current_player = data.player;
+                DATA.playCount = data.playCount;
+                modifyValue('current_player', data.player);
                 modifyValue('playCount', data.playCount);
                 break;
 
@@ -68,11 +71,11 @@ function setupGame(modifyValue, setIsConnected, getTicket) {
                 break;
 
             case 'chance':
-                DATA.roll_players.push(data.userName);
+                DATA.roll_players.push(data.player.name);
                 break;
 
             case 'bonus_ticket':
-                console.log("Ticket bonus pour " + data.player + " ( +3 Points )");
+                console.log("Ticket bonus pour " + data.player.name + " ( +3 Points )");
                 break;
 
             case 'end_game':

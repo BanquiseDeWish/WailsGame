@@ -10,7 +10,11 @@ import VipGamesLogo from '../../../../assets/games/vip_games_inline.png'
 
 export default function VipGame() {
     const [isConnected, setIsConnected] = useState(socket.connected);
-    const [values, setValues] = useState({ tickets: [], current_player: 'Aucun Joueur', playCount: 0 });
+    const [values, setValues] = useState({
+        tickets: [],
+        current_player: {id: -1, name: 'Aucun Joueur'},
+        playCount: 0
+    });
 
     function modifyValue(key, value) {
         setValues(values => ({ ...values, [key]: value }));
@@ -46,9 +50,10 @@ export default function VipGame() {
 
                     <div id="tickets_pack" className='transition-back absolute'>
                         <div className='w-full'>
-                            <div id='user'>
+                            <div id='user' className='flex flex-row gap-8'>
                                 <img id='user_icon' src=''/>
-                                <div id='user_name'>{values.current_player}</div>
+                                <div id='user_name'>{values.current_player.name}</div>
+                                <div>{values.playCount}</div>
                             </div>
 
                         </div>
