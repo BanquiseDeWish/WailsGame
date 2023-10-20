@@ -6,6 +6,8 @@ import Ticket from '@/Components/Games/Ticket';
 import axios from 'axios'
 import GlobalLayout from '@/Layouts/GlobalLayout';
 
+import Player from '../../../player';
+
 export default function VipGame() {
     const [isConnected, setIsConnected] = useState(socket.connected);
     const [values, setValues] = useState({tickets: []});
@@ -41,7 +43,7 @@ export default function VipGame() {
                     break;
 
                 case 'player_turn':
-
+                    console.log("Tour de : " + data.userName + " qui joue " + data.playCount + " fois.");
                     break;
 
                 case 'flip_tickets':
@@ -54,17 +56,21 @@ export default function VipGame() {
                     setData(data2);
                     break;
 
+                case 'all_players_info':
+                    DATA.players = data.players;
+                    break;
+
                 case 'new_player':
-                    axios.post(route('api.user.register'), {userId: data.userId, userName: data.userName})
+                    axios.post(route('api.user.register'), {userId: data.player.id, userName: data.player.name})
                     .then((response) => { 
                         console.log("Réponse de l'api"); 
                         console.log(response.data);
-                        DATA.players.push(response.data.user.userName);
+                        DATA.players.push(new Player(response.data.id, response.data.name, 0));
                     });
                     break;
 
                 case 'chance':
-                    DATA.players.push(data.userName);
+                    DATA.roll_players.push(data.userName);
                     break;
             }
 

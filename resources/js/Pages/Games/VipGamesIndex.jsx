@@ -45,7 +45,7 @@ export default function VipGamesIndex() {
         }
         values.bonus_tickets = bonus_tickets;
         setData(values);
-        socket.emit('launch', values);
+        socket.emit('init_game', values);
         router.get('/games/vipgames/play');
     }
 
