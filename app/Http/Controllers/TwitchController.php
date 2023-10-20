@@ -89,4 +89,11 @@ class TwitchController extends Controller
         $user = User::registerOrUpdateUser($userId, $userName);
         return response()->json(["state" => "success", "user" => $user]);
     }
+
+    function getUser(Request $request) {
+        $inputs = $request->all();
+        $userId = $inputs['userId'];
+        $user = User::getFromID($userId);
+        return response()->json(["state" => "success", "user" => $user]);
+    }
 }

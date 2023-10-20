@@ -34,8 +34,8 @@ class User extends Model
     protected $casts = [];
 
     // Method to get amount of points ( count userId in vipgames_points table)
-    public function getPoints() {
-
+    public function getVIPGamePoints() {
+        return VipGamePoint::where('user_id', $this->twitch_id)->count();
     }
 
     public static function getFromID($uid) {

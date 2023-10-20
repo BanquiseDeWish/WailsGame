@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\GameController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TwitchController;
 
@@ -14,5 +14,7 @@ use App\Http\Controllers\TwitchController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('/user/info', [GameController::class, 'getUserGameInfos'])->name('api.user.info');
 
 Route::post('/user/register', [TwitchController::class, 'register'])->name('api.user.register');
