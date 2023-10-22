@@ -68,13 +68,14 @@ class GameController extends Controller
         $inputs = $request->all();
         $userId = $inputs['userId'];
         $userName = $inputs['userName'];
+        $points = $inputs['points'];
 
         $pgPoints = PredigivrePoints::where('userId', $userId)->first();
         if($pgPoints == null) {
             PredigivrePoints::insert([
                 "userId" => $userId,
                 "userName" => $userName,
-                "points" => env('PREDIGIVRE_POINTS'),
+                "points" => $points,
                 "created_at" => now(),
                 "updated_at" => now()
             ]);
@@ -82,7 +83,7 @@ class GameController extends Controller
             return response()->json(["state" => "success"]);
         }
 
-        $newPoints = $pgPoints->points + env('PREDIGIVRE_POINTS');
+        $newPoints = $pgPoints->points + $points;
         $pgPoints->update([
             'userName' => $userName,
             'points' => $newPoints,
