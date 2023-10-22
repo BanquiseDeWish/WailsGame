@@ -35,6 +35,9 @@ Route::prefix('games')->name('games.')->group(function ()
     Route::get('/{game}/play', [GameController::class, 'play'])->middleware(['is_weils'])->name('play');
 });
 
+
+Route::get('/predigivre/halloffame', [GameController::class, 'hallOfFamePredigivre'])->name('predigivre.halloffame');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth_twitch', 'is_weils'])->name('dashboard');

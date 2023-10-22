@@ -36,7 +36,7 @@ export default function Welcome({ auth }) {
                 )}
                 <div className='flex flex-row w-full h-full justify-center items-center'>
                     <GameCard route={route('games.show', 'vipgames')} titleImg={VipGames} characterImg={VipGamesCharacter} coverImg={VipGamesCover}/>
-                    <GameCard route={route('games.show', 'predi_givree')} titleImg={MKGames} characterImg={MKCharacter} coverImg={MKCover}/>
+                    <GameCard route={route('predigivre.halloffame')} titleImg={MKGames} characterImg={MKCharacter} coverImg={MKCover}/>
                 </div>
             </GlobalLayout>
         </>
