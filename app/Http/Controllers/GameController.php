@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PredigivrePoints;
 use App\Models\VipGamePoint;
 use Illuminate\Http\Request;
 
@@ -53,12 +54,49 @@ class GameController extends Controller
                     "user" => $user,
                     "points" => $user->getVIPGamePoints()
                 ]);
-            
+
 
             default:
                 break;
         }
 
         return response()->json(["state" => "fail", "error" => "game not found"]);
+    }
+
+    //Register points for PrediGivrees
+    function registerPGPoints(Request $request) {
+        $inputs = $request->all();
+        $userId = $inputs['userId'];
+        $userName = $inputs['userName'];
+
+        $pgPoints = PredigivrePoints::where('userId', $userId)->first();
+        if($pgPoints == null) {
+            PredigivrePoints::insert([
+                "userId" => $userId,
+                "userName" => $userName,
+                "points" => env('PREDIGIVRE_POINTS'),
+                "created_at" => now(),
+                "updated_at" => now()
+            ]);
+
+            return response()->json(["state" => "success"]);
+        }
+
+        $newPoints = $pgPoints->points + env('PREDIGIVRE_POINTS');
+        $pgPoints->update([
+            'userName' => $userName,
+            'points' => $newPoints,
+        ]);
+
+
+        return response()->json(["state" => "success"]);
+
+    }
+
+    //HallOfFame for PrediGivrees
+    public function hallOfFamePredigivre(Request $request)
+    {
+        $hallOfFame = PredigivrePoints::limit(10)->get();
+        return Inertia::render('Games/PrediGivreeIndex', ['hallOfFame' => $hallOfFame]);
     }
 }
