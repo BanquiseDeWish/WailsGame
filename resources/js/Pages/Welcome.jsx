@@ -2,9 +2,6 @@ import { Link, Head } from '@inertiajs/react';
 import GlobalLayout from '@/Layouts/GlobalLayout';
 
 import TwitchButton from '../Components/Buttons/TwitchButton';
-import GreenButton from '@/Components/Buttons/GreenButton';
-import BlueButton from '@/Components/Buttons/BlueButton';
-import RedButton from '@/Components/Buttons/RedButton';
 
 import VipGames from '../../assets/games/vip_games_title.png'
 import VipGamesCover from '../../assets/games/vip_games_cover.png'

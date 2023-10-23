@@ -18,7 +18,7 @@ export default function SimpleButton({ children, routeName='/', className = '', 
                         display: flex;
                         flex-direction: row;
                         gap: 16px;
-                        padding: 16px 21px;
+                        padding: 16px 32px;
                         border-radius: 8px;
                         font-family: Poppins;
                         color: white;
