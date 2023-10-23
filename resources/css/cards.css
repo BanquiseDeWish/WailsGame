@@ -24,6 +24,7 @@
 }
 
 .wrapper {
+    border-radius: var(--card-radius);
     transition: all 0.5s;
     position: absolute;
     width: 100%;
@@ -64,6 +65,7 @@
 }
 
 .wrapper::after {
+    border-radius: var(--card-radius);
     bottom: 0;
     opacity: 1;
     background-image: linear-gradient(to bottom,
