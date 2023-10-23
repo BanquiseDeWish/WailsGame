@@ -30,6 +30,26 @@ html, body{
     width: 0;
 }
 
+.button_twitch {
+    background: linear-gradient(90deg, #8B5ABB 0%, #362565 100%);
+    outline: 5px solid rgba(133, 90, 187, 0.20);
+}
+
+.button_green {
+    background: linear-gradient(90deg, #5ABB81 0%, #356568 100%);
+    outline: 5px solid rgba(87, 141, 144, 0.20);
+}
+
+.button_blue {
+    background: linear-gradient(90deg, #5A98BB 0%, #354368 100%);
+    outline: 5px solid rgba(90, 152, 187, 0.20);
+}
+
+.button_red {
+    background: linear-gradient(99deg, #BB775A 0%, #683535 100%);
+    outline: 5px solid rgba(144, 97, 87, 0.20);
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

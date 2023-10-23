@@ -1,7 +1,10 @@
 import { Link, Head } from '@inertiajs/react';
-import LogInButton from '@/Components/Buttons/LogInButton';
 import GlobalLayout from '@/Layouts/GlobalLayout';
-import KoolButton from '@/Components/Buttons/KoolButton';
+
+import TwitchButton from '../Components/Buttons/TwitchButton';
+import GreenButton from '@/Components/Buttons/GreenButton';
+import BlueButton from '@/Components/Buttons/BlueButton';
+import RedButton from '@/Components/Buttons/RedButton';
 
 import VipGames from '../../assets/games/vip_games_title.png'
 import VipGamesCover from '../../assets/games/vip_games_cover.png'
@@ -29,7 +32,7 @@ export default function Welcome({ auth }) {
                 ) : (
                     <>
                         <div className="flex flex-row w-full items-center justify-end p-8">
-                            <LogInButton/>
+                            <TwitchButton/>
                         </div>
                     </>
 
