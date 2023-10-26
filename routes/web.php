@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\PrediGivreesController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,8 +37,11 @@ Route::prefix('games')->name('games.')->group(function ()
     Route::get('/{game}/play', [GameController::class, 'play'])->middleware(['is_weils'])->name('play');
 });
 
-
-Route::get('/predigivre/halloffame', [GameController::class, 'hallOfFamePredigivre'])->name('predigivre.halloffame');
+Route::prefix('predigivre')->name('predigivre.')->group(function() {
+    Route::get('/halloffame', [PrediGivreesController::class, 'hallOfFamePredigivre'])->name('halloffame');
+    Route::get('/halloffame/{filter}', [PrediGivreesController::class, 'hallOfFamePredigivre'])->name('halloffame');
+    Route::get('/paginate/{filter}/{page}', [PrediGivreesController::class, 'requestPaginate'])->name('paginate');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -45,5 +50,10 @@ Route::get('/dashboard', function () {
 Route::get('/vip_games', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth_twitch', 'is_weils'])->name('vip_games');
+
+Route::prefix('profile')->name('profile.')->group(function() {
+    Route::get('/', [ProfileController::class, 'index'])->name('index');
+    Route::get('/appearance', [ProfileController::class, 'appearance'])->name('appearance');
+});
 
 require __DIR__.'/auth.php';

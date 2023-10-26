@@ -16,7 +16,7 @@ class ApiToken
     public function handle(Request $request, Closure $next): Response
     {
         if(!$request->hasHeader('Authorization'))
-            return response()->json(['state' => 'Bearer Token not specified'], 401);
+            return response()->json(['state' => 'Unauthorized'], 401);
 
         $apiToken = $request->header('Authorization');
         if ($apiToken != 'Bearer '.config('weils.apiKey')) {

@@ -33,7 +33,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'twitch' => $request->session()->get('twitch'),
+                'twitch' => $request->session()->get('twitch')
             ],
             'weils_id' => env('TWITCH_WEILS_UID'),
             'ziggy' => fn () => [

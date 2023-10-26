@@ -66,38 +66,35 @@ class GameController extends Controller
     //Register points for PrediGivrees
     function registerPGPoints(Request $request) {
         $inputs = $request->all();
-        $userId = $inputs['userId'];
-        $userName = $inputs['userName'];
-        $points = $inputs['points'];
+        $streamId = $inputs['streamId'];
+        $players = json_decode($inputs['players'], true);
 
-        $pgPoints = PredigivrePoints::where('userId', $userId)->first();
-        if($pgPoints == null) {
-            PredigivrePoints::insert([
-                "userId" => $userId,
-                "userName" => $userName,
-                "points" => $points,
-                "created_at" => now(),
+        if($players == null) return response()->json(["state" => "error", "message" => "JSON not valid or empty."]);
+
+        foreach($players as $player) {
+            User::registerOrUpdateUser($player['userId'], $player['userName']);
+            $pgPoints = PredigivrePoints::where('userId', $player['userId'])->where('stream_id', $streamId)->first();
+            if($pgPoints == null) {
+                PredigivrePoints::insert([
+                    "userId" => $player['userId'],
+                    "userName" => $player['userName'],
+                    "points" => $player['points'],
+                    "stream_id" => $streamId,
+                    "created_at" => now(),
+                    "updated_at" => now()
+                ]);
+
+                return response()->json(["state" => "success"]);
+            }
+
+            $newPoints = $pgPoints->points + $player['points'];
+            $pgPoints->update([
+                'userName' => $player['userName'],
+                'points' => $newPoints,
                 "updated_at" => now()
             ]);
-
-            return response()->json(["state" => "success"]);
         }
-
-        $newPoints = $pgPoints->points + $points;
-        $pgPoints->update([
-            'userName' => $userName,
-            'points' => $newPoints,
-        ]);
-
-
         return response()->json(["state" => "success"]);
 
-    }
-
-    //HallOfFame for PrediGivrees
-    public function hallOfFamePredigivre(Request $request)
-    {
-        $hallOfFame = PredigivrePoints::limit(10)->get();
-        return Inertia::render('Games/PrediGivreeIndex', ['hallOfFame' => $hallOfFame]);
     }
 }

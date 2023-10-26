@@ -1,6 +1,6 @@
 import { usePage } from '@inertiajs/react';
 import GlobalLayout from "./GlobalLayout";
-
+import EasterEggEars from '@/Components/EasterEggEars';
 import AppLogo from '@/Components/AppLogo';
 
 import TwitchButton from '../Components/Buttons/TwitchButton';
@@ -20,7 +20,7 @@ export default function MainLayout({ children }) {
                     {props.auth.twitch ? (
                         <>
                             <div className='flex flex-row gap-4'>
-                                <BlueButton routeName='/'>Profil</BlueButton>
+                                <BlueButton routeName={'profile.index'}>Profil</BlueButton>
                                 {
                                     isWeils ? (
                                         <RedButton routeName='dashboard'>Espace Privée</RedButton>
@@ -36,6 +36,7 @@ export default function MainLayout({ children }) {
                         </>
                     )}
                 </div>
+                <EasterEggEars />
                 {children}
             </GlobalLayout>
         </>

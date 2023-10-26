@@ -38,7 +38,7 @@ class User extends Model
         $bonus = 2;
         $streamCount = Stream::count();
         $points = VipGamePoint::where('user_id', $this->twitch_id)->count();
-        
+
         return $points == $streamCount ? $points + $bonus : $points;
     }
 
@@ -57,7 +57,7 @@ class User extends Model
             $user->twitch_username = $userName;
             $user->save();
         }
-        return User::getFromID($userId);
+        return $user;
     }
 
     use HasFactory;
