@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -45,5 +46,10 @@ Route::get('/dashboard', function () {
 Route::get('/vip_games', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth_twitch', 'is_weils'])->name('vip_games');
+
+Route::prefix('profile')->name('profile.')->group(function() {
+    Route::get('/', [ProfileController::class, 'index'])->name('index');
+    Route::get('/appearance', [ProfileController::class, 'appearance'])->name('appearance');
+});
 
 require __DIR__.'/auth.php';

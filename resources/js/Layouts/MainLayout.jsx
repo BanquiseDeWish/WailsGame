@@ -20,7 +20,7 @@ export default function MainLayout({ children }) {
                     {props.auth.twitch ? (
                         <>
                             <div className='flex flex-row gap-4'>
-                                <BlueButton routeName='/'>Profil</BlueButton>
+                                <BlueButton routeName={'profile.index'}>Profil</BlueButton>
                                 {
                                     isWeils ? (
                                         <RedButton routeName='dashboard'>Espace Privée</RedButton>

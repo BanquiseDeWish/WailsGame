@@ -1,0 +1,39 @@
+.podium {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.podium .penguin {
+    position: relative;
+    top: 70px;
+    z-index: 10;
+    left: -16px;
+}
+.penguinCard {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: #020C11;
+    border-radius: 8px;
+    padding: 16px;
+}
+.penguinCard .avatar {
+    width: 48px;
+    height: 48px;
+}
+.penguinCard .data {
+    color: white;
+}
+.penguinCard .data .username {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.penguinCard .data .description {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
