@@ -4,6 +4,9 @@ import { router } from '@inertiajs/react'
 import { socket } from '../../Game/socket';
 import { setData } from '../../Game/vipgames';
 
+import GreenButton from '@/Components/Buttons/GreenButton';
+import BlueButton from '@/Components/Buttons/BlueButton';
+
 import GlobalLayout from '@/Layouts/GlobalLayout';
 
 export default function VipGamesIndex() {
@@ -79,26 +82,28 @@ export default function VipGamesIndex() {
 
             {isWeils ? (
                 <>
-                    <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-                        <span className='flex flex-col gap-1'>
+                    <form onSubmit={handleSubmit} className='flex flex-col gap-4 items-center justify-center w-[560px]'>
+                        <div className='flex flex-col gap-1'>
                             <label htmlFor="number_of_tickets">Nombre Total de Ticket</label>
                             <input id="number_of_tickets" type='number' value={values.number_of_tickets} onChange={handleChange} />
-                        </span>
-                        <span className='flex flex-col gap-1'>
+                        </div>
+                        <div className='flex flex-col gap-1'>
                             <label htmlFor="winning_ticket">Ticket Gagnant</label>
                             <input id="winning_ticket" type='number' value={values.winning_ticket} onChange={handleChange} />
-                        </span>
-                        <span className='flex flex-col gap-1'>
+                        </div>
+                        <div className='flex flex-col gap-1'>
                             <label htmlFor="number_of_bonus_tickets">Nombre de Ticket Bonus</label>
                             <input id="number_of_bonus_tickets" type='number' value={values.number_of_bonus_tickets} onChange={handleChange} />
-                        </span>
-                        <span className='flex flex-col gap-1'>
+                        </div>
+                        <div className='flex flex-col gap-1'>
                             <label htmlFor="bonus_ticket">Tickets Bonus</label>
                             <input id="bonus_tickets" value={values.bonus_tickets} onChange={handleChange} />
-                        </span>
-                        <button type="submit">Submit</button>
+                        </div>
+                        <div className='flex flex-row gap-8'>
+                            <GreenButton type="submit" className="w-fit button_green">Lancer</GreenButton>
+                            <BlueButton onClick={randomStart}>Random</BlueButton>
+                        </div>
                     </form>
-                    <button onClick={randomStart}>Random</button>
                 </>
             ) : (
                 <></>

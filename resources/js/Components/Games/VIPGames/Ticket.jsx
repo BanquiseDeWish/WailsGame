@@ -1,4 +1,4 @@
-
+import '../../../../css/vipgames.css';
 
 export default function Ticket({id, number=0, ...props}) {
     return (
