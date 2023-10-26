@@ -1,13 +1,13 @@
 import SimpleButton from './SimpleButton';
 import TwitchSVG from '../Svg/Icons/IconTwitch';
 
-export default function TwitchButton({ disabled=false, ...props }) {
+export default function TwitchButton({ disabled=false, ...otherProps }) {
     return (
         <>
             <SimpleButton
                 routeName='twitch.start'
                 className='button_twitch'
-                {...props}
+                {...otherProps}
             >
                 <TwitchSVG/>
                 <div>Se Connecter</div>

@@ -13,9 +13,11 @@ export default function VipGamesIndex() {
     const [values, setValues] = useState({
         winning_ticket: -1,
         bonus_tickets: [],
-        number_of_bonus_tickets: 2,
+        number_of_bonus_tickets: 5,
         number_of_tickets: 100,
     });
+
+    console.log(props, isWeils);
 
     function handleChange(e) {
         const key = e.target.id;
