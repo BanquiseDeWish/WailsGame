@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\PrediGivreesController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,8 +37,11 @@ Route::prefix('games')->name('games.')->group(function ()
     Route::get('/{game}/play', [GameController::class, 'play'])->middleware(['is_weils'])->name('play');
 });
 
-
-Route::get('/predigivre/halloffame', [GameController::class, 'hallOfFamePredigivre'])->name('predigivre.halloffame');
+Route::prefix('predigivre')->name('predigivre.')->group(function() {
+    Route::get('/halloffame', [PrediGivreesController::class, 'hallOfFamePredigivre'])->name('halloffame');
+    Route::get('/halloffame/{filter}', [PrediGivreesController::class, 'hallOfFamePredigivre'])->name('halloffame');
+    Route::get('/paginate/{filter}/{page}', [PrediGivreesController::class, 'requestPaginate'])->name('paginate');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

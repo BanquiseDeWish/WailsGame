@@ -1,6 +1,6 @@
 import { usePage } from '@inertiajs/react';
 import GlobalLayout from "./GlobalLayout";
-
+import EasterEggEars from '@/Components/EasterEggEars';
 import AppLogo from '@/Components/AppLogo';
 
 import TwitchButton from '../Components/Buttons/TwitchButton';
@@ -36,6 +36,7 @@ export default function MainLayout({ children }) {
                         </>
                     )}
                 </div>
+                <EasterEggEars />
                 {children}
             </GlobalLayout>
         </>

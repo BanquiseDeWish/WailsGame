@@ -19,8 +19,10 @@
     transition: 0.5s;
 }
 
-html, body{
+html,
+body {
     background-color: #1E1C1A;
+    overflow: hidden;
 }
 
 .very-hidden {
@@ -48,6 +50,60 @@ html, body{
 .button_red {
     background: linear-gradient(99deg, #BB775A 0%, #683535 100%);
     outline: 5px solid rgba(144, 97, 87, 0.20);
+}
+
+.konami {
+    opacity: 0;
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    transition: all 1s ease-in-out;
+}
+
+.konami .easterEgg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+    gap: 34px;
+}
+
+@keyframes headShake {
+    0% {
+        transform: translateX(0);
+    }
+
+    6.5% {
+        transform: translateX(-6px) rotateY(-9deg);
+    }
+
+    18.5% {
+        transform: translateX(5px) rotateY(7deg);
+    }
+
+    31.5% {
+        transform: translateX(-3px) rotateY(-5deg);
+    }
+
+    43.5% {
+        transform: translateX(2px) rotateY(3deg);
+    }
+
+    50% {
+        transform: translateX(0);
+    }
+}
+
+.animate__hshake {
+    animation: headShake 1s infinite;
 }
 
 @tailwind base;
