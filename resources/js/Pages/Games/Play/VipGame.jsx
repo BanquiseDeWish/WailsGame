@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import { setupGame, endPhase, askRandomPlayCount, askRandomPlayer } from '../../../Game/vipgames';
 import { socket } from '../../../Game/socket';
@@ -14,15 +14,22 @@ import GameNewsItem from '@/Components/Games/VIPGames/GameNewsItem';
 import BlueButton from '@/Components/Buttons/BlueButton';
 
 export default function VipGame() {
+    const props = usePage().props;
     const [isConnected, setIsConnected] = useState(socket.connected);
     const [values, setValues] = useState({
         tickets: [],
         current_player: {id: -1, name: 'Aucun Joueur'},
-        playCount: 0
+        playCount: 0,
+        avatar: props.ziggy.url + '/api/user/0/icon'
     });
 
     function modifyValue(key, value) {
-        setValues(values => ({ ...values, [key]: value }));
+        if(key =='avatar') {
+            setValues(values => ({ ...values, [key]: props.ziggy.url + '/api/user/' + value + '/icon' }));
+        }
+        else {
+            setValues(values => ({ ...values, [key]: value }));
+        }
     }
 
     function fade(id) {
@@ -81,7 +88,7 @@ export default function VipGame() {
                     <div className='flex flex-col gap-[8px] h-full w-[440px]'>
                         <div className='container h-[80px] justify-between p-[16px]'>
                             <div className='flex justify-center items-center gap-[16px] p-[0px]'>
-                                <img src="" alt="" className='rounded-full h-[48px]' width={48}/>
+                                <img src={values.avatar} alt="" className='rounded-full h-[48px]' width={48}/>
                                 <div className='flex flex-col gap-[0px]'>
                                     <div className='item_username'>{values.current_player.name}</div>
                                     <div className='item_subtext'>Un Pingouin Content de Jouer</div>

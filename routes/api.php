@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TwitchController;
 
@@ -21,3 +22,6 @@ Route::middleware('api_check')->group(function() {
 
     Route::post('/predigivre/registerPoints', [GameController::class, 'registerPGPoints'])->name('api.predigivre.registerPoints');
 });
+
+
+Route::get('/user/{twitch_id}/icon', [UserController::class, 'getUserIcon'])->name('api.user.icon');

@@ -20,8 +20,6 @@ export default function VipGamesIndex() {
         number_of_tickets: 100,
     });
 
-    console.log(props, isWeils);
-
     function handleChange(e) {
         const key = e.target.id;
         const value = e.target.value;

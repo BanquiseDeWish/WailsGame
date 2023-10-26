@@ -51,6 +51,7 @@ function setupGame(modifyValue, setIsConnected, getTicket) {
             case 'player_turn':
                 DATA.current_player = data.player;
                 modifyValue('current_player', data.player);
+                modifyValue('avatar', data.player.id);
                 break;
             
             case 'play_count':
