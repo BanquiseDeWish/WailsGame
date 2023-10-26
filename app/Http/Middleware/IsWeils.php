@@ -16,7 +16,7 @@ class IsWeils
     public function handle(Request $request, Closure $next): Response
     {
         if(!$request->session()->has('twitch'))
-            return redirect(route('/twitch/start'));
+            return redirect(route('twitch.start'));
         if($request->session()->get('twitch')->id != env('TWITCH_WEILS_UID'))
             return redirect(route('/'));
 

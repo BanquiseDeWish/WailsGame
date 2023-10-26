@@ -5,7 +5,7 @@ export default function SimpleButton({ children, routeName, className = '', disa
     return (
         <>
         
-            {otherProps.onClick != undefined ? (
+            {otherProps.type != undefined || otherProps.onClick != undefined ? (
                 <button
                     className={'simple_button ' + className}
                     {...otherProps}
@@ -33,6 +33,8 @@ export default function SimpleButton({ children, routeName, className = '', disa
                         padding: 16px 32px;
                         border-radius: 8px;
                         font-family: Poppins;
+                        justify-content: center;
+                        align-items: center;
                         color: white;
                         font-weight: 700;
                         font-size: 20px;

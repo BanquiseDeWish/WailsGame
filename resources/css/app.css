@@ -5,6 +5,14 @@
     box-sizing: border-box;
 }
 
+.container {
+    background: #020C11;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .choose_item {
     width: 380px;
     height: 540px;
@@ -24,30 +32,66 @@ html, body{
 }
 
 .very-hidden {
-    display: none;
-    visibility: hidden;
-    height: 0;
-    width: 0;
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
 }
 
 .button_twitch {
-    background: linear-gradient(90deg, #8B5ABB 0%, #362565 100%);
+    background: linear-gradient(90deg, #8B5ABB 0%, #362565 100%) !important;
     outline: 5px solid rgba(133, 90, 187, 0.20);
 }
 
 .button_green {
-    background: linear-gradient(90deg, #5ABB81 0%, #356568 100%);
+    background: linear-gradient(90deg, #5ABB81 0%, #356568 100%) !important;
     outline: 5px solid rgba(87, 141, 144, 0.20);
 }
 
 .button_blue {
-    background: linear-gradient(90deg, #5A98BB 0%, #354368 100%);
+    background: linear-gradient(90deg, #5A98BB 0%, #354368 100%) !important;
     outline: 5px solid rgba(90, 152, 187, 0.20);
 }
 
 .button_red {
-    background: linear-gradient(99deg, #BB775A 0%, #683535 100%);
+    background: linear-gradient(99deg, #BB775A 0%, #683535 100%) !important;
     outline: 5px solid rgba(144, 97, 87, 0.20);
+}
+
+input {
+    display: flex !important;
+    padding: 16px !important;
+    align-items: center !important;
+    gap: 24px !important;
+    align-self: stretch !important;
+    border-radius: 8px !important;
+    outline: 5px solid rgba(2, 12, 17, 0.30) !important;
+    background: #020C11 !important;
+    color: white !important;
+    border: none !important;
+}
+
+input:focus {
+    border: none !important;
+    box-shadow: none !important;
+    outline-offset: 0px !important;
+}
+
+label:has(+ input) {
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+div:has(label + input) {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
 }
 
 @tailwind base;
