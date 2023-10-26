@@ -19,7 +19,7 @@ class ApiToken
             return response()->json(['state' => 'Bearer Token not specified'], 401);
 
         $apiToken = $request->header('Authorization');
-        if ($apiToken != 'Bearer ' . env('API_KEY')) {
+        if ($apiToken != 'Bearer '.config('weils.apiKey')) {
             return response()->json(['state' => 'Unauthorized'], 401);
         }
 

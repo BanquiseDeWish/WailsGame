@@ -1,10 +1,12 @@
 import { Head } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
-import { DATA, setupGame, endPhase } from '../../../Game/vipgames';
+import { setupGame, endPhase, askRandomPlayCount, askRandomPlayer } from '../../../Game/vipgames';
 import { socket } from '../../../Game/socket';
 import '../../../../css/vipgames.css';
 import GlobalLayout from '@/Layouts/GlobalLayout';
 import Ticket from '../../../Components/Games/Ticket';
+
+import GreenButton from '@/Components/Buttons/GreenButton';
 
 import VipGamesLogo from '../../../../assets/games/vip_games_inline.png'
 
@@ -18,7 +20,6 @@ export default function VipGame() {
 
     function modifyValue(key, value) {
         setValues(values => ({ ...values, [key]: value }));
-        console.log(values);
     }
 
     function fade(id) {
@@ -62,12 +63,17 @@ export default function VipGame() {
                         </div>
                     </div>
 
+                    <div id="wheels" className='transition-back absolute my-hidden'>
+                        <GreenButton onClick={() => {askRandomPlayer()}}>Tourner !</GreenButton>
+                        <GreenButton onClick={() => {askRandomPlayCount()}}>Tourner !</GreenButton>
+                    </div>
+
                 </div>
 
                 <div className='flex flex-row gap-8'>
                     <button onClick={() => fade('tickets_pack')}>FADE</button>
-                    <button onClick={() => endPhase('waiting')}>Arrêter d'attendre les joueurs</button>
-                    <button onClick={() => endPhase('chance')}>Fin des CHANCES</button>
+                    <button onClick={() => fade('wheels')}>FADE</button>
+                    <button onClick={() => endPhase('waiting')}>Jouer</button>
                 </div>
             </div>
 

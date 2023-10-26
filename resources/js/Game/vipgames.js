@@ -1,6 +1,5 @@
 import { socket } from './socket';
 import Player from './player'
-import axios from 'axios'
 
 let DATA = null;
 function setData(data) {
@@ -9,6 +8,14 @@ function setData(data) {
 
 function endPhase(phaseName) {
     socket.emit('game_phase', {phaseName: phaseName});
+}
+
+function askRandomPlayer() {
+    socket.emit('random', 'player');
+}
+
+function askRandomPlayCount() {
+    socket.emit('random', 'play_count');
 }
 
 function setupGame(modifyValue, setIsConnected, getTicket) {
@@ -42,10 +49,12 @@ function setupGame(modifyValue, setIsConnected, getTicket) {
                 break;
 
             case 'player_turn':
-                console.log("Tour de : " + data.player.name + " qui joue " + data.playCount + " fois.");
                 DATA.current_player = data.player;
-                DATA.playCount = data.playCount;
                 modifyValue('current_player', data.player);
+                break;
+            
+            case 'play_count':
+                DATA.playCount = data.playCount;
                 modifyValue('playCount', data.playCount);
                 break;
 
@@ -64,10 +73,7 @@ function setupGame(modifyValue, setIsConnected, getTicket) {
                 break;
 
             case 'new_player':
-                axios.post(route('api.user.register'), { userId: data.player.id, userName: data.player.name })
-                    .then((response) => {
-                        DATA.players.push(new Player(response.data.id, response.data.name, 0));
-                });
+                DATA.players.push(new Player(data.player.id, data.player.name, 0));
                 break;
 
             case 'chance':
@@ -127,5 +133,7 @@ export {
     setupGame,
     DATA,
     setData,
-    endPhase
+    endPhase,
+    askRandomPlayer,
+    askRandomPlayCount
 }
