@@ -45,7 +45,7 @@ function setupGame(modifyValue, setIsConnected, getTicket) {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_win', 'animate__flip');
                 }
                 document.getElementById("ticket_" + data.ticket_id).onClick = null;
-                modifyValue('playCount', --DATA.playCount);
+                modifyValue('playCount', data.playCount);
                 break;
 
             case 'player_turn':
@@ -64,7 +64,7 @@ function setupGame(modifyValue, setIsConnected, getTicket) {
 
             case 'shuffle_players':
                 let data2 = DATA;
-                data2.players = data.players;
+                data2.roll_players = data.roll_players;
                 setData(data2);
                 break;
 
