@@ -26,7 +26,7 @@ export default function PrediGivreeIndex(props) {
                         <Link href={route('predigivre.halloffame', { filter: 'all' })}  className={`${filter == "all" ? "active" : ""}`}>Depuis toujours</Link>
                     </div>
                 </div>
-                <PredigivrePaginatedTable data={hof} itemsPerPage={1} />
+                <PredigivrePaginatedTable data={hof} itemsPerPage={10} />
             </div>
         </MainLayout>
     );

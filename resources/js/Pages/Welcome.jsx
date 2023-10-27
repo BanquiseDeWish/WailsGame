@@ -1,4 +1,4 @@
-import { Link, Head } from '@inertiajs/react';
+import { Link, Head, usePage } from '@inertiajs/react';
 import MainLayout from '@/Layouts/MainLayout';
 
 import VipGames from '../../assets/games/vip_games_title.png'
@@ -13,6 +13,10 @@ import GameCard from '@/Components/GameCard';
 
 
 export default function Welcome() {
+
+    const props = usePage().props
+    console.log(props)
+
     return (
         <>
             <MainLayout>
