@@ -56,4 +56,9 @@ Route::prefix('profile')->name('profile.')->group(function() {
     Route::get('/appearance', [ProfileController::class, 'appearance'])->name('appearance');
 });
 
+
+Route::get('boutique/merch', function() {
+    return redirect('https://store.streamelements.com/weilsttv');
+})->name('boutique.merch');
+
 require __DIR__.'/auth.php';
