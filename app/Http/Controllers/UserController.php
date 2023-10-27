@@ -48,4 +48,29 @@ class UserController extends Controller
         return response()->json($points);
     }
 
+    public function registerUsersVipGamesPoints(Request $request) {
+        $input = $request->all();
+        if(!isset($input['users']))
+            return response()->json(['error' => 'users must be set'], 400);
+        if(!isset($input['stream_id']))
+            return response()->json(['error' => 'stream_id must be set'], 400);
+
+        $users = $input['users'];
+        if(!is_array($users))
+            return response()->json(['error' => 'users must be an array'], 400);
+
+        $streamId = $input['stream_id'];
+
+        $dataToInsert = [];
+        foreach ($users as $userId) {
+            $dataToInsert[] = [
+                'user_id' => $userId,
+                'stream_id' => $streamId,
+            ];
+        }
+        if(count($dataToInsert) > 0) {
+            DB::table('vipgames_points')->insert($dataToInsert);
+        }
+        return response()->json(['success' => true]);
+    }
 }
