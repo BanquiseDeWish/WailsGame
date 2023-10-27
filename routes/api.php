@@ -25,3 +25,4 @@ Route::middleware('api_check')->group(function() {
 
 
 Route::get('/user/{twitch_id}/icon', [UserController::class, 'getUserIcon'])->name('api.user.icon');
+Route::post('user/all/points/vipgames', [UserController::class, 'getUserListVIPGamesPoints'])->name('api.user.all.points.vipgames');
