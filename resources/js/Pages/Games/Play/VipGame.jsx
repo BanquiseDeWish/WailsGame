@@ -20,12 +20,19 @@ export default function VipGame() {
         tickets: [],
         current_player: {id: -1, name: 'Aucun Joueur'},
         playCount: 0,
-        avatar: props.ziggy.url + '/api/user/0/icon'
+        avatar: props.ziggy.url + '/api/user/0/icon',
+        news_list: [<div className='w-full h-[80px] container le-tchat p-[16px] whitespace-nowrap'>Historique des Bonus</div>]
     });
 
     function modifyValue(key, value) {
         if(key =='avatar') {
             setValues(values => ({ ...values, [key]: props.ziggy.url + '/api/user/' + value + '/icon' }));
+        }
+        else if(key == 'news_list') {
+            if(values.news_list.length > 8) {
+                values.news_list.shift();
+            }
+            setValues(values => ({ ...values, [key]: [...values.news_list, value] }));
         }
         else {
             setValues(values => ({ ...values, [key]: value }));
@@ -46,8 +53,12 @@ export default function VipGame() {
         return (<Ticket key={i} id={"ticket_" + i} number={i + 1} className={className} onClick={onClick} />);
     }
 
+    function getNewsItem(player, subText) {
+        return (<GameNewsItem key={player.id} userId={player.id} userName={player.name} subText={subText}/>);
+    }
+
     useEffect(() => {
-        setupGame(modifyValue, setIsConnected, getTicket);
+        setupGame(modifyValue, setIsConnected, getTicket, getNewsItem);
     }, []);
 
     return (
@@ -69,11 +80,11 @@ export default function VipGame() {
                     </div>
 
                     {/* Center Div */}
-                    <div className='flex flex-col gap-[8px] h-full'>
-                        <div id='game_news'>
-                            <GameNewsItem userId={0} userName={'Nico'} subText={'PRIO'}/>
+                    <div className='flex flex-col gap-[8px] h-full w-[980px]'>
+                        <div id='game_news' className='h-[80px] w-full'>
+                            {values.news_list}
                         </div>
-                        <div className='container p-[32px] w-[980px] h-full'>
+                        <div className='container p-[32px] w-full flex-1'>
                             <div id='tickets_pack' className='transition-back absolute'>
                                 {values.tickets}
                             </div>

@@ -179,23 +179,56 @@ input,
     gap: 128px;
 }
 
-.game_news_item {
+#game_news {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 16px;
-    gap: 16px;
-    height: 80px;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    overflow: hidden;
+    border-radius: 8px;
+    position: relative;
 }
 
+#game_news::after {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 80px;
+    background: linear-gradient(270deg, #020C11 0%, rgba(2, 12, 17, 0.00) 100%);
+    z-index: 100;
+    right: 0;
+    transition: all 2.0s ease-out;
+}
+
+.game_news_item {
+    background: #020C11;
+    flex-shrink: 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    height: 80px;
+    padding: 0px;
+    opacity: 0;
+    flex-basis: 0px;
+    width: 0px;
+    animation: grow_games_news_item 1s ease-in-out forwards;
+    -webkit-animation: grow_games_news_item 1s ease-in-out forwards;
+    margin-right: 0px;
+    overflow: hidden;
+}
 
 .item_username {
     color: #FFF;
     font-family: Poppins;
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 .item_subtext {
@@ -205,6 +238,10 @@ input,
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 .play_count_text {
@@ -234,7 +271,6 @@ input,
 }
 
 
-
 .transition-back {
     transition: 0.1s linear;
 }
@@ -244,6 +280,25 @@ input,
     opacity: 0;
     transition: visibility 0s 0.1s, opacity 0.1s linear;
 }
+
+@-webkit-keyframes grow_games_news_item {
+    to {
+        flex-basis: 200px;
+        width: 200px;
+        opacity: 1;
+        margin-right: 8px;
+        padding: 16px;
+    }
+}
+@keyframes grow_games_news_item {
+    to {
+        flex-basis: 200px;
+        width: 200px;
+        opacity: 1;
+        margin-right: 8px;
+        padding: 16px;
+    }
+  }
 
 @keyframes tilt-shaking {
     0% {

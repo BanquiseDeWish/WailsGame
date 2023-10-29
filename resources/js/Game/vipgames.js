@@ -18,7 +18,7 @@ function askRandomPlayCount() {
     socket.emit('random', 'play_count');
 }
 
-function setupGame(modifyValue, setIsConnected, getTicket) {
+function setupGame(modifyValue, setIsConnected, getTicket, getNewsItem) {
     function flipTicketWithDelay(tickets, amount) {
         setTimeout(() => {
             document.getElementById("ticket_" + tickets[amount]).classList.add('ticket_miss');
@@ -31,6 +31,11 @@ function setupGame(modifyValue, setIsConnected, getTicket) {
     function playTicket(id) {
         socket.emit('play_ticket', id);
     }
+
+    function getPlayer(userId) {
+        return DATA.players.find(player => player.id == userId);
+    }
+
 
     function receiveInfo(data) {
         switch (data.name) {
@@ -59,16 +64,6 @@ function setupGame(modifyValue, setIsConnected, getTicket) {
                 modifyValue('playCount', data.playCount);
                 break;
 
-            case 'flip_tickets':
-                flipTicketWithDelay(data.tickets, 0);
-                break;
-
-            case 'shuffle_players':
-                let data2 = DATA;
-                data2.roll_players = data.roll_players;
-                setData(data2);
-                break;
-
             case 'all_players_info':
                 DATA.players = data.players;
                 break;
@@ -77,8 +72,32 @@ function setupGame(modifyValue, setIsConnected, getTicket) {
                 DATA.players.push(new Player(data.player.id, data.player.name, 0));
                 break;
 
+            case 'prio':
+                getPlayer(data.player.id).points = data.player.points;
+                modifyValue('news_list', getNewsItem(data.player, 'PRIO'));
+                break;
+ 
+            case 'changement': // changement
+                let data2 = DATA;
+                data2.roll_players = data.roll_players;
+                setData(data2);
+                getPlayer(data.player.id).points = data.player.points;
+                modifyValue('news_list', getNewsItem(data.player, 'CHANGEMENT'));
+                break;
+
+            case 'vision': // vision
+                flipTicketWithDelay(data.tickets, 0);
+                let bonusName = 'VISION';
+                if(data.tickets.length == 1)
+                    bonusName = 'MINI VISION'
+                getPlayer(data.player.id).points = data.player.points;
+                modifyValue('news_list', getNewsItem(data.player, bonusName));
+                break;
+
             case 'chance':
-                DATA.roll_players.push(data.player.name);
+                DATA.roll_players = data.roll_players;
+                getPlayer(data.player.id).points = data.player.points;
+                modifyValue('news_list', getNewsItem(data.player, 'CHANCE'));
                 break;
 
             case 'bonus_ticket':
