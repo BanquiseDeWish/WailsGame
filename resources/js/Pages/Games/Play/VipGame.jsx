@@ -39,6 +39,12 @@ export default function VipGame() {
         }
     }
 
+    function playSound(sound) {
+        let audio = new Audio(sound);
+        audio.volume = 0.35;
+        audio.play();
+    }
+
     function fade(id) {
         let e = document.getElementById(id);
         if (e.classList.contains('my-hidden')) {
@@ -54,11 +60,11 @@ export default function VipGame() {
     }
 
     function getNewsItem(player, subText) {
-        return (<GameNewsItem key={player.id} userId={player.id} userName={player.name} subText={subText}/>);
+        return (<GameNewsItem userId={player.id} userName={player.name} subText={subText}/>);
     }
 
     useEffect(() => {
-        setupGame(modifyValue, setIsConnected, getTicket, getNewsItem);
+        setupGame(modifyValue, setIsConnected, getTicket, getNewsItem, playSound);
     }, []);
 
     return (

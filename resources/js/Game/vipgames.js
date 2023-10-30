@@ -1,6 +1,8 @@
 import { socket } from './socket';
 import Player from './player'
 
+import { playMissSound, playBonusSound } from './audio';
+
 let DATA = null;
 function setData(data) {
     DATA = data;
@@ -42,9 +44,11 @@ function setupGame(modifyValue, setIsConnected, getTicket, getNewsItem) {
             case 'play_ticket':
                 if (data.action == 'miss') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_miss');
+                    playMissSound();
                 }
                 else if (data.action == 'bonus') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_bonus', 'animate__flip');
+                    playBonusSound();
                 }
                 else if (data.action == 'win') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_win', 'animate__flip');
