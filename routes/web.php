@@ -3,6 +3,7 @@
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PrediGivreesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -60,5 +61,7 @@ Route::prefix('profile')->name('profile.')->group(function() {
 Route::get('boutique/merch', function() {
     return redirect('https://store.streamelements.com/weilsttv');
 })->name('boutique.merch');
+
+Route::get('/user/{twitch_id}/icon', [UserController::class, 'getUserIcon'])->name('user.icon');
 
 require __DIR__.'/auth.php';
