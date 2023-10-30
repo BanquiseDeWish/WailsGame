@@ -36,6 +36,10 @@ html {
     padding: 32px;
 }
 
+#user-list-container {
+    height: inherit;
+}
+
 .button {
     display: flex;
     justify-content: center;
@@ -272,13 +276,36 @@ input,
 
 
 .transition-back {
-    transition: 0.1s linear;
+    transition: 0.3s linear;
 }
 
 .my-hidden {
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s 0.1s, opacity 0.1s linear;
+    transition: visibility 0s 0.3s, opacity 0.3s linear;
+}
+
+.wheel-slot {
+    padding: 16px;
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 320px;
+    height: 400px;
+    background: red;
+    position: relative;
+}
+
+.wheel-slot::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #020C11 0%, rgba(2, 12, 17, 0.00) 50%, #020C11 100%);
 }
 
 @-webkit-keyframes grow_games_news_item {

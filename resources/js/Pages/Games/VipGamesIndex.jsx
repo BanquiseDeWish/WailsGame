@@ -2,7 +2,6 @@ import { Head, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import { router } from '@inertiajs/react'
 import { socket } from '../../Game/socket';
-import { setData } from '../../Game/vipgames';
 
 import GreenButton from '@/Components/Buttons/GreenButton';
 import BlueButton from '@/Components/Buttons/BlueButton';
@@ -32,7 +31,6 @@ export default function VipGamesIndex() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        setData(values);
         socket.emit('launch', values);
         router.get('/games/vipgames/play');
     }
@@ -48,7 +46,6 @@ export default function VipGamesIndex() {
             bonus_tickets.push(ticket);
         }
         values.bonus_tickets = bonus_tickets;
-        setData(values);
         socket.emit('init_game', values);
         router.get('/games/vipgames/play');
     }
