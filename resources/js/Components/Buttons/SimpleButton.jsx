@@ -4,7 +4,7 @@ export default function SimpleButton({ children, routeName, className = '', disa
 
     return (
         <>
-        
+
             {otherProps.type != undefined || otherProps.onClick != undefined ? (
                 <button
                     className={'simple_button ' + className}
@@ -23,7 +23,7 @@ export default function SimpleButton({ children, routeName, className = '', disa
                     {children}
                 </Link>
             )}
-        
+
             <style>
                 {`
                     .simple_button {

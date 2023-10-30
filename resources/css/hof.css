@@ -1,0 +1,55 @@
+body {
+    overflow-y: overlay !important;
+}
+.hoftable {
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    width: 100%;
+}
+.hoftable .entry {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.hoftable .entry .position.card {
+    width: 64px;
+    justify-content: center;
+
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.hoftable .entry .penguinCard {
+    flex-grow: 1;
+    flex: 1;
+    padding: 12px;
+    height: 64px !important;
+    gap: 8px;
+}
+
+.hoftable .entry .card {
+    display: flex;
+    align-items: center;
+    background-color: #020C11;
+    border-radius: 8px;
+    color: white;
+    height: 64px;
+}
+
+.hoftable .entry .penguinCard .avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.prediGivre.hof .simple_button  {
+    width: 140px;
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}

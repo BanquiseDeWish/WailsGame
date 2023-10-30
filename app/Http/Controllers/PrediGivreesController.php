@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\PredigivrePoints;
 use Illuminate\Http\Request;
@@ -21,29 +21,39 @@ class PrediGivreesController extends Controller
         return Inertia::render('Games/PrediGivreeIndex', ['filter' => $filter, 'hallOfFame' => $hallOfFame]);
     }
 
-    public function requestPaginate(Request $request, $filter, $page = 0)
+    public function requestPaginate(Request $request, $filter, $page)
     {
-        $dataMax = 10;
-        $name = "predigivre_points";
+        $prediGivreData = $this->sqlPaginate($filter, $page);
+        return $prediGivreData;
+    }
+
+    public function sqlPaginate($filter, $page){
+        $prediGivreData = DB::table('predigivrees__points')
+            ->select(DB::raw('user_id, SUM(points) AS points'))
+            ->groupBy('user_id')
+            ->orderBy('points', 'desc');
 
         switch ($filter) {
             case 'today':
-                $prediGivreData = PredigivrePoints::whereDate('updated_at', Carbon::now())->get();
+                $prediGivreData = $prediGivreData->whereDate('created_at', Carbon::now());
                 break;
             case 'week':
-                $prediGivreData = PredigivrePoints::whereDate('created_at', '>=', Carbon::now()->startOfWeek())->whereDate('created_at', '<=', Carbon::now()->endOfWeek())
-                    ->get();
+                $prediGivreData = $prediGivreData
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
                 break;
             case 'month':
-                $prediGivreData = PredigivrePoints::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->get();
+                $prediGivreData = $prediGivreData
+                    ->whereMonth('created_at', Carbon::now()->month);
                 break;
             case 'year':
-                $prediGivreData = PredigivrePoints::whereYear('updated_at', Carbon::now()->year)->get();
+                $prediGivreData = $prediGivreData
+                    ->whereYear('created_at', Carbon::now()->year);
                 break;
             case 'all':
-                $prediGivreData = PredigivrePoints::get();
                 break;
         }
+
+        $prediGivreData = $prediGivreData->paginate(10, ['*'], 'predigivrees', $page);
 
         foreach ($prediGivreData as  $k => $pgd) {
             $user = User::where('twitch_id', '=', $pgd->user_id)->first();
@@ -51,37 +61,6 @@ class PrediGivreesController extends Controller
             else $pgd->userName = $user->twitch_username;
         }
 
-        $players = [];
-
-        foreach ($prediGivreData as $pgd) {
-            $userId = $pgd->user_id;
-
-            if (!isset($players[$userId])) {
-                $players[$userId] = ['points' => 0, 'entries' => []];
-            }
-            // Ajoutez l'entrée à la clé d'âge appropriée
-            $players[$userId]['entries'][] = [$pgd->toArray()];
-        }
-
-        foreach ($players as $k => $ps) {
-            foreach ($ps['entries'] as $pts) {
-                $players[$k]['points'] += $pts[0]['points'];
-            }
-            $players[$k]['user'] = $pts[0];
-            unset($players[$k]['entries']);
-        }
-
-        usort($players, function ($a, $b) {
-            return $b['points'] - $a['points'];
-        });
-
-
-        $ip = 0;
-        foreach ($players as $k => $ps) {
-            $players[$k]['position'] = $ip + 1;
-            $ip++;
-        }
-
-        return $players;
+        return $prediGivreData;
     }
 }
