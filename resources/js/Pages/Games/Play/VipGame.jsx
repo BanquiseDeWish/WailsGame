@@ -114,14 +114,14 @@ export default function VipGame() {
                                 <div id="wheels" className='transition-back absolute my-hidden'>
                                     <div className='flex flex-col items-center gap-[16px]'>
                                         <div className='wheel-slot'>
-        
+                                            
                                         </div>
                                         <GreenButton className='button_green w-[200px]' onClick={() => {values.game.askRandomPlayer()}}>Tourner !</GreenButton>
                                     </div>
 
                                     <div className='flex flex-col items-center gap-[24px]'>
                                         <div className='wheel-slot'>
-
+                                            
                                         </div>
                                         <GreenButton className='button_green w-[200px]' onClick={() => {values.game.askRandomPlayCount()}}>Tourner !</GreenButton>
                                     </div>
