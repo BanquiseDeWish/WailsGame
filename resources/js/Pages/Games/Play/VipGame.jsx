@@ -30,8 +30,8 @@ export default function VipGame() {
         roll_playCount: [],
         game_start: false,
         game: null,
-        choosen_playCount: 0,
-        choosen_player: 0
+        choosen_playCount: undefined,
+        choosen_player: undefined
     });
 
     function modifyValue(key, value) {

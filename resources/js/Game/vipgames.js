@@ -43,6 +43,8 @@ export default class VIPGames {
     }    
 
     getFirstGameInfo(data) {
+        if(data == null || data == undefined)
+            return;
         this.setData(data);
         let tickets = [];
         for (let i = 0; i < this.DATA.number_of_tickets; i++) {

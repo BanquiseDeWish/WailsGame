@@ -289,13 +289,12 @@ input,
     padding: 16px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 320px;
     height: 400px;
     position: relative;
     overflow: hidden;
-    mask: linear-gradient(180deg, transparent, white, transparent);
 }
 
 .wheel-slot::before {
@@ -324,18 +323,19 @@ input,
 
 .wheel-slot div {
     width: 100%;
-    height: 64px;
     flex-shrink: 0;
-    flex-grow: 1;
+    flex-basis: 0px;
     border-radius: 8px;
     background-color: #121A25;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 4px;
-    margin-bottom: 4px;
-    transform: translateY(68px);
+    height: 64px;
+    flex-basis: 64px;
+    margin: 4px 0px;
+    /*animation: grow_slot_item 0.2s linear forwards;
+    -webkit-animation: grow_slot_item 0.2s linear forwards;*/
 }
 
 .wheel-slot .number {
@@ -346,6 +346,25 @@ input,
     font-weight: 700;
     line-height: normal;
 }
+/*@keyframes grow_slot_item {
+    to {
+        margin: 4px 0px;
+        height: 64px !important;
+        flex-grow: 1;
+        flex-basis: 64px;
+    }
+}*/
+
+/*.wheel-slot div.slot_item_hide {
+    animation: hide_slot_item 0.2s linear forwards;
+}
+@keyframes hide_slot_item {
+    to {
+        margin: 0px;
+        height: 0px;
+        flex-basis: 0px;
+    }
+}*/
 
 @-webkit-keyframes grow_games_news_item {
     to {
@@ -364,7 +383,8 @@ input,
         margin-right: 8px;
         padding: 16px;
     }
-  }
+}
+
 
 @keyframes tilt-shaking {
     0% {
