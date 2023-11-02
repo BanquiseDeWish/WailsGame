@@ -14,10 +14,6 @@ export default class VIPGames {
         this.setupGame();
     }
 
-    randomId() {
-        return Math.floor(Math.random() * 1000000);
-    }
-
     setData(data) {
         this.DATA = data;
     }
@@ -105,11 +101,13 @@ export default class VIPGames {
                 this.DATA.current_player = data.player;
                 this.modifyValue('current_player', data.player);
                 this.modifyValue('avatar', data.player.id);
+                this.modifyValue('choosen_player', data.player.id);
                 break;
             
             case 'play_count':
                 this.DATA.playCount = data.playCount;
                 this.modifyValue('playCount', data.playCount);
+                this.modifyValue('choosen_playCount', data.playCount);
                 break;
 
             case 'all_players_info':
@@ -120,13 +118,13 @@ export default class VIPGames {
                 let player = new Player(data.player.id, data.player.name, 0)
                 this.DATA.players.push(player);
                 if(!this.DATA.phaseWaitingEnd) {
-                    this.modifyValue('waiting_users', this.getUserCard(this.DATA.players.length, player))
+                    this.modifyValue('waiting_users', this.getUserCard(player))
                 }
                 break;
 
             case 'prio':
                 this.getPlayer(data.player.id).points = data.player.points;
-                this.modifyValue('news_list', this.getNewsItem(this.randomId(), data.player, 'PRIO'));
+                this.modifyValue('news_list', this.getNewsItem(data.player, 'PRIO'));
                 break;
  
             case 'changement': // changement
@@ -134,7 +132,7 @@ export default class VIPGames {
                 data2.roll_players = data.roll_players;
                 this.setData(data2);
                 this.getPlayer(data.player.id).points = data.player.points;
-                this.modifyValue('news_list', this.getNewsItem(this.randomId(), data.player, 'CHANGEMENT'));
+                this.modifyValue('news_list', this.getNewsItem(data.player, 'CHANGEMENT'));
                 break;
 
             case 'vision': // vision
@@ -143,13 +141,13 @@ export default class VIPGames {
                 if(data.tickets.length == 1)
                     bonusName = 'MINI VISION'
                     this.getPlayer(data.player.id).points = data.player.points;
-                    this.modifyValue('news_list', this.getNewsItem(this.randomId(), data.player, bonusName));
+                    this.modifyValue('news_list', this.getNewsItem(data.player, bonusName));
                 break;
 
             case 'chance':
                 this.DATA.roll_players = data.roll_players;
                 this.getPlayer(data.player.id).points = data.player.points;
-                this.modifyValue('news_list', this.getNewsItem(this.randomId(), data.player, 'CHANCE'));
+                this.modifyValue('news_list', this.getNewsItem(data.player, 'CHANCE'));
                 break;
 
             case 'bonus_ticket':

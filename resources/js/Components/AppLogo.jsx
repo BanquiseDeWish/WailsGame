@@ -6,7 +6,7 @@ export default function AppLogo() {
     return (
         <>
             <Link href={route('/')} className='app_logo'>
-                <img src={AppLogoImg} alt="Logo Pingouin de Weils" width={64}/>
+                <img src={AppLogoImg} alt="Logo Pingouin de Weils" width={48}/>
                 <div>La Banquise de Weils</div>
             </Link>
             <style> {`
@@ -19,7 +19,7 @@ export default function AppLogo() {
                     color: white;
                     font-weight: 700;
                     font-family: Poppins;
-                    font-size: 28px;
+                    font-size: 20px;
                 }
             `}
             </style>

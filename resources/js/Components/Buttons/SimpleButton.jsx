@@ -30,14 +30,14 @@ export default function SimpleButton({ children, routeName, className = '', disa
                         display: flex;
                         flex-direction: row;
                         gap: 16px;
-                        padding: 16px 32px;
+                        padding: 15px 30px;
                         border-radius: 8px;
                         font-family: Poppins;
                         justify-content: center;
                         align-items: center;
                         color: white;
                         font-weight: 700;
-                        font-size: 20px;
+                        font-size: 18px;
                     }
                 `}
             </style>

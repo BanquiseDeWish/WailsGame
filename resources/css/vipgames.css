@@ -287,15 +287,28 @@ input,
 
 .wheel-slot {
     padding: 16px;
-    gap: 16px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     width: 320px;
     height: 400px;
-    background: red;
     position: relative;
+    overflow: hidden;
+    mask: linear-gradient(180deg, transparent, white, transparent);
+}
+
+.wheel-slot::before {
+    content: '';
+    position: absolute;
+    background-image: url('../assets/img/vipgames/cursor_slots.svg');
+    background-size: cover;
+    top: 50%;
+    right: 0;
+    height: 34px;
+    width: 42px;
+    z-index: 120;
+    transform: translateY(-50%);
 }
 
 .wheel-slot::after {
@@ -306,6 +319,32 @@ input,
     width: 100%;
     height: 100%;
     background: linear-gradient(180deg, #020C11 0%, rgba(2, 12, 17, 0.00) 50%, #020C11 100%);
+    z-index: 100;
+}
+
+.wheel-slot div {
+    width: 100%;
+    height: 64px;
+    flex-shrink: 0;
+    flex-grow: 1;
+    border-radius: 8px;
+    background-color: #121A25;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    transform: translateY(68px);
+}
+
+.wheel-slot .number {
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
 @-webkit-keyframes grow_games_news_item {

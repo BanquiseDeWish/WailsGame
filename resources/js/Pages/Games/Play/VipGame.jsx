@@ -13,6 +13,9 @@ import UserCard from '@/Components/User/UserCard';
 import GameNewsItem from '@/Components/Games/VIPGames/GameNewsItem';
 import BlueButton from '@/Components/Buttons/BlueButton';
 
+import Slot from '@/Components/Games/VIPGames/Slot';
+import { randomId } from '../../../../js/Game/random';
+
 export default function VipGame() {
     const props = usePage().props;
     const [values, setValues] = useState({
@@ -27,6 +30,8 @@ export default function VipGame() {
         roll_playCount: [],
         game_start: false,
         game: null,
+        choosen_playCount: 0,
+        choosen_player: 0
     });
 
     function modifyValue(key, value) {
@@ -64,12 +69,12 @@ export default function VipGame() {
         return (<Ticket key={i} id={"ticket_" + i} number={i + 1} className={className} onClick={onClick} />);
     }
 
-    function getNewsItem(i, player, subText) {
-        return (<GameNewsItem key={i} userId={player.id} userName={player.name} subText={subText}/>);
+    function getNewsItem(player, subText) {
+        return (<GameNewsItem key={randomId()} userId={player.id} userName={player.name} subText={subText}/>);
     }
 
-    function getUserCard(i, player) {
-        return (<UserCard key={i} userId={player.id} userName={player.name}/>);
+    function getUserCard(player) {
+        return (<UserCard key={randomId()} userId={player.id} userName={player.name}/>);
     }
 
     useEffect(() => {
@@ -112,19 +117,9 @@ export default function VipGame() {
                                 </div>
                                 
                                 <div id="wheels" className='transition-back absolute my-hidden'>
-                                    <div className='flex flex-col items-center gap-[16px]'>
-                                        <div className='wheel-slot'>
-                                            
-                                        </div>
-                                        <GreenButton className='button_green w-[200px]' onClick={() => {values.game.askRandomPlayer()}}>Tourner !</GreenButton>
-                                    </div>
+                                    <Slot id={'wheel_slot_1'} onClick={() => {values.game.askRandomPlayer()}} data={values.roll_players} winner={values.choosen_player}/>
 
-                                    <div className='flex flex-col items-center gap-[24px]'>
-                                        <div className='wheel-slot'>
-                                            
-                                        </div>
-                                        <GreenButton className='button_green w-[200px]' onClick={() => {values.game.askRandomPlayCount()}}>Tourner !</GreenButton>
-                                    </div>
+                                    <Slot id={'wheel_slot_2'} onClick={() => {values.game.askRandomPlayCount()}} data={values.roll_playCount} winner={values.choosen_playCount}/>
                                 </div>
                             </div>
                         </div>
