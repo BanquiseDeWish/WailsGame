@@ -8,6 +8,7 @@ export default class Slot {
         this.type = type;
         this.game = game;
         this.playerAvatarLink = link;
+        this.isSpinning = false;
     }
 
     getSlotItem(i) {
@@ -54,7 +55,6 @@ export default class Slot {
 
     setData(data) {
         this.data = data;
-        this.init();
     }
 
     findValueIndexFromCurrentIndex(value) {
@@ -121,10 +121,12 @@ export default class Slot {
                     interval = runInterval(500);
                 }
                 if (i >= totalSpin) {
+                    This.isSpinning = false;
                     clearInterval(interval);
                 }
             }, delay);
         }
+        This.isSpinning = true;
         let interval = runInterval();
     }
 }

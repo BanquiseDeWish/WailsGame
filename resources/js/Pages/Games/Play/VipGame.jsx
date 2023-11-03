@@ -123,9 +123,9 @@ export default function VipGame() {
                                 </div>
                                 
                                 <div id="wheels" className='transition-back absolute my-hidden'>
-                                    <Slot id={'wheel_slot_1'} type={'player'} onClick={() => {values.game.askRandomPlayer()}} data={values.roll_players} winner={values.choosen_player} spin={values.spin_1} game={values.game}/>
+                                    <Slot id={'wheel_slot_1'} type={'player'} onClick={() => {values.game.askRandomPlayer()}} data={values.roll_players} winner={values.choosen_player} spin={values.spin_1} game={values.game} game_start={values.game_start}/>
 
-                                    <Slot id={'wheel_slot_2'} type={'number'} onClick={() => {values.game.askRandomPlayCount()}} data={values.roll_playCount} winner={values.choosen_playCount} spin={values.spin_2} game={values.game}/>
+                                    <Slot id={'wheel_slot_2'} type={'number'} onClick={() => {values.game.askRandomPlayCount()}} data={values.roll_playCount} winner={values.choosen_playCount} spin={values.spin_2} game={values.game} game_start={values.game_start}/>
                                 </div>
                             </div>
                         </div>
