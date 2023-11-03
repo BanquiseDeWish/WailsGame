@@ -3,23 +3,20 @@ import { useEffect, useState, useRef } from "react";
 import { randomId } from '../../../Game/random';
 import SlotJS from '../../../Game/slot';
 
-export default function Slot({ id, winner, onClick, data, ...otherProps }) {
+export default function Slot({ id, type, winner, spin, onClick, data, ...otherProps }) {
 
-    const [slot, setSlot] = useState(new SlotJS(id));
+    const [slot, setSlot] = useState(new SlotJS(id, type));
 
     useEffect(() => {
         if(winner != null && winner != undefined) {
-            console.log(slot.data);
             slot.spin(winner, slot);
         }
-    }, [winner]);
+    }, [winner, spin]);
 
     useEffect(() => {
         if(data == null || data == undefined || data.length == 0) return;
         if(slot != undefined) {
-            console.log('Av', slot.data);
             slot.setData(data);
-            console.log('Ap', slot.data);
         }
     }, [data]);
 

@@ -104,16 +104,19 @@ export default class VIPGames {
                 this.modifyValue('current_player', data.player);
                 this.modifyValue('avatar', data.player.id);
                 this.modifyValue('choosen_player', data.player.id);
+                this.modifyValue('spin_1', 0);
                 break;
             
             case 'play_count':
                 this.DATA.playCount = data.playCount;
                 this.modifyValue('playCount', data.playCount);
                 this.modifyValue('choosen_playCount', data.playCount);
+                this.modifyValue('spin_2', 0);
                 break;
 
             case 'all_players_info':
                 this.DATA.players = data.players;
+                this.modifyValue('roll_players', data.roll_players);
                 break;
 
             case 'new_player':
@@ -122,6 +125,7 @@ export default class VIPGames {
                 if(!this.DATA.phaseWaitingEnd) {
                     this.modifyValue('waiting_users', this.getUserCard(player))
                 }
+                this.modifyValue('roll_players', data.roll_players);
                 break;
 
             case 'prio':
@@ -130,10 +134,8 @@ export default class VIPGames {
                 break;
  
             case 'changement': // changement
-                let data2 = this.DATA;
-                data2.roll_players = data.roll_players;
-                this.setData(data2);
                 this.getPlayer(data.player.id).points = data.player.points;
+                this.modifyValue('roll_players', data.roll_players);
                 this.modifyValue('news_list', this.getNewsItem(data.player, 'CHANGEMENT'));
                 break;
 
@@ -147,17 +149,19 @@ export default class VIPGames {
                 break;
 
             case 'chance':
-                this.DATA.roll_players = data.roll_players;
                 this.getPlayer(data.player.id).points = data.player.points;
+                this.modifyValue('roll_players', data.roll_players);
                 this.modifyValue('news_list', this.getNewsItem(data.player, 'CHANCE'));
                 break;
 
             case 'bonus_ticket':
                 console.log("Ticket bonus pour " + data.player.name + " ( +3 Points )");
+                this.getPlayer(data.player.id).points = data.player.points;
                 break;
 
             case 'end_game':
                 console.log("Fin de la partie");
+                console.log(data.stats);
                 break;
         }
 

@@ -31,7 +31,9 @@ export default function VipGame() {
         game_start: false,
         game: null,
         choosen_playCount: undefined,
-        choosen_player: undefined
+        choosen_player: undefined,
+        spin_1: 0,
+        spin_2: 0,
     });
 
     function modifyValue(key, value) {
@@ -46,6 +48,9 @@ export default function VipGame() {
                 values.news_list.shift();
             }
             setValues(values => ({ ...values, [key]: [...values.news_list, value] }));
+        }
+        else if(key == 'spin_1' || key == 'spin_2') {
+            setValues(values => ({ ...values, [key]: values[key] + 1 }));
         }
         else {
             setValues(values => ({ ...values, [key]: value }));
@@ -117,9 +122,9 @@ export default function VipGame() {
                                 </div>
                                 
                                 <div id="wheels" className='transition-back absolute my-hidden'>
-                                    <Slot id={'wheel_slot_1'} onClick={() => {values.game.askRandomPlayer()}} data={values.roll_players} winner={values.choosen_player}/>
+                                    <Slot id={'wheel_slot_1'} type={'player'} onClick={() => {values.game.askRandomPlayer()}} data={values.roll_players} winner={values.choosen_player} spin={values.spin_1}/>
 
-                                    <Slot id={'wheel_slot_2'} onClick={() => {values.game.askRandomPlayCount()}} data={values.roll_playCount} winner={values.choosen_playCount}/>
+                                    <Slot id={'wheel_slot_2'} type={'number'} onClick={() => {values.game.askRandomPlayCount()}} data={values.roll_playCount} winner={values.choosen_playCount} spin={values.spin_2}/>
                                 </div>
                             </div>
                         </div>

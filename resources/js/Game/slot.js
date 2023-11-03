@@ -1,16 +1,42 @@
 export default class Slot {
 
-    constructor(id) {
+    constructor(id, type) {
         this.id = id;
         this.current_index = 0;
         this.data = [];
         this.slot = undefined;
+        this.type = type;
+        this.playerAvatarLink = '';
+    }
+
+    setPlayerAvatarLink(link) {
+        this.playerAvatarLink = link;
     }
 
     getSlotItem(i) {
+        switch(this.type) {
+            case 'number':
+                return this.getNumberSlotItem(i);
+            case 'player':
+                return this.getPlayerSlotItem(i);
+        }
+        return false;
+    }
+
+    getNumberSlotItem(i) {
         let div = document.createElement('div');
         div.classList.add('slot_item');
         div.classList.add('number');
+        div.innerHTML = this.data[i];
+        return div;
+    }
+
+    getPlayerSlotItem(i) {
+        let div = document.createElement('div');
+        div.classList.add('slot_item');
+        div.classList.add('player');
+        let img = document.createElement('img');
+        img.src = this.playerAvatarLink.replace('[id]', i);
         div.innerHTML = this.data[i];
         return div;
     }
@@ -20,7 +46,7 @@ export default class Slot {
         this.slot = document.getElementById(this.id);
         this.slot.innerHTML = '';
         for(let i = 0; i < 11; i++) {
-            this.slot.appendChild(this.getSlotItem(i));
+            this.slot.appendChild(this.getSlotItem(i%this.data.length));
         }
     }
 
