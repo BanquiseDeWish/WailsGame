@@ -1,15 +1,12 @@
 export default class Slot {
 
-    constructor(id, type) {
+    constructor(id, type, game, link) {
         this.id = id;
         this.current_index = 0;
         this.data = [];
         this.slot = undefined;
         this.type = type;
-        this.playerAvatarLink = '';
-    }
-
-    setPlayerAvatarLink(link) {
+        this.game = game;
         this.playerAvatarLink = link;
     }
 
@@ -25,22 +22,27 @@ export default class Slot {
 
     getNumberSlotItem(i) {
         let div = document.createElement('div');
-        div.classList.add('slot_item');
-        div.classList.add('number');
+        div.classList.add('slot_item', 'number');
         div.innerHTML = this.data[i];
         return div;
     }
 
     getPlayerSlotItem(i) {
         let div = document.createElement('div');
-        div.classList.add('slot_item');
-        div.classList.add('player');
+        div.classList.add('slot_item', 'player');
         let img = document.createElement('img');
-        img.src = this.playerAvatarLink.replace('[id]', i);
-        div.innerHTML = this.data[i];
+        img.src = this.playerAvatarLink.replace('{id}', i);
+        div.appendChild(img);
+
+        let username = document.createElement('div');
+        username.classList.add('username');
+        let player = this.game.getPlayer(this.data[i]);
+        if(player)
+            username.innerHTML = this.game.getPlayer(this.data[i]).name;
+        div.appendChild(username);
+
         return div;
     }
-
 
     init() {
         this.slot = document.getElementById(this.id);

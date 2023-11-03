@@ -338,13 +338,43 @@ input,
     -webkit-animation: grow_slot_item 0.2s linear forwards;*/
 }
 
-.wheel-slot .number {
+.wheel-slot .slot_item.number {
     color: #FFF;
     font-family: Poppins;
     font-size: 32px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+}
+
+.wheel-slot .slot_item.player img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.wheel-slot .slot_item.player {
+    display: flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 16px;
+    align-self: stretch;
+}
+
+.wheel-slot .slot_item.player .username {
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 /*@keyframes grow_slot_item {
     to {
