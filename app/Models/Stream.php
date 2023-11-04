@@ -19,5 +19,22 @@ class Stream extends Model
         return $stream;
     }
 
+    public static function fromStreamId($streamId) {
+        return Stream::where('stream_id', $streamId)->first();
+    }
+
+    public static function registerOrUpdate($streamId, $streamName, $startedAt, $endedAt) {
+        $stream = Stream::fromStreamId($streamId);
+        if($stream == null) {
+            $stream = Stream::register($streamId, $streamName, $startedAt, $endedAt);
+        } else {
+            $stream->stream_name = $streamName;
+            $stream->started_at = $startedAt;
+            $stream->ended_at = $endedAt;
+            $stream->save();
+        }
+        return $stream;
+    }
+
     use HasFactory;
 }

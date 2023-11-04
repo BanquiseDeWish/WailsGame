@@ -104,7 +104,7 @@ class TwitchController extends Controller
         $streamName = $inputs['streamName'];
         $startedAt = $inputs['startedAt'];
         $endedAt = $inputs['endedAt'];
-        $stream = Stream::register($streamId, $streamName, $startedAt, $endedAt);
+        $stream = Stream::registerOrUpdate($streamId, $streamName, $startedAt, $endedAt);
         return response()->json(["state" => "success", "stream" => $stream]);
     }
 }
