@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('predigivrees__points', function (Blueprint $table) {
-            $table->dropColumn('id');
             $table->increments('id')->before('user_id');
         });
     }
