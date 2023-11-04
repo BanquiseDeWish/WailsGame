@@ -1,3 +1,5 @@
+import { playSlotPinSound, playSlotEndSound } from './audio';
+
 export default class Slot {
 
     constructor(id, type, game, link) {
@@ -24,23 +26,34 @@ export default class Slot {
     getNumberSlotItem(i) {
         let div = document.createElement('div');
         div.classList.add('slot_item', 'number');
-        div.innerHTML = this.data[i];
+        
+        let contentDiv = document.createElement('div');
+        contentDiv.classList.add('item_content');
+        contentDiv.innerHTML = this.data[i];
+
+        div.appendChild(contentDiv);
         return div;
     }
 
     getPlayerSlotItem(i) {
         let div = document.createElement('div');
         div.classList.add('slot_item', 'player');
+
+        let contentDiv = document.createElement('div');
+        contentDiv.classList.add('item_content');
+
         let img = document.createElement('img');
         img.src = this.playerAvatarLink.replace('{id}', i);
-        div.appendChild(img);
+        contentDiv.appendChild(img);
 
         let username = document.createElement('div');
         username.classList.add('username');
         let player = this.game.getPlayer(this.data[i]);
         if(player)
             username.innerHTML = this.game.getPlayer(this.data[i]).name;
-        div.appendChild(username);
+        contentDiv.appendChild(username);
+        
+        div.appendChild(contentDiv);
 
         return div;
     }
@@ -99,6 +112,7 @@ export default class Slot {
             return setInterval(() => {
                 i++;
                 This.removeFirstSlotItem();
+                playSlotPinSound();
                 This.addSlotItem();
                 if (i === totalSpin-100) {
                     clearInterval(interval);
@@ -122,6 +136,8 @@ export default class Slot {
                 }
                 if (i >= totalSpin) {
                     This.isSpinning = false;
+                    playSlotEndSound();
+                    This.slot.children[5].classList.add('item-glow');
                     clearInterval(interval);
                 }
             }, delay);

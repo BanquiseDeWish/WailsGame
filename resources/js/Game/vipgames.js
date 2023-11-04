@@ -1,7 +1,7 @@
 import { socket } from './socket';
 import Player from './player'
 
-import { playMissSound, playBonusSound } from './audio';
+import { playMissSound, playMissSoundSecret, playBonusSound } from './audio';
 
 
 export default class VIPGames {
@@ -86,7 +86,10 @@ export default class VIPGames {
             case 'play_ticket':
                 if (data.action == 'miss') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_miss');
-                    playMissSound();
+                    if(Math.random() < 0.001)
+                        playMissSoundSecret();
+                    else
+                        playMissSound();
                 }
                 else if (data.action == 'bonus') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_bonus', 'animate__flip');
