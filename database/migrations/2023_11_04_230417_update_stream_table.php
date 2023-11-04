@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('predigivrees__points', function (Blueprint $table) {
-            $table->increments('id')->before('user_id');
+        Schema::table('stream', function (Blueprint $table) {
+            $table->dateTime('started_at')->nullable();
+            $table->dateTime('ended_at')->nullable();
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('predigivrees__points', function (Blueprint $table) {
-            $table->dropColumn('id');
+        Schema::table('stream', function (Blueprint $table) {
+            $table->dropColumn('started_at');
+            $table->dropColumn('ended_at');
         });
     }
 };

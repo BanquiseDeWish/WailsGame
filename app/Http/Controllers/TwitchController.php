@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Stream;
 use romanzipp\Twitch\Twitch;
 
 use App\Models\User;
@@ -82,7 +83,7 @@ class TwitchController extends Controller
         return json_decode($result);
     }
 
-    function register(Request $request) {
+    function registerUser(Request $request) {
         $inputs = $request->all();
         $userId = $inputs['userId'];
         $userName = $inputs['userName'];
@@ -95,5 +96,15 @@ class TwitchController extends Controller
         $userId = $inputs['userId'];
         $user = User::getFromID($userId);
         return response()->json(["state" => "success", "user" => $user]);
+    }
+
+    function registerStream(Request $request) {
+        $inputs = $request->all();
+        $streamId = $inputs['streamId'];
+        $streamName = $inputs['streamName'];
+        $startedAt = $inputs['startedAt'];
+        $endedAt = $inputs['endedAt'];
+        $stream = Stream::register($streamId, $streamName, $startedAt, $endedAt);
+        return response()->json(["state" => "success", "stream" => $stream]);
     }
 }

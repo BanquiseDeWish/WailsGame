@@ -18,7 +18,8 @@ use App\Http\Controllers\TwitchController;
 
 Route::middleware('api_check')->group(function() {
     Route::get('/user/info', [GameController::class, 'getUserGameInfos'])->name('user.info');
-    Route::post('/user/register', [TwitchController::class, 'register'])->name('user.register');
+    Route::post('/user/register', [TwitchController::class, 'registerUser'])->name('user.register');
+    Route::post('/stream/register', [TwitchController::class, 'registerStream'])->name('stream.register');
 
     Route::post('/predigivre/registerPoints', [GameController::class, 'registerPGPoints'])->name('predigivre.registerPoints');
     Route::post('/user/all/points/vipgames/register', [UserController::class, 'registerUsersVipGamesPoints'])->name('user.all.points.vipgames.register');

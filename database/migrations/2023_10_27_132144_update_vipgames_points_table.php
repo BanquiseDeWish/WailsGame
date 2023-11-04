@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('vipgames_points', function (Blueprint $table) {
-            $table->dropColumn('stream_id');
+            $table->integer('stream_id')->change();
         });
     }
 };
