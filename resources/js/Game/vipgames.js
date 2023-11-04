@@ -65,7 +65,7 @@ export default class VIPGames {
         }
         this.modifyValue('tickets', tickets);
         this.modifyValue('playCount', this.DATA.playCount);
-        this.modifyValue('current_player', this.DATA.current_player ? this.DATA.current_player : {id: -1, name: 'Aucun Joueur'});
+        this.modifyValue('current_player', this.DATA.current_player ? this.DATA.current_player : {id: -1, name: '?????????'});
         this.modifyValue('avatar', this.DATA.current_player ? this.DATA.current_player.id : 0);
         this.modifyValue('roll_players', this.DATA.roll_players);
         this.modifyValue('roll_playCount', this.DATA.roll_playCount);
@@ -101,7 +101,7 @@ export default class VIPGames {
 
             case 'player_turn':
                 this.DATA.current_player = data.player;
-                this.modifyValue('current_player', data.player);
+                this.modifyValue('current_player', {id: -1, name: '?????????'});
                 this.modifyValue('avatar', data.player.id);
                 this.modifyValue('choosen_player', data.player.id);
                 this.modifyValue('spin_1', 0);
@@ -109,7 +109,7 @@ export default class VIPGames {
             
             case 'play_count':
                 this.DATA.playCount = data.playCount;
-                this.modifyValue('playCount', data.playCount);
+                this.modifyValue('playCount', '?');
                 this.modifyValue('choosen_playCount', data.playCount);
                 this.modifyValue('spin_2', 0);
                 break;

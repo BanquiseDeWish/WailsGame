@@ -15,6 +15,7 @@ import BlueButton from '@/Components/Buttons/BlueButton';
 
 import Slot from '@/Components/Games/VIPGames/Slot';
 import { randomId } from '../../../../js/Game/random';
+import { waitUntil } from '../../../../js/Game/utils';
 
 export default function VipGame() {
     const props = usePage().props;
@@ -22,7 +23,7 @@ export default function VipGame() {
         isConnected: false,
         tickets: [],
         waiting_users: [],
-        current_player: {id: -1, name: 'Aucun Joueur'},
+        current_player: {id: -1, name: '?????????'},
         playCount: 0,
         avatar: props.ziggy.url + '/api/user/0/icon',
         news_list: [<div className='w-full h-[80px] container le-tchat p-[16px] whitespace-nowrap'>Historique des Bonus</div>],
@@ -36,7 +37,7 @@ export default function VipGame() {
         spin_2: 0,
     });
 
-    function modifyValue(key, value) {
+    async function modifyValue(key, value) {
         if(key =='avatar') {
             setValues(values => ({ ...values, [key]: props.ziggy.url + '/api/user/' + value + '/icon' }));
         }
@@ -51,6 +52,14 @@ export default function VipGame() {
         }
         else if(key == 'spin_1' || key == 'spin_2') {
             setValues(values => ({ ...values, [key]: values[key] + 1 }));
+        }
+        else if(key == 'current_player') {
+            // wait until the slot is not spinning
+            setValues(values => ({ ...values, [key]: value }));
+        }
+        else if(key == 'playCount') {
+            // wait until the slot is not spinning
+            setValues(values => ({ ...values, [key]: value }));
         }
         else {
             setValues(values => ({ ...values, [key]: value }));
@@ -123,9 +132,29 @@ export default function VipGame() {
                                 </div>
                                 
                                 <div id="wheels" className='transition-back absolute my-hidden'>
-                                    <Slot id={'wheel_slot_1'} type={'player'} onClick={() => {values.game.askRandomPlayer()}} data={values.roll_players} winner={values.choosen_player} spin={values.spin_1} game={values.game} game_start={values.game_start}/>
+                                    <Slot
+                                        id={'wheel_slot_1'}
+                                        type={'player'}
+                                        onClick={() => {values.game.askRandomPlayer()}}
+                                        data={values.roll_players}
+                                        winner={values.choosen_player}
+                                        spin={values.spin_1}
+                                        game={values.game}
+                                        game_start={values.game_start}
+                                        modifyValueParent={modifyValue}
+                                    />
 
-                                    <Slot id={'wheel_slot_2'} type={'number'} onClick={() => {values.game.askRandomPlayCount()}} data={values.roll_playCount} winner={values.choosen_playCount} spin={values.spin_2} game={values.game} game_start={values.game_start}/>
+                                    <Slot
+                                        id={'wheel_slot_2'}
+                                        type={'number'}
+                                        onClick={() => {values.game.askRandomPlayCount()}}
+                                        data={values.roll_playCount}
+                                        winner={values.choosen_playCount}
+                                        spin={values.spin_2}
+                                        game={values.game}
+                                        game_start={values.game_start}
+                                        modifyValueParent={modifyValue}
+                                    />
                                 </div>
                             </div>
                         </div>
