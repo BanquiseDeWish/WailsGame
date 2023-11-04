@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('predigivrees__points', function (Blueprint $table) {
-            $table->increments('id')->before('user_id')->primary();
+            $table->increments('id')->before('user_id');
         });
     }
 
