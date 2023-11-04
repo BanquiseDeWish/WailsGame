@@ -5,6 +5,7 @@
     flex-direction: column;
     gap: 35px;
     width: 50rem;
+    height: 100%;
     margin: 0rem 10rem;
 }
 .prediGivre.hof .btn_sort {

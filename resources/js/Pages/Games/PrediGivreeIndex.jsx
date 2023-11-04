@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 import MainLayout from '@/Layouts/MainLayout';
 import { useState } from 'react';
@@ -6,60 +6,59 @@ import Paginate from '@/Components/Paginate';
 import HOFTable from '@/Components/HOFTable';
 import '../../../css/predigivre.css'
 import '../../../css/hof.css'
-import MKTitle from '../../../assets/games/mario_kart_title.png'
+import PGLogo from '../../../assets/games/pg_classement.svg'
+import axios from 'axios';
 
 export default function PrediGivreeIndex(props) {
 
     const [filter, setFilter] = useState(props.filter)
-    const [predigivre, setPredigivre] = useState(props.hallOfFame.data)
-    const [pgPaginate, setPGPaginate] = useState(props.hallOfFame)
-    const [top, setTop] = useState([])
-    const [asTop, setASTop] = useState(false)
+    const [pgData, setPGData] = useState(props.hallOfFame)
+    const [load, setLoad] = useState(false)
 
-    useEffect(() => {
-        if(!asTop){
-            {pgPaginate?.data?.map((val, index) => {
-                const position = pgPaginate.current_page * pgPaginate.per_page - pgPaginate.per_page + 1 + index;
-                if(position <= 3) {
-                    top.push({ position: position, data: val })
-                }
-            })}
-            setTop(top)
-            setASTop(true)
-        }
-        console.log(top)
-    }, [pgPaginate])
+    const changeFilter = (nfilter) => {
+        if(load) return;
+        if(filter == nfilter) return;
+        setLoad(true)
+        setFilter(nfilter)
+        window.history.pushState({}, null, nfilter)
+        axios.get(route('predigivre.filter', { filter: nfilter })).then((response) => {
+            setTimeout(() => {
+                setLoad(false)
+                const newDataPG = response.data;
+                setPGData(newDataPG)
+            }, 500)
+        });
+    }
+
+    const filterButton = (fb, label) => {
+        return (
+            <div onClick={() => { changeFilter(fb) }} className={`filterButton ${filter == fb ? "active" : ""}`}>
+                <span className="relative z-20 select-none">{label}</span>
+                <div className="hover z-[10]"></div>
+            </div>
+        )
+    }
 
     return (
         <MainLayout>
             <Head title="Prédictions Givrées" />
             <div className="prediGivre hof" style={{ paddingBottom: "30px" }}>
-                <img width="400px" src={MKTitle} alt="MKTitle" />
-                <h2 className='text-3xl font-bold text-white uppercase'>Classement des prédictions</h2>
-                <div className="flex items-center gap-4">
-                    <span className='text-white bg-slate-800 rounded-md py-2 px-3'>Trier par:</span>
-                    <div className="btn_sort">
-                        <Link href={route('predigivre.halloffame', { filter: 'today' })}  className={`${filter == "today" ? "active" : ""}`}>Aujourd'hui</Link>
-                        <Link href={route('predigivre.halloffame', { filter: 'week' })}  className={`${filter == "week" ? "active" : ""}`}>Cette semaine</Link>
-                        <Link href={route('predigivre.halloffame', { filter: 'month' })}  className={`${filter == "month" ? "active" : ""}`}>Ce mois-ci</Link>
-                        <Link href={route('predigivre.halloffame', { filter: 'year' })}  className={`${filter == "year" ? "active" : ""}`}>Cette année</Link>
-                        <Link href={route('predigivre.halloffame', { filter: 'all' })}  className={`${filter == "all" ? "active" : ""}`}>Depuis toujours</Link>
+                <div className="flex justify-around gap-4 h-full">
+                    <div className="filterMenu">
+                        <span className='text-white text-[20px] font-[700]'>Filtrer par</span>
+                        {filterButton("today", "Aujourd'hui")}
+                        {filterButton("week", "Cette semaine")}
+                        {filterButton("month", "Ce mois-ci")}
+                        {filterButton("year", "Cette année")}
+                        {filterButton("all", "Toujours")}
+                    </div>
+                    <div className="ranking">
+                        <HOFTable load={load} logo={PGLogo} data={pgData} labelPoints={"Points"} />
+                    </div>
+                    <div className="stats">
+                        Statistiques
                     </div>
                 </div>
-
-                <div className="flex gap-4">
-                Podium
-                    {top.map((val, index) => {
-                        console.log(val)
-                        return (
-                            <div className="col">
-                                #{val.position} {val.data.userName}
-                            </div>
-                        )
-                    })}
-                </div>
-                <HOFTable pagination={pgPaginate} />
-                <Paginate layout="bottom" labelType="Predigivre" routeName={"predigivre.paginate"} routeArgs={{ filter: filter }} pagination={pgPaginate} setList={setPredigivre} setPagination={setPGPaginate} method="get" />
             </div>
         </MainLayout>
     );

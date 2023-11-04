@@ -9,7 +9,7 @@ import('preline')
 const appName = import.meta.env.VITE_APP_NAME || 'WeilsTTV';
 
 createInertiaApp({
-    title: (title) => `${title}`,
+    title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
     setup({ el, App, props }) {
         const root = createRoot(el);

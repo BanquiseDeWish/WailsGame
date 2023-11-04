@@ -41,7 +41,7 @@ Route::prefix('games')->name('games.')->group(function ()
 Route::prefix('predigivre')->name('predigivre.')->group(function() {
     Route::get('/halloffame', [PrediGivreesController::class, 'hallOfFamePredigivre'])->name('halloffame');
     Route::get('/halloffame/{filter}', [PrediGivreesController::class, 'hallOfFamePredigivre'])->name('halloffame');
-    Route::get('/paginate/{filter}/{page}', [PrediGivreesController::class, 'requestPaginate'])->name('paginate');
+    Route::get('/filter/{filter}', [PrediGivreesController::class, 'requestFilter'])->name('filter');
 });
 
 Route::get('/dashboard', function () {

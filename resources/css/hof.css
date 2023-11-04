@@ -1,22 +1,169 @@
-body {
-    overflow-y: overlay !important;
+:root {
+    --bg1: #020C11;
+    --scrollbar: #03121a;
 }
+
 .hoftable {
     display: flex;
-    gap: 4px;
+    gap: 16px;
+    align-items: center;
     flex-direction: column;
     width: 100%;
+    height: 100%;
+    position: relative;
 }
+
+.hoftable .logo {
+    position: absolute;
+    top: -46px;
+    z-index: 10;
+}
+
+.hoftable .podium {
+    margin-top: 20px;
+}
+
+.hoftable .podium .pos {
+    display: flex;
+    position: relative;
+    gap: 8px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    border-radius: 0px 0px 8px 8px;
+}
+.hoftable .podium .pos .pol {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    font-style: normal;
+    line-height: normal;
+}
+.hoftable .podium .pos.first .pol {
+    font-size: 48px;
+    font-weight: 700;
+    color: #888;
+} 
+.hoftable .podium .pos.two .pol {
+    font-size: 36px;
+    font-weight: 700;
+    color: #888;
+} 
+.hoftable .podium .pos.three .pol {
+    font-size: 36px;
+    font-weight: 700;
+    color: #888;
+} 
+.hoftable .podium .display_points {
+    position: relative;
+    background: var(--bg1);
+    border-radius: 8px 8px 0px 0px;
+    padding: 4px 8px 0px 8px;
+}
+.hoftable .podium .display_points::before {
+    position: absolute;
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    left: -20px;
+    bottom: 0;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0px 10px 0px 0px #020C11;
+}
+.hoftable .podium .display_points::after {
+    position: absolute;
+    content: '';
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    right: -20px;
+    bottom: 0;
+    border-bottom-left-radius: 8px;
+    box-shadow: 0px 10px 0 0 #020C11;
+}
+.hoftable .podium .display_points {
+    position: relative;
+    background: var(--bg1);
+    border-radius: 8px 8px 0px 0px;
+    padding: 4px 8px 0px 8px;
+}
+.hoftable .podium .pos.two {
+    max-width: 206px !important;
+    height: 272px !important; 
+    background: linear-gradient(180deg, #020C11 0%, #888 95.31%);
+}
+.hoftable .podium .pos.first {
+    max-width: 210px !important;
+    height: 290px !important;
+    background: linear-gradient(180deg, #020C11 0%, #DCA130 95.31%);
+}
+.hoftable .podium .pos.three {
+    max-width: 206px !important;
+    height: 272px !important; 
+    background: linear-gradient(180deg, #020C11 0%, #AE6A38 95.31%);
+}
+.hoftable .podium .pos.two .display_points::before {
+    background-color: #888;
+}
+.hoftable .podium .pos.two .display_points::after {
+    background-color: #888;
+}
+.hoftable .podium .pos .penguinCard {
+    gap: 8px;
+    background: transparent;
+    padding: 12px;
+}
+.hoftable .podium .pos .penguinCard .username {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.hoftable .podium .pos .penguinCard .description {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.hoftable .separator {
+    width: 70%;
+    height: 2px;
+    display: flex;
+    background-color: #121A25;
+}
+
+.hoftable .table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow-y: overlay;
+}
+
 .hoftable .entry {
     display: flex;
     gap: 4px;
+    border-radius: 8px;
+    width: 100%;
+    height: 55px;
     align-items: center;
+}
+
+.hoftable .entry .penguinCard {
+    background-color: transparent;
+}
+
+.hoftable .entry:hover,
+.hoftable .entry:hover .penguinCard {
+    background: #121A25;
 }
 
 .hoftable .entry .position.card {
     width: 64px;
     justify-content: center;
-
+    color: #B4B4B4;
     font-size: 14px !important;
     font-style: normal;
     font-weight: 500;
@@ -27,29 +174,131 @@ body {
     flex-grow: 1;
     flex: 1;
     padding: 12px;
-    height: 64px !important;
+    height: 55px !important;
     gap: 8px;
 }
 
 .hoftable .entry .card {
     display: flex;
     align-items: center;
-    background-color: #020C11;
     border-radius: 8px;
     color: white;
     height: 64px;
 }
 
-.hoftable .entry .penguinCard .avatar {
-    width: 40px;
-    height: 40px;
+.hoftable .entry .penguinCard .data .username {
+    font-size: 14px;
 }
 
-.prediGivre.hof .simple_button  {
+.hoftable .entry .penguinCard .data .description {
+    font-size: 12px;
+}
+
+.hoftable .entry .penguinCard .avatar {
+    width: 32px;
+    height: 32px;
+}
+
+.hoftable .entry .penguinCard .points {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.prediGivre.hof .simple_button {
     width: 140px;
 
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+}
+
+.prediGivre.hof .ranking {
+    background-color: var(--bg1);
+    padding: 32px 16px 16px;
+    border-radius: 8px;
+    min-width: 800px;
+    max-height: calc(100vh - 20%);
+}
+
+.prediGivre.hof .filterMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.prediGivre.hof .filterMenu .filterButton {
+    cursor: pointer;
+    position: relative;
+    background: var(--bg1);
+    min-width: 200px;
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    outline: 5px solid rgba(2, 12, 17, 0.20);
+    transition: outline 0.2s linear;
+    overflow: hidden;
+}
+
+.prediGivre.hof .filterMenu .filterButton.active {
+    outline-color: rgba(74, 124, 152, 0.20);
+}
+
+.prediGivre.hof .filterMenu .filterButton.active .hover:after {
+    transform: scale(18.50);
+}
+
+.prediGivre.hof .filterMenu .filterButton .hover {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.prediGivre.hof .filterMenu .filterButton .hover:after {
+    content: '';
+    background: linear-gradient(99deg, #5A98BB 0%, #354368 57.81%), #D9D9D9;
+    border-radius: 50px;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%) scale(0);
+    transition: all 0.2s linear;
+}
+
+.prediGivre.hof .filterMenu .filterButton:not(.active):hover .hover:after {
+    transform: translateY(-50%) scale(1);
+    overflow: hidden;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: var(--scrollbar) transparent;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar);
+    border-radius: 10px;
+    border: 3px solid transparent;
 }

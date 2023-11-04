@@ -17,17 +17,17 @@ class PrediGivreesController extends Controller
     //HallOfFame for PrediGivrees
     public function hallOfFamePredigivre(Request $request, $filter = "today")
     {
-        $hallOfFame = $this->requestPaginate($request, $filter, 0);
+        $hallOfFame = $this->requestFilter($request, $filter);
         return Inertia::render('Games/PrediGivreeIndex', ['filter' => $filter, 'hallOfFame' => $hallOfFame]);
     }
 
-    public function requestPaginate(Request $request, $filter, $page)
+    public function requestFilter(Request $request, $filter)
     {
-        $prediGivreData = $this->sqlPaginate($filter, $page);
+        $prediGivreData = $this->sqlPaginate($filter);
         return $prediGivreData;
     }
 
-    public function sqlPaginate($filter, $page){
+    public function sqlPaginate($filter){
         $prediGivreData = DB::table('predigivrees__points')
             ->select(DB::raw('user_id, SUM(points) AS points'))
             ->groupBy('user_id')
@@ -53,7 +53,7 @@ class PrediGivreesController extends Controller
                 break;
         }
 
-        $prediGivreData = $prediGivreData->paginate(10, ['*'], 'predigivrees', $page);
+        $prediGivreData = $prediGivreData->limit(100)->get();
 
         foreach ($prediGivreData as  $k => $pgd) {
             $user = User::where('twitch_id', '=', $pgd->user_id)->first();

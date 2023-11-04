@@ -10,7 +10,7 @@ export default function ProfileAppearance() {
             <Head title="Profil" />
             <div className="flex gap-[64px]">
                 <div className="infos">
-                    <PenguinCard />
+                    <PenguinCard data={{ username: "bite" }} />
                     <PodiumPenguin />
                 </div>
                 <div className="col flex-1">
