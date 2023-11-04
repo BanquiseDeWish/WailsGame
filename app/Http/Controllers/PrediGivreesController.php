@@ -53,7 +53,7 @@ class PrediGivreesController extends Controller
                 break;
         }
 
-        $prediGivreData = $prediGivreData->limit(50)->get();
+        $prediGivreData = $prediGivreData->limit(100)->get();
 
         foreach ($prediGivreData as  $k => $pgd) {
             $user = User::where('twitch_id', '=', $pgd->user_id)->first();

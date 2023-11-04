@@ -18,7 +18,7 @@ export default function PenguinCard({ data, className }) {
                     <div className="username">{ data?.username == undefined ? "N/A" : data?.username }</div>
                     <div className="description">{ data?.slogan == undefined ? "Un pingouin sans valeur" : data?.slogan }</div>
                 </div>
-                {data?.points !== undefined && <div className="points"><span className='text-[18px] font-[500]'>{data?.points}</span><span className="text-[#9799A7] text-[14px] font-[500]">{data?.labelPoints !== undefined ? data?.labelPoints : "Victoires"}</span></div>}
+                {data?.points !== undefined && <div className="points"><span className='text-[18px] font-[500]  leading-[normal]'>{data?.points}</span><span className="text-[#9799A7] text-[14px] font-[500] leading-[normal]">{data?.labelPoints !== undefined ? data?.labelPoints : "Victoires"}</span></div>}
             </div>
         </div>
     )

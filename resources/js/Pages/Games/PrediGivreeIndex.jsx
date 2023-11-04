@@ -15,11 +15,13 @@ export default function PrediGivreeIndex(props) {
     const [pgData, setPGData] = useState(props.hallOfFame)
     const [load, setLoad] = useState(false)
 
-    const changeFilter = (filter) => {
+    const changeFilter = (nfilter) => {
         if(load) return;
+        if(filter == nfilter) return;
         setLoad(true)
-        setFilter(filter)
-        axios.get(route('predigivre.filter', { filter: filter })).then((response) => {
+        setFilter(nfilter)
+        window.history.pushState({}, null, nfilter)
+        axios.get(route('predigivre.filter', { filter: nfilter })).then((response) => {
             setTimeout(() => {
                 setLoad(false)
                 const newDataPG = response.data;
@@ -41,7 +43,7 @@ export default function PrediGivreeIndex(props) {
         <MainLayout>
             <Head title="Prédictions Givrées" />
             <div className="prediGivre hof" style={{ paddingBottom: "30px" }}>
-                <div className="flex justify-between gap-4 w-full h-full">
+                <div className="flex justify-around gap-4 h-full">
                     <div className="filterMenu">
                         <span className='text-white text-[20px] font-[700]'>Filtrer par</span>
                         {filterButton("today", "Aujourd'hui")}
