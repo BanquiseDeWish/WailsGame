@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VIPGameController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TwitchController;
 
@@ -23,6 +24,8 @@ Route::middleware('api_check')->group(function() {
 
     Route::post('/predigivre/registerPoints', [GameController::class, 'registerPGPoints'])->name('predigivre.registerPoints');
     Route::post('/user/all/points/vipgames/register', [UserController::class, 'registerUsersVipGamesPoints'])->name('user.all.points.vipgames.register');
+
+    Route::post('/game/vipgame/register', [VIPGameController::class, 'registerGame'])->name('game.vipgame.register');
 });
 
 
