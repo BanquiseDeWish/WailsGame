@@ -1,7 +1,7 @@
 import { socket } from './socket';
 import Player from './player'
 
-import { playMissSound, playMissSoundSecret, playBonusSound } from './audio';
+import GameSound from './audio';
 
 
 export default class VIPGames {
@@ -12,6 +12,9 @@ export default class VIPGames {
         this.getUserCard = getUserCard;
         this.DATA = {};
         this.setupGame();
+        this.missSound = new GameSound('miss');
+        this.missSecret = new GameSound('miss_secret');
+        this.bonusSound = new GameSound('bonus');
     }
 
     setData(data) {
@@ -87,13 +90,13 @@ export default class VIPGames {
                 if (data.action == 'miss') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_miss');
                     if(Math.random() < 0.001)
-                        playMissSoundSecret();
+                        this.missSecret.playMissSoundSecret();
                     else
-                        playMissSound();
+                        this.missSound.playMissSound();
                 }
                 else if (data.action == 'bonus') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_bonus', 'animate__flip');
-                    playBonusSound();
+                    this.bonusSound.playBonusSound();
                 }
                 else if (data.action == 'win') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_win', 'animate__flip');

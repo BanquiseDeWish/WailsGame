@@ -1,4 +1,4 @@
-import { playSlotPinSound, playSlotEndSound } from './audio';
+import GameSound from './audio';
 
 export default class Slot {
 
@@ -11,6 +11,8 @@ export default class Slot {
         this.game = game;
         this.playerAvatarLink = link;
         this.isSpinning = false;
+        this.pinSound = new GameSound('pin');
+        this.endSlotSound = new GameSound('slot_end');
     }
 
     getSlotItem(i) {
@@ -112,7 +114,7 @@ export default class Slot {
             return setInterval(() => {
                 i++;
                 This.removeFirstSlotItem();
-                playSlotPinSound();
+                This.pinSound.playSlotPinSound();
                 This.addSlotItem();
                 if (i === totalSpin-100) {
                     clearInterval(interval);
@@ -136,7 +138,7 @@ export default class Slot {
                 }
                 if (i >= totalSpin) {
                     This.isSpinning = false;
-                    playSlotEndSound();
+                    This.endSlotSound.playSlotEndSound();
                     This.slot.children[5].classList.add('item-glow');
                     clearInterval(interval);
                 }
