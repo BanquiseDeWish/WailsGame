@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\VipGame;
 use Illuminate\Http\Request;
+use App\Models\GameStat;
 
 class VIPGameController extends Controller
 {
@@ -36,13 +37,53 @@ class VIPGameController extends Controller
 
     private static function calcStats() {
         $vipgames = VipGame::all();
-        $stats = [];
         $gameTime = [];
-        foreach ($vipgames as $vipgame) {
+        $tickets = array_fill(0, 100, 0);
+        $ticketsAttempt = 0;
+        $playersAverage = [];
+        $players = [];
+        $all_bonus = [];
+        foreach($vipgames as $vipgame) {
             $vipgameStats = json_decode($vipgame->stats);
-            if($vipgameStats['startGame']) {
-
+            if($vipgameStats->gameTime)
+                $gameTime[] = $vipgameStats->gameTime;
+            if($vipgameStats->tickets) {
+                foreach($vipgameStats->tickets as $ticket) {
+                    $tickets[$ticket->ticket] += 1;
+                }
+                $ticketsAttempt += count($vipgameStats->tickets);
+            }
+            if($vipgameStats->players) {
+                foreach($vipgameStats->players as $player) {
+                    if(!isset($players[$player->id]))
+                        $players[$player->id] = 0;
+                    $players[$player->id] += $player->totalAttempt;
+                }
+                $playersAverage[] = count($vipgameStats->players);
+            }
+            if($vipgameStats->bonus) {
+                foreach($vipgameStats->bonus as $bonus) {
+                    if(!isset($all_bonus[$bonus->bonus]))
+                        $all_bonus[$bonus->bonus] = 0;
+                    $all_bonus[$bonus->bonus] += 1;
+                }
             }
         }
+
+        $stats = [
+            'average_game_time' => array_sum($gameTime)/count($vipgames),
+            'most_ticket_played' => array_search(max($tickets), $tickets),
+            'total_attempt' => $ticketsAttempt,
+            'average_player' => array_sum($playersAverage)/count($vipgames),
+            'player_with_most_attempt' => array_search(max($players), $players),
+            'most_bonus_used' => array_search(max($all_bonus), $all_bonus),
+        ];
+
+        GameStat::updateStat('vipgames', 'average_game_time', $stats['average_game_time']);
+        GameStat::updateStat('vipgames', 'most_ticket_played', $stats['most_ticket_played']);
+        GameStat::updateStat('vipgames', 'total_attempt', $stats['total_attempt']);
+        GameStat::updateStat('vipgames', 'average_player', $stats['average_player']);
+        GameStat::updateStat('vipgames', 'player_with_most_attempt', $stats['player_with_most_attempt']);
+        GameStat::updateStat('vipgames', 'most_bonus_used', $stats['most_bonus_used']);
     }
 }
