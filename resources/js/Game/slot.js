@@ -9,10 +9,14 @@ export default class Slot {
         this.slot = undefined;
         this.type = type;
         this.game = game;
-        this.playerAvatarLink = link;
         this.isSpinning = false;
         this.pinSound = new GameSound('pin');
         this.endSlotSound = new GameSound('slot_end');
+        if(this.type === 'player') {
+            this.playerAvatarLink = link;
+            this.imageCache = new Map();
+            this.preloadImages();
+        }
     }
 
     getSlotItem(i) {
@@ -37,6 +41,15 @@ export default class Slot {
         return div;
     }
 
+    preloadImages() {
+        for (let i = 0; i < this.data.length; i++) {
+            if(this.imageCache.has(this.data[i])) continue;
+            const image = new Image();
+            image.src = this.playerAvatarLink.replace('{id}', this.data[i]);
+            this.imageCache.set(this.data[i], image);
+        }
+    }
+
     getPlayerSlotItem(i) {
         let div = document.createElement('div');
         div.classList.add('slot_item', 'player');
@@ -44,9 +57,13 @@ export default class Slot {
         let contentDiv = document.createElement('div');
         contentDiv.classList.add('item_content');
 
-        let img = document.createElement('img');
-        img.src = this.playerAvatarLink.replace('{id}', i);
-        contentDiv.appendChild(img);
+        let cachedImage = this.imageCache.get(this.data[i]);
+        if(cachedImage) {
+            let img = cachedImage.cloneNode(true);
+            img.loading = 'lazy';
+            contentDiv.appendChild(img);
+
+        }
 
         let username = document.createElement('div');
         username.classList.add('username');
@@ -70,6 +87,8 @@ export default class Slot {
 
     setData(data) {
         this.data = data;
+        if(this.type === 'player')
+            this.preloadImages();
     }
 
     findValueIndexFromCurrentIndex(value) {
