@@ -35,6 +35,7 @@ export default function VipGame() {
         choosen_player: undefined,
         spin_1: 0,
         spin_2: 0,
+        players: []
     });
 
     async function modifyValue(key, value) {

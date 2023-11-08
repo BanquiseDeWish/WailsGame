@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Models\VipGame;
+use App\Models\Stream;
 
 
 
@@ -40,12 +42,21 @@ class UserController extends Controller
         if(!is_array($users))
             return response()->json(['error' => 'users must be an array'], 400);
 
-        $points = DB::table('vipgames_points')
+        $userPoints = DB::table('vipgames_points')
                         ->select(DB::raw('user_id, count(user_id) as points'))
                         ->whereIn('user_id', $users)
                         ->groupBy('user_id')
                         ->get();
-        return response()->json($points);
+
+        $lastVipGame = VipGame::orderBy('id', 'desc')->first();
+        $streamCount = Stream::where('ended_at', '>', $lastVipGame->created_at )->count();
+        foreach ($userPoints as $point) {
+            if($point->points == $streamCount) {
+                $point->points = $point->points + 2;
+                $point->bonus = true;
+            }
+        }
+        return response()->json($userPoints);
     }
 
     public function registerUsersVipGamesPoints(Request $request) {
