@@ -123,6 +123,7 @@ export default class VIPGames {
             case 'all_players_info':
                 this.DATA.players = data.players;
                 this.modifyValue('roll_players', data.roll_players);
+                this.modifyValue('players', data.players);
                 break;
 
             case 'new_player':

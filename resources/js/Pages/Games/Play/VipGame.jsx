@@ -35,7 +35,8 @@ export default function VipGame() {
         choosen_player: undefined,
         spin_1: 0,
         spin_2: 0,
-        players: []
+        players: [],
+        players_points: [],
     });
 
     async function modifyValue(key, value) {
@@ -70,13 +71,19 @@ export default function VipGame() {
     function switchGame() {
         let wheels = document.getElementById('wheels');
         let tickets = document.getElementById('tickets_pack');
+        let penguin = document.getElementById('penguin');
+        let player_points = document.getElementById('player_points');
         if (wheels.classList.contains('my-hidden')) {
             wheels.classList.remove('my-hidden');
+            penguin.classList.add('my-hidden');
             tickets.classList.add('my-hidden');
+            player_points.classList.remove('my-hidden');
         }
         else {
             wheels.classList.add('my-hidden');
             tickets.classList.remove('my-hidden');
+            penguin.classList.remove('my-hidden');
+            player_points.classList.add('my-hidden');
         }
     }
 
@@ -95,6 +102,25 @@ export default function VipGame() {
     useEffect(() => {
         modifyValue('game', new VIPGames(modifyValue, getTicket, getNewsItem, getUserCard));
     }, []);
+
+    useEffect(() => {
+        let points = [];
+        values.players.forEach(player => {
+            points.push(
+                <div key={randomId()} className='player_points_item'>
+                    <div className='flex justify-center items-center gap-[16px] w-full'>
+                        <img className='w-[32px] h-[32px] rounded-full' src={props.ziggy.url + '/api/user/' + player.id + '/icon'} alt="" width={32} />
+                        <div className='username_points'>{player.name}</div>
+                    </div>
+                    <div className='points'>
+                        <div className='points_number'>{player.points}</div>
+                        <div className='points_txt'>pts</div>
+                    </div>
+                </div>
+            )
+        });
+        modifyValue('players_points', points);
+    }, [values.players])
 
 
     return (
@@ -175,8 +201,19 @@ export default function VipGame() {
                                 {values.playCount}
                             </div>
                         </div>
-                        <div className='le-tchat container flex-grow'>
-                            Coming Soon
+                        <div className='le-tchat container flex-grow relative'>
+                            <div id='penguin' className='flex justify-center items-center w-full h-full absolute'>
+                                Coming Soon
+                            </div>
+
+                            <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden'>
+                                <div className='title-20 flex justify-center items-center w-full'>
+                                    Les Points
+                                </div>
+                                <div className='flex flex-grow w-full flex-col gap-[8px] overflow-y-scroll pr-2'>
+                                    {values.players_points}
+                                </div>
+                            </div>
                         </div>
                     </div>
 

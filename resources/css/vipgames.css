@@ -539,3 +539,61 @@ input,
       background-position: 200% 50%;
     }
   }
+
+
+.player_points_item {
+    border-radius: 8px;
+    background-color: #121A25;
+    padding: 12px 16px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.player_points_item .points {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal;
+    gap: 4px;
+}
+
+.player_points_item .points_number {
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.player_points_item .points_txt {
+    color: #9799A7;
+    font-family: Poppins;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.player_points_item .username_points {
+    width: 100%;
+    overflow: hidden;
+    color: #FFF;
+    text-overflow: ellipsis;
+    font-family: Poppins;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.title-20 {
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
