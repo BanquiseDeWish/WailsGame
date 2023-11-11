@@ -85,6 +85,11 @@ export default function VipGame() {
         }
     }
 
+    function getPlayer(userId) {
+        console.log('getPlayer', userId, values.players);
+        return values.players.find(player => player.id == userId);
+    }  
+
     function getTicket(i, className, onClick) {
         return (<Ticket key={i} id={"ticket_" + i} number={i + 1} className={className} onClick={onClick} />);
     }
@@ -98,11 +103,11 @@ export default function VipGame() {
     }
 
     useEffect(() => {
-        modifyValue('game', new VIPGames(modifyValue, getTicket, getNewsItem, getUserCard));
+        modifyValue('game', new VIPGames(modifyValue, getTicket, getNewsItem, getUserCard, getPlayer));
     }, []);
 
     useEffect(() => {
-        console.log('Values.players has been updated');
+        console.log('Values.players has been updated', values.players);
         let points = [];
         values.players.sort((a, b) => (a.points < b.points) ? 1 : -1);
         values.players.forEach(player => {
@@ -129,19 +134,17 @@ export default function VipGame() {
     }, [values.news_list]);
 
     useEffect(() => {
-        console.log(values.player_point);
+        console.log('Values.player_point has been updated', values.player_point);
         if(values.player_point == undefined) return;
         let players = values.players;
         let index = players.findIndex(player => player.id == values.player_point.id);
-        console.log(index, players);
+        console.log('index', index, players, values.player_point);
         if(index != -1) {
             players[index].points = values.player_point.points;
-            setValues(values => ({ ...values, ['players']: players }));
-            console.log('Yes: ', values.players);
+            modifyValue('players', players);
         }
         else {
-            setValues(values => ({ ...values, ['players']: [...values.players, values.player_point] }));
-            console.log('No: ', values.players);
+            modifyValue('players', [...values.players, values.player_point]);
         }
     }, [values.player_point]);
 

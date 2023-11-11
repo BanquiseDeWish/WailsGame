@@ -68,6 +68,7 @@ export default class Slot {
         let username = document.createElement('div');
         username.classList.add('username');
         let player = this.game.getPlayer(this.data[i]);
+        console.log('player: ', player, 'game: ', this.game, 'data: ', this.data[i]);
         if(player)
             username.innerHTML = player.name;
         contentDiv.appendChild(username);
