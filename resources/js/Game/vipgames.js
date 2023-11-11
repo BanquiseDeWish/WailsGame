@@ -5,19 +5,24 @@ import GameSound from './audio';
 
 
 export default class VIPGames {
-    constructor(modifyValue, getTicket, getNewsItem, getUserCard, getPlayer) {
+    constructor(modifyValue, getTicket, getNewsItem, getUserCard) {
         this.modifyValue = modifyValue;
         this.getTicket = getTicket;
         this.getNewsItem = getNewsItem;
         this.getUserCard = getUserCard;
-        this.getPlayer = getPlayer;
         this.setupGame();
         this.missSound = new GameSound('miss');
         this.missSecret = new GameSound('miss_secret');
         this.bonusSound = new GameSound('bonus');
         this.winSound = new GameSound('win');
         this.gameStart = false;
+        this.player_list = [];
     }
+
+    getPlayer(userId) {
+        return this.player_list.find(player => player.id == userId);
+    }  
+
 
     endPhase(phaseName) {
         if(phaseName == 'waiting') {
@@ -68,6 +73,7 @@ export default class VIPGames {
         this.modifyValue('roll_playCount', data.roll_playCount);
         this.modifyValue('game_start', data.phaseWaitingEnd);
         this.modifyValue('players', data.players);
+        this.player_list = [...data.players];
     }
 
     flipTicketWithDelay(tickets, amount) {
@@ -125,6 +131,7 @@ export default class VIPGames {
                 }
                 this.modifyValue('roll_players', data.roll_players);
                 this.modifyValue('player_point', data.player);
+                this.player_list.push(data.player);
                 break;
 
             case 'prio':

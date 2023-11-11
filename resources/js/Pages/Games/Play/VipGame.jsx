@@ -85,11 +85,6 @@ export default function VipGame() {
         }
     }
 
-    function getPlayer(userId) {
-        console.log('getPlayer', userId, values.players);
-        return values.players.find(player => player.id == userId);
-    }  
-
     function getTicket(i, className, onClick) {
         return (<Ticket key={i} id={"ticket_" + i} number={i + 1} className={className} onClick={onClick} />);
     }
@@ -103,13 +98,12 @@ export default function VipGame() {
     }
 
     useEffect(() => {
-        modifyValue('game', new VIPGames(modifyValue, getTicket, getNewsItem, getUserCard, getPlayer));
+        modifyValue('game', new VIPGames(modifyValue, getTicket, getNewsItem, getUserCard));
     }, []);
 
     useEffect(() => {
-        console.log('Values.players has been updated', values.players);
         let points = [];
-        values.players.sort((a, b) => (a.points < b.points) ? 1 : -1);
+        values.players.sort((a, b) => (a.points <= b.points) ? 1 : -1);
         values.players.forEach(player => {
             points.push(
                 <div key={randomId()} className='player_points_item'>
@@ -134,11 +128,9 @@ export default function VipGame() {
     }, [values.news_list]);
 
     useEffect(() => {
-        console.log('Values.player_point has been updated', values.player_point);
         if(values.player_point == undefined) return;
-        let players = values.players;
+        let players = [...values.players];
         let index = players.findIndex(player => player.id == values.player_point.id);
-        console.log('index', index, players, values.player_point);
         if(index != -1) {
             players[index].points = values.player_point.points;
             modifyValue('players', players);
