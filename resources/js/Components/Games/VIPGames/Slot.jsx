@@ -24,8 +24,10 @@ export default function Slot({ id, type, winner, spin, game, onClick, game_start
 
     async function waitEndSpin() {
         await waitUntil(() => !values.slot.isSpinning);
-        if(type == 'player')
+        if(type == 'player') {
             modifyValueParent('current_player', game.getPlayer(winner));
+            modifyValueParent('avatar', winner);
+        }
         else
             modifyValueParent('playCount', winner);
     }

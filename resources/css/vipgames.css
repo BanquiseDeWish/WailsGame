@@ -607,3 +607,22 @@ input,
     font-weight: 700;
     line-height: normal;
 }
+
+#current_player_prio {
+    color: #FFF;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    background: linear-gradient(99deg, #10A3F5 0%, #0B308E 100%);
+    padding: 4px 96px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    border-radius: 8px 8px 0 0;
+    position: absolute;
+    top: -29px;
+    left: 50%;
+    transform: translateX(-50%);
+}

@@ -207,7 +207,8 @@ export default function VipGame() {
 
                     {/* Right Div - Penguin of the user */}
                     <div className='flex flex-col gap-[8px] h-full w-[440px]'>
-                        <div className='container h-[80px] justify-between p-[16px]'>
+
+                        <div className='container h-[80px] justify-between p-[16px] relative current_player'>
                             <div className='flex justify-center items-center gap-[16px] p-[0px]'>
                                 <img src={values.avatar} alt="" className='rounded-full h-[48px]' width={48}/>
                                 <div className='flex flex-col gap-[0px]'>
@@ -218,7 +219,12 @@ export default function VipGame() {
                             <div className='play_count_text'>
                                 {values.playCount}
                             </div>
+
+                            <div id='current_player_prio' className='transition-back my-hidden'>
+                                PRIO
+                            </div>
                         </div>
+
                         <div className='le-tchat container flex-grow relative'>
                             <div id='penguin' className='flex justify-center items-center w-full h-full absolute'>
                                 Coming Soon

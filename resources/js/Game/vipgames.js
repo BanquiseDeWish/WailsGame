@@ -108,10 +108,17 @@ export default class VIPGames {
                 break;
 
             case 'player_turn':
-                this.modifyValue('current_player', {id: -1, name: '?????????'});
-                this.modifyValue('avatar', data.player.id);
-                this.modifyValue('choosen_player', data.player.id);
-                this.modifyValue('spin_1', 0);
+                if(!data.prio) {
+                    document.getElementById('current_player_prio').classList.add('my-hidden');
+                    this.modifyValue('current_player', {id: -1, name: '?????????'});
+                    this.modifyValue('choosen_player', data.player.id);
+                    this.modifyValue('spin_1', 0);
+                }
+                else {
+                    document.getElementById('current_player_prio').classList.remove('my-hidden');
+                    this.modifyValue('current_player', data.player);
+                    this.modifyValue('playCount', data.playCount);
+                }
                 break;
             
             case 'play_count':
