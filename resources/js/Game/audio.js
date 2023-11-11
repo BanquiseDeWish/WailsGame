@@ -16,6 +16,8 @@ import BONUS_5 from '../../assets/sounds/bonus_5.mp3';
 import SLOT_PIN from '../../assets/sounds/slot_pin.wav';
 import SPIN_END from '../../assets/sounds/slot_end.wav';
 
+import WIN from '../../assets/sounds/win.mp3';
+
 export default class GameSound {
 
     constructor(type) {
@@ -34,6 +36,9 @@ export default class GameSound {
                 break;
             case 'slot_end':
                 this.urls = [SPIN_END];
+                break;
+            case 'win':
+                this.urls = [WIN];
                 break;
         }
 
@@ -74,5 +79,9 @@ export default class GameSound {
     
     playSlotEndSound() {
         this.playSound(0.15);
+    }
+
+    playWinSound() {
+        this.playSound(0.2);
     }
 }

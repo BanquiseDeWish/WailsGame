@@ -69,7 +69,7 @@ export default class Slot {
         username.classList.add('username');
         let player = this.game.getPlayer(this.data[i]);
         if(player)
-            username.innerHTML = this.game.getPlayer(this.data[i]).name;
+            username.innerHTML = player.name;
         contentDiv.appendChild(username);
         
         div.appendChild(contentDiv);

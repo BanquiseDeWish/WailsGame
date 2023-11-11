@@ -37,6 +37,7 @@ export default function VipGame() {
         spin_2: 0,
         players: [],
         players_points: [],
+        player_point: undefined,
     });
 
     async function modifyValue(key, value) {
@@ -47,9 +48,6 @@ export default function VipGame() {
             setValues(values => ({ ...values, [key]: [...values.waiting_users, value] }));
         }
         else if(key == 'news_list') {
-            if(values.news_list.length > 8) {
-                values.news_list.shift();
-            }
             setValues(values => ({ ...values, [key]: [...values.news_list, value] }));
         }
         else if(key == 'spin_1' || key == 'spin_2') {
@@ -75,15 +73,15 @@ export default function VipGame() {
         let player_points = document.getElementById('player_points');
         if (wheels.classList.contains('my-hidden')) {
             wheels.classList.remove('my-hidden');
+            player_points.classList.remove('my-hidden');
             penguin.classList.add('my-hidden');
             tickets.classList.add('my-hidden');
-            player_points.classList.remove('my-hidden');
         }
         else {
             wheels.classList.add('my-hidden');
+            player_points.classList.add('my-hidden');
             tickets.classList.remove('my-hidden');
             penguin.classList.remove('my-hidden');
-            player_points.classList.add('my-hidden');
         }
     }
 
@@ -104,7 +102,9 @@ export default function VipGame() {
     }, []);
 
     useEffect(() => {
+        console.log('Values.players has been updated');
         let points = [];
+        values.players.sort((a, b) => (a.points < b.points) ? 1 : -1);
         values.players.forEach(player => {
             points.push(
                 <div key={randomId()} className='player_points_item'>
@@ -121,6 +121,29 @@ export default function VipGame() {
         });
         modifyValue('players_points', points);
     }, [values.players])
+
+    useEffect(() => {
+        if(values.news_list.length > 8) {
+            values.news_list.shift();
+        }
+    }, [values.news_list]);
+
+    useEffect(() => {
+        console.log(values.player_point);
+        if(values.player_point == undefined) return;
+        let players = values.players;
+        let index = players.findIndex(player => player.id == values.player_point.id);
+        console.log(index, players);
+        if(index != -1) {
+            players[index].points = values.player_point.points;
+            setValues(values => ({ ...values, ['players']: players }));
+            console.log('Yes: ', values.players);
+        }
+        else {
+            setValues(values => ({ ...values, ['players']: [...values.players, values.player_point] }));
+            console.log('No: ', values.players);
+        }
+    }, [values.player_point]);
 
 
     return (
@@ -206,7 +229,7 @@ export default function VipGame() {
                                 Coming Soon
                             </div>
 
-                            <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden'>
+                            <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden my-hidden'>
                                 <div className='title-20 flex justify-center items-center w-full'>
                                     Les Points
                                 </div>
@@ -222,12 +245,15 @@ export default function VipGame() {
                 <div className='flex flex-row gap-8'>
                     {   
                         values.game_start
-                        ? <GreenButton id="switch_button" className="button_green" onClick={() => switchGame()}>Switch</GreenButton>
+                        ? <GreenButton id="switch_button" className="button_green" onClick={() => {
+                                switchGame();
+                            }}
+                            >Switch</GreenButton>
                         :
                         <BlueButton id="play_button" className="button_blue w-[280px]" onClick={
                             () => {
-                                document.getElementById('user-list-container').classList.add('my-hidden');
                                 values.game.endPhase('waiting');
+                                switchGame();
                             }
                         }>
                             Jouer
