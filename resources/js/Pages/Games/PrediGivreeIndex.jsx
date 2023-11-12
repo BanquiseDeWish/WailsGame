@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Paginate from '@/Components/Paginate';
 import HOFTable from '@/Components/HOFTable';
 import '../../../css/predigivre.css'
-import '../../../css/hof.css'
 import PGLogo from '../../../assets/games/pg_classement.svg'
 import axios from 'axios';
 

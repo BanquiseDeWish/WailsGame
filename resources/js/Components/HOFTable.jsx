@@ -5,6 +5,7 @@ import PenguinCard from "./PenguinCard";
 import OnePol from "../../assets/img/hof/first.svg"
 import TwoPol from "../../assets/img/hof/two.svg"
 import ThreePol from "../../assets/img/hof/three.svg"
+import '../../css/hof.css'
 
 export default function HOFTable({ load, logo, data, labelPoints }) {
 
