@@ -148,9 +148,9 @@ export default function VipGame() {
             <div id="game_menu">
                 <img src={VipGamesLogo} width={500} alt="Logo VipGames" />
 
-                <div className='flex w-full justify-center items-center h-[620px] gap-[8px]'>
+                <div className='flex w-full justify-center items-center h-[620px] gap-[8px] flex-shrink-0 relative'>
                     {/* Left Menu ( For Weils Cam and Chat) */}
-                    <div className='flex flex-col gap-[8px] h-full w-[400px]'>
+                    <div className='flex flex-col gap-[8px] h-full w-[400px] flex-shrink-0'>
                         <div className='le-tchat flex-col container h-[220px]'> 
                             <span>LA CAM</span> 
                         </div>
@@ -159,86 +159,96 @@ export default function VipGame() {
                         </div>
                     </div>
 
-                    {/* Center Div */}
-                    <div className='flex flex-col gap-[8px] h-full w-[980px]'>
-                        <div id='game_news' className='h-[80px] w-full flex-shrink-0'>
-                            {values.news_list}
-                        </div>
-                        <div className='flex-1 flex-shrink-0 w-full overflow-hidden'>
-                            <div className='container p-[16px] max-h-full h-full overflow-hidden flex-shrink-0 w-full'>
-                                <div id='user-list-container' className='w-full overflow-hidden'>
-                                    <div id='user-list' className='w-full max-h-full flex flex-row flex-wrap gap-[8px] overflow-auto'>
-                                        {values.waiting_users}
+                        {/* Center Div */}
+                        <div className='flex flex-col gap-[8px] h-full w-[980px] relative'>
+                            <div id='game_news' className='h-[80px] w-full flex-shrink-0'>
+                                {values.news_list}
+                            </div>
+
+                            <div className='flex-1 flex-shrink-0 w-full overflow-hidden'>
+                                <div className='container p-[16px] max-h-full h-full overflow-hidden flex-shrink-0 w-full'>
+                                    <div id='user-list-container' className='w-full overflow-hidden'>
+                                        <div id='user-list' className='w-full max-h-full flex flex-row flex-wrap gap-[8px] overflow-auto'>
+                                            {values.waiting_users}
+                                        </div>
+                                    </div>
+                                    
+                                    <div id='tickets_pack' className='transition-back absolute my-hidden'>
+                                        {values.tickets}
+                                    </div>
+                                    
+                                    <div id="wheels" className='transition-back absolute my-hidden'>
+                                        <Slot
+                                            id={'wheel_slot_1'}
+                                            type={'player'}
+                                            onClick={() => {values.game.askRandomPlayer()}}
+                                            data={values.roll_players}
+                                            winner={values.choosen_player}
+                                            spin={values.spin_1}
+                                            game={values.game}
+                                            game_start={values.game_start}
+                                            modifyValueParent={modifyValue}
+                                        />
+
+                                        <Slot
+                                            id={'wheel_slot_2'}
+                                            type={'number'}
+                                            onClick={() => {values.game.askRandomPlayCount()}}
+                                            data={values.roll_playCount}
+                                            winner={values.choosen_playCount}
+                                            spin={values.spin_2}
+                                            game={values.game}
+                                            game_start={values.game_start}
+                                            modifyValueParent={modifyValue}
+                                        />
                                     </div>
                                 </div>
-                                
-                                <div id='tickets_pack' className='transition-back absolute my-hidden'>
-                                    {values.tickets}
-                                </div>
-                                
-                                <div id="wheels" className='transition-back absolute my-hidden'>
-                                    <Slot
-                                        id={'wheel_slot_1'}
-                                        type={'player'}
-                                        onClick={() => {values.game.askRandomPlayer()}}
-                                        data={values.roll_players}
-                                        winner={values.choosen_player}
-                                        spin={values.spin_1}
-                                        game={values.game}
-                                        game_start={values.game_start}
-                                        modifyValueParent={modifyValue}
-                                    />
-
-                                    <Slot
-                                        id={'wheel_slot_2'}
-                                        type={'number'}
-                                        onClick={() => {values.game.askRandomPlayCount()}}
-                                        data={values.roll_playCount}
-                                        winner={values.choosen_playCount}
-                                        spin={values.spin_2}
-                                        game={values.game}
-                                        game_start={values.game_start}
-                                        modifyValueParent={modifyValue}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Right Div - Penguin of the user */}
-                    <div className='flex flex-col gap-[8px] h-full w-[440px]'>
-
-                        <div className='container h-[80px] justify-between p-[16px] relative current_player'>
-                            <div className='flex justify-center items-center gap-[16px] p-[0px]'>
-                                <img src={values.avatar} alt="" className='rounded-full h-[48px]' width={48}/>
-                                <div className='flex flex-col gap-[0px]'>
-                                    <div className='item_username'>{values.current_player.name}</div>
-                                    <div className='item_subtext'>Un Pingouin Content de Jouer</div>
-                                </div>
-                            </div>
-                            <div className='play_count_text'>
-                                {values.playCount}
                             </div>
 
-                            <div id='current_player_prio' className='transition-back my-hidden'>
-                                PRIO
+                            {/* Winning Menu */}
+                            <div id='winning_menu' className='container w-full h-full flex absolute my-hidden'>
+
                             </div>
+
                         </div>
 
-                        <div className='le-tchat container flex-grow relative'>
-                            <div id='penguin' className='flex justify-center items-center w-full h-full absolute'>
-                                Coming Soon
+                        {/* Right Div - Penguin of the user */}
+                        <div className='flex flex-col gap-[8px] h-full w-[440px]'>
+
+                            {/* Current Player */}
+                            <div className='container h-[80px] justify-between p-[16px] relative current_player'>
+                                <div className='flex justify-center items-center gap-[16px] p-[0px]'>
+                                    <img src={values.avatar} alt="" className='rounded-full h-[48px]' width={48}/>
+                                    <div className='flex flex-col gap-[0px]'>
+                                        <div className='item_username'>{values.current_player.name}</div>
+                                        <div className='item_subtext'>Un Pingouin Content de Jouer</div>
+                                    </div>
+                                </div>
+                                <div className='play_count_text'>
+                                    {values.playCount}
+                                </div>
+
+                                <div id='current_player_prio' className='transition-back my-hidden'>
+                                    PRIO
+                                </div>
                             </div>
 
-                            <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden my-hidden'>
-                                <div className='title-20 flex justify-center items-center w-full'>
-                                    Les Points
+                            {/* Penguin and Points List */}
+                            <div className='le-tchat container flex-grow relative'>
+                                <div id='penguin' className='flex justify-center items-center w-full h-full absolute'>
+                                    Coming Soon
                                 </div>
-                                <div className='flex flex-grow w-full flex-col gap-[8px] overflow-y-scroll pr-2'>
-                                    {values.players_points}
+
+                                <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden my-hidden'>
+                                    <div className='title-20 flex justify-center items-center w-full'>
+                                        Les Points
+                                    </div>
+                                    <div className='flex flex-grow w-full flex-col gap-[8px] overflow-y-scroll pr-2'>
+                                        {values.players_points}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
                     </div>
 
                 </div>
