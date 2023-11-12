@@ -109,7 +109,7 @@ export default function VipGamesIndex() {
 
 
             <div className="hof">
-                <HOFTable load={false} logo={VictoryLogo} data={props.ranking} labelPoints={{ singular: "Victoire", plural: "Victoires" }} />
+                <HOFTable logoPos={-70} load={false} logo={VictoryLogo} data={props.ranking} labelPoints={{ singular: "Victoire", plural: "Victoires" }} />
             </div>
 
 
