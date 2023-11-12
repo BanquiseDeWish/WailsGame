@@ -51,7 +51,7 @@ class UserController extends Controller
         $lastVipGame = VipGame::orderBy('id', 'desc')->first();
         if($lastVipGame == null)
             return response()->json($userPoints);
-        $streamCount = Stream::where('ended_at', '>', $lastVipGame->created_at )->count();
+        $streamCount = Stream::where('started_at', '>', $lastVipGame->created_at )->count();
         foreach ($userPoints as $point) {
             if($point->points == $streamCount) {
                 $point->points = $point->points + 2;
@@ -61,6 +61,7 @@ class UserController extends Controller
                 $point->bonus = false;
             }
         }
+
         return response()->json($userPoints);
     }
 
