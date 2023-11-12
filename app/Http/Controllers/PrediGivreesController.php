@@ -60,9 +60,6 @@ class PrediGivreesController extends Controller
             if ($user == null) $pgd->userName = "N/A";
             else $pgd->userName = $user->twitch_username;
         }
-
-        dd($prediGivreData);
-
         return $prediGivreData;
     }
 }
