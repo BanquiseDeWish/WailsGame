@@ -7,7 +7,7 @@ import TwitchButton from '../Components/Buttons/TwitchButton';
 import RedButton from '@/Components/Buttons/RedButton';
 import BlueButton from '@/Components/Buttons/BlueButton';
 
-import BaseModal from '@/Components/Modal/BaseModal';
+import VIPGamesModal from '@/Components/Modal/VIPGamesModal';
 
 export default function MainLayout({ children }) {
 
@@ -21,12 +21,12 @@ export default function MainLayout({ children }) {
                     <AppLogo/>
                     {props.auth.twitch ? (
                         <>
-                            <div className='flex flex-row gap-4'>
+                            <div className='flex flex-row justify-end items-end gap-4'>
                                 {
                                     route('vipgames.index') == props.ziggy.location ?
                                     (
                                         <>
-                                            <BaseModal buttonChildren={'ISSOU'}>CHEH WEILS CHEH CHEEEEEEEEEEEEH</BaseModal>
+                                            <VIPGamesModal/>
                                         </>
                                     ) : ( <></> )
                                 }

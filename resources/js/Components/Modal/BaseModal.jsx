@@ -11,20 +11,22 @@ export default function BaseModal({ buttonChildren, children, ...otherProps }) {
             <SimpleButton onClick={() => setOpenModal(true)}>{buttonChildren}</SimpleButton>
 
             <div 
-                className={`modal_container ${!openModal ? 'hidden-modal-container' : ''}`}
+                className={`modal_container ${openModal ? 'active' : ''}`}
                 {...otherProps}
-                onClick={() => setOpenModal(false)}
             >
-                {
-                    openModal ? (
-                        <div
-                            id='modal'
-                            className={`modal`}
-                        >
-                            {children}
-                        </div>
-                    ) : ( <></> )
-                }
+                <div
+                    id='modal_background'
+                    onClick={() => setOpenModal(false)}
+                    className={`${openModal ? 'active' : ''}`}
+                >
+                </div>
+
+                <div
+                    id='modal'
+                    className={`modal ${openModal ? 'active' : ''}`}
+                >
+                    {children}
+                </div>
             </div>
 
         </>

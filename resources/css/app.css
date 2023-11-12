@@ -126,8 +126,8 @@ input {
     gap: 24px !important;
     align-self: stretch !important;
     border-radius: 8px !important;
-    outline: 5px solid rgba(2, 12, 17, 0.30) !important;
-    background: #020C11 !important;
+    outline: 5px solid rgba(21, 30, 35, 0.3) !important;
+    background: #121A25 !important;
     color: white !important;
     border: none !important;
 }
