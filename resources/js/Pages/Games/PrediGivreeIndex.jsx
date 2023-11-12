@@ -1,4 +1,4 @@
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Head, Link, router, usePage, useRemember } from '@inertiajs/react';
 import { useEffect } from 'react';
 import MainLayout from '@/Layouts/MainLayout';
 import { useState } from 'react';
@@ -31,6 +31,7 @@ export default function PrediGivreeIndex(props) {
     }
 
     const filterButton = (fb, label) => {
+        console.log(filter, fb)
         return (
             <div onClick={() => { changeFilter(fb) }} className={`filterButton ${filter == fb ? "active" : ""}`}>
                 <span className="relative z-20 select-none">{label}</span>
@@ -53,10 +54,7 @@ export default function PrediGivreeIndex(props) {
                         {filterButton("all", "Toujours")}
                     </div>
                     <div className="ranking">
-                        <HOFTable load={load} logo={PGLogo} data={pgData} labelPoints={"Points"} />
-                    </div>
-                    <div className="stats">
-                        Statistiques
+                        <HOFTable load={load} logo={PGLogo} data={pgData} labelPoints={{singular: "Point", plural: "Points"}} />
                     </div>
                 </div>
             </div>
