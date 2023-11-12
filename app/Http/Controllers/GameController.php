@@ -73,11 +73,10 @@ class GameController extends Controller
 
         foreach($players as $player) {
             User::registerOrUpdateUser($player['userId'], $player['userName']);
-            $pgPoints = PredigivrePoints::where('userId', $player['userId'])->where('stream_id', $streamId)->first();
+            $pgPoints = PredigivrePoints::where('user_id', $player['userId'])->where('stream_id', $streamId)->first();
             if($pgPoints == null) {
                 PredigivrePoints::insert([
-                    "userId" => $player['userId'],
-                    "userName" => $player['userName'],
+                    "user_id" => $player['userId'],
                     "points" => $player['points'],
                     "stream_id" => $streamId,
                     "created_at" => now(),
@@ -89,7 +88,6 @@ class GameController extends Controller
 
             $newPoints = $pgPoints->points + $player['points'];
             $pgPoints->update([
-                'userName' => $player['userName'],
                 'points' => $newPoints,
                 "updated_at" => now()
             ]);

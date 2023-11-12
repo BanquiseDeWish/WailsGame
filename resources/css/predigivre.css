@@ -1,28 +1,4 @@
-.prediGivre.hof {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 35px;
-    width: 50rem;
-    height: 100%;
-    margin: 0rem 10rem;
-}
-.prediGivre.hof .btn_sort {
-    display: flex;
-    gap: 10px;
-}
-.prediGivre.hof .btn_sort a {
-    border-radius: 4px;
-    padding: 4px 8px;
-    color: white;
-}
-.prediGivre.hof .btn_sort a.active {
-    background: rgb(30 41 59);
-}
-.prediGivre.hof table {
-    width: 100%;
-}
+
 .pagination {
     display: flex;
     justify-content: space-between;

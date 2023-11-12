@@ -11,7 +11,7 @@ class PredigivrePoints extends Model
 
     protected $table = "predigivrees__points";
 
-    protected $primaryKey = "userId";
+    protected $primaryKey = "id";
 
     protected $fillable = ['userName', 'points'];
 

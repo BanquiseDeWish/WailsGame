@@ -60,14 +60,14 @@ export default function VipGamesIndex() {
         function onConnect() {
           setIsConnected(true);
         }
-    
+
         function onDisconnect() {
           setIsConnected(false);
         }
-    
+
         socket.on('connect', onConnect);
         socket.on('disconnect', onDisconnect);
-    
+
         return () => {
             socket.off('connect', onConnect);
             socket.off('disconnect', onDisconnect);
@@ -107,9 +107,9 @@ export default function VipGamesIndex() {
                 <></>
             )}
 
-            
-            <div className="flex justify-center">
-                <HOFTable load={false} logo={VictoryLogo} data={props.ranking} labelPoints={"Points"} />
+
+            <div className="hof">
+                <HOFTable load={false} logo={VictoryLogo} data={props.ranking} labelPoints={{ singular: "Victoire", plural: "Victoires" }} />
             </div>
 
 

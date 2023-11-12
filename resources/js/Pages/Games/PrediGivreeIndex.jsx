@@ -52,7 +52,7 @@ export default function PrediGivreeIndex(props) {
                         {filterButton("year", "Cette année")}
                         {filterButton("all", "Toujours")}
                     </div>
-                    <HOFTable load={load} logo={PGLogo} data={pgData} labelPoints={{singular: "Point", plural: "Points"}} />
+                    <HOFTable load={load} logo={PGLogo} data={pgData} labelPoints={{singular: "pt", plural: "pts"}} />
                 </div>
             </div>
         </MainLayout>
