@@ -76,16 +76,17 @@ class VIPGameController extends Controller
         $players = [];
         $all_bonus = [];
         foreach($vipgames as $vipgame) {
+            if(!isset($vipgame->stats)) continue;
             $vipgameStats = json_decode($vipgame->stats);
-            if($vipgameStats->gameTime)
+            if(isset($vipgameStats->gameTime))
                 $gameTime[] = $vipgameStats->gameTime;
-            if($vipgameStats->tickets) {
+            if(isset($vipgameStats->tickets)) {
                 foreach($vipgameStats->tickets as $ticket) {
                     $tickets[$ticket->ticket] += 1;
                 }
                 $ticketsAttempt += count($vipgameStats->tickets);
             }
-            if($vipgameStats->players) {
+            if(isset($vipgameStats->players)) {
                 foreach($vipgameStats->players as $player) {
                     if(!isset($players[$player->id]))
                         $players[$player->id] = 0;
@@ -93,7 +94,7 @@ class VIPGameController extends Controller
                 }
                 $playersAverage[] = count($vipgameStats->players);
             }
-            if($vipgameStats->bonus) {
+            if(isset($vipgameStats->bonus)) {
                 foreach($vipgameStats->bonus as $bonus) {
                     if(!isset($all_bonus[$bonus->bonus]))
                         $all_bonus[$bonus->bonus] = 0;
