@@ -7,7 +7,7 @@ import TwoPol from "../../assets/img/hof/two.svg"
 import ThreePol from "../../assets/img/hof/three.svg"
 import '../../css/hof.css'
 
-export default function HOFTable({ load, logo, data, labelPoints }) {
+export default function HOFTable({ load, logoPos, logo, data, labelPoints }) {
 
     const pos1 = data.find((val, index) => index == 0)
     const pos2 = data.find((val, index) => index == 1)
@@ -16,7 +16,7 @@ export default function HOFTable({ load, logo, data, labelPoints }) {
     return (
         <div className="ranking">
             <div className="hoftable">
-                <div className="logo"><img src={logo} width={308} alt="" /></div>
+                <div className="logo" style={{ top: logoPos + "px" }}><img src={logo} width={308} alt="" /></div>
 
                 {load &&
                     <div className="flex justify-center items-center w-full h-full gap-4 text-white text-2xl">
