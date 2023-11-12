@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('stream', function (Blueprint $table) {
+        Schema::table('vipgames_history', function (Blueprint $table) {
             $table->string('bonus_tickets')->after('winning_ticket')->default('0;0;0;0;0')->change();
             $table->bigInteger('stream_id')->after('number_of_tickets')->default(-1)->change();
-            $table->json('stats')->after('stream_id')->default(("{}"))->change();
         });
     }
 
@@ -23,10 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('stream', function (Blueprint $table) {
+        Schema::table('vipgames_history', function (Blueprint $table) {
             $table->string('bonus_tickets')->after('winning_ticket')->default('')->change();
             $table->bigInteger('stream_id')->after('number_of_tickets')->change();
-            $table->json('stats')->after('stream_id')->default('')->change();
         });
     }
 };
