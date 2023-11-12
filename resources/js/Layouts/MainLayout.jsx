@@ -7,6 +7,8 @@ import TwitchButton from '../Components/Buttons/TwitchButton';
 import RedButton from '@/Components/Buttons/RedButton';
 import BlueButton from '@/Components/Buttons/BlueButton';
 
+import BaseModal from '@/Components/Modal/BaseModal';
+
 export default function MainLayout({ children }) {
 
     const props = usePage().props;
@@ -20,6 +22,14 @@ export default function MainLayout({ children }) {
                     {props.auth.twitch ? (
                         <>
                             <div className='flex flex-row gap-4'>
+                                {
+                                    route('vipgames.index') == props.ziggy.location ?
+                                    (
+                                        <>
+                                            <BaseModal buttonChildren={'ISSOU'}>CHEH WEILS CHEH CHEEEEEEEEEEEEH</BaseModal>
+                                        </>
+                                    ) : ( <></> )
+                                }
                                 <BlueButton routeName={'profile.index'}>Profil</BlueButton>
                                 {
                                     isWeils ? (

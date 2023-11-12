@@ -15,6 +15,7 @@ export default function GlobalLayout({ children }) {
                     width: 100vw;
                     height: 100vh;
                     background: #282828;
+                    z-index: 0;
                 }
 
                 #app_background::after {
