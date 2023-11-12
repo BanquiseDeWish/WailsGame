@@ -2,12 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\VipGame;
 use Illuminate\Http\Request;
 use App\Models\GameStat;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class VIPGameController extends Controller
 {
+    /**
+    * Index for VipGames
+    */
+    public function index(Request $request)
+    {
+        $ranking = self::getRanking();
+        return Inertia::render('Games/VipGamesIndex', ['ranking' => $ranking]);
+    }
+
+    /**
+     * Get the ranking of the VIPGames
+     */
+    public static function getRanking() {
+        $ranking = DB::table('vipgames_history')
+            ->select(DB::raw('winner_id AS user_id, COUNT(winner_id) AS points'))
+            ->groupBy('winner_id')
+            ->orderBy('points', 'desc');
+
+        $ranking = $ranking->limit(100)->get();
+
+        foreach ($ranking as $index => $rank) {
+            $user = User::where('twitch_id', '=', $rank->user_id)->first();
+            if ($user == null) $rank->userName = "N/A";
+            else $rank->userName = $user->twitch_username;
+        }
+
+        return $ranking;
+    }
+
     public static function registerGame(Request $request) {
         $input = $request->all();
         if(!isset($input['winner_id']))

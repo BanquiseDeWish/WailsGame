@@ -4,6 +4,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\PrediGivreesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VIPGameController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,6 +37,10 @@ Route::prefix('games')->name('games.')->group(function ()
 {
     Route::get('/{game}', [GameController::class, 'show'])->name('show');
     Route::get('/{game}/play', [GameController::class, 'play'])->middleware(['is_weils'])->name('play');
+});
+
+Route::prefix('vipgames')->name('vipgames.')->group(function() {
+    Route::get('/', [VIPGameController::class, 'index'])->name('index');
 });
 
 Route::prefix('predigivre')->name('predigivre.')->group(function() {

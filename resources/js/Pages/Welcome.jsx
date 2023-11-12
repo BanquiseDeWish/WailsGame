@@ -23,7 +23,7 @@ export default function Welcome() {
             <MainLayout>
                 <Head title="Accueil" />
                 <div className='flex flex-row w-full h-full justify-center items-center'>
-                    <GameCard route={route('games.show', 'vipgames')} titleImg={VipGames} characterImg={VipGamesCharacter} coverImg={VipGamesCover}/>
+                    <GameCard route={route('vipgames.index')} titleImg={VipGames} characterImg={VipGamesCharacter} coverImg={VipGamesCover}/>
                     <GameCard route={route('predigivre.halloffame', {filter: 'today'})} titleImg={MKGames} characterImg={MKCharacter} coverImg={MKCover}/>
                     <GameCard href={'/boutique/merch'} titleImg={BoutiqueMerchTitle} characterImg={BoutiqueMerchCharacter} coverImg={BoutiqueMerchCover}/>
                 </div>

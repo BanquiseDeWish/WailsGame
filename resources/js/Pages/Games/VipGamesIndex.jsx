@@ -6,7 +6,10 @@ import { socket } from '../../Game/socket';
 import GreenButton from '@/Components/Buttons/GreenButton';
 import BlueButton from '@/Components/Buttons/BlueButton';
 
-import GlobalLayout from '@/Layouts/GlobalLayout';
+import HOFTable from '@/Components/HOFTable';
+
+import MainLayout from '@/Layouts/MainLayout';
+import VictoryLogo from '../../../assets/games/vipgames_victory.svg'
 
 export default function VipGamesIndex() {
 
@@ -72,10 +75,10 @@ export default function VipGamesIndex() {
       }, []);
 
     return (
-        <GlobalLayout>
+        <MainLayout>
             <Head title="VIP Games" />
 
-            {isWeils ? (
+            {false ? (
                 <>
                     <form onSubmit={handleSubmit} className='flex flex-col gap-4 items-center justify-center w-[560px]'>
                         <div className='flex flex-col gap-1'>
@@ -104,7 +107,12 @@ export default function VipGamesIndex() {
                 <></>
             )}
 
+            
+            <div className="flex justify-center">
+                <HOFTable load={false} logo={VictoryLogo} data={props.ranking} labelPoints={"Points"} />
+            </div>
 
-        </GlobalLayout>
+
+        </MainLayout>
     );
 }
