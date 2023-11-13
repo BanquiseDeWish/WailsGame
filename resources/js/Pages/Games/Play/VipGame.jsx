@@ -17,6 +17,8 @@ import Slot from '@/Components/Games/VIPGames/Slot';
 import { randomId } from '../../../../js/Game/random';
 import { waitUntil } from '../../../../js/Game/utils';
 
+import Confetti from 'react-confetti'
+
 export default function VipGame() {
     const props = usePage().props;
     const [values, setValues] = useState({
@@ -30,6 +32,7 @@ export default function VipGame() {
         roll_players: [],
         roll_playCount: [],
         game_start: false,
+        game_end: false,
         game: null,
         choosen_playCount: undefined,
         choosen_player: undefined,
@@ -144,6 +147,19 @@ export default function VipGame() {
     return (
         <GlobalLayout>
             <Head title="VIP Game" />
+
+            {
+                values.game_end ? (
+                    <>
+                    <Confetti
+                    className='confetti_index'
+                    width={window.innerWidth}
+                    height={window.innerHeight}
+                    />
+                    </>
+                )
+                : (<></>)
+            }
 
             <div id="game_menu">
                 <img src={VipGamesLogo} width={500} alt="Logo VipGames" />

@@ -206,6 +206,11 @@ div:has(label + input) {
     border-radius: 50px;
 }
 
+.confetti_index {
+    z-index: 1000 !important;
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -172,6 +172,7 @@ export default class VIPGames {
                 break;
 
             case 'end_game':
+                this.modifyValue('game_end', true);
                 console.log("Fin de la partie");
                 console.log(data.stats);
                 break;
