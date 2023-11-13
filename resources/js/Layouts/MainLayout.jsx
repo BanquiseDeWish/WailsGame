@@ -23,7 +23,7 @@ export default function MainLayout({ children }) {
                         <>
                             <div className='flex flex-row justify-end items-end gap-4'>
                                 {
-                                    route('vipgames.index') == props.ziggy.location ?
+                                    route('vipgames.index') == window.location.href ?
                                     (
                                         <>
                                             <VIPGamesModal/>
