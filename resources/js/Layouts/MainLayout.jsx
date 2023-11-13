@@ -23,7 +23,7 @@ export default function MainLayout({ children }) {
                         <>
                             <div className='flex flex-row justify-end items-end gap-4'>
                                 {
-                                    route('vipgames.index') == window.location.href ?
+                                    route('vipgames.index') == window.location.href && isWeils ?
                                     (
                                         <>
                                             <VIPGamesModal/>
