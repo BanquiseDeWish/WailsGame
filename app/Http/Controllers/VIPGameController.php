@@ -75,6 +75,8 @@ class VIPGameController extends Controller
         $playersAverage = [];
         $players = [];
         $all_bonus = [];
+        $vipgames_with_gametime_stats = 0;
+        $vipgames_with_players_stats = 0;
         foreach($vipgames as $vipgame) {
             if(!isset($vipgame->stats)) continue;
             $vipgameStats = json_decode($vipgame->stats);
@@ -85,6 +87,7 @@ class VIPGameController extends Controller
                     $tickets[$ticket->ticket] += 1;
                 }
                 $ticketsAttempt += count($vipgameStats->tickets);
+                $vipgames_with_gametime_stats++;
             }
             if(isset($vipgameStats->players)) {
                 foreach($vipgameStats->players as $player) {
@@ -93,6 +96,7 @@ class VIPGameController extends Controller
                     $players[$player->id] += $player->totalAttempt;
                 }
                 $playersAverage[] = count($vipgameStats->players);
+                $vipgames_with_players_stats++;
             }
             if(isset($vipgameStats->bonus)) {
                 foreach($vipgameStats->bonus as $bonus) {
@@ -104,10 +108,10 @@ class VIPGameController extends Controller
         }
 
         $stats = [
-            'average_game_time' => array_sum($gameTime)/count($vipgames),
+            'average_game_time' => array_sum($gameTime)/$vipgames_with_gametime_stats,
             'most_ticket_played' => array_search(max($tickets), $tickets),
             'total_attempt' => $ticketsAttempt,
-            'average_player' => array_sum($playersAverage)/count($vipgames),
+            'average_player' => array_sum($playersAverage)/$vipgames_with_players_stats,
             'player_with_most_attempt' => array_search(max($players), $players),
             'most_bonus_used' => array_search(max($all_bonus), $all_bonus),
         ];
