@@ -33,7 +33,7 @@ export default function MainLayout({ children }) {
                                 <BlueButton routeName={'profile.index'}>Profil</BlueButton>
                                 {
                                     isWeils ? (
-                                        <RedButton routeName='dashboard'>Espace Privée</RedButton>
+                                        <RedButton routeName='dashboard'>Espace Privé</RedButton>
                                     ) : (
                                         <></>
                                     )
