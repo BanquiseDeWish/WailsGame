@@ -67,9 +67,9 @@ class GameController extends Controller
     function registerPGPoints(Request $request) {
         $inputs = $request->all();
         $streamId = $inputs['streamId'];
-        $players = json_decode($inputs['players'], true);
-
-        if($players == null) return response()->json(["state" => "error", "message" => "JSON not valid or empty."]);
+        $players = $inputs['players'];
+        if(!is_array($players))
+            return response()->json(['error' => 'users must be an array'], 400);
 
         foreach($players as $player) {
             User::registerOrUpdateUser($player['userId'], $player['userName']);
@@ -83,7 +83,7 @@ class GameController extends Controller
                     "updated_at" => now()
                 ]);
 
-                return response()->json(["state" => "success"]);
+                continue;
             }
 
             $newPoints = $pgPoints->points + $player['points'];
