@@ -48,7 +48,7 @@ class UserController extends Controller
                         ->groupBy('user_id')
                         ->get();
 
-        $lastVipGame = VipGame::orderBy('id', 'desc')->first();
+        $lastVipGame = VipGame::orderBy('created_at', 'desc')->first();
         if($lastVipGame == null)
             return response()->json($userPoints);
         $streamCount = Stream::where('started_at', '>', $lastVipGame->created_at )->count();
