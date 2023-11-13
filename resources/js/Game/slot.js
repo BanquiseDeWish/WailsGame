@@ -38,6 +38,7 @@ export default class Slot {
         contentDiv.innerHTML = this.data[i];
 
         div.appendChild(contentDiv);
+        div.setAttribute('data_id', this.data[i]);
         return div;
     }
 
@@ -73,6 +74,7 @@ export default class Slot {
         contentDiv.appendChild(username);
         
         div.appendChild(contentDiv);
+        div.setAttribute('data_id', this.data[i]);
 
         return div;
     }
@@ -155,7 +157,7 @@ export default class Slot {
                     clearInterval(interval);
                     interval = runInterval(500);
                 }
-                if (i >= totalSpin) {
+                if (i >= totalSpin && This.slot.children[5].getAttribute('data_id') == winner) {
                     This.isSpinning = false;
                     This.endSlotSound.playSlotEndSound();
                     This.slot.children[5].classList.add('item-glow');
