@@ -37,10 +37,10 @@ html {
 
 #game_menu {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 40px;
+    gap: 32px;
     width: 100vw;
     height: 100vh;
     padding: 32px;
