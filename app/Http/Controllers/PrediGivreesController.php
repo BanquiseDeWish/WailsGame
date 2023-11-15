@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PenguinCard;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\PredigivrePoints;
@@ -28,25 +29,53 @@ class PrediGivreesController extends Controller
     }
 
     public function sqlPaginate($filter){
+        //Ranking
         $prediGivreData = DB::table('predigivrees__points')
             ->select(DB::raw('user_id, SUM(points) AS points'))
             ->groupBy('user_id')
             ->orderBy('points', 'desc');
 
+        //Stats
+        //Most Win
+        $statsMostWin = DB::table('predigivrees__history')
+            ->select(DB::raw('win_position, COUNT(win_position) AS winning'))
+            ->groupBy('win_position')
+            ->orderBy('winning', 'desc');
+
+        //Most Choice
+        $statsMostChoice = DB::table('predigivrees__history')
+            ->select(DB::raw('most_choice_position, COUNT(most_choice_position) AS winning'))
+            ->groupBy('most_choice_position')
+            ->orderBy('winning', 'desc');
+
         switch ($filter) {
             case 'today':
                 $prediGivreData = $prediGivreData->whereDate('created_at', Carbon::now());
+                $statsMostWin = $statsMostWin->whereDate('created_at', Carbon::now());
+                $statsMostChoice = $statsMostChoice->whereDate('created_at', Carbon::now());
                 break;
             case 'week':
                 $prediGivreData = $prediGivreData
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                $statsMostWin = $statsMostWin
+                    ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                $statsMostChoice = $statsMostChoice
                     ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
                 break;
             case 'month':
                 $prediGivreData = $prediGivreData
                     ->whereMonth('created_at', Carbon::now()->month);
+                $statsMostWin = $statsMostWin
+                    ->whereMonth('created_at', Carbon::now()->month);
+                $statsMostChoice = $statsMostChoice
+                    ->whereMonth('created_at', Carbon::now()->month);
                 break;
             case 'year':
                 $prediGivreData = $prediGivreData
+                    ->whereYear('created_at', Carbon::now()->year);
+                $statsMostWin = $statsMostWin
+                    ->whereYear('created_at', Carbon::now()->year);
+                $statsMostChoice = $statsMostChoice
                     ->whereYear('created_at', Carbon::now()->year);
                 break;
             case 'all':
@@ -54,12 +83,18 @@ class PrediGivreesController extends Controller
         }
 
         $prediGivreData = $prediGivreData->limit(100)->get();
+        $statsMostWin = $statsMostWin->first();
+        $statsMostChoice = $statsMostChoice->first();
 
         foreach ($prediGivreData as  $k => $pgd) {
             $user = User::where('twitch_id', '=', $pgd->user_id)->first();
+            $pcUser = PenguinCard::getCardFromTWID($pgd->user_id);
             if ($user == null) $pgd->userName = "N/A";
             else $pgd->userName = $user->twitch_username;
+
+            if ($pcUser !== null) $pgd->pcUser = $pcUser;
+            else $pgd->pcUser = null;
         }
-        return $prediGivreData;
+        return ['hof' => $prediGivreData, 'stats' => array('mostWin' => $statsMostWin, 'mostChoice' => $statsMostChoice)];
     }
 }
