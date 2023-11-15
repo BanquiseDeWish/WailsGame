@@ -15,6 +15,6 @@ class AuthTwitch
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $request->session()->has('twitch') ? $next($request) : route('/twitch/start');
+        return $request->session()->has('twitch') ? $next($request) : redirect()->route('twitch.start');
     }
 }
