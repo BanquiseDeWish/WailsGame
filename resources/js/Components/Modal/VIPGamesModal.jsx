@@ -43,19 +43,21 @@ export default class VIPGamesModal extends BaseModal {
     randomStart = () => {
         this.state.winning_ticket = Math.floor(Math.random() * this.state.number_of_tickets);
         let bonus_tickets = [];
+        let values = this.state;
 
         for (let i = 0; i < this.state.number_of_bonus_tickets; i++) {
             let ticket = Math.floor(Math.random() * this.state.number_of_tickets);
 
-            while (bonus_tickets.includes(ticket)) {
+            while (bonus_tickets.includes(ticket) || ticket == this.state.winning_ticket) {
                 ticket = Math.floor(Math.random() * this.state.number_of_tickets);
             }
 
             bonus_tickets.push(ticket);
         }
 
+        values.bonus_tickets = bonus_tickets;
         this.setState((prevState) => ({...prevState, bonus_tickets: bonus_tickets}));
-        socket.emit('init_game', this.state);
+        socket.emit('init_game', values);
         router.get('/games/vipgames/play');
     }
 

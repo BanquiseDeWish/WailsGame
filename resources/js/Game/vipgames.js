@@ -152,6 +152,7 @@ export default class VIPGames {
                 if(!this.gameStart) return;
                 this.modifyValue('roll_players', data.roll_players);
                 this.modifyValue('players', data.players);
+                this.modifyValue('remove_player', data.player.id);
                 break;
 
             case 'prio':

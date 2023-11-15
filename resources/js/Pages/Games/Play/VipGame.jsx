@@ -17,6 +17,8 @@ import Slot from '@/Components/Games/VIPGames/Slot';
 import { randomId } from '../../../../js/Game/random';
 import { waitUntil } from '../../../../js/Game/utils';
 
+import BinIcon from '@/Components/Icons/BinIcon';
+
 import Confetti from 'react-confetti'
 
 export default function VipGame() {
@@ -41,6 +43,7 @@ export default function VipGame() {
         players: [],
         players_points: [],
         player_point: undefined,
+        remove_player: undefined,
     });
 
     async function modifyValue(key, value) {
@@ -109,7 +112,7 @@ export default function VipGame() {
         values.players.sort((a, b) => (a.points <= b.points) ? 1 : -1);
         values.players.forEach(player => {
             points.push(
-                <div key={randomId()} className='player_points_item'>
+                <div key={randomId()} className='player_points_item relative'>
                     <div className='flex justify-center items-center gap-[16px] w-full'>
                         <img className='w-[32px] h-[32px] rounded-full' src={props.ziggy.url + '/api/user/' + player.id + '/icon'} alt="" width={32} />
                         <div className='username_points'>{player.name}</div>
@@ -119,7 +122,7 @@ export default function VipGame() {
                         <div className='points_txt'>pts</div>
                     </div>
                     <div className='points_bin' onClick={() => {values.game.removePlayer(player.id)}}>
-                        B
+                        <BinIcon width={32} height={32}/>
                     </div>
                 </div>
             )
@@ -146,6 +149,12 @@ export default function VipGame() {
         }
     }, [values.player_point]);
 
+    useEffect(() => {
+        if(values.remove_player == undefined) return;
+        if(values.remove_player == values.current_player.id) {
+            modifyValue('current_player', {id: -1, name: '?????????'});
+        }
+    }, [values.remove_player]);
 
     return (
         <GlobalLayout>
@@ -260,7 +269,7 @@ export default function VipGame() {
 
                                 <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden my-hidden'>
                                     <div className='title-20 flex justify-center items-center w-full'>
-                                        Les Points
+                                        Les Joueurs & leurs points
                                     </div>
                                     <div className='flex flex-grow w-full flex-col gap-[8px] overflow-y-scroll pr-2'>
                                         {values.players_points}

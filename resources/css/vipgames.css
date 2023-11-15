@@ -237,7 +237,7 @@ input,
     font-family: Poppins;
     font-size: 14px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     line-height: normal;
     overflow: hidden;
     white-space: nowrap;
@@ -382,7 +382,7 @@ input,
     font-family: Poppins;
     font-size: 16px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     line-height: normal;
     flex-grow: 1;
     overflow: hidden;
@@ -595,7 +595,7 @@ input,
     font-family: Poppins;
     font-size: 0.875rem;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     line-height: normal;
 }
 
@@ -628,12 +628,22 @@ input,
 }
 
 .points_bin {
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 1000px;
+    width: 100px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    visibility: hidden;
+    background: linear-gradient(90deg, #121A25 0%, #a01b1b 100%);
+}
+
+.player_points_item:hover .points_bin {
+    visibility: visible;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 #winning_menu {
