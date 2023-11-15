@@ -20,9 +20,16 @@ export default class VIPGames {
     }
 
     getPlayer(userId) {
-        return this.player_list.find(player => player.id == userId);
+        let player = this.player_list.find(player => player.id == userId);
+        if(player)
+            return player;
+        else
+            return {id: -1, name: '?????????'};
     }  
 
+    removePlayer(userId) {
+        socket.emit('remove_player', userId);
+    }
 
     endPhase(phaseName) {
         if(phaseName == 'waiting') {
@@ -140,19 +147,28 @@ export default class VIPGames {
                 this.modifyValue('player_point', data.player);
                 this.player_list.push(data.player);
                 break;
+            
+            case 'remove_player':
+                if(!this.gameStart) return;
+                this.modifyValue('roll_players', data.roll_players);
+                this.modifyValue('players', data.players);
+                break;
 
             case 'prio':
+                if(!this.gameStart) return;
                 this.modifyValue('news_list', this.getNewsItem(data.player, 'PRIO'));
                 this.modifyValue('player_point', data.player);
                 break;
  
             case 'changement': // changement
+                if(!this.gameStart) return;
                 this.modifyValue('roll_players', data.roll_players);
                 this.modifyValue('news_list', this.getNewsItem(data.player, 'CHANGEMENT'));
                 this.modifyValue('player_point', data.player);
                 break;
 
             case 'vision': // vision
+                if(!this.gameStart) return;
                 this.flipTicketWithDelay(data.tickets, 0);
                 let bonusName = 'VISION';
                 if(data.tickets.length == 1)
@@ -162,16 +178,19 @@ export default class VIPGames {
                 break;
 
             case 'chance':
+                if(!this.gameStart) return;
                 this.modifyValue('roll_players', data.roll_players);
                 this.modifyValue('news_list', this.getNewsItem(data.player, 'CHANCE'));
                 this.modifyValue('player_point', data.player);
                 break;
 
             case 'bonus_ticket':
+                if(!this.gameStart) return;
                 this.modifyValue('player_point', data.player);
                 break;
 
             case 'end_game':
+                if(!this.gameStart) return;
                 this.modifyValue('game_end', true);
                 console.log("Fin de la partie");
                 console.log(data.stats);
