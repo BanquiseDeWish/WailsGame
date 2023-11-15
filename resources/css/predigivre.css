@@ -5,3 +5,29 @@
     margin-top: 2rem;
     margin-bottom: 4rem;
 }
+.prediGivre .stats {
+    display: flex;
+    gap: 8px;
+    width: 16rem;
+    flex-direction: column;
+}
+.prediGivre .stats .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+}
+.prediGivre .stats .card .key {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.prediGivre .stats .card .value {
+    color: #9799A7;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}

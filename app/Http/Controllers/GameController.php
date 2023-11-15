@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PredigivreHistory;
 use App\Models\PredigivrePoints;
 use App\Models\VipGamePoint;
 use Illuminate\Http\Request;
@@ -92,6 +93,15 @@ class GameController extends Controller
                 "updated_at" => now()
             ]);
         }
+
+        PredigivreHistory::insert([
+            "streamId" => $inputs['streamId'],
+            "win_position" => $inputs['posWin'],
+            "most_choice_position" => $inputs['posMostChoice'],
+            "map" => json_encode($inputs['map']),
+            "created_at" => now()
+        ]);
+
         return response()->json(["state" => "success"]);
 
     }
