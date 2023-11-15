@@ -1,35 +1,56 @@
-import { useState } from 'react';
+import React, { memo } from 'react';
 
 import '../../../css/modal.css';
 
-export default function BaseModal({ buttonChildren, children, ...otherProps }) {
-    const [openModal, setOpenModal] = useState(false);
+export default class BaseModal extends React.Component {
 
-    return (
-        <>
-            <div onClick={() => setOpenModal(true)}>
-                {buttonChildren}
-            </div>
+    constructor(props) {
+        super(props);
+        this.state = {
+            openModal: false
+        };
+    }
 
-            <div 
-                className={`modal_container ${openModal ? 'active' : ''}`}
-                {...otherProps}
-            >
-                <div
-                    id='modal_background'
-                    onClick={() => setOpenModal(false)}
-                    className={`${openModal ? 'active' : ''}`}
-                >
+    openModal = () => {
+        this.setState((prevState) => ({ ...prevState, openModal: true }));
+    }
+
+    closeModal = () => {
+        this.setState((prevState) => ({ ...prevState, openModal: false }));
+    }
+
+    getButton() {
+        return 'Open Modal'
+    }
+
+    render(children) {
+        console.log(this.state);
+        return (
+            <>
+                <div onClick={this.openModal}>
+                    {this.getButton()}
                 </div>
 
-                <div
-                    id='modal'
-                    className={`modal ${openModal ? 'active' : ''}`}
+                <div 
+                    className={`modal_container ${this.state.openModal ? 'active' : ''}`}
+                    {...this.props}
                 >
-                    {children}
-                </div>
-            </div>
+                    <div
+                        id='modal_background'
+                        onClick={this.closeModal}
+                        className={`${this.state.openModal ? 'active' : ''}`}
+                    >
+                    </div>
 
-        </>
-    )
+                    <div
+                        id='modal'
+                        className={`modal ${this.state.openModal ? 'active' : ''}`}
+                    >
+                        {children}
+                    </div>
+                </div>
+
+            </>
+        )
+    }
 }

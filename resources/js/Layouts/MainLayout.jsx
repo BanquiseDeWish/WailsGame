@@ -21,7 +21,7 @@ export default function MainLayout({ children }) {
                     <AppLogo/>
                     {props.auth.twitch ? (
                         <>
-                            <div className='flex flex-row justify-end items-end gap-4'>
+                            <div className='flex flex-row justify-end items-end gap-4 w-fit'>
                                 {
                                     route('vipgames.index') == window.location.href && isWeils ?
                                     (

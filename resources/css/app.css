@@ -55,6 +55,11 @@ body {
     outline: 5px solid rgba(87, 141, 144, 0.20);
 }
 
+.button_yellow {
+    outline: 5px solid rgba(169, 153, 72, 0.20);
+    background: linear-gradient(99deg, #BBB15A 0%, #684A35 100%) !important;
+}
+
 .button_blue {
     background: linear-gradient(90deg, #5A98BB 0%, #354368 100%) !important;
     outline: 5px solid rgba(90, 152, 187, 0.20);
