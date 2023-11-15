@@ -118,6 +118,9 @@ export default function VipGame() {
                         <div className='points_number'>{player.points}</div>
                         <div className='points_txt'>pts</div>
                     </div>
+                    <div className='points_bin' onClick={() => {values.game.removePlayer(player.id)}}>
+                        B
+                    </div>
                 </div>
             )
         });

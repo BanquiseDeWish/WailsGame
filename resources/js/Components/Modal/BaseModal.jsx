@@ -24,7 +24,6 @@ export default class BaseModal extends React.Component {
     }
 
     render(children) {
-        console.log(this.state);
         return (
             <>
                 <div onClick={this.openModal}>
