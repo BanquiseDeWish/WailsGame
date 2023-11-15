@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import SimpleButton from '../Buttons/SimpleButton';
+import { useState } from 'react';
 
 import '../../../css/modal.css';
 
@@ -8,7 +7,9 @@ export default function BaseModal({ buttonChildren, children, ...otherProps }) {
 
     return (
         <>
-            <SimpleButton onClick={() => setOpenModal(true)}>{buttonChildren}</SimpleButton>
+            <div onClick={() => setOpenModal(true)}>
+                {buttonChildren}
+            </div>
 
             <div 
                 className={`modal_container ${openModal ? 'active' : ''}`}
