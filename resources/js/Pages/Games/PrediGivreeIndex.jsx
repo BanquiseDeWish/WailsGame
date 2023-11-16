@@ -15,8 +15,6 @@ export default function PrediGivreeIndex(props) {
     const [statsData, setStatsData] = useState(props.hallOfFame.stats)
     const [load, setLoad] = useState(false)
 
-    console.log(props)
-
     const changeFilter = (nfilter) => {
         if(load) return;
         if(filter == nfilter) return;
@@ -65,11 +63,10 @@ export default function PrediGivreeIndex(props) {
                                 <span className='value'>{load ? " - " : statsData?.mostWin == undefined ? "N/A" : statsData?.mostWin?.win_position}</span>
                             </div>
                             <div className="card w-full">
-                                <span className='key'>Position la plus choisis</span>
-                                <span className='value'>{load ? " - " : statsData?.mostChoice == undefined ? "N/A" : statsData?.mostChoice?.most_choice_position}</span>
+                                <span className='key'>Top des positions les plus choisis</span>
+                                <span className='value'>{load ? " - " : statsData?.mostChoice == undefined ? "N/A" : Object.keys(statsData.mostChoice).join(', ')}</span>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
