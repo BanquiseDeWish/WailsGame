@@ -43,10 +43,7 @@ class PrediGivreesController extends Controller
             ->orderBy('winning', 'desc');
 
         //Most Choice
-        $statsMostChoice = DB::table('predigivrees__history')
-            ->select(DB::raw('most_choice_position, COUNT(most_choice_position) AS winning'))
-            ->groupBy('most_choice_position')
-            ->orderBy('winning', 'desc');
+        $statsMostChoice = DB::table('predigivrees__history');
 
         switch ($filter) {
             case 'today':
@@ -84,7 +81,20 @@ class PrediGivreesController extends Controller
 
         $prediGivreData = $prediGivreData->limit(100)->get();
         $statsMostWin = $statsMostWin->first();
-        $statsMostChoice = $statsMostChoice->first();
+        $statsMostChoice = $statsMostChoice->get();
+
+        $mostChoiceList = array();
+        foreach($statsMostChoice as $mostChoice) {
+            $explode = explode(",", $mostChoice->most_choice_position);
+            foreach($explode as $str) {
+                array_push($mostChoiceList, intval($str));
+            }
+        }
+
+        $occurrences = array_count_values($mostChoiceList);
+        arsort($occurrences);
+
+        $topMostChoice = array_slice($occurrences, 0, 3, true);
 
         foreach ($prediGivreData as  $k => $pgd) {
             $user = User::where('twitch_id', '=', $pgd->user_id)->first();
@@ -95,6 +105,6 @@ class PrediGivreesController extends Controller
             if ($pcUser !== null) $pgd->pcUser = $pcUser;
             else $pgd->pcUser = null;
         }
-        return ['hof' => $prediGivreData, 'stats' => array('mostWin' => $statsMostWin, 'mostChoice' => $statsMostChoice)];
+        return ['hof' => $prediGivreData, 'stats' => array('mostWin' => $statsMostWin, 'mostChoice' => $topMostChoice)];
     }
 }
