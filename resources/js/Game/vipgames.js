@@ -112,6 +112,7 @@ export default class VIPGames {
                 }
                 document.getElementById("ticket_" + data.ticket_id).onClick = null;
                 this.modifyValue('playCount', data.playCount);
+                this.modifyValue('available_tickets', data.available_tickets);
                 break;
 
             case 'player_turn':
@@ -120,6 +121,7 @@ export default class VIPGames {
                     this.modifyValue('current_player', {id: -1, name: '?????????'});
                     this.modifyValue('choosen_player', data.player.id);
                     this.modifyValue('spin_1', 0);
+                    this.modifyValue('round', data.round);
                 }
                 else {
                     document.getElementById('current_player_prio').classList.remove('my-hidden');
@@ -176,6 +178,7 @@ export default class VIPGames {
                     bonusName = 'MINI VISION'
                 this.modifyValue('news_list', this.getNewsItem(data.player, bonusName));
                 this.modifyValue('player_point', data.player);
+                this.modifyValue('available_tickets', data.available_tickets);
                 break;
 
             case 'chance':

@@ -44,6 +44,9 @@ export default function VipGame() {
         players_points: [],
         player_point: undefined,
         remove_player: undefined,
+
+        round: 0,
+        available_tickets: 100,
     });
 
     async function modifyValue(key, value) {
@@ -274,6 +277,13 @@ export default function VipGame() {
                                     <div className='flex flex-grow w-full flex-col gap-[8px] overflow-y-scroll pr-2'>
                                         {values.players_points}
                                     </div>
+                                </div>
+
+                                <div id='' className='absolute bottom-0 transition-back left-0'>
+                                    {/*values.available_tickets*/}
+                                </div>
+                                <div id='' className='absolute bottom-0 transition-back right-0'>
+                                    {/*values.round*/}
                                 </div>
                             </div>
 

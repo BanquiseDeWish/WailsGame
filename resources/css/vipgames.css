@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
+:root {
+    --container-background: linear-gradient(180deg, #081318 0%, #020C11 100%);
+}
+
+.container {
+    background: var(--container-background) !important;
+}
+
 #app_background {
     background-image: url('../assets/img/vipgames/vipgames_background.png') !important;
     background-size: cover !important;
@@ -306,6 +314,7 @@ input,
     position: relative;
     overflow-y: hidden;
     overflow-x: visible !important;
+    mask: linear-gradient(180deg, transparent 0%, white 50%, transparent 100%);
 }
 
 .wheel-slot::before {
@@ -319,17 +328,6 @@ input,
     width: 42px;
     z-index: 120;
     transform: translateY(-50%);
-}
-
-.wheel-slot::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, #020C11 0%, rgba(2, 12, 17, 0.00) 50%, #020C11 100%);
-    z-index: 100;
 }
 
 .wheel-slot div.slot_item {
