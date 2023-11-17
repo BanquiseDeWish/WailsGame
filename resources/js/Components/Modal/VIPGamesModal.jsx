@@ -1,6 +1,6 @@
 import { usePage } from '@inertiajs/react';
 import { router } from '@inertiajs/react'
-import { socket } from '../../Game/socket';
+import BDWSocket from '../../Game/socket';
 
 import GreenButton from '@/Components/Buttons/GreenButton';
 import BlueButton from '@/Components/Buttons/BlueButton';
@@ -13,13 +13,14 @@ export default class VIPGamesModal extends BaseModal {
     constructor(props) {
         super(props);
 
+        this.socket = new BDWSocket('vipgames');
         this.state = {
             ...this.state,
             winning_ticket: -1,
             bonus_tickets: [],
             number_of_bonus_tickets: 5,
             number_of_tickets: 100,
-            isConnected: socket.connected,
+            isConnected: this.socket?.connected,
         };
     }
 
@@ -36,7 +37,7 @@ export default class VIPGamesModal extends BaseModal {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        socket.emit('launch', this.state);
+        this.socket.emit('launch', this.state);
         router.get('/games/vipgames/play');
     }
 
@@ -57,18 +58,18 @@ export default class VIPGamesModal extends BaseModal {
 
         values.bonus_tickets = bonus_tickets;
         this.setState((prevState) => ({...prevState, bonus_tickets: bonus_tickets}));
-        socket.emit('init_game', values);
+        this.socket.emit('init_game', values);
         router.get('/games/vipgames/play');
     }
 
     componentDidMount() {
-        socket.on('connect', this.onConnect);
-        socket.on('disconnect', this.onDisconnect);
+        this.socket.on('connect', this.onConnect);
+        this.socket.on('disconnect', this.onDisconnect);
     }
 
     componentWillUnmount() {
-        socket.off('connect', this.onConnect);
-        socket.off('disconnect', this.onDisconnect);
+        this.socket.off('connect', this.onConnect);
+        this.socket.off('disconnect', this.onDisconnect);
     }
 
     onConnect = () => {
