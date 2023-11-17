@@ -1,4 +1,4 @@
-import { socket } from './socket';
+import BDWSocket from './socket';
 import Player from './player'
 
 import GameSound from './audio';
@@ -6,6 +6,7 @@ import GameSound from './audio';
 
 export default class VIPGames {
     constructor(modifyValue, getTicket, getNewsItem, getUserCard) {
+        this.socket = new BDWSocket('vipgames');
         this.modifyValue = modifyValue;
         this.getTicket = getTicket;
         this.getNewsItem = getNewsItem;
@@ -25,10 +26,10 @@ export default class VIPGames {
             return player;
         else
             return {id: -1, name: '?????????'};
-    }  
+    }
 
     removePlayer(userId) {
-        socket.emit('remove_player', userId);
+        this.socket.emit('remove_player', userId);
     }
 
     endPhase(phaseName) {
@@ -37,19 +38,19 @@ export default class VIPGames {
             this.modifyValue('game_start', true);
             this.gameStart = true;
         }
-        socket.emit('game_phase', {phaseName: phaseName});
+        this.socket.emit('game_phase', {phaseName: phaseName});
     }
 
     askRandomPlayer() {
-        socket.emit('random', 'player');
+        this.socket.emit('random', 'player');
     }
 
     askRandomPlayCount() {
-        socket.emit('random', 'play_count');
+        this.socket.emit('random', 'play_count');
     }
 
     playTicket(id) {
-        socket.emit('play_ticket', id);
+        this.socket.emit('play_ticket', id);
     }
 
     getFirstGameInfo(data) {
@@ -129,7 +130,7 @@ export default class VIPGames {
                     this.modifyValue('playCount', data.playCount);
                 }
                 break;
-            
+
             case 'play_count':
                 this.modifyValue('playCount', '?');
                 this.modifyValue('choosen_playCount', data.playCount);
@@ -149,7 +150,7 @@ export default class VIPGames {
                 this.modifyValue('player_point', data.player);
                 this.player_list.push(data.player);
                 break;
-            
+
             case 'remove_player':
                 if(!this.gameStart) return;
                 this.modifyValue('roll_players', data.roll_players);
@@ -162,7 +163,7 @@ export default class VIPGames {
                 this.modifyValue('news_list', this.getNewsItem(data.player, 'PRIO'));
                 this.modifyValue('player_point', data.player);
                 break;
- 
+
             case 'changement': // changement
                 if(!this.gameStart) return;
                 this.modifyValue('roll_players', data.roll_players);
@@ -212,12 +213,12 @@ export default class VIPGames {
     }
 
     setupGame() {
-        socket.removeAllListeners();
-        socket.on('connect', () => {this.onConnect()});
-        socket.on('disconnect', () => {this.onDisconnect()});
-        socket.on('first_game_info', (e) => {this.getFirstGameInfo(e)});
-        socket.on('game_info', (e) => {this.receiveInfo(e)});
-    
-        socket.emit('need_game_info', null);
+        this.socket.removeAllListeners();
+        this.socket.on('connect', () => {this.onConnect()});
+        this.socket.on('disconnect', () => {this.onDisconnect()});
+        this.socket.on('first_game_info', (e) => {this.getFirstGameInfo(e)});
+        this.socket.on('game_info', (e) => {this.receiveInfo(e)});
+
+        this.socket.emit('need_game_info', null);
     }
 }
