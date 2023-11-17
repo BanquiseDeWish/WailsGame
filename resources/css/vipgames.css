@@ -231,7 +231,7 @@ input,
     gap: 8px;
     height: 80px;
     padding: 0px;
-    opacity: 0;
+    opacity: 1;
     flex-basis: 0px;
     width: 0px;
     animation: grow_games_news_item 1s ease-in-out forwards;
