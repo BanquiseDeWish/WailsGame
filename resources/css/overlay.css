@@ -1,0 +1,178 @@
+:root {
+	--d: 2500ms;
+	--angle: 90deg;
+	--gradX: 100%;
+	--gradY: 50%;
+	--c1: rgba(168, 239, 255, 1);
+	--c2: rgba(168, 239, 255, 0.1);
+}
+
+.overlay {
+    width: 100vw;
+    height: fit-content;
+    padding: 40px;
+}
+
+
+.overlay .pronoKart {
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    padding: 2rem 2rem 2rem 2rem;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 1px 1px 12px rgba(0, 0, 0, 1);
+    transition: all 0.2s ease-in-out;
+}
+.overlay .pronoKart .title {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 12px;
+    align-items: end;
+    justify-content: center;
+    font-size: 4rem;
+    text-align: center;
+    font-weight: 900;
+    color: white;
+}
+
+.overlay .pronoKart  img[alt="logo"] {
+    width: 36rem;
+}
+
+.overlay .pronoKart .subtitle {
+    position: relative;
+    z-index: 2;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    width: fit-content;
+    padding: 10px 18px;
+    border-radius: 8px;
+}
+
+.overlay .pronoKart .list {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    grid-column-gap: 60px;
+    grid-row-gap: 20px;
+    width: 100%;
+}
+.overlay .pronoKart .pronoItem.winner {
+    background-color: #0dad50;
+}
+.overlay .pronoKart .pronoItem {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    padding: 10px 20px;
+    transform: skew(170deg)
+}
+
+.overlay .pronoKart .pronoItem .title {
+    flex: 1;
+    align-items: start;
+    justify-content: start;
+    text-align: left;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: white;
+    white-space: nowrap;
+    width: 8.6rem;
+    min-width: 8.6rem;
+}
+
+.overlay .pronoKart .pronoItem .state {
+    color: white;
+    font-size: 2.5rem;
+}
+
+.overlay .pronoKart .timeOutBar {
+    width: 100%;
+    display: block;
+    height: 10px;
+    background: rgb(33, 213, 245);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-radius: 0px 0px 8px 8px;
+    transition:1000ms linear;
+}
+
+.overlay .pronoKart .statistics {
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+}
+
+.overlay .pronoKart .statistics .timeOut,.overlay .pronoKart .statistics .voteCount {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.overlay .pronoKart .progress {
+    width: 100%;
+    background: rgb(12, 74, 85);
+    border-radius: 8px;
+    height: 75%;
+    transform: skew(0deg)
+}
+
+.overlay .pronoKart .progress .after {
+    background: rgb(33, 213, 245);
+    display: block;
+    width: 0%;
+    height: 100%;
+    max-width: 100%;
+    border-radius: inherit;
+    transition:300ms linear;
+}
+
+.overlay .pronoKart .result {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    justify-content: center;
+    align-items: center;
+    margin: 24px 0;
+}
+
+.overlay .pronoKart .result .stats {
+	background: linear-gradient(-45deg, #4CAF50, #388E3C, #2E7D32, #1B5E20);
+    background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+    animation: shake 1s ease-in-out infinite;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-10px) rotate(-1deg); }
+    40% { transform: translateX(10px) rotate(1deg); }
+    60% { transform: translateX(-10px) rotate(-1deg); }
+    80% { transform: translateX(10px) rotate(1deg); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
