@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\KartChanceController;
 use App\Http\Controllers\PrediGivreesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VIPGameController;
+use App\Http\Controllers\OverlayController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -68,5 +70,15 @@ Route::get('boutique/merch', function() {
 })->name('boutique.merch');
 
 Route::get('/user/{twitch_id}/icon', [UserController::class, 'getUserIcon'])->name('user.icon');
+
+Route::prefix('kartchance')->name('kartchance.')->group(function() {
+    Route::get('/', [KartChanceController::class, 'index'])->name('index');
+    Route::get('/sprite/{type}/{name}', [KartChanceController::class, 'sprite'])->name('sprite');
+});
+
+Route::prefix('overlay')->name('overlay.')->group(function() {
+    Route::get('/pg', [OverlayController::class, 'pg'])->name('pg');
+    Route::get('/tpg', [OverlayController::class, 'tpg'])->name('tpg');
+});
 
 require __DIR__.'/auth.php';
