@@ -18,16 +18,8 @@ export default function GlobalLayout({ children }) {
                     background-size: cover;
                     width: 100vw;
                     height: 100vh;
-                    background: #282828;
+                    background: linear-gradient(254deg, #151617 0%, #0D0D0F 100%);
                     z-index: 0;
-                }
-
-                #app_background::after {
-                    content: '';
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    background: radial-gradient(60.52% 59.95% at 50% 50%, rgba(10, 37, 52, 0.30) 0%, #020C11 100%);
                 }
             `}
             </style>

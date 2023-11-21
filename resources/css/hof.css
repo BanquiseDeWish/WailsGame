@@ -55,7 +55,7 @@
 }
 .hoftable .podium .display_points {
     position: relative;
-    background: var(--bg1);
+    background: var(--container_background);
     border-radius: 8px 8px 0px 0px;
     padding: 4px 8px 0px 8px;
 }
@@ -68,7 +68,7 @@
     left: -20px;
     bottom: 0;
     border-bottom-right-radius: 8px;
-    box-shadow: 0px 10px 0px 0px #020C11;
+    box-shadow: 0px 10px 0px 0px var(--container_background);
 }
 .hoftable .podium .display_points::after {
     position: absolute;
@@ -79,28 +79,28 @@
     right: -20px;
     bottom: 0;
     border-bottom-left-radius: 8px;
-    box-shadow: 0px 10px 0 0 #020C11;
+    box-shadow: 0px 10px 0 0 var(--container_background);
 }
 .hoftable .podium .display_points {
     position: relative;
-    background: var(--bg1);
+    background: var(--container_background);
     border-radius: 8px 8px 0px 0px;
     padding: 4px 8px 0px 8px;
 }
 .hoftable .podium .pos.two {
     max-width: 206px !important;
     height: 272px !important;
-    background: linear-gradient(180deg, #020C11 0%, #888 95.31%);
+    background: linear-gradient(180deg, var(--container_background) 0%, #888 95.31%);
 }
 .hoftable .podium .pos.first {
     max-width: 210px !important;
     height: 290px !important;
-    background: linear-gradient(180deg, #020C11 0%, #DCA130 95.31%);
+    background: linear-gradient(180deg, var(--container_background) 0%, #DCA130 95.31%);
 }
 .hoftable .podium .pos.three {
     max-width: 206px !important;
     height: 272px !important;
-    background: linear-gradient(180deg, #020C11 0%, #AE6A38 95.31%);
+    background: linear-gradient(180deg, var(--container_background) 0%, #AE6A38 95.31%);
 }
 .hoftable .podium .pos.two .display_points::before {
     background-color: #888;
@@ -130,7 +130,7 @@
     width: 70%;
     height: 2px;
     display: flex;
-    background-color: #121A25;
+    background-color: #282C36;
 }
 
 .hoftable .table {
@@ -156,7 +156,7 @@
 
 .hoftable .entry:hover,
 .hoftable .entry:hover .penguinCard {
-    background: #121A25;
+    background: #282C36;
 }
 
 .hoftable .entry .position.card {
@@ -217,11 +217,11 @@
 }
 
 .hof .ranking {
-    background-color: var(--bg1);
+    background-color: var(--container_background);
     padding: 32px 16px 16px;
     border-radius: 8px;
     min-width: 800px;
-    height: calc(100vh - 20%);
+    height: 100%;
 }
 
 .hof .filterMenu {
@@ -233,7 +233,7 @@
 .hof .filterMenu .filterButton {
     cursor: pointer;
     position: relative;
-    background: var(--bg1);
+    background: var(--container_background);
     min-width: 200px;
     color: white;
     padding: 16px;
@@ -286,10 +286,10 @@
     align-items: center;
     flex-direction: column;
     gap: 35px;
-    width: 50rem;
-    height: 100%;
-    margin: 0rem 10rem;
-    z-index: 0;
+    width: 100%;
+    height: 94%;
+    padding: 0rem 10rem;
+    z-index: 1;
 }
 .hof .btn_sort {
     display: flex;
