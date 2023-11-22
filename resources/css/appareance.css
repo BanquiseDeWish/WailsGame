@@ -1,0 +1,79 @@
+.appareance {
+    padding: 32px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.appareance .simple_button {
+    width: fit-content;
+}
+.appareance .head {
+    display: flex;
+    justify-content: space-between;
+}
+.appareance .tabs_category {
+    display: flex;
+    gap: 32px;
+}
+.appareance .tabs {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+}
+.appareance .tabs .tab_link {
+    display: block;
+    width: 100%;
+    background-color: #020C11;
+    padding: 16px;
+    border-radius: 8px;
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    border-bottom: 5px solid transparent;
+    transition: 0.2s all ease-in-out;
+}
+.appareance .tabs .tab_link.active {
+    border-bottom-color: #2C6DEC;
+}
+.appareance .cosmetics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    overflow-y: auto;
+    height: 600px;
+    padding: 16px;
+}
+.appareance .cosmetic.item {
+    width: 220px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #020C11 0%, #020C11 83.85%);
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.appareance .cosmetic.item.active {
+    background: linear-gradient(180deg, #113243 0%, #020C11 100%);
+    outline: 5px solid rgba(50, 115, 149, 0.20);
+}
+/* Sub_Type Cosmetic */
+.appareance .cosmetic.item .colorIcon {
+    width: 122px;
+    height: 122px;
+    border-radius: 250px;
+}

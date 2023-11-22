@@ -21,7 +21,7 @@ export default function PenguinCard({ data, className }) {
     return (
         <div className={`penguinCard ${className}`} style={{ background: data?.background_type == "color" ? data?.background_data.color : "" }}>
             <div className="avatar">
-                <img src={route('user.icon', { twitch_id: data?.id == undefined ? 0 : data?.idTwitch })} alt="AvatarDefault" />
+                <img src={route('user.icon', { twitch_id: data?.id == undefined ? 0 : data?.id })} alt="AvatarDefault" />
             </div>
             <div className="flex justify-between items-center w-full">
                 <div className="data">
