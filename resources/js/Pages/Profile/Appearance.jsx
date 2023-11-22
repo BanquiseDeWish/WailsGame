@@ -1,5 +1,5 @@
-import PenguinCard from "@/Components/PenguinCard";
-import PodiumPenguin from "@/Components/PodiumPenguin";
+import PenguinCard from "@/Components/User/PenguinCard";
+import PodiumPenguin from "@/Components/User/PodiumPenguin";
 import MainLayout from "@/Layouts/MainLayout";
 import { Head } from "@inertiajs/react";
 

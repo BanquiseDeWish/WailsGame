@@ -5,13 +5,13 @@ import '../../../../css/vipgames.css';
 import GlobalLayout from '@/Layouts/GlobalLayout';
 import Ticket from '../../../Components/Games/VIPGames/Ticket';
 
-import GreenButton from '@/Components/Buttons/GreenButton';
+import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 
 import VipGamesLogo from '../../../../assets/games/vip_games_inline.svg';
 
 import UserCard from '@/Components/User/UserCard';
 import GameNewsItem from '@/Components/Games/VIPGames/GameNewsItem';
-import BlueButton from '@/Components/Buttons/BlueButton';
+import BlueButton from '@/Components/Navigation/Buttons/BlueButton';
 
 import Slot from '@/Components/Games/VIPGames/Slot';
 import { randomId } from '../../../../js/Game/random';

@@ -1,4 +1,4 @@
-import PenguinCard from "./PenguinCard";
+import PenguinCard from "../../User/PenguinCard";
 
 export default function HOFEntry({ position, data, labelPoints }) {
 
