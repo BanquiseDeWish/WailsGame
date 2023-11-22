@@ -2,8 +2,7 @@ import { Head, Link, router, usePage, useRemember } from '@inertiajs/react';
 import { useEffect } from 'react';
 import MainLayout from '@/Layouts/MainLayout';
 import { useState } from 'react';
-import Paginate from '@/Components/Paginate';
-import HOFTable from '@/Components/HOFTable';
+import HOFTable from '@/Components/Content/HOF/HOFTable';
 import '../../../css/predigivre.css'
 import PGLogo from '../../../assets/games/pg_classement.svg'
 import axios from 'axios';
@@ -32,7 +31,6 @@ export default function PrediGivreeIndex(props) {
     }
 
     const filterButton = (fb, label) => {
-        console.log(filter, fb)
         return (
             <div onClick={() => { changeFilter(fb) }} className={`filterButton ${filter == fb ? "active" : ""}`}>
                 <span className="relative z-20 select-none">{label}</span>

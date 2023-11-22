@@ -1,11 +1,11 @@
 import HOFEntry from "./HOFEntry";
-import Penguin from "./Penguin";
-import PenguinCard from "./PenguinCard";
+import Penguin from "../../User/Penguin";
+import PenguinCard from "../../User/PenguinCard";
 
-import OnePol from "../../assets/img/hof/first.svg"
-import TwoPol from "../../assets/img/hof/two.svg"
-import ThreePol from "../../assets/img/hof/three.svg"
-import '../../css/hof.css'
+import OnePol from "../../../../assets/img/hof/first.svg"
+import TwoPol from "../../../../assets/img/hof/two.svg"
+import ThreePol from "../../../../assets/img/hof/three.svg"
+import '../../../../css/hof.css'
 
 export default function HOFTable({ load, logoPos, logo, data, labelPoints }) {
 

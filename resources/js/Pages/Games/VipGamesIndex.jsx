@@ -1,10 +1,10 @@
 import { Head, usePage} from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 
-import GreenButton from '@/Components/Buttons/GreenButton';
-import BlueButton from '@/Components/Buttons/BlueButton';
+import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
+import BlueButton from '@/Components/Navigation/Buttons/BlueButton';
 
-import HOFTable from '@/Components/HOFTable';
+import HOFTable from '@/Components/Content/HOF/HOFTable';
 
 import MainLayout from '@/Layouts/MainLayout';
 import VictoryLogo from '../../../assets/games/vipgames_victory.svg'

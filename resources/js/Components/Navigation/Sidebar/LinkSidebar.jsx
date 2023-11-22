@@ -1,8 +1,8 @@
 import { useState } from "react"
 import BarMenuMobile from "@/Components/Icons/BarMenuMobile"
 import { usePage, Link } from "@inertiajs/react"
-import TwitchButton from "./Buttons/TwitchButton"
-import AppLogo from "./AppLogo"
+import TwitchButton from "../Buttons/TwitchButton"
+import AppLogo from "../../AppLogo"
 
 export default function Sidebar({ isWeils }) {
 

@@ -1,4 +1,4 @@
-import EarsWeils from '../../assets/img/earsweils.png'
+import EarsWeils from '../../../assets/img/earsweils.png'
 import Konami from 'react-konami-code';
 
 export default function EasterEggEars() {

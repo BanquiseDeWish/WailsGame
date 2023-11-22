@@ -2,9 +2,9 @@ import { usePage } from '@inertiajs/react';
 import { router } from '@inertiajs/react'
 import BDWSocket from '../../Game/socket';
 
-import GreenButton from '@/Components/Buttons/GreenButton';
-import BlueButton from '@/Components/Buttons/BlueButton';
-import YellowButton from '@/Components/Buttons/YellowButton';
+import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
+import BlueButton from '@/Components/Navigation/Buttons/BlueButton';
+import YellowButton from '@/Components/Navigation/Buttons/YellowButton';
 
 import BaseModal from "./BaseModal";
 

@@ -1,11 +1,10 @@
-import PenguinCard from "@/Components/PenguinCard";
-import PodiumPenguin from "@/Components/PodiumPenguin";
-import Penguin from "@/Components/Penguin";
+import PenguinCard from "@/Components/User/PenguinCard";
+import PodiumPenguin from "@/Components/User/PodiumPenguin";
 import { Head } from "@inertiajs/react";
 import GlobalLayout from "@/Layouts/GlobalLayout";
 import '../../../css/appareance.css'
-import BlueButton from "@/Components/Buttons/BlueButton";
-import GreenButton from "@/Components/Buttons/GreenButton";
+import BlueButton from "@/Components/Navigation/Buttons/BlueButton";
+import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
 
 export default function ProfileAppearance(props) {
 

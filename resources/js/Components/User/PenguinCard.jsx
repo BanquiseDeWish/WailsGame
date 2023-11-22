@@ -1,7 +1,6 @@
 import { usePage } from '@inertiajs/react';
-import AvatarDefault from '../../assets/img/avatar_default.png'
-import '../../css/penguinCard.css'
-import PAWBadge from '../../assets/img/paw.webp'
+import '../../../css/penguinCard.css'
+import PAWBadge from '../../../assets/img/paw.webp'
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 

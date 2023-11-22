@@ -1,5 +1,5 @@
 import { usePage } from '@inertiajs/react';
-import GreenButton from "@/Components/Buttons/GreenButton";
+import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
 import { useEffect, useState, useRef } from "react";
 import SlotJS from '../../../Game/slot';
 import { waitUntil } from "../../../Game/utils";

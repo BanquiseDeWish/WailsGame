@@ -1,7 +1,7 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { Head } from "@inertiajs/react";
 
-import Penguin from "../../Components/Penguin";
+import Penguin from "../../Components/User/Penguin";
 
 export default function ProfileIndex() {
 

@@ -1,9 +1,9 @@
 import { Link, router, usePage } from '@inertiajs/react';
-import VIPGamesModal from "./Modal/VIPGamesModal";
+import VIPGamesModal from "../Modal/VIPGamesModal";
 import ProfileDropdown from "./ProfileDropdown";
 import TwitchButton from "./Buttons/TwitchButton";
-import Sidebar from '@/Components/Sidebar';
-import '../../css/navbar.css'
+import Sidebar from '@/Components/Navigation/Sidebar/LinkSidebar';
+import '../../../css/navbar.css'
 
 export default function Navbar() {
 
