@@ -10,7 +10,9 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.jsx',
         'node_modules/preline/dist/*.js',
-        'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
+        'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
+        'node_modules/@headlessui/react/**/*.{js,jsx,ts,tsx}',
+        'node_modules/@headlessui/tailwindcss/**/*.{js,jsx,ts,tsx}'
     ],
 
     theme: {
