@@ -1,0 +1,62 @@
+.navbar aside.sidebar {
+    height: 100dvh;
+    position: absolute;
+    transform: translateX(-100%);
+    width: 80%;
+    left: 0;
+    z-index: 100;
+    top: 0;
+    background-color: var(--container_background);
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 16px;
+
+    transition: transform 0.2s ease-in-out;
+}
+.navbar aside.sidebar .menu {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+.navbar aside.sidebar .menu .link:hover {
+    background-color: #282C36;
+}
+.navbar aside.sidebar .menu .link {
+    padding: 4px 6px;
+    color: white;
+    border-radius: 4px;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    user-select: none;
+    width: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.navbar .backdrop {
+    display: flex;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    height: 100dvh;
+    position: absolute;
+    top: 0;
+    background: rgba(0, 0, 0, 0.8);
+}
+.navbar aside.sidebar.show {
+    transform: translateX(0%) !important;
+}
+.navbar .backdrop.show {
+    display: flex;
+}
+.navbar aside.sidebar.hide {
+    transform: translateX(-100%);
+}
+.navbar .backdrop.hide {
+    display: none;
+}

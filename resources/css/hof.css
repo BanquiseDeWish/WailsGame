@@ -89,17 +89,17 @@
 }
 .hoftable .podium .pos.two {
     max-width: 206px !important;
-    height: 272px !important;
+    height: 238px !important;
     background: linear-gradient(180deg, var(--container_background) 0%, #888 95.31%);
 }
 .hoftable .podium .pos.first {
     max-width: 210px !important;
-    height: 290px !important;
+    height: 264px !important;
     background: linear-gradient(180deg, var(--container_background) 0%, #DCA130 95.31%);
 }
 .hoftable .podium .pos.three {
     max-width: 206px !important;
-    height: 272px !important;
+    height: 234px !important;
     background: linear-gradient(180deg, var(--container_background) 0%, #AE6A38 95.31%);
 }
 .hoftable .podium .pos.two .display_points::before {
@@ -156,7 +156,7 @@
 
 .hoftable .entry:hover,
 .hoftable .entry:hover .penguinCard {
-    background: #282C36;
+    background: #2C3344;
 }
 
 .hoftable .entry .position.card {

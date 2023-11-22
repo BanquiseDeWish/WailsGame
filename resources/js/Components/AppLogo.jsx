@@ -7,7 +7,7 @@ export default function AppLogo() {
         <>
             <Link href={route('/')} className='app_logo'>
                 <img src={AppLogoImg} alt="Logo Pingouin de Weils" width={48}/>
-                <div>La Banquise de Weils</div>
+                <div className="hidden lg:block">La Banquise de Weils</div>
             </Link>
             <style> {`
                 .app_logo {

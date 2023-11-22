@@ -18,7 +18,7 @@ export default function GlobalLayout({ children }) {
                     background-size: cover;
                     width: 100vw;
                     height: 100vh;
-                    background: linear-gradient(254deg, #151617 0%, #0D0D0F 100%);
+                    background: linear-gradient(254deg, #09101A 0%, #050A11 100%);
                     z-index: 0;
                 }
             `}
