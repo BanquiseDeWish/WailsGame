@@ -1,3 +1,7 @@
+.navbar {
+    position: relative;
+}
+
 .navbar aside.sidebar {
     height: 100dvh;
     position: absolute;
@@ -14,6 +18,7 @@
     transition: transform 0.2s ease-in-out;
 }
 .navbar aside.sidebar-left {
+    z-index: 101;
     left: 0;
 }
 .navbar aside.sidebar-right {

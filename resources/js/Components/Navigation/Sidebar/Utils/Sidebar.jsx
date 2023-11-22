@@ -32,17 +32,17 @@ export default function Sidebar({ children, className, left = true }) {
 
     return (
         <>
-        <div className="">
-            <div className="sidebar_opener z-50" onClick={() => { setShow(true) }} >
-                {values.opener}
-            </div>
-            <div className={`flex lg:hidden ${className}`} style={{width: '0px'}}>
+            <div className={`flex lg:hidden ${className} ${show ? 'z-[2]' : 'z-[1]'}`}>
+
+                <div className="sidebar_opener z-50" onClick={() => { setShow(true) }} >
+                    {values.opener}
+                </div>
+
                 <div onClick={() => { setShow(false) }} className={`backdrop ${show ? "show" : "hide-" + (left ? "left" : "right")}`}></div>
                 <aside className={`sidebar sidebar-${left ? "left" : "right"} ${show ? "show" : "hide-" + (left ? "left" : "right")}`}>
                     {values.content}
                 </aside>
             </div>
-        </div>
         </>
     )
 
