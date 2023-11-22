@@ -1,20 +1,22 @@
-import { useState } from "react"
-import BarMenuMobile from "@/Components/Icons/BarMenuMobile"
-import { usePage, Link } from "@inertiajs/react"
-import TwitchButton from "../Buttons/TwitchButton"
+import Sidebar from "./Utils/Sidebar"
+import { Link } from "@inertiajs/react"
 import AppLogo from "../../AppLogo"
 
-export default function Sidebar({ isWeils }) {
+import SidebarOpener from "./Utils/SidebarOpener"
+import SidebarContent from "./Utils/SidebarContent"
+import SidebarSeparator from "./Utils/SidebarSeparator"
+import SidebarCategory from "./Utils/SidebarCategory"
 
-    const [show, setShow] = useState(false)
-    const props = usePage().props
-    const auth = props.auth.twitch
+import BarMenuMobile from "@/Components/Icons/BarMenuMobile"
+
+export default function LinkSidebar({className, ...otherProps}) {
 
     return (
-        <div className="navbar flex lg:hidden">
-            <BarMenuMobile onClick={() => { setShow(true) }} fill={"white"} width={42} height={42} />
-            <div onClick={() => { setShow(false) }} className={`backdrop ${show ? "show" : "hide"}`}></div>
-            <aside className={`sidebar ${show ? "show" : "hide"}`}>
+        <Sidebar className={className} {...otherProps}>
+            <SidebarOpener>
+                <BarMenuMobile fill={"white"} width={42} height={42} />
+            </SidebarOpener>
+            <SidebarContent>
                 <AppLogo />
                 <div className="menu">
                     <div className="link store_merch">
@@ -28,36 +30,8 @@ export default function Sidebar({ isWeils }) {
                     </div>
                 </div>
                 <div className="separator w-full"/>
-                {props.auth.twitch ? (
-                    <>
-                        <div className="user flex gap-4 items-center text-white text-[14px] font-[500]">
-                            <img width={40} height={40} style={{ borderRadius: 50 }} src={auth?.profile_image_url} alt="avatar_twitch" />
-                            <span>{auth?.display_name}</span>
-                        </div>
-                        <div className="separator w-full"></div>
-                        <div className="menu">
-                            <Link href={route('profile.index')} className="link">
-                                Profil
-                            </Link>
-                            {isWeils &&
-                                <Link href={"/dashboard"} className="link">
-                                    Espace privé
-                                </Link>
-                            }
-                        </div>
-                        <div className="separator w-full"></div>
-                        <div className="menu">
-                            <Link href={route('twitch.logout')} className="link">
-                                Déconnexion
-                            </Link>
-                        </div>
-                    </>
-                ) : (
-                    <TwitchButton />
-                )}
-
-            </aside>
-        </div>
+            </SidebarContent>
+        </Sidebar>
     )
 
 }

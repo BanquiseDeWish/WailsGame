@@ -17,7 +17,7 @@ export default function ProfileDropdown() {
     return (
         <Menu as="div" className="relative inline-block text-left notifications">
             <div>
-                <Menu.Button style={{ background: 'transparent' }} className="inline-flex w-full justify-center gap-x-1.5 rounded-md p-3 text-sm font-semibold shadow-sm">
+                <Menu.Button style={{ background: 'transparent' }} className="inline-flex w-full justify-center gap-x-1.5 rounded-md text-sm font-semibold shadow-sm">
                     <img width={56} height={56} style={{ borderRadius: 50 }} src={auth?.profile_image_url} alt="avatar_twitch" />
                 </Menu.Button>
             </div>

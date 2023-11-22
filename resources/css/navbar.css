@@ -1,9 +1,7 @@
 .navbar aside.sidebar {
     height: 100dvh;
     position: absolute;
-    transform: translateX(-100%);
     width: 80%;
-    left: 0;
     z-index: 100;
     top: 0;
     background-color: var(--container_background);
@@ -14,6 +12,12 @@
     padding: 24px 16px;
 
     transition: transform 0.2s ease-in-out;
+}
+.navbar aside.sidebar-left {
+    left: 0;
+}
+.navbar aside.sidebar-right {
+    right: 0;
 }
 .navbar aside.sidebar .menu {
     display: flex;
@@ -54,9 +58,12 @@
 .navbar .backdrop.show {
     display: flex;
 }
-.navbar aside.sidebar.hide {
+.navbar aside.sidebar.hide-left {
     transform: translateX(-100%);
 }
-.navbar .backdrop.hide {
+.navbar aside.sidebar.hide-right {
+    transform: translateX(100%);
+}
+.navbar .backdrop.hide-left, .navbar .backdrop.hide-right {
     display: none;
 }

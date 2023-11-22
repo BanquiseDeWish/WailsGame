@@ -1,39 +1,35 @@
-import { useState } from "react"
-import BarMenuMobile from "@/Components/Icons/BarMenuMobile"
 import { usePage, Link } from "@inertiajs/react"
 import TwitchButton from "../Buttons/TwitchButton"
-import AppLogo from "../../AppLogo"
+import Sidebar from "./Utils/Sidebar"
 
-export default function Sidebar({ isWeils }) {
+import SidebarOpener from "./Utils/SidebarOpener"
+import SidebarContent from "./Utils/SidebarContent"
+import SidebarSeparator from "./Utils/SidebarSeparator"
+import SidebarCategory from "./Utils/SidebarCategory"
 
-    const [show, setShow] = useState(false)
-    const props = usePage().props
-    const auth = props.auth.twitch
+export default function ProfileSidebar({ isWeils, className, ...otherProps }) {
+
+    const props = usePage().props;
+    const auth = props.auth.twitch;
 
     return (
-        <div className="navbar flex lg:hidden">
-            <BarMenuMobile onClick={() => { setShow(true) }} fill={"white"} width={42} height={42} />
-            <div onClick={() => { setShow(false) }} className={`backdrop ${show ? "show" : "hide"}`}></div>
-            <aside className={`sidebar ${show ? "show" : "hide"}`}>
-                <AppLogo />
-                <div className="menu">
-                    <div className="link store_merch">
-                        <a href="/boutique/merch" target='_blank'>Boutique Merch</a>
+        <Sidebar className={className} {...otherProps} left={false}>
+            <SidebarOpener>
+                <img width={56} height={56} style={{ borderRadius: 50 }} src={auth?.profile_image_url} alt="avatar_twitch" />
+            </SidebarOpener>
+
+            <SidebarContent>
+                <SidebarCategory>
+                    <div className="user flex gap-4 items-center text-white text-[14px] font-[500]">
+                        <img width={40} height={40} style={{ borderRadius: 50 }} src={auth?.profile_image_url} alt="avatar_twitch" />
+                        <span>{auth?.display_name}</span>
                     </div>
-                    <div className={`link ${window.location.href.startsWith(route('vipgames.index')) ? "active" : ""}`}>
-                        <Link href={route('vipgames.index')}>VIPGames</Link>
-                    </div>
-                    <div className={`link ${window.location.href.startsWith(route('predigivre.halloffame', { filter: 'today' })) ? "active" : ""}`}>
-                        <Link href={route('predigivre.halloffame', { filter: 'today' })}>Prédi Givrées</Link>
-                    </div>
-                </div>
-                <div className="separator w-full"/>
+                </SidebarCategory>
+
+                <SidebarSeparator/>
+                
                 {props.auth.twitch ? (
                     <>
-                        <div className="user flex gap-4 items-center text-white text-[14px] font-[500]">
-                            <img width={40} height={40} style={{ borderRadius: 50 }} src={auth?.profile_image_url} alt="avatar_twitch" />
-                            <span>{auth?.display_name}</span>
-                        </div>
                         <div className="separator w-full"></div>
                         <div className="menu">
                             <Link href={route('profile.index')} className="link">
@@ -56,8 +52,8 @@ export default function Sidebar({ isWeils }) {
                     <TwitchButton />
                 )}
 
-            </aside>
-        </div>
+            </SidebarContent>
+        </Sidebar>
     )
 
 }
