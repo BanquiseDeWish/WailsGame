@@ -8,6 +8,12 @@ export default function ProfileDropdown() {
     const auth = props.auth.twitch;
     const isWeils = auth && auth.id == props.weils_id;
 
+    /*
+    <Link href={route('profile.appearance')} className="link">
+        Apparence
+    </Link>
+    */
+
     return (
         <Menu as="div" className="relative inline-block text-left notifications">
             <div>
@@ -35,9 +41,6 @@ export default function ProfileDropdown() {
                         <div className="menu">
                             <Link href={route('profile.index')} className="link">
                                 Profil
-                            </Link>
-                            <Link href={route('profile.appearance')} className="link">
-                                Apparence
                             </Link>
                             {isWeils &&
                                 <Link href={"/dashboard"} className="link">
