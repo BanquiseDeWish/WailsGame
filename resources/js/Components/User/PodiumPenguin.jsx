@@ -1,4 +1,4 @@
-import css from '../../css/profile.css'
+import '../../../css/profile.css'
 import Penguin from './Penguin'
 import Podium from './Podium'
 
