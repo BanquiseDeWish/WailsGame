@@ -72,3 +72,20 @@
 .navbar .backdrop.hide-left, .navbar .backdrop.hide-right {
     display: none;
 }
+
+.sidebar-category {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sidebar-category a {
+    color: white;
+    font-size: 0.875rem;
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+
+.sidebar-category a:hover {
+    background-color: var(--light_background);
+}

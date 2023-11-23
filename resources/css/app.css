@@ -208,6 +208,9 @@ div:has(label + input) {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
+.dropdown .menu .link a {
+    font-size: 0.875rem;
+}
 .dropdown .menu .link:hover {
     background-color: var(--light_background);
 }
@@ -347,6 +350,7 @@ div:has(label + input) {
 /*Footer*/
 .footer {
     display: flex;
+    z-index: 0;
     flex-direction: column;
     gap: 24px;
     justify-content: center;

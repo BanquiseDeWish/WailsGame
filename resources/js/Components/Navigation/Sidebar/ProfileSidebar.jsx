@@ -29,26 +29,22 @@ export default function ProfileSidebar({ isWeils, className, ...otherProps }) {
                 <SidebarSeparator />
 
                 <SidebarCategory>
-                    <div className="menu">
-                        <Link href={route('profile.index')} className="link">
-                            Profil
+                    <Link href={route('profile.index')}>
+                        Profil
+                    </Link>
+                    {isWeils &&
+                        <Link href={"/dashboard"}>
+                            Espace privé
                         </Link>
-                        {isWeils &&
-                            <Link href={"/dashboard"} className="link">
-                                Espace privé
-                            </Link>
-                        }
-                    </div>
+                    }
                 </SidebarCategory>
 
                 <SidebarSeparator />
 
                 <SidebarCategory>
-                    <div className="menu">
-                        <Link href={route('twitch.logout')} className="link">
-                            Déconnexion
-                        </Link>
-                    </div>
+                    <Link href={route('twitch.logout')} className="link">
+                        Déconnexion
+                    </Link>
                 </SidebarCategory>
             </SidebarContent>
         </Sidebar>

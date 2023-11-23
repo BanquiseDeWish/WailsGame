@@ -10,7 +10,9 @@ class SidebarCategory extends React.Component {
 
         return (
             <>
+            <div className='sidebar-category'>
                 {this.props.children}
+            </div>
             </>
         );
     }
