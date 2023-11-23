@@ -330,12 +330,18 @@ div:has(label + input) {
     line-height: normal;
     letter-spacing: 0.4px;
 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     margin-top: 160px;
 }
 .badge_state_live .state {
     display: block;
     width: 20px;
     height: 20px;
+    min-width: 20px;
+    max-height: 20px;
     border-radius: 50px;
     background-color: white;
 }

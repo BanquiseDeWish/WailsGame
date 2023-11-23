@@ -12,21 +12,21 @@ export default function Footer() {
             <div className="title">Mes réseaux</div>
             <div className="infos">
                 <div className="networks flex-wrap lg:flex-nowrap">
-                    <Link>
+                    <a target="_blank" href="https://dcord.banquisedeweils.fr">
                         <Discord />
-                    </Link>
-                    <Link>
+                    </a>
+                    <a target="_blank" href="https://twitch.tv/weilsttv">
                         <IconTwitch size={52} />
-                    </Link>
-                    <Link>
+                    </a>
+                    <a target="_blank" href="https://www.youtube.com/@weils1613">
                         <YT />
-                    </Link>
-                    <Link>
+                    </a>
+                    <a target="_blank" href="https://www.tiktok.com/@weilsiew">
                         <Tiktok />
-                    </Link>
-                    <Link>
+                    </a>
+                    <a target="_blank" href="https://twitter.com/WeilsGG">
                         <Twitter />
-                    </Link>
+                    </a>
                 </div>
                 <div className="separator"></div>
                 <div className="util_links flex-col items-center lg:flex-row lg:flex-start">
