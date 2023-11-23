@@ -10,7 +10,7 @@ class SidebarSeparator extends React.Component {
 
         return (
             <>
-                {this.props.children}
+                <div className="separator w-full">{this.props.children}</div>
             </>
         );
     }

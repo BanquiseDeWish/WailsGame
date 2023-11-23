@@ -2,6 +2,7 @@
 
 :root {
     --container_background: #18212E;
+    --light_background: #2C3344;
 }
 
 html {
@@ -180,7 +181,7 @@ div:has(label + input) {
     width: 70%;
     height: 2px;
     display: flex;
-    background-color: #282C36;
+    background-color: var(--light_background);
 }
 
 .dropdown {
@@ -208,7 +209,7 @@ div:has(label + input) {
     transition: all 0.2s ease-in-out;
 }
 .dropdown .menu .link:hover {
-    background-color: #282C36;
+    background-color: var(--light_background);
 }
 /* Spinner loader */
 .icon-loader {

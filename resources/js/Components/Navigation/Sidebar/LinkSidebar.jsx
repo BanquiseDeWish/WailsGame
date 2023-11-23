@@ -19,7 +19,7 @@ export default function LinkSidebar({className, ...otherProps}) {
             <SidebarContent>
                 <AppLogo />
                 <div className="menu">
-                    <div className="link store_merch">
+                    <div className="link">
                         <a href="/boutique/merch" target='_blank'>Boutique Merch</a>
                     </div>
                     <div className={`link ${window.location.href.startsWith(route('vipgames.index')) ? "active" : ""}`}>
@@ -29,7 +29,6 @@ export default function LinkSidebar({className, ...otherProps}) {
                         <Link href={route('predigivre.halloffame', { filter: 'today' })}>Prédi Givrées</Link>
                     </div>
                 </div>
-                <div className="separator w-full"/>
             </SidebarContent>
         </Sidebar>
     )
