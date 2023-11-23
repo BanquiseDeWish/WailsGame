@@ -26,32 +26,30 @@ export default function ProfileSidebar({ isWeils, className, ...otherProps }) {
                     </div>
                 </SidebarCategory>
 
-                <SidebarSeparator/>
-                
-                {props.auth.twitch ? (
-                    <>
-                        <div className="separator w-full"></div>
-                        <div className="menu">
-                            <Link href={route('profile.index')} className="link">
-                                Profil
-                            </Link>
-                            {isWeils &&
-                                <Link href={"/dashboard"} className="link">
-                                    Espace privé
-                                </Link>
-                            }
-                        </div>
-                        <div className="separator w-full"></div>
-                        <div className="menu">
-                            <Link href={route('twitch.logout')} className="link">
-                                Déconnexion
-                            </Link>
-                        </div>
-                    </>
-                ) : (
-                    <TwitchButton />
-                )}
+                <SidebarSeparator />
 
+                <SidebarCategory>
+                    <div className="menu">
+                        <Link href={route('profile.index')} className="link">
+                            Profil
+                        </Link>
+                        {isWeils &&
+                            <Link href={"/dashboard"} className="link">
+                                Espace privé
+                            </Link>
+                        }
+                    </div>
+                </SidebarCategory>
+
+                <SidebarSeparator />
+
+                <SidebarCategory>
+                    <div className="menu">
+                        <Link href={route('twitch.logout')} className="link">
+                            Déconnexion
+                        </Link>
+                    </div>
+                </SidebarCategory>
             </SidebarContent>
         </Sidebar>
     )
