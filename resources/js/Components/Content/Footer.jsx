@@ -30,7 +30,7 @@ export default function Footer() {
                 </div>
                 <div className="separator"></div>
                 <div className="util_links flex-col items-center lg:flex-row lg:flex-start">
-                    <span>2023 - Tous droits réservés</span>
+                    <span>© 2023 - Tous droits réservés</span>
                     <Link>
                         Politique de Confidentialité
                     </Link>
