@@ -27,7 +27,7 @@ export default function ProfileSidebar({ isWeils, className, ...otherProps }) {
                 </SidebarCategory>
 
                 <SidebarSeparator/>
-                
+
                 {props.auth.twitch ? (
                     <>
                         <div className="separator w-full"></div>

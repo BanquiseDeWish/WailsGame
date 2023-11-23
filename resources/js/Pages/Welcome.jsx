@@ -1,6 +1,5 @@
 import { Link, Head, usePage } from '@inertiajs/react';
-import MainLayout from '@/Layouts/MainLayout';
-
+import MainLayoutWF from '@/Layouts/MainLayoutWF';
 import WeilsText from '@/Components/Icons/WeilsText';
 import WeilsLogo from '@/Components/Icons/WeilsLogo';
 import { useEffect, useState } from 'react';
@@ -28,7 +27,7 @@ export default function Welcome() {
 
     return (
         <>
-            <MainLayout>
+            <MainLayoutWF>
                 <Head title="Accueil" />
                 <div className="flex flex-col items-center">
                     <WeilsText className="w-[940px] h-[132px]" />
@@ -45,7 +44,7 @@ export default function Welcome() {
                         </div>
                     </a>
                 </div>
-            </MainLayout>
+            </MainLayoutWF>
         </>
     );
 }

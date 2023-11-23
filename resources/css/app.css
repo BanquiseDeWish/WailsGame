@@ -38,6 +38,8 @@ html {
 
 html,
 body {
+    background-image: linear-gradient(254deg, #09101A 0%, #050A11 100%);
+    background-attachment: fixed;
     overflow: hidden;
 }
 
@@ -340,6 +342,53 @@ div:has(label + input) {
 .badge_state_live.off .state {
     background-color: #980303;
 }
+
+
+/*Footer*/
+.footer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    background-color: var(--container_background);
+    width: 100%;
+}
+.footer .title {
+    color: white;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.footer .separator {
+    width: 100%;
+}
+.footer .infos {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+}
+.footer .infos .networks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+}
+.footer .infos .util_links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+    color: white;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+/*End Footer*/
 
 @tailwind base;
 @tailwind components;
