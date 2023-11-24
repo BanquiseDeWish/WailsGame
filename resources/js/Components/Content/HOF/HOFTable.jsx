@@ -19,7 +19,7 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
 
             {load &&
                 <div className="flex justify-center items-center w-full h-full gap-4 text-white text-2xl">
-                    <span class="loader"></span> Chargement des données
+                    <span className="loader"></span> Chargement des données
                 </div>
             }
 
