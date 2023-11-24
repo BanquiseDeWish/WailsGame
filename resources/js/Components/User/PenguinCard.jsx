@@ -5,6 +5,24 @@ import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 
 export default function PenguinCard({ data, className }) {
+    /**
+     * Example data:
+     * data = {
+     *  username: string,
+     *  slogan: string,
+     *  points: int,
+     *  labelPoints: {
+     *     singular: string,
+     *     plural: string
+     *  },
+     *  stylePoints: string,
+     *  background_type: string,
+     *  background_data: {
+     *     color: string,
+     *  },
+     *  iconSize: int
+     * }
+     */
 
     const props = usePage().props;
 

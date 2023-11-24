@@ -1,7 +1,7 @@
 import { Head, Link, router, usePage, useRemember } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import MainLayout from '@/Layouts/MainLayout';
-import HOFTable from '@/Components/Content/HOF/HOFTable';
+import HOFTable from '@/Components/Content/HoF/HoFTable';
 import '../../../css/predigivre.css'
 import PGLogo from '../../../assets/games/pg_classement.svg'
 import axios from 'axios';
@@ -43,8 +43,9 @@ export default function PrediGivreeIndex(props) {
     return (
         <MainLayout showOverflow={true}>
             <Head title="Prédictions Givrées" />
-            <div className="prediGivre hof xl:px-[10rem]" style={{ paddingBottom: "0px" }}>
+            <div className="prediGivre h-full xl:px-[10rem]" style={{ paddingBottom: "0px" }}>
                 <div className="flex w-full flex-col xl:flex-row justify-around gap-8 xl:gap-4 xl:px-8 xl:h-full">
+                    
                     <div className="filterMenu flex flex-col gap-[16px]">
                         <div className="flex justify-between">
                             <span className='text-white text-[20px] font-[700]'>Filtrer par</span>
@@ -60,7 +61,9 @@ export default function PrediGivreeIndex(props) {
                             {filterButton("all", "Toujours")}
                         </div>
                     </div>
+
                     <HOFTable className="xl:flex-1" logoPos={-50} load={load} logo={PGLogo} data={pgData} labelPoints={{singular: "pt", plural: "pts"}} />
+                    
                     <div className="stats xl:w-[16rem]">
                         <span className='text-white text-[20px] font-[700]'>Statistiques</span>
                         <div className="flex flex-col w-full gap-4">
@@ -74,6 +77,7 @@ export default function PrediGivreeIndex(props) {
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </MainLayout>

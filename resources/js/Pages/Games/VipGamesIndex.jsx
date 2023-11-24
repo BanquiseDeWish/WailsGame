@@ -1,7 +1,7 @@
 import { Head, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 
-import HOFTable from '@/Components/Content/HOF/HOFTable';
+import HOFTable from '@/Components/Content/HoF/HoFTable';
 
 import MainLayout from '@/Layouts/MainLayout';
 import VictoryLogo from '../../../assets/games/vipgames_victory.svg'
@@ -23,11 +23,11 @@ export default function VipGamesIndex() {
     console.log(props);
 
     return (
-        <MainLayout>
+        <MainLayout showOverflow={true}>
             <Head title="VIP Games" />
-            <div className='flex flex-col xl:flex-row gap-[16px]'>
+            <div className='flex h-full flex-col xl:flex-row gap-[16px] pb-[16px] lg:pb-0'>
                 <HOFTable
-                    logoPos={-70}
+                    logoPos={-29}
                     load={false}
                     logo={VictoryLogo}
                     data={props.ranking}

@@ -14,13 +14,16 @@ export default function MainLayoutWF({ children }) {
             <GlobalLayout showOverflow={true}>
                 <Navbar />
                 <EasterEggEars />
-                <div className="p-[64px] w-full h-full relative z-[1]">
+                <div id='main-content' className="p-[64px] w-full h-full relative z-[1]">
                     {children}
                 </div>
                 <Footer />
             </GlobalLayout>
             <style>
                 {`
+                    #main-content {
+                        min-height: calc(100vh - 93px);
+                    }
                     html, body {
                         overflow-y: auto !important;
                         overflow-x: hidden !important;

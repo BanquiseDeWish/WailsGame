@@ -1,65 +1,29 @@
-:root {
-    --bg1: #020C11;
-    --scrollbar: #03121a;
-}
-
-.hoftable {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.hoftable .logo {
+.hof .logo {
     position: absolute;
     z-index: 10;
 }
 
-.hoftable .podium {
+.hof .podium {
     margin-top: 20px;
 }
 
-.hoftable .podium .pos {
+.podium .podium-position {
     display: flex;
     position: relative;
-    gap: 8px;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
     border-radius: 0px 0px 8px 8px;
+    padding-top: 24px;
 }
-.hoftable .podium .pos .pol {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    font-style: normal;
-    line-height: normal;
-}
-.hoftable .podium .pos.first .pol {
-    font-size: 48px;
-    font-weight: 700;
-    color: #888;
-}
-.hoftable .podium .pos.two .pol {
-    font-size: 36px;
-    font-weight: 700;
-    color: #888;
-}
-.hoftable .podium .pos.three .pol {
-    font-size: 36px;
-    font-weight: 700;
-    color: #888;
-}
-.hoftable .podium .display_points {
+
+.hof .podium .display_points {
     position: relative;
     background: var(--container_background);
     border-radius: 8px 8px 0px 0px;
     padding: 4px 8px 0px 8px;
 }
-.hoftable .podium .display_points::before {
+.hof .podium .display_points::before {
     position: absolute;
     content: '';
     width: 20px;
@@ -70,7 +34,7 @@
     border-bottom-right-radius: 8px;
     box-shadow: 0px 10px 0px 0px var(--container_background);
 }
-.hoftable .podium .display_points::after {
+.hof .podium .display_points::after {
     position: absolute;
     content: '';
     width: 20px;
@@ -81,65 +45,36 @@
     border-bottom-left-radius: 8px;
     box-shadow: 0px 10px 0 0 var(--container_background);
 }
-.hoftable .podium .display_points {
+.hof .podium .display_points {
     position: relative;
     background: var(--container_background);
     border-radius: 8px 8px 0px 0px;
     padding: 4px 8px 0px 8px;
 }
-.hoftable .podium .pos.two {
-    max-width: 206px !important;
-    height: 238px !important;
-    background: linear-gradient(180deg, var(--container_background) 0%, #888 95.31%);
-}
-.hoftable .podium .pos.first {
-    max-width: 210px !important;
-    height: 264px !important;
-    background: linear-gradient(180deg, var(--container_background) 0%, #DCA130 95.31%);
-}
-.hoftable .podium .pos.three {
-    max-width: 206px !important;
-    height: 234px !important;
-    background: linear-gradient(180deg, var(--container_background) 0%, #AE6A38 95.31%);
-}
-.hoftable .podium .pos.two .display_points::before {
+.hof .podium .pos.two .display_points::before {
     background-color: #888;
 }
-.hoftable .podium .pos.two .display_points::after {
+.hof .podium .pos.two .display_points::after {
     background-color: #888;
 }
-.hoftable .podium .pos .penguinCard {
-    gap: 8px;
-    background: transparent;
+.hof .penguinCard {
     padding: 12px;
 }
-.hoftable .podium .pos .penguinCard .username {
+.hof .penguinCard .username  {
     font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
 }
-.hoftable .podium .pos .penguinCard .description {
+.hof .penguinCard .description {
     font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
 }
 
-.hoftable .separator {
-    width: 70%;
-    height: 2px;
-    background-color: #282C36;
-}
-
-.hoftable .ttable {
+.hof .ttable {
     flex-direction: column;
     width: 100%;
     height: 100%;
     overflow-y: overlay;
 }
 
-.hoftable .entry {
+.hof .entry {
     display: flex;
     gap: 4px;
     border-radius: 8px;
@@ -148,27 +83,16 @@
     align-items: center;
 }
 
-.hoftable .entry .penguinCard {
+.hof .entry .penguinCard {
     background-color: transparent;
 }
 
-.hoftable .entry:hover,
-.hoftable .entry:hover .penguinCard {
+.hof .entry:hover,
+.hof .entry:hover .penguinCard {
     background: #2C3344;
 }
 
-.hoftable .entry .position.card {
-    width: 64px;
-    justify-content: center;
-    color: #B4B4B4;
-    font-size: 14px !important;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    background-color: transparent;
-}
-
-.hoftable .entry .penguinCard {
+.hof .entry .penguinCard {
     flex-grow: 1;
     flex: 1;
     padding: 12px;
@@ -176,7 +100,7 @@
     gap: 8px;
 }
 
-.hoftable .entry .card {
+.hof .entry .card {
     display: flex;
     align-items: center;
     border-radius: 8px;
@@ -184,20 +108,7 @@
     height: 64px;
 }
 
-.hoftable .entry .penguinCard .data .username {
-    font-size: 14px;
-}
-
-.hoftable .entry .penguinCard .data .description {
-    font-size: 12px;
-}
-
-.hoftable .entry .penguinCard .avatar {
-    width: 32px;
-    height: 32px;
-}
-
-.hoftable .entry .penguinCard .points {
+.hof .entry .penguinCard .points {
     color: white;
     display: flex;
     justify-content: center;
@@ -212,13 +123,6 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-}
-
-.hof .ranking {
-    background-color: var(--container_background);
-    padding: 32px 16px 16px;
-    border-radius: 8px;
-    height: 100%;
 }
 
 .hof .filterMenu .filterButton {
@@ -274,12 +178,16 @@
 
 .hof {
     display: flex;
+    gap: 16px;
     align-items: center;
     flex-direction: column;
-    gap: 35px;
     width: 100%;
-    height: 94%;
-    z-index: 1;
+    height: 100%;
+    position: relative;
+    background: var(--container_background);
+    border-radius: 8px;
+    padding: 16px;
+    padding-top: 32px;
 }
 .hof .btn_sort {
     display: flex;
