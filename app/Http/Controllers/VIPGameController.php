@@ -18,9 +18,11 @@ class VIPGameController extends Controller
     {
         $ranking = self::getRanking();
         $stats = self::getStats();
+        $lastWinner = self::getLastWinner();
         return Inertia::render('Games/VipGamesIndex', [
             'ranking' => $ranking,
-            'stats' => $stats
+            'stats' => $stats,
+            'lastWinner' => $lastWinner
         ]);
     }
 
@@ -144,5 +146,12 @@ class VIPGameController extends Controller
         $stats['average_game_time']->stat_value = sprintf('%d mins %d sec', $stats['average_game_time']->stat_value/60%60, $stats['average_game_time']->stat_value%60);
 
         return $stats;
+    }
+
+    public static function getLastWinner() {
+        $lastWinner = VipGame::orderBy('created_at', 'desc')->first();
+        if($lastWinner == null) return null;
+        $user = User::where('twitch_id', '=', $lastWinner->winner_id)->first();
+        return $user;
     }
 }

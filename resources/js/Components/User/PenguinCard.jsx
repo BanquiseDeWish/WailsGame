@@ -18,10 +18,14 @@ export default function PenguinCard({ data, className }) {
     let labelPoints = data?.labelPoints !== undefined ? data?.points !== undefined ? data?.points > 1 ? data?.labelPoints?.plural : data?.labelPoints?.singular : "" : "";
 
     return (
-        <div className={`penguinCard ${className}`} style={{ background: data?.background_type == "color" ? data?.background_data.color : "" }}>
-            <div className="avatar">
-                <img src={route('user.icon', { twitch_id: data?.id == undefined ? 0 : data?.id })} alt="AvatarDefault" />
-            </div>
+        <div className={`penguinCard p-[16px] ${className}`} style={{ background: data?.background_type == "color" ? data?.background_data.color : "" }}>
+            <img
+                src={route('user.icon', { twitch_id: data?.id == undefined ? 0 : data?.id })}
+                width={data?.iconSize == undefined ? 40 : data?.iconSize}
+                alt="AvatarDefault"
+                className='rounded-full'
+            />
+            
             <div className="flex justify-between items-center w-full">
                 <div className="data">
                     <div className="username flex items-center gap-1 select-none">{ username }</div>

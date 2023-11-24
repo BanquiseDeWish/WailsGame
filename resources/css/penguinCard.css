@@ -1,16 +1,13 @@
 .penguinCard {
     display: flex;
     align-items: center;
-    gap: 16px;
-    background-color: #020C11;
+    gap: 8px;
+    background-color: var(--light_background);
     border-radius: 8px;
-    padding: 16px;
 }
 .penguinCard .avatar {
     display: flex;
     align-items: center;
-    width: 48px;
-    height: 48px;
 }
 .penguinCard .avatar img {
     border-radius: 250px;

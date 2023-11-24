@@ -11,9 +11,17 @@ html {
 }
 
 * {
-    font-family: 'Poppins';
+    font-family: Poppins;
     z-index: 5;
     box-sizing: border-box;
+}
+
+.title {
+    color: #FFF;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }
 
 .container {
@@ -400,6 +408,7 @@ div:has(label + input) {
     line-height: normal;
 }
 /*End Footer*/
+
 
 @tailwind base;
 @tailwind components;
