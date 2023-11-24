@@ -26,7 +26,7 @@ export default function ProfileSidebar({ isWeils, className, ...otherProps }) {
                     </div>
                 </SidebarCategory>
 
-                <SidebarSeparator />
+                <SidebarSeparator/>
 
                 <SidebarCategory>
                     <Link href={route('profile.index')}>
