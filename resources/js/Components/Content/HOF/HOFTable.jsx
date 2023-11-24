@@ -7,14 +7,14 @@ import '../../../../css/hof.css'
 
 import HoFPodium from "./HoFPodium";
 
-export default function HoFTable({ load, logoPos, logo, data, labelPoints }) {
+export default function HoFTable({ load, logoPos, logo, data, labelPoints, className }) {
 
     const pos1 = data.find((val, index) => index == 0)
     const pos2 = data.find((val, index) => index == 1)
     const pos3 = data.find((val, index) => index == 2)
 
     return (
-        <div className="hof">
+        <div className={`hof w-fit ${className}`}>
             <div className="logo" style={{ top: logoPos + "px" }}><img src={logo} width={308} alt="" /></div>
 
             {load &&
