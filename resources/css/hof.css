@@ -125,56 +125,6 @@
     line-height: normal;
 }
 
-.hof .filterMenu .filterButton {
-    cursor: pointer;
-    position: relative;
-    background: var(--container_background);
-    min-width: 200px;
-    color: white;
-    padding: 16px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 24px;
-    outline: 5px solid rgba(2, 12, 17, 0.20);
-    transition: outline 0.2s linear;
-    overflow: hidden;
-}
-
-.hof .filterMenu .filterButton.active {
-    outline-color: rgba(74, 124, 152, 0.20);
-}
-
-.hof .filterMenu .filterButton.active .hover:after {
-    transform: scale(120);
-}
-
-.hof .filterMenu .filterButton .hover {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.hof .filterMenu .filterButton .hover:after {
-    content: '';
-    background: linear-gradient(99deg, #5A98BB 0%, #354368 57.81%), #D9D9D9;
-    border-radius: 50px;
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 50%;
-    right: 15px;
-    transform: translateY(-50%) scale(0);
-    transition: all 0.25s linear;
-}
-
-.hof .filterMenu .filterButton:not(.active):hover .hover:after {
-    transform: translateY(-50%) scale(1);
-    overflow: hidden;
-}
 
 .hof {
     display: flex;
