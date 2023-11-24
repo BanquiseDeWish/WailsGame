@@ -25,7 +25,7 @@ export default function VipGamesIndex() {
     return (
         <MainLayout showOverflow={true}>
             <Head title="VIP Games" />
-            <div className='flex h-full flex-col xl:flex-row gap-[16px] pb-[16px] lg:pb-0'>
+            <div className='flex h-fit flex-col xl:flex-row gap-[16px] pb-[16px] lg:pb-0'>
                 <HOFTable
                     logoPos={-29}
                     load={false}
