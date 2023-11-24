@@ -25,7 +25,7 @@ export default function VipGamesIndex() {
     return (
         <MainLayout showOverflow={true}>
             <Head title="VIP Games" />
-            <div className='flex h-fit flex-col xl:flex-row gap-[16px] pb-[16px] lg:pb-0'>
+            <div className='flex h-full flex-col xl:flex-row gap-[16px]'>
                 <HOFTable
                     logoPos={-29}
                     load={false}
@@ -47,7 +47,7 @@ export default function VipGamesIndex() {
                         />
                     </div>
 
-                    <div className='flex flex-wrap gap-[16px] gap-y-[48px] pt-[32px]'>
+                    <div className='flex flex-wrap gap-[16px] gap-y-[48px] pt-[32px] pb-[16px] lg:pb-0'>
                         <StatContainer
                             iconUrl={TicketMany}
                             statName={"Nombre Total de Numéro Retourné"}
