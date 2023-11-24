@@ -14,7 +14,7 @@ export default function HOFTable({ load, logoPos, logo, data, labelPoints }) {
     const pos3 = data.find((val, index) => index == 2)
 
     return (
-        <div className="ranking">
+        <div className="ranking min-h-[15rem] max-h-[30rem] xl:min-h-full xl:min-w-[800px]">
             <div className="hoftable">
                 <div className="logo" style={{ top: logoPos + "px" }}><img src={logo} width={308} alt="" /></div>
 
@@ -32,7 +32,7 @@ export default function HOFTable({ load, logoPos, logo, data, labelPoints }) {
 
                 {!load && data?.length !== 0 &&
                     <>
-                        <div className="podium w-full flex flex-wrap justify-between items-end">
+                        <div className="podium w-full hidden xl:flex flex-wrap justify-between items-end">
                             <div className="pos two flex-1">
                                 <div className="pol"><img src={TwoPol} alt="two_pol" /></div>
                                 <Penguin size={{ width: 84, height: 112 }} />
@@ -75,8 +75,8 @@ export default function HOFTable({ load, logoPos, logo, data, labelPoints }) {
 
                             </div>
                         </div>
-                        <div className="separator"></div>
-                        <div className="table">
+                        <div className="hidden xl:block separator"></div>
+                        <div className="ttable hidden xl:flex">
                             {data?.map((val, index) => {
 
                                 const position = (index + 1);
@@ -86,6 +86,16 @@ export default function HOFTable({ load, logoPos, logo, data, labelPoints }) {
                                         <HOFEntry position={position} data={val} labelPoints={labelPoints} />
                                     )
                                 }
+                            })}
+                        </div>
+                        <div className="ttable flex xl:hidden ">
+                            {data?.map((val, index) => {
+
+                                const position = (index + 1);
+
+                                return (
+                                    <HOFEntry position={position} data={val} labelPoints={labelPoints} />
+                                )
                             })}
                         </div>
                     </>

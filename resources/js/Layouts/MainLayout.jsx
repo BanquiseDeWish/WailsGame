@@ -4,16 +4,16 @@ import EasterEggEars from '@/Components/Easter-Egg/EasterEggEars';
 
 import Navbar from '@/Components/Navigation/Navbar';
 
-export default function MainLayout({ children }) {
+export default function MainLayout({ children, showOverflow }) {
 
     const props = usePage().props;
 
     return (
         <>
-            <GlobalLayout>
+            <GlobalLayout showOverflow={showOverflow}>
                 <Navbar />
                 <EasterEggEars />
-                <div className="p-[64px] h-full relative z-[1]">
+                <div className="w-[100dvw] xl:w-auto p-[16px] xl:p-[64px] xl:h-full relative z-[1]">
                     {children}
                 </div>
             </GlobalLayout>
