@@ -2,11 +2,11 @@ import MainLayout from '@/Layouts/MainLayout';
 import { Head } from '@inertiajs/react';
 import BDWSocket from '../../Game/socket';
 import { useEffect, useState } from 'react';
-import GreenButton from '@/Components/Buttons/GreenButton';
+import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 import crypto from 'node:crypto'
 let socket = null;
 import { toast } from 'sonner'
-import PenguinCard from '@/Components/PenguinCard';
+import PenguinCard from '@/Components/User/PenguinCard';
 import '../../../css/kartChance.css'
 import KCBuild from '@/Components/KCBuild';
 import BinIcon from '@/Components/Icons/BinIcon';
