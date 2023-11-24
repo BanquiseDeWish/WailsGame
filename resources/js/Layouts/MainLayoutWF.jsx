@@ -11,7 +11,7 @@ export default function MainLayoutWF({ children }) {
 
     return (
         <>
-            <GlobalLayout>
+            <GlobalLayout showOverflow={true}>
                 <Navbar />
                 <EasterEggEars />
                 <div className="p-[64px] w-full h-full relative z-[1]">

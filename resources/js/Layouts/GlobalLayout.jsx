@@ -4,7 +4,7 @@ export default function GlobalLayout({ children, showOverflow }) {
     return (
         <>
             <Toaster />
-            <div className={`flex w-screen h-screen flex-col items-center ${showOverflow ? "overflow-x-hidden overflow-y-auto xl:overflow-y-hidden" : "overflow-hidden"}`}>
+            <div className={`flex w-screen h-screen flex-col items-center ${showOverflow ? "overflow-x-hidden overflow-y-auto" : "overflow-hidden"}`}>
                 <span id="app_background"/>
                 {children}
             </div>
