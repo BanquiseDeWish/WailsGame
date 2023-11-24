@@ -32,6 +32,7 @@ export default function VipGamesIndex() {
                     logo={VictoryLogo}
                     data={props.ranking}
                     labelPoints={{ singular: "Victoire", plural: "Victoires" }}
+                    className={"shrink-0 w-full max-w-[800px]"}
                 />
 
                 <div className='flex flex-col h-full gap-[16px]'>
