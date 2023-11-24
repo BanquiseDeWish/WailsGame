@@ -17,7 +17,11 @@ class VIPGameController extends Controller
     public function index(Request $request)
     {
         $ranking = self::getRanking();
-        return Inertia::render('Games/VipGamesIndex', ['ranking' => $ranking]);
+        $stats = self::getStats();
+        return Inertia::render('Games/VipGamesIndex', [
+            'ranking' => $ranking,
+            'stats' => $stats
+        ]);
     }
 
     /**
@@ -122,5 +126,23 @@ class VIPGameController extends Controller
         GameStat::updateStat('vipgames', 'average_player', $stats['average_player']);
         GameStat::updateStat('vipgames', 'player_with_most_attempt', $stats['player_with_most_attempt']);
         GameStat::updateStat('vipgames', 'most_bonus_used', $stats['most_bonus_used']);
+    }
+
+    /**
+     * Get all stats for the VIPGames
+     */
+    public static function getStats() {
+        $stats = GameStat::where('game', '=', 'vipgames')->get();
+        $stats = $stats->keyBy('stat_name');
+
+        $stats['most_ticket_played']->stat_value = $stats['most_ticket_played']->stat_value + 1;
+
+        $user = User::where('twitch_id', '=', $stats['player_with_most_attempt']->stat_value)->first();
+        if($user != null)
+            $stats['player_with_most_attempt']->stat_value = $user->twitch_username;
+
+        $stats['average_game_time']->stat_value = sprintf('%d mins %d sec', $stats['average_game_time']->stat_value/60%60, $stats['average_game_time']->stat_value%60);
+
+        return $stats;
     }
 }

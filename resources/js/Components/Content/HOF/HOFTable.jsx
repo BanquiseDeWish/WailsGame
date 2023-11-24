@@ -14,6 +14,7 @@ export default function HOFTable({ load, logoPos, logo, data, labelPoints }) {
     const pos3 = data.find((val, index) => index == 2)
 
     return (
+        <div className="hof">
         <div className="ranking min-h-[15rem] max-h-[30rem] xl:min-h-full xl:min-w-[800px]">
             <div className="hoftable">
                 <div className="logo" style={{ top: logoPos + "px" }}><img src={logo} width={308} alt="" /></div>
@@ -101,6 +102,7 @@ export default function HOFTable({ load, logoPos, logo, data, labelPoints }) {
                     </>
                 }
             </div>
+        </div>
         </div>
 
     )
