@@ -13,7 +13,7 @@ export default function MainLayout({ children, showOverflow }) {
             <GlobalLayout showOverflow={showOverflow}>
                 <Navbar />
                 <EasterEggEars />
-                <div className="w-[100dvw] lg:w-auto p-[16px] lg:p-[64px] xl:h-full relative z-[1]">
+                <div className="w-[100dvw] xl:w-auto p-[16px] xl:p-[64px] xl:h-full relative z-[1]">
                     {children}
                 </div>
             </GlobalLayout>
