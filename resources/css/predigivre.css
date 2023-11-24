@@ -8,7 +8,6 @@
 .prediGivre .stats {
     display: flex;
     gap: 8px;
-    width: 16rem;
     flex-direction: column;
 }
 .prediGivre .stats .card {
