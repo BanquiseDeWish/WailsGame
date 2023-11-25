@@ -358,8 +358,6 @@ div:has(label + input) {
 .badge_state_live.off .state {
     background-color: #980303;
 }
-
-
 /*Footer*/
 .footer {
     display: flex;
