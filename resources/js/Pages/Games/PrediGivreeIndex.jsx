@@ -1,7 +1,7 @@
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 import MainLayout from '@/Layouts/MainLayout';
-import HOFTable from '@/Components/Content/HoF/HoFTable';
+import HOFTable from '@/Components/Content/HOF/HOFTable';
 import '../../../css/predigivre.css'
 import PGLogo from '../../../assets/games/pg_classement.svg'
 import axios from 'axios';

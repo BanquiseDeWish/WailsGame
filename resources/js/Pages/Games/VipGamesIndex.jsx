@@ -1,7 +1,7 @@
 import { Head, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 
-import HOFTable from '@/Components/Content/HoF/HoFTable';
+import HOFTable from '@/Components/Content/HOF/HOFTable';
 
 import MainLayout from '@/Layouts/MainLayout';
 import VictoryLogo from '../../../assets/games/vipgames_victory.svg'
