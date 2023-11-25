@@ -7,8 +7,8 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 100dvw;
+    height: 100dvh;
     z-index: 1;
     opacity: 1;
     top: 0;
@@ -20,7 +20,6 @@
     display: flex;
     z-index: 1000 !important;
     opacity: 1;
-    transition: 1s ease-in-out;
 }
 
 #modal_background {
@@ -30,17 +29,22 @@
     height: 100%;
     justify-content: center;
     align-items: center;
-    background-color: rgba(3, 15, 21, 0.6);
+    background-color: rgba(1, 8, 12, 0.7);
     opacity: 0;
     top: 0;
     left: 0;
-    transition: opacity 0.3s ease-in-out;
-    backdrop-filter: blur(3px);
+    transition-property: opacity, backdrop-filter;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
+    backdrop-filter: blur(0px);
 }
 
 #modal_background.active {
     opacity: 1;
-    transition: opacity 0.3s ease-in-out;
+    backdrop-filter: blur(3px);
+    transition-property: opacity, backdrop-filter;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in-out;
 }
 
 .modal {
@@ -53,16 +57,22 @@
     max-height: 80%;
     background-color: white;
     border-radius: 8px;
-    padding: 20px;
-    z-index: 1001 !important;
+    padding: 32px;
+    z-index: 1000;
     transform: scale(0);
     justify-content: center;
     align-items: center;
-    background-color: #020C11;
+    background-color: var(--container_background);
+    transform-style: preserve-3d;
 }
 
 .modal.active {
     animation: modal_grow var(--modal_transition) linear forwards;
+}
+
+.modal.inactive {
+    animation: modal_shrink 0.2s linear forwards;
+
 }
 
 @-webkit-keyframes modal_grow {
@@ -75,4 +85,14 @@
     from { transform: scale(0)}
     60% { transform: scale(1.1)}
     to { transform: scale(1)}
+}
+
+@-webkit-keyframes modal_shrink {
+    from { transform: scale(1)}
+    to { transform: scale(0)}
+}
+
+@keyframes modal_shrink {
+    from { transform: scale(1)}
+    to { transform: scale(0)}
 }
