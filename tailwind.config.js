@@ -9,6 +9,8 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.jsx',
+        './resources/assets/**/*.svg',
+        './resources/css/**/*.css',
         'node_modules/preline/dist/*.js',
         'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
         'node_modules/@headlessui/react/**/*.{js,jsx,ts,tsx}',
