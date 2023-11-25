@@ -77,10 +77,7 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
                             if (position > 3) {
                                 return (
                                     <>
-                                    <HOFEntry position={position} data={val} labelPoints={labelPoints} />
-                                    <HOFEntry position={position} data={val} labelPoints={labelPoints} />
-                                    <HOFEntry position={position} data={val} labelPoints={labelPoints} />
-                                    <HOFEntry position={position} data={val} labelPoints={labelPoints} />
+                                        <HOFEntry position={position} data={val} labelPoints={labelPoints} />
                                     </>
                                 )
                             }
