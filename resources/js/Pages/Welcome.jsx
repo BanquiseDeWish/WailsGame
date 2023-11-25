@@ -29,20 +29,22 @@ export default function Welcome() {
         <>
             <MainLayoutWF>
                 <Head title="Accueil" />
-                <div className="flex flex-col items-center">
-                    <WeilsText className="w-[940px] h-[132px]" />
-                    <WeilsLogo p1="gold_0" p2="gold_1" className="mt-[-45px] w-[352px] h-[380px]" />
-                </div>
-                <div className="flex justify-center">
-                    <a href="https://twitch.tv/weilsttv" target="_blank" className={`badge_state_live ${onLive ? "on" : "off"}`}>
-                        <div className="flex gap-[16px] items-center">
-                            <span className="state" />
-                            <span className='flex items-center gap-4'>
-                                {onLive ? "En Stream" : "Hors Stream"}
-                                {onLive && ( <div className="flex items-center gap-2"><Eye /> {counter}</div> ) }
-                            </span>
-                        </div>
-                    </a>
+                <div className="flex flex-col justify-between h-full">
+                    <div className="flex flex-col items-center">
+                        <WeilsText className="w-[940px] h-[132px]" />
+                        <WeilsLogo p1="gold_0" p2="gold_1" className="mt-[-45px] w-[352px] h-[380px]" />
+                    </div>
+                    <div className="flex justify-center">
+                        <a href="https://twitch.tv/weilsttv" target="_blank" className={`badge_state_live ${onLive ? "on" : "off"}`}>
+                            <div className="flex gap-[16px] items-center">
+                                <span className="state" />
+                                <span className='flex items-center gap-4'>
+                                    {onLive ? "En Stream" : "Hors Stream"}
+                                    {onLive && ( <div className="flex items-center gap-2"><Eye /> {counter}</div> ) }
+                                </span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </MainLayoutWF>
         </>
