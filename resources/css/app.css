@@ -342,8 +342,6 @@ div:has(label + input) {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
-    margin-top: 160px;
 }
 .badge_state_live .state {
     display: block;
