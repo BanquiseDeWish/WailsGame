@@ -29,7 +29,7 @@ export default function Welcome() {
         <>
             <MainLayoutWF>
                 <Head title="Accueil" />
-                <div className="flex flex-col justify-between h-full">
+                <div className="flex flex-col h-full justify-between">
                     <div className="flex flex-col items-center">
                         <WeilsText className="w-[940px] h-[132px]" />
                         <WeilsLogo p1="gold_0" p2="gold_1" className="mt-[-45px] w-[352px] h-[380px]" />
