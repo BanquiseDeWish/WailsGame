@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 
+
 import '../../../css/modal.css';
 
 export default class BaseModal extends React.Component {
@@ -43,7 +44,7 @@ export default class BaseModal extends React.Component {
 
                     <div
                         id='modal'
-                        className={`modal ${this.state.openModal ? 'active' : ''}`}
+                        className={`modal ${this.state.openModal ? 'active' : 'inactive'}`}
                     >
                         {children}
                     </div>
