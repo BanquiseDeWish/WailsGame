@@ -14,7 +14,7 @@ export default function Sidebar({ children, className, left = true }) {
         let content = null;
 
         children.forEach(child => {
-            switch (child.type.name) {
+            switch (child.type.className) {
                 case "SidebarOpener":
                     opener = child;
                     break;
@@ -28,7 +28,7 @@ export default function Sidebar({ children, className, left = true }) {
             opener: opener,
             content: content
         });
-    }, [children]);
+    }, []);
 
     return (
         <>

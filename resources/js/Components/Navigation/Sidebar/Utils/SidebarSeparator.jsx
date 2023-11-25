@@ -2,6 +2,8 @@ import React from 'react';
 
 class SidebarSeparator extends React.Component {
 
+    static className = "SidebarSeparator";
+
     constructor(props) {
         super(props);
     }

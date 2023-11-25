@@ -2,6 +2,8 @@ import React from 'react';
 
 class SidebarOpener extends React.Component {
 
+    static className = "SidebarOpener";
+
     constructor(props) {
         super(props);
     }
