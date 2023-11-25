@@ -14,7 +14,7 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
     const pos3 = data.find((val, index) => index == 2)
 
     return (
-        <div className={`hof w-fit ${className}`}>
+        <div className={`hof h-fit max-h-full xl:h-full w-fit ${className}`}>
             <div className="logo" style={{ top: logoPos + "px" }}><img src={logo} width={308} alt="" /></div>
 
             {load &&
@@ -83,7 +83,7 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
                             }
                         })}
                     </div>
-                    <div className="ttable flex xl:hidden ">
+                    <div className="ttable flex xl:hidden">
                         {data?.map((val, index) => {
 
                             const position = (index + 1);

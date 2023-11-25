@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useSwipeable } from 'react-swipeable';
 import { usePage, Link } from "@inertiajs/react"
 
 export default function Sidebar({ children, className, left = true }) {
@@ -30,20 +31,26 @@ export default function Sidebar({ children, className, left = true }) {
         });
     }, []);
 
+    const handlers = useSwipeable({
+        onSwiped: (eventData) => {
+            let checkDirection = left ? "Right" : "Left"
+            setShow(eventData.dir == checkDirection)
+        },
+    });
+
     return (
-        <>
+        <div {...handlers}>
             <div className={`flex lg:hidden ${className} ${show ? 'z-[2]' : 'z-[1]'}`}>
 
                 <div className="sidebar_opener z-50" onClick={() => { setShow(true) }} >
                     {values.opener}
                 </div>
-
                 <div onClick={() => { setShow(false) }} className={`backdrop ${show ? "show" : "hide-" + (left ? "left" : "right")}`}></div>
                 <aside className={`sidebar sidebar-${left ? "left" : "right"} ${show ? "show" : "hide-" + (left ? "left" : "right")}`}>
                     {values.content}
                 </aside>
             </div>
-        </>
+        </div>
     )
 
 }
