@@ -58,7 +58,7 @@ export default function PrediGivreeIndex(props) {
 
                 <HOFTable className={"shrink-0 w-full xl:max-w-[800px]"} logoPos={-14} load={load} logo={PGLogo} data={pgData} labelPoints={{ singular: "pt", plural: "pts" }} />
 
-                <div className="flex w-full flex-col h-full gap-[16px] pb-[48px] lg:pb-0">
+                <div className="flex w-full flex-col h-full gap-[16px] pb-[74px] lg:pb-0">
                     <div className='flex flex-wrap gap-[16px] gap-y-[48px] pt-[32px]'>
                         <StatContainer
                             iconUrl={Cup}

@@ -47,7 +47,7 @@ export default function VipGamesIndex() {
                         />
                     </div>
 
-                    <div className='flex flex-wrap gap-[16px] gap-y-[48px] pt-[32px] pb-[16px] lg:pb-0'>
+                    <div className='flex flex-wrap gap-[16px] gap-y-[48px] pt-[32px] pb-[74px] lg:pb-0'>
                         <StatContainer
                             iconUrl={TicketMany}
                             statName={"Nombre Total de Numéro Retourné"}
