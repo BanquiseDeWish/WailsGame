@@ -1,11 +1,11 @@
-import HOFEntry from "./HoFEntry";
+import HOFEntry from "./HOFEntry";
 
 import First from "../../../../assets/img/hof/first.svg"
 import Second from "../../../../assets/img/hof/second.svg"
 import Third from "../../../../assets/img/hof/third.svg"
 import '../../../../css/hof.css'
 
-import HoFPodium from "./HoFPodium";
+import HoFPodium from "./HOFPodium";
 
 export default function HoFTable({ load, logoPos, logo, data, labelPoints, className }) {
 
