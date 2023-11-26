@@ -47,7 +47,7 @@ export default function PrediGivreeIndex(props) {
             <div className="prediGivre flex h-full flex-col xl:flex-row gap-[16px] pb-[16px] lg:pb-0">
                 <div className="filterMenu flex flex-col gap-[16px]">
                     <span className='text-white text-[20px] font-[700]'>Filtrer par</span>
-                    <div className={`flex flex-row py-[16px] px-[6px] overflow-x-auto xl:py-[6px] xl:overflow-x-hidden xl:flex-col gap-[16px] xl:flex`}>
+                    <div className={`flex flex-row pb-4 overflow-x-auto xl:py-[6px] xl:overflow-x-hidden xl:flex-col gap-[16px] xl:flex`}>
                         {filterButton("today", "Aujourd'hui")}
                         {filterButton("week", "Cette semaine")}
                         {filterButton("month", "Ce mois-ci")}
