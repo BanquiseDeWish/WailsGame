@@ -17,6 +17,8 @@ import Clover from '../../../assets/icons/stats/clover.svg';
 import Star from '../../../assets/icons/stats/star.svg';
 import Users from '../../../assets/icons/stats/users.svg';
 
+import Crown from '../../../assets/icons/crown.svg';
+
 export default function VipGamesIndex() {
 
     const props = usePage().props;
@@ -39,11 +41,19 @@ export default function VipGamesIndex() {
                     <div className='flex bg-[#18212E] items-center rounded-[8px] justify-around'>
                         <div className='flex flex-col gap-[16px]'>
                             <h1 className='title'>Gagnant en titre</h1>
-                            <PenguinCard data={{ username: props.lastWinner.twitch_username }}/>
+                            <PenguinCard
+                                data={{ 
+                                    username: props.lastWinner.twitch_username,
+                                    background_type: "color",
+                                    background_data: {
+                                        color: "transparent",
+                                    },
+                                }}
+                            />
                         </div>
                         <Penguin
                             userId={props.lastWinner}
-                            size={{width: 120, height: 220}}
+                            size={{width: 120}}
                         />
                     </div>
 
@@ -81,6 +91,26 @@ export default function VipGamesIndex() {
                     </div>
                 </div>
             </div>
+            <style>{`
+                .hof .label_points {
+                    display: none;
+                }
+                .hof .points_data {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 8px;
+                }
+                .hof .points_data::after {
+                    content: '';
+                    display: inline-block;
+                    width: 22px;
+                    height: 22px;
+                    background: url(${Crown}) no-repeat center center;
+                    background-size: contain;
+                }
+            `}
+            </style>
         </MainLayout>
     );
 }

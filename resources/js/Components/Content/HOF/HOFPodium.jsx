@@ -29,7 +29,7 @@ export default function HoFPodium({ data, style }) {
                 }}
                 />
                 
-                <div className="flex flex-col items-center">
+                <div className="flex w-full flex-col items-center">
                     <PenguinCard
                         data={{
                             username: data?.username,

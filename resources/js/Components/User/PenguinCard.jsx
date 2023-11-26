@@ -44,15 +44,15 @@ export default function PenguinCard({ data, className }) {
                 className='rounded-full'
             />
             
-            <div className="flex justify-between items-center w-full">
-                <div className="data">
-                    <div className="username flex items-center gap-1 select-none">{ username }</div>
-                    <div className="description select-none">{ data?.slogan == undefined ? "Un pingouin voyageur" : data?.slogan }</div>
+            <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
+                <div className="data flex flex-col flex-grow overflow-hidden">
+                    <div className="username select-none truncate">{ username }</div>
+                    <div className="description select-none truncate">{ data?.slogan == undefined ? "Un pingouin voyageur" : data?.slogan }</div>
                 </div>
                 {data?.points !== undefined && stylePoints == "default" &&
                     <div className="points">
-                        <span className='text-[18px] font-[500]  leading-[normal]'>{data?.points}</span>
-                        <span className="text-[#9799A7] text-[14px] font-[500] leading-[normal]">{labelPoints}</span>
+                        <span className='points_data text-[18px] font-[500]  leading-[normal]'>{data?.points}</span>
+                        <span className="label_points text-[#9799A7] text-[14px] font-[500] leading-[normal]">{labelPoints}</span>
                     </div>
                 }
                 {data?.points !== undefined && stylePoints == "circle" &&

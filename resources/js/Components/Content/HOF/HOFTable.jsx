@@ -15,7 +15,9 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
 
     return (
         <div className={`hof h-fit max-h-full xl:h-full w-fit ${className}`}>
-            <div className="logo" style={{ top: logoPos + "px" }}><img src={logo} width={308} alt="" /></div>
+            <div className="logo" style={{ top: logoPos + "px" }}>
+                <img src={logo} className="w-[250px] lg:w-[308px]" alt="" />
+            </div>
 
             {load &&
                 <div className="flex justify-center items-center w-full h-[12rem] gap-4 text-white text-2xl">
