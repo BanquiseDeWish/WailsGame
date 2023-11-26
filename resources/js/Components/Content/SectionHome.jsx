@@ -1,5 +1,6 @@
 import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
-export default function SectionHome({ id, filled, reverse, thumbnailSection, PictureLogo, TextLogo, ContentTitle, TextButton, children }) {
+import { router } from '@inertiajs/react';
+export default function SectionHome({ id, filled, reverse, thumbnailSection, PictureLogo, TextLogo, ContentTitle, TextButton, UrlButton, children }) {
 
 
     return (
@@ -27,7 +28,7 @@ export default function SectionHome({ id, filled, reverse, thumbnailSection, Pic
                             }
                         </div>
                         <div className={`thumbnail w-full lg:hidden`}>
-                            <img src={thumbnailSection} className='w-full h-full' alt="thumbnail" />
+                            <img src={thumbnailSection}  className='w-full h-full' alt="thumbnail" />
                         </div>
                     </div>
                     <div className="content flex">
@@ -39,7 +40,7 @@ export default function SectionHome({ id, filled, reverse, thumbnailSection, Pic
                         </div>
                     </div>
                     <div className="actions flex justify-center items-center w-full">
-                        <GreenButton className="button_green w-fit">{TextButton}</GreenButton>
+                        <GreenButton routeName={UrlButton.url} extraRoute={UrlButton.extra} className="button_green w-fit">{TextButton}</GreenButton>
                     </div>
                 </div>
                 <div className="content hidden xl:flex">
@@ -51,7 +52,7 @@ export default function SectionHome({ id, filled, reverse, thumbnailSection, Pic
                     </div>
                 </div>
                 <div className="actions hidden xl:flex justify-center items-center w-full">
-                    <GreenButton className="button_green w-fit">{TextButton}</GreenButton>
+                    <GreenButton routeName={UrlButton.url} extraRoute={UrlButton.extra} className="button_green w-fit">{TextButton}</GreenButton>
                 </div>
             </div>
         </section>

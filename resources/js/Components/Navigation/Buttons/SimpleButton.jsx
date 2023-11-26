@@ -1,13 +1,13 @@
 import { Link } from '@inertiajs/react';
 
-export default function SimpleButton({ children, routeName, className = '', disabled=false, ...otherProps }) {
+export default function SimpleButton({ children, routeName, extraRoute,  className = '', disabled=false, ...otherProps }) {
 
     return (
         <>
 
             {otherProps.type != undefined || otherProps.onClick != undefined ? (
                 <button
-                    className={'simple_button ' + className}
+                    className={`simple_button ${className}`}
                     {...otherProps}
                     disabled={disabled}
                 >
@@ -15,8 +15,8 @@ export default function SimpleButton({ children, routeName, className = '', disa
                 </button>
             ) : (
                 <Link
-                href={routeName != undefined ? route(routeName) : ''}
-                    className={'simple_button ' + className}
+                href={routeName != undefined ? route(routeName, extraRoute) : ''}
+                    className={`simple_button ${className}`}
                     {...otherProps}
                     disabled={disabled}
                 >
