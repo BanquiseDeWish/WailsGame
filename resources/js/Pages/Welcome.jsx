@@ -68,7 +68,7 @@ export default function Welcome() {
                     UrlButton={{ url: "boutique.merch" }}
                 >
                     Tu veux être habillé à la pointe de la mode ? Sur le Weils'tore je propose divers produits, allant d'un simple t-shirt à un sweat en passant par une magnifique tasse. Tous arborant notre logo, un pingouin aussi splendide que toi !
-                    Et comme je le fais en live, <i>*glup*</i> <i>*glup*</i> tasse dispo sur la boutique
+                    <p>Et comme je le fais en live, <i>*glup*</i> <i>*glup*</i> tasse dispo sur la boutique</p>
                 </SectionHome>
                 <SectionHome
                     id="vipgames"
