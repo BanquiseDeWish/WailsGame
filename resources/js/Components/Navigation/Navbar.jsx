@@ -17,7 +17,7 @@ export default function Navbar() {
 
     return (
         <>
-            <div className="navbar flex flex-row w-full items-center justify-between p-4">
+            <div className="navbar flex flex-row w-full items-center justify-between p-4 flex-shrink-0 h-[93px]">
                 <LinkSidebar className=""/>
                 <AppLogo className="z-0 absolute left-1/2 -translate-x-1/2 lg:flex lg:relative lg:left-auto lg:translate-x-0"/>
                 {
