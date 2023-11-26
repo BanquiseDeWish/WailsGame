@@ -14,10 +14,10 @@ export default function MainLayoutWF({ children }) {
             <GlobalLayout showOverflow={true}>
                 <Navbar />
                 <EasterEggEars />
-                <div id='main-content' className="p-[64px] w-full h-full relative z-[1]">
+                <div id='main-content' className="w-full h-full relative z-[1]">
                     {children}
+                    <Footer />
                 </div>
-                <Footer />
             </GlobalLayout>
             <style>
                 {`

@@ -53,7 +53,7 @@
 }
 
 .prediGivre .filterMenu .filterButton.active .hover:after {
-    transform: scale(120);
+    transform: scale(18.5);
 }
 
 .prediGivre .filterMenu .filterButton .hover {

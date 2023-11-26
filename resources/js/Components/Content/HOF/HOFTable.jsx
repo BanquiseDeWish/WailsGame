@@ -18,13 +18,13 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
             <div className="logo" style={{ top: logoPos + "px" }}><img src={logo} width={308} alt="" /></div>
 
             {load &&
-                <div className="flex justify-center items-center w-full h-full gap-4 text-white text-2xl">
+                <div className="flex justify-center items-center w-full h-[12rem] gap-4 text-white text-2xl">
                     <span className="loader"></span> Chargement des données
                 </div>
             }
 
             {!load && data?.length == 0 &&
-                <div className="flex justify-center items-center w-full h-full text-white text-2xl">
+                <div className="flex justify-center items-center w-full h-[12rem] text-white text-2xl">
                     Aucune données
                 </div>
             }

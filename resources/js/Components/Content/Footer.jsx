@@ -13,7 +13,7 @@ export default function Footer() {
             <div className="infos">
                 <div className="networks flex-wrap lg:flex-nowrap">
                     <a target="_blank" href="https://dcord.banquisedeweils.fr">
-                        <Discord />
+                        <Discord width={52} height={52} />
                     </a>
                     <a target="_blank" href="https://twitch.tv/weilsttv">
                         <IconTwitch size={52} />
