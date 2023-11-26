@@ -67,8 +67,8 @@ export default function Welcome() {
                     TextButton="Aller vers la boutique"
                     UrlButton={{ url: "boutique.merch" }}
                 >
-                    Lorem ipsum dolor sit amet et dolore eos. Vulputate est feugiat sit et erat consequat et at sed.  Sadipscing clita ut eirmod sadipscing augue ipsum illum ipsum amet adipiscing duo diam. Est erat eum ea voluptua consetetur.  Aliquyam lorem lobortis odio vel duo ipsum et. Diam clita in rebum diam lorem in dolor labore. Stet kasd clita elitr gubergren est assum gubergren diam.
-                    Tempor lorem ipsum sit augue stet stet amet consequat erat amet sit nostrud in.
+                    Tu veux être habillé à la pointe de la mode ? Sur le Weils'tore je propose divers produits, allant d'un simple t-shirt à un sweat en passant par une magnifique tasse. Tous arborant notre logo, un pingouin aussi splendide que toi !
+                    Et comme je le fais en live, <i>*glup*</i> <i>*glup*</i> tasse dispo sur la boutique
                 </SectionHome>
                 <SectionHome
                     id="vipgames"
@@ -88,7 +88,7 @@ export default function Welcome() {
                     PictureLogo={PGLogo}
                     ContentTitle="Les prédictions givrées"
                     TextButton="Voir le Hall of Fame"
-                    UrlButton={{ url: 'predigivre.halloffame', extra: {filter: 'today'}}}
+                    UrlButton={{ url: 'predigivre.halloffame', extra: { filter: 'today' } }}
                 >
                     Pendant les parties de Mario Kart, au début de chaque course, on lance une prédiction sur ma position à la fin de la course ! Prédisez ma position et si vous tombez sur le chiffre exact, vous gagnez des points !
                     Mais si vous votez une position au-dessus ou en dessous, vous en gagnez également ! Ces points sont visibles dans le Hall of Fame disponible ci-dessous.
