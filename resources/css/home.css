@@ -1,0 +1,122 @@
+.discord {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    width: 320px;
+    height: 430px;
+    border-radius: 8px;
+    padding: 16px;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--container_background);
+}
+.discord .head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+}
+.discord .head span.title {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.discord .list {
+    border-radius: 8px;
+    gap: 18px;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    max-height: 258px;
+    overflow-y: auto;
+    flex: 1 1 0%;
+    background-color: var(--content_background);
+}
+.discord .actions {
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+}
+.discord .actions .join {
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: linear-gradient(99deg, #795ABB 0%, #553568 100%);
+}
+.discord .list .user {
+    display: flex;
+    gap: 18px;
+}
+.discord .list .user .avatar img {
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+}
+.discord .list .user .infos .username, .discord .list .user .infos .state {
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+section {
+    display: flex;
+}
+section.filled {
+    background-color: var(--content_background);
+}
+section.reverse {
+    flex-direction: row-reverse;
+}
+section .infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+section .infos .title {
+    width: 100%;
+    text-align: center;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    justify-content: center;
+}
+section .infos .content {
+    flex-direction: column;
+    gap: 16px;
+}
+section .infos .content .subtitle {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+section .infos .content .paraph {
+    text-align: justify;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    font-size: 14px;
+}
+section .thumbnail {
+    transition: transform 0.2s ease-in-out;
+}
+section .thumbnail:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+@media (min-width: 1280px) {
+    section .infos .content .subtitle {
+        font-size: 24px;
+    }
+    section .infos .content .paraph {
+        font-size: 16px;
+    }
+}
