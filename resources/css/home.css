@@ -63,6 +63,7 @@
 }
 section {
     display: flex;
+    overflow: hidden;
 }
 section.filled {
     background-color: var(--content_background);
@@ -111,6 +112,18 @@ section .thumbnail {
 }
 section .thumbnail:hover {
     transform: scale(1.1) rotate(5deg);
+}
+section .artefact {
+    position: absolute;
+    bottom: -95px;
+    right: 84px;
+}
+section.reverse .artefact {
+    left: 170px;
+}
+section .artefact img {
+    width: 230px;
+    height: 402px;
 }
 @media (min-width: 1280px) {
     section .infos .content .subtitle {

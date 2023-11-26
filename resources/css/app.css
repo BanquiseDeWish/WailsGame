@@ -258,6 +258,7 @@ div:has(label + input) {
   }
 
 @media (min-width: 1024px) {
+
     ::-webkit-scrollbar {
         width: 10px;
     }

@@ -1,10 +1,10 @@
 import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 import { router } from '@inertiajs/react';
-export default function SectionHome({ id, filled, reverse, thumbnailSection, PictureLogo, TextLogo, ContentTitle, TextButton, UrlButton, children }) {
+export default function SectionHome({ id, filled, reverse, thumbnailSection, PictureLogo, TextLogo, ContentTitle, TextButton, UrlButton, ArtefactPicture, children }) {
 
 
     return (
-        <section className={`flex-col lg:flex-row px-[16px] py-[64px] lg:px-[64px]  ${id} ${filled ? "filled" : ""} ${reverse ? "reverse" : ""}`}>
+        <section className={`relative flex-col lg:flex-row px-[16px] py-[64px] lg:px-[64px]  ${id} ${filled ? "filled" : ""} ${reverse ? "reverse" : ""}`}>
             <div className={`thumbnail hidden lg:block lg:max-w-[600px] lg:w-[600px]`}>
                 <img src={thumbnailSection} alt="thumbnail" />
             </div>
@@ -54,6 +54,9 @@ export default function SectionHome({ id, filled, reverse, thumbnailSection, Pic
                 <div className="actions hidden xl:flex justify-center items-center w-full">
                     <GreenButton routeName={UrlButton.url} extraRoute={UrlButton.extra} className="button_green w-fit">{TextButton}</GreenButton>
                 </div>
+            </div>
+            <div className="artefact hidden xl:flex">
+                <img src={ArtefactPicture} alt="artefact" />
             </div>
         </section>
     )
