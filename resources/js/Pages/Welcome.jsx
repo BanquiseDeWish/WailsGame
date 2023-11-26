@@ -1,7 +1,7 @@
 import { Link, Head, usePage } from '@inertiajs/react';
 import MainLayoutWF from '@/Layouts/MainLayoutWF';
 import WeilsText from '@/Components/Icons/WeilsText';
-import WeilsTextSVG from '../../assets/img/weils_text_mobile.svg';
+import WeilsLogoSVG from '../../assets/img/weils_logo_mobile.svg';
 import WeilsLogo from '@/Components/Icons/WeilsLogo';
 import { useEffect, useState } from 'react';
 import '../../css/home.css'
@@ -49,7 +49,7 @@ export default function Welcome() {
                 <Head title="Accueil" />
                 <div className="relative flex flex-col py-[64px] justify-center gap-[70px] lg:gap-0 lg:justify-between" style={{ height: "calc(100dvh - 93px)" }}>
                     <div className="flex lg:hidden flex-col items-center">
-                        <img src={WeilsTextSVG} className='px-[32px]' />
+                        <img src={WeilsLogoSVG} className='px-[32px] w-[80%]' />
                     </div>
                     <div className="hidden lg:flex flex-col items-center">
                         <WeilsText className="w-[940px] h-[132px]" />
