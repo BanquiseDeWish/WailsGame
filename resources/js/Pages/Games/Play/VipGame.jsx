@@ -27,7 +27,7 @@ export default function VipGame() {
         isConnected: false,
         tickets: [],
         waiting_users: [],
-        current_player: {id: -1, name: '?????????'},
+        current_player: { id: -1, name: '?????????' },
         playCount: 0,
         avatar: props.ziggy.url + '/api/user/0/icon',
         news_list: [<div className='w-full h-[80px] container le-tchat p-[16px] whitespace-nowrap'>Historique des Bonus</div>],
@@ -50,23 +50,23 @@ export default function VipGame() {
     });
 
     async function modifyValue(key, value) {
-        if(key =='avatar') {
+        if (key == 'avatar') {
             setValues(values => ({ ...values, [key]: props.ziggy.url + '/api/user/' + value + '/icon' }));
         }
-        else if(key == 'waiting_users') {
+        else if (key == 'waiting_users') {
             setValues(values => ({ ...values, [key]: [...values.waiting_users, value] }));
         }
-        else if(key == 'news_list') {
+        else if (key == 'news_list') {
             setValues(values => ({ ...values, [key]: [...values.news_list, value] }));
         }
-        else if(key == 'spin_1' || key == 'spin_2') {
+        else if (key == 'spin_1' || key == 'spin_2') {
             setValues(values => ({ ...values, [key]: values[key] + 1 }));
         }
-        else if(key == 'current_player') {
+        else if (key == 'current_player') {
             // wait until the slot is not spinning
             setValues(values => ({ ...values, [key]: value }));
         }
-        else if(key == 'playCount') {
+        else if (key == 'playCount') {
             // wait until the slot is not spinning
             setValues(values => ({ ...values, [key]: value }));
         }
@@ -99,11 +99,11 @@ export default function VipGame() {
     }
 
     function getNewsItem(player, subText) {
-        return (<GameNewsItem key={randomId()} userId={player.id} userName={player.name} subText={subText}/>);
+        return (<GameNewsItem key={randomId()} userId={player.id} userName={player.name} subText={subText} />);
     }
 
     function getUserCard(player) {
-        return (<UserCard key={randomId()} userId={player.id} userName={player.name}/>);
+        return (<UserCard key={randomId()} userId={player.id} userName={player.name} />);
     }
 
     useEffect(() => {
@@ -124,8 +124,8 @@ export default function VipGame() {
                         <div className='points_number'>{player.points}</div>
                         <div className='points_txt'>pts</div>
                     </div>
-                    <div className='points_bin' onClick={() => {values.game.removePlayer(player.id)}}>
-                        <BinIcon width={32} height={32}/>
+                    <div className='points_bin' onClick={() => { values.game.removePlayer(player.id) }}>
+                        <BinIcon width={32} height={32} />
                     </div>
                 </div>
             )
@@ -134,16 +134,16 @@ export default function VipGame() {
     }, [values.players])
 
     useEffect(() => {
-        if(values.news_list.length > 8) {
+        if (values.news_list.length > 8) {
             values.news_list.shift();
         }
     }, [values.news_list]);
 
     useEffect(() => {
-        if(values.player_point == undefined) return;
+        if (values.player_point == undefined) return;
         let players = [...values.players];
         let index = players.findIndex(player => player.id == values.player_point.id);
-        if(index != -1) {
+        if (index != -1) {
             players[index].points = values.player_point.points;
             modifyValue('players', players);
         }
@@ -153,9 +153,9 @@ export default function VipGame() {
     }, [values.player_point]);
 
     useEffect(() => {
-        if(values.remove_player == undefined) return;
-        if(values.remove_player == values.current_player.id) {
-            modifyValue('current_player', {id: -1, name: '?????????'});
+        if (values.remove_player == undefined) return;
+        if (values.remove_player == values.current_player.id) {
+            modifyValue('current_player', { id: -1, name: '?????????' });
         }
     }, [values.remove_player]);
 
@@ -166,29 +166,30 @@ export default function VipGame() {
             {
                 values.game_end ? (
                     <>
-                    <Confetti
-                    className='confetti_index'
-                    width={window.innerWidth}
-                    height={window.innerHeight}
-                    />
+                        <Confetti
+                            className='confetti_index'
+                            width={window.innerWidth}
+                            height={window.innerHeight}
+                        />
                     </>
                 )
-                : (<></>)
+                    : (<></>)
             }
 
             <div id="game_menu">
                 <img src={VipGamesLogo} width={500} alt="Logo VipGames" />
 
-                <div className='flex w-full justify-center items-center h-[620px] gap-[8px] flex-shrink-0 relative'>
-                    {/* Left Menu ( For Weils Cam and Chat) */}
-                    <div className='flex flex-col gap-[8px] h-full w-[400px] flex-shrink-0'>
-                        <div className='le-tchat flex-col container h-[220px]'> 
-                            <span>LA CAM</span> 
+                <div className='flex flex-col gap-[8px]'>
+                    <div className='flex w-full justify-center items-center h-[620px] gap-[8px] flex-shrink-0 relative'>
+                        {/* Left Menu ( For Weils Cam and Chat) */}
+                        <div className='flex flex-col gap-[8px] h-full w-[400px] flex-shrink-0'>
+                            <div className='le-tchat flex-col container h-[220px]'>
+                                <span>LA CAM</span>
+                            </div>
+                            <div className='le-tchat container flex-grow items-start p-[16px]'>
+                                LE T'CHAT
+                            </div>
                         </div>
-                        <div className='le-tchat container flex-grow items-start p-[16px]'>
-                            LE T'CHAT
-                        </div>
-                    </div>
 
                         {/* Center Div */}
                         <div className='flex flex-col gap-[8px] h-full w-[980px] relative'>
@@ -203,16 +204,16 @@ export default function VipGame() {
                                             {values.waiting_users}
                                         </div>
                                     </div>
-                                    
+
                                     <div id='tickets_pack' className='transition-back absolute my-hidden'>
                                         {values.tickets}
                                     </div>
-                                    
+
                                     <div id="wheels" className='transition-back absolute my-hidden'>
                                         <Slot
                                             id={'wheel_slot_1'}
                                             type={'player'}
-                                            onClick={() => {values.game.askRandomPlayer()}}
+                                            onClick={() => { values.game.askRandomPlayer() }}
                                             data={values.roll_players}
                                             winner={values.choosen_player}
                                             spin={values.spin_1}
@@ -224,7 +225,7 @@ export default function VipGame() {
                                         <Slot
                                             id={'wheel_slot_2'}
                                             type={'number'}
-                                            onClick={() => {values.game.askRandomPlayCount()}}
+                                            onClick={() => { values.game.askRandomPlayCount() }}
                                             data={values.roll_playCount}
                                             winner={values.choosen_playCount}
                                             spin={values.spin_2}
@@ -249,7 +250,7 @@ export default function VipGame() {
                             {/* Current Player */}
                             <div className='container h-[80px] justify-between p-[16px] relative current_player'>
                                 <div className='flex justify-center items-center gap-[16px] p-[0px]'>
-                                    <img src={values.avatar} alt="" className='rounded-full h-[48px]' width={48}/>
+                                    <img src={values.avatar} alt="" className='rounded-full h-[48px]' width={48} />
                                     <div className='flex flex-col gap-[0px]'>
                                         <div className='item_username'>{values.current_player.name}</div>
                                         <div className='item_subtext'>Un Pingouin Content de Jouer</div>
@@ -278,36 +279,42 @@ export default function VipGame() {
                                         {values.players_points}
                                     </div>
                                 </div>
-
-                                <div id='' className='absolute bottom-0 transition-back left-0'>
-                                    {/*values.available_tickets*/}
-                                </div>
-                                <div id='' className='absolute bottom-0 transition-back right-0'>
-                                    {/*values.round*/}
-                                </div>
                             </div>
+
+                        </div>
 
                     </div>
 
-                </div>
-
-                <div className='flex flex-row gap-8'>
-                    {   
-                        values.game_start
-                        ? <GreenButton id="switch_button" className="button_green" onClick={() => {
-                                switchGame();
-                            }}
-                            >Switch</GreenButton>
-                        :
-                        <BlueButton id="play_button" className="button_blue w-[280px]" onClick={
-                            () => {
-                                values.game.endPhase('waiting');
-                                switchGame();
+                    <div className='relative flex justify-center items-center'>
+                        <div className='flex flex-row gap-8 pt-[16px]'>
+                            {
+                                values.game_start
+                                    ? <GreenButton id="switch_button" className="button_green" onClick={() => {
+                                        switchGame();
+                                    }}
+                                    >Switch</GreenButton>
+                                    :
+                                    <BlueButton id="play_button" className="button_blue w-[280px]" onClick={
+                                        () => {
+                                            values.game.endPhase('waiting');
+                                            switchGame();
+                                        }
+                                    }>
+                                        Jouer
+                                    </BlueButton>
                             }
-                        }>
-                            Jouer
-                        </BlueButton>
-                    }
+                        </div>
+                        <div className='absolute top-0 right-0 flex flex-row gap-[8px] justify-end'>
+                            <div className='container w-[200px] flex-col p-[16px]'>
+                                <span>Numéros Restant</span>
+                                <span>{values.available_tickets ? values.available_tickets : '-'}</span>
+                            </div>
+                            <div className='container w-[200px] flex-col p-[16px]'>
+                                <span>Tour N°</span>
+                                <span>{values.round ? values.round : '-'}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </GlobalLayout>

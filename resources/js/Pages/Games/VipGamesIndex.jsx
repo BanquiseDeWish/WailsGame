@@ -22,7 +22,6 @@ import Crown from '../../../assets/icons/crown.svg';
 export default function VipGamesIndex() {
 
     const props = usePage().props;
-    console.log(props);
 
     return (
         <MainLayout showOverflow={true}>
