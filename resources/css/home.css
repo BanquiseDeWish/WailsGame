@@ -115,6 +115,7 @@ section .thumbnail:hover {
 }
 section .artefact {
     position: absolute;
+    max-width: 230px;
     bottom: -95px;
     right: 84px;
 }
