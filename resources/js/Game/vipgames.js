@@ -177,8 +177,12 @@ export default class VIPGames {
                 this.flipTicketWithDelay(data.tickets, 0);
                 let bonusName = 'VISION';
                 if(data.tickets.length == 1)
-                    bonusName = 'MINI VISION'
-                this.modifyValue('news_list', this.getNewsItem(data.player, bonusName));
+                    bonusName = 'MINI VISION';
+                let ticks = [...data.tickets]
+                for (let i = 0; i < ticks.length; i++) {
+                    ticks[i] = ticks[i] + 1;
+                }
+                this.modifyValue('news_list', this.getNewsItem(data.player, bonusName + ': ' + ticks.join(',')));
                 this.modifyValue('player_point', data.player);
                 this.modifyValue('available_tickets', data.available_tickets);
                 break;
