@@ -43,7 +43,7 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
                                 penguinWidth: 95
                             }}
                             style={{
-                                background: 'linear-gradient(180deg, var(--container_background) 0%, #888 100%)'
+                                background: 'linear-gradient(180deg, var(--container_background) 0%, #9F9F9F 100%)'
                             }}
                         />
                         <HoFPodium
@@ -55,7 +55,7 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
                                 penguinWidth: 115
                             }}
                             style={{
-                                background: 'linear-gradient(180deg, var(--container_background) 0%, #DCA130 100%)'
+                                background: 'linear-gradient(180deg, var(--container_background) 0%, #EDA61E 100%)'
                             }}
                         />
                         <HoFPodium
@@ -66,7 +66,7 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
                                 points: pos3?.points
                             }}
                             style={{
-                                background: 'linear-gradient(180deg, var(--container_background) 0%, #AE6A38 100%)'
+                                background: 'linear-gradient(180deg, var(--container_background) 0%, #D87731 100%)'
                             }}
                         />
                     </div>
