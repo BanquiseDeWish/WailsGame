@@ -35,14 +35,9 @@ Route::middleware(['dashboard', 'vip_games'])->group(function () {
 
 });
 
-Route::prefix('games')->name('games.')->group(function ()
-{
-    Route::get('/{game}', [GameController::class, 'show'])->name('show');
-    Route::get('/{game}/play', [GameController::class, 'play'])->middleware(['is_weils'])->name('play');
-});
-
 Route::prefix('vipgames')->name('vipgames.')->group(function() {
     Route::get('/', [VIPGameController::class, 'index'])->name('index');
+    Route::get('/play', [VIPGameController::class, 'play'])->middleware(['is_weils'])->name('play');
 });
 
 Route::prefix('predigivre')->name('predigivre.')->group(function() {

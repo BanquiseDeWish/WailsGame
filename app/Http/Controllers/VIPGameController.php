@@ -26,6 +26,11 @@ class VIPGameController extends Controller
         ]);
     }
 
+    public function play(Request $request)
+    {
+        return Inertia::render('Games/Play/VipGame');
+    }
+
     /**
      * Get the ranking of the VIPGames
      */

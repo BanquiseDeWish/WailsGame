@@ -41,7 +41,7 @@ export default class VIPGamesModal extends BaseModal {
     handleSubmit = (e) => {
         e.preventDefault();
         this.socket.emit('init_game', this.state);
-        router.get('/games/vipgames/play');
+        router.get('/vipgames/play');
     }
 
     randomStart = () => {
@@ -61,7 +61,7 @@ export default class VIPGamesModal extends BaseModal {
 
         values.bonus_tickets = bonus_tickets;
         this.socket.emit('init_game', values);
-        router.get('/games/vipgames/play');
+        router.get('/vipgames/play');
     }
 
     componentDidMount() {
