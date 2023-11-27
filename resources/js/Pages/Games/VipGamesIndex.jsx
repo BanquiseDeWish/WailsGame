@@ -37,7 +37,7 @@ export default function VipGamesIndex() {
                 />
 
                 <div className='flex flex-col h-full gap-[16px]'>
-                    <div className='flex bg-[#18212E] items-center rounded-[8px] justify-around'>
+                    <div className='flex bg-[#18212E] items-center rounded-[8px] justify-around p-[16px]'>
                         <div className='flex flex-col gap-[16px]'>
                             <h1 className='title'>Gagnant en titre</h1>
                             <PenguinCard
