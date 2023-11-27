@@ -117,7 +117,7 @@ class VIPGameController extends Controller
             'average_game_time' => array_sum($gameTime)/$vipgames_with_gametime_stats,
             'most_ticket_played' => array_search(max($tickets), $tickets),
             'total_attempt' => $ticketsAttempt,
-            'average_player' => array_sum($playersAverage)/$vipgames_with_players_stats,
+            'average_player' => intval(array_sum($playersAverage)/$vipgames_with_players_stats),
             'player_with_most_attempt' => array_search(max($players), $players),
             'most_bonus_used' => array_search(max($all_bonus), $all_bonus),
         ];
