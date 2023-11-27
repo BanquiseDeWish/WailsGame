@@ -1,3 +1,5 @@
+import Eye from '@/Components/Icons/Eye';
+
 export default function BadgeStream({ onLive, counter }) {
 
     return (

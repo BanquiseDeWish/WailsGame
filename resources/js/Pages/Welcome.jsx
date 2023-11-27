@@ -6,7 +6,6 @@ import WeilsLogo from '@/Components/Icons/WeilsLogo';
 import { useEffect, useState } from 'react';
 import '../../css/home.css'
 import env from '../../../env.json'
-import Eye from '@/Components/Icons/Eye';
 import StoreThumbnail from '../../assets/img/home/store.png'
 import StoreArtefact from '../../assets/img/boutique/boutique_merch_character.png'
 import VIPGamesLogo from '../../assets/img/home/vip_games.svg'
