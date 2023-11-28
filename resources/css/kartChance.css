@@ -37,3 +37,17 @@
     text-overflow: ellipsis;
     max-width: 8.5rem;
 }
+.kartChance .penguinCard .data .username {
+    width: 115px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.kartChance .penguinCard img {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+.kartChance .randomButton {
+    width: fit-content;
+}
