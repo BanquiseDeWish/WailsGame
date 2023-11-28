@@ -35,6 +35,11 @@ export default function KartChanceIndex(props) {
 
             socket.on('connect', onConnect);
             socket.on('disconnect', onDisconnect);
+            socket.on('kc_party_ready', () => {
+                if(isWeils) {
+                    socket.emit('kc_new_player', { uid: props.weils_id, uname: props.auth.twitch.display_name })
+                }
+            })
             socket.on('kc_update_add_player', (newPlayer) => {
                 toast.success(`Ajout de ${newPlayer.uname} efféctué avec succès`)
                 setPlayers(players => [...players, newPlayer]);
