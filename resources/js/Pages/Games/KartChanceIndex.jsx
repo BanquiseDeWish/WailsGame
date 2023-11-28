@@ -91,13 +91,18 @@ export default function KartChanceIndex(props) {
         socket.emit('kc_remove_player', { uid: uid })
     }
 
-    return (
-        <MainLayout>
-            <Head title="Kart Chance" />
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            addPlayerRandom()
+        }
+    };
 
-            <div className="kartChance w-full px-16 flex gap-4">
+    return (
+        <MainLayout showOverflow={true}>
+            <Head title="Kart Chance" />
+            <div className='kartChance flex h-full flex-col xl:flex-row gap-[16px]'>
                 <div className="card h-fit gap-4 items-start">
-                    <input type="text" value={nameNewPlayer} onChange={(e) => { setNameNewPlayer(e.target.value) }} placeholder='Pseudo du joueur' />
+                    <input type="text" onKeyDown={handleKeyDown} value={nameNewPlayer} onChange={(e) => { setNameNewPlayer(e.target.value) }} placeholder='Pseudo du joueur' />
                     <GreenButton onClick={addPlayerRandom}>Ajouter un joueur</GreenButton>
                     <GreenButton onClick={removeAllPlayers}>Supprimer les joueurs</GreenButton>
                 </div>
@@ -124,7 +129,7 @@ export default function KartChanceIndex(props) {
                                         )
                                     })}
                                 </div>
-                                <GreenButton onClick={randomize}>Randomizer !</GreenButton>
+                                <GreenButton class="simple_button button_green w-fit randomButton" onClick={randomize}>Randomizer !</GreenButton>
                             </>
                         )
                     }

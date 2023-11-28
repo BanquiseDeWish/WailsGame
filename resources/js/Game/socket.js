@@ -13,8 +13,8 @@ export default class BDWSocket {
 
     init() {
         this.socket = io(URL, {
-            extraHeaders: {
-                access_token: env.socketServerToken
+            auth: {
+                token: env.socketServerToken
             },
             query: {
                 game: this.game,
