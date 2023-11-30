@@ -2,6 +2,8 @@ import Discord from '@/Components/Icons/Discord';
 
 export default function WidgetDiscord({ discordData }) {
 
+    //{member?.status}
+
     return (
         <div className="discord hidden lg:flex">
             <div className="head">
@@ -16,7 +18,8 @@ export default function WidgetDiscord({ discordData }) {
                                 <div className="avatar"><img src={member?.avatar_url} alt="avatar_discord" /></div>
                                 <div className="infos">
                                     <div className="username">{member?.username}</div>
-                                    <div className="state">{member?.status}{member?.game !== undefined ? ` - ${member?.game?.name}` : ""}</div>
+                                    <div className={`dot ${member?.status}`}></div>
+                                    {member?.game !== undefined && <div className="state">{member?.game?.name}</div> }
                                 </div>
                             </div>
                         )
