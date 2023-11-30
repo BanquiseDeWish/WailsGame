@@ -47,56 +47,47 @@
     background: linear-gradient(99deg, #795ABB 0%, #553568 100%);
 }
 .discord .list .user {
-    position: relative;
     display: flex;
-    align-items: center;
     gap: 18px;
+    position: relative;
 }
 .discord .list .user .avatar img {
     width: 48px;
     height: 48px;
     border-radius: 100%;
 }
+.discord .list .user .infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .discord .list .user .infos .username {
+    font-weight: 700;
+}
+.discord .list .user .infos .username, .discord .list .user .infos .state {
     width: 180px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
-.discord .list .user .infos .state {
-    width: 170px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
 }
 .discord .list .user .dot {
-    display: flex;
-    width: 12px;
-    height: 12px;
-    background-color: white;
-    border-radius: 100%;
     position: absolute;
-    left: 36px;
-    top: 36px;
-    outline: 4px solid var(--content_background);
+    left: 32px;
+    top: 32px;
+    border-radius: 100%;
+    outline: 3px solid var(--content_background);
+    width: 16px;
+    height: 16px;
+    background-color: white;
 }
 .discord .list .user .dot.online {
-    background-color: #23A55A;
-}
-.discord .list .user .dot.idle {
-    background-color: #F0B232;
+    background-color: #23A559;
 }
 .discord .list .user .dot.dnd {
-    background-color: #EB3E42;
+    background-color: #F23F42;
+}
+.discord .list .user .dot.idle {
+    background-color: #F0B132;
 }
 section {
     display: flex;
