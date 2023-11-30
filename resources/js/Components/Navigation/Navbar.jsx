@@ -24,8 +24,7 @@ export default function Navbar() {
                     props.auth.twitch ? (
                         <ProfileSidebar className="" isWeils={isWeils} />
                     ) : (
-                        <Link href={route('twitch.start')} className='flex items-center justify-center lg:hidden z-[0] gap-[8px] p-[12px] rounded-[8px]'
-                            style={{ background: 'linear-gradient(90deg, #8B5ABB 0%, #362565 100%)' }}
+                        <Link href={route('twitch.start')} className='flex items-center justify-center lg:hidden z-[0] gap-[8px] p-[12px] rounded-[8px]' style={{ background: 'linear-gradient(90deg, #8B5ABB 0%, #362565 100%)'
                         >
                             <TwitchSVG />
                         </Link>
@@ -58,9 +57,8 @@ export default function Navbar() {
                             <ProfileDropdown />
                         </>
                     ) : (
-
-                        <TwitchButton />
-                    )}
+                            <TwitchButton />
+                        )}
                 </div>
             </div>
         </>

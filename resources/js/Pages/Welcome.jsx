@@ -18,7 +18,7 @@ import SectionHome from '@/Components/Content/SectionHome';
 import WidgetDiscord from '@/Components/Content/WidgetDiscord';
 import BadgeStream from '@/Components/Content/BadgeStream';
 
-export default function Welcome() {
+export default function Welcome(props) {
 
     const [onLive, setOnLive] = useState(false);
     const [counter, setCounter] = useState(0);
