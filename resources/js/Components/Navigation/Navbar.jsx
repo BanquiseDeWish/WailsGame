@@ -24,7 +24,7 @@ export default function Navbar() {
                     props.auth.twitch ? (
                         <ProfileSidebar className="" isWeils={isWeils}/>
                     ) : (
-                        <Link href={route('twitch.start')} className='flex items-center justify-center lg:hidden z-[0] gap-[8px] p-[12px] rounded-[8px]' 
+                        <Link href={route('twitch.start')} className='flex items-center justify-center lg:hidden z-[0] gap-[8px] p-[12px] rounded-[8px]'
                             style={{ background: 'linear-gradient(90deg, #8B5ABB 0%, #362565 100%)'}}
                         >
                             <TwitchSVG/>
@@ -41,23 +41,26 @@ export default function Navbar() {
                         <div className={`link ${window.location.href.startsWith(route('predigivre.halloffame', { filter: 'today' })) ? "active" : ""}`}>
                             <Link href={route('predigivre.halloffame', { filter: 'today' })}>Prédi Givrées</Link>
                         </div>
+                        <div className={`link ${window.location.href.startsWith(route('predigivre.halloffame', { filter: 'today' })) ? "active" : ""}`}>
+                            <Link href={route('predigivre.halloffame', { filter: 'today' })}>Kart Chance</Link>
+                        </div>
 
-                    {props.auth.twitch ? (
-                        <>
-                            {
-                                route('vipgames.index') == window.location.href && isWeils ?
-                                    (
-                                        <>
-                                            <VIPGamesModal />
-                                        </>
-                                    ) : (<></>)
-                            }
-                            <ProfileDropdown/>
-                        </>
-                    ) : (
+                        {props.auth.twitch ? (
+                            <>
+                                {
+                                    route('vipgames.index') == window.location.href && isWeils ?
+                                        (
+                                            <>
+                                                <VIPGamesModal />
+                                            </>
+                                        ) : (<></>)
+                                }
+                                <ProfileDropdown/>
+                            </>
+                        ) : (
 
-                        <TwitchButton />
-                    )}
+                            <TwitchButton />
+                        )}
                 </div>
             </div>
         </>
