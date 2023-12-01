@@ -6,7 +6,6 @@ export default function Penguin({ size, user_id }) {
     const [cosmetics, setCosmetics] = useState({})
 
     useEffect(() => {
-        console.log("PENGUIN: ", user_id);
         axios.get(route('user.penguin_data', { twitch_id: user_id }))
             .then((resp) => {
                 setCosmetics(resp.data);

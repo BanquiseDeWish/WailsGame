@@ -47,7 +47,7 @@ export default function VipGamesIndex() {
                             <h1 className='title'>Gagnant en titre</h1>
                             <PenguinCard
                                 data={{ 
-                                    username: props.lastWinner.twitch_username,
+                                    username: props.lastWinner?.twitch_username,
                                     background_type: "color",
                                     background_data: {
                                         color: "transparent",
