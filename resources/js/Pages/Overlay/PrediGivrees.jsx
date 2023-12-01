@@ -24,11 +24,11 @@ export default class PrediGivrees extends React.Component {
         this.socket.on('connect', this.onConnect);
         this.socket.on('disconnect', this.onDisconnect);
 
-        this.socket.socket.on('error', function(err) {
+        this.socket.on('error', function(err) {
             throw new Error(err);
         });
 
-        this.socket.socket.on('pronoKart__start', (args) => {
+        this.socket.on('pronoKart__start', (args) => {
             const enabled = args.enabled
             this.setState((prevState) => ({ ...prevState, show: enabled }));
             this.setState((prevState) => ({ ...prevState, result: args.showResultAr }));

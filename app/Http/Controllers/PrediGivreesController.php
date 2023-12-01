@@ -61,11 +61,11 @@ class PrediGivreesController extends Controller
                 break;
             case 'month':
                 $prediGivreData = $prediGivreData
-                    ->whereMonth('created_at', Carbon::now()->month);
+                    ->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year);
                 $statsMostWin = $statsMostWin
-                    ->whereMonth('created_at', Carbon::now()->month);
+                    ->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year);
                 $statsMostChoice = $statsMostChoice
-                    ->whereMonth('created_at', Carbon::now()->month);
+                    ->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year);
                 break;
             case 'year':
                 $prediGivreData = $prediGivreData

@@ -49,17 +49,45 @@
 .discord .list .user {
     display: flex;
     gap: 18px;
+    position: relative;
 }
 .discord .list .user .avatar img {
     width: 48px;
     height: 48px;
     border-radius: 100%;
 }
+.discord .list .user .infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.discord .list .user .infos .username {
+    font-weight: 700;
+}
 .discord .list .user .infos .username, .discord .list .user .infos .state {
     width: 180px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+.discord .list .user .dot {
+    position: absolute;
+    left: 32px;
+    top: 32px;
+    border-radius: 100%;
+    outline: 3px solid var(--content_background);
+    width: 16px;
+    height: 16px;
+    background-color: white;
+}
+.discord .list .user .dot.online {
+    background-color: #23A559;
+}
+.discord .list .user .dot.dnd {
+    background-color: #F23F42;
+}
+.discord .list .user .dot.idle {
+    background-color: #F0B132;
 }
 section {
     display: flex;
