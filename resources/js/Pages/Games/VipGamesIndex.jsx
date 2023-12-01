@@ -17,11 +17,16 @@ import Clover from '../../../assets/icons/stats/clover.svg';
 import Star from '../../../assets/icons/stats/star.svg';
 import Users from '../../../assets/icons/stats/users.svg';
 
+//import Lottie from "lottie-react";
+//import standingPenguin from "../../../assets/cosmetics/animations/penguin_standing_2.json";
+
 import Crown from '../../../assets/icons/crown.svg';
 
 export default function VipGamesIndex() {
 
     const props = usePage().props;
+
+    console.log("TWITCH_ID: ", props.lastWinner.twitch_id);
 
     return (
         <MainLayout showOverflow={true}>
@@ -51,8 +56,8 @@ export default function VipGamesIndex() {
                             />
                         </div>
                         <Penguin
-                            userId={props.lastWinner}
                             size={{width: 120}}
+                            user_id={props.lastWinner?.twitch_id}
                         />
                     </div>
 

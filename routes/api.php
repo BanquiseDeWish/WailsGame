@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CosmeticController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VIPGameController;
@@ -29,5 +30,7 @@ Route::middleware('api_check')->group(function() {
 });
 
 Route::get('/user/{twitch_id}/icon', [UserController::class, 'getUserIcon'])->name('user.icon');
+Route::get('/user/{twitch_id}/penguin_data', [CosmeticController::class, 'getUserActiveCosmetics'])->name('user.penguin_data');
+
 Route::post('user/all/points/vipgames', [UserController::class, 'getUserListVIPGamesPoints'])->name('user.all.points.vipgames');
 

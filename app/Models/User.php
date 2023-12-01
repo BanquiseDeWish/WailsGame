@@ -60,5 +60,12 @@ class User extends Model
         return $user;
     }
 
+    public static function getActivePenguin($userId) {
+        $user = User::getFromID($userId);
+        if($user == null)
+            return null;
+        return $user->active_penguin;
+    }
+
     use HasFactory;
 }

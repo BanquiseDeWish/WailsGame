@@ -12,7 +12,6 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
     const pos1 = data.find((val, index) => index == 0)
     const pos2 = data.find((val, index) => index == 1)
     const pos3 = data.find((val, index) => index == 2)
-
     return (
         <div className={`hof h-fit max-h-full xl:h-full w-fit ${className}`}>
             <div className="logo" style={{ top: logoPos + "px" }}>
@@ -36,10 +35,9 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
                     <div className="podium w-full hidden xl:flex flex-wrap justify-between items-end">
                         <HoFPodium
                             data={{
+                                userInfo: pos2,
                                 topIcon: Second,
-                                username: pos2?.userName,
                                 labelPoints: labelPoints,
-                                points: pos2?.points,
                                 penguinWidth: 95
                             }}
                             style={{
@@ -48,10 +46,9 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
                         />
                         <HoFPodium
                             data={{
+                                userInfo: pos1,
                                 topIcon: First,
-                                username: pos1?.userName,
                                 labelPoints: labelPoints,
-                                points: pos1?.points,
                                 penguinWidth: 115
                             }}
                             style={{
@@ -60,10 +57,9 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
                         />
                         <HoFPodium
                             data={{
+                                userInfo: pos3,
                                 topIcon: Third,
-                                username: pos3?.userName,
                                 labelPoints: labelPoints,
-                                points: pos3?.points
                             }}
                             style={{
                                 background: 'linear-gradient(180deg, var(--container_background) 0%, #D87731 100%)'
