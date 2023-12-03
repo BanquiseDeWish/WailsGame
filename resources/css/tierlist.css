@@ -1,0 +1,166 @@
+.tierlist .items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.tierlist .items .item {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 8px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    transition: padding 0.2s ease-in-out;
+}
+
+.tierlist .items .item.active {
+    padding: 48px 16px;
+    background-size: cover !important;
+    background-position: center center !important;
+}
+
+.tierlist .items .item.active .name {
+    width: 26rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tierlist .items .item.active .name {
+    font-size: 24px;
+}
+
+.tierlist .items .item.active .average {
+    font-size: 20px;
+}
+
+.tierlist .items .item.active::before {
+    position: absolute;
+    content: '';
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+}
+
+.tierlist .rating {
+    position: relative;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    border-radius: 8px;
+    background: var(--content_background);
+}
+
+.tierlist .rating span.defil {
+    width: 100%;
+    position: absolute;
+    left: 12px;
+}
+
+.tierlist .rating .input {
+    padding: 8px;
+    background: var(--content_background);
+}
+
+.tierlist .rating_average {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+}
+
+.tierlist .streamer {
+    display: flex;
+    gap: 18px;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tierlist .streamer .cam {
+    width: 26rem;
+    height: 14rem;
+}
+
+.tierlist .streamer .chat {
+    width: 26rem;
+    flex: 1 1 0%;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(90%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.loader-spin {
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    position: relative;
+}
+
+.loader-spin::after,
+.loader-spin::before {
+    content: '';
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #FFF;
+    position: absolute;
+    left: 0;
+    top: 0;
+    animation: animloader 2s linear infinite;
+}
+
+.loader-spin::after {
+    animation-delay: 1s;
+}
+.simple_button {
+    position: relative;
+}
+.simple_button:disabled {
+    outline: none;
+}
+.simple_button:disabled:after {
+    content: '';
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: inherit;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+@keyframes animloader {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}

@@ -6,9 +6,9 @@ export default function ToastContainer(){
     const { flash } = usePage().props
 
     useEffect(() => {
-        if(flash.message !== null){
-            let type = flash.message.type;
-            let msg = flash.message.msg;
+        if(flash?.message !== null && flash?.message !== undefined){
+            let type = flash?.message.type;
+            let msg = flash?.message.msg;
             switch(type){
                 case 'error':
                     toast.error(msg)
