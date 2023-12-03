@@ -222,6 +222,19 @@ div:has(label + input) {
 .dropdown .menu .link:hover {
     background-color: var(--light_background);
 }
+.simple_button {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-family: Poppins;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+}
 /* Spinner loader */
 .icon-loader {
     width: 32px;
