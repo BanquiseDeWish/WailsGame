@@ -39,7 +39,12 @@ class CosmeticController extends Controller
         if($activePenguin == null)
             return response()->json([]);
 
-        $cosmetics = DB::table('users__penguin')->where('id', $activePenguin)->first();
+        $cosmeticsId = DB::table('users__penguin')->where('id', $activePenguin)->first();
+        if($cosmeticsId == null)
+            return response()->json([]);
+
+        $cosmeticsId = explode(',', $cosmeticsId->active_cosmetics);
+        $cosmetics = DB::table('cosmetic')->whereIn('id', $cosmeticsId)->get();
         return response()->json($cosmetics);
     }
 }

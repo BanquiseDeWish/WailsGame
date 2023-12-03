@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import parse from 'html-react-parser';
 import axios from 'axios';
 
 export default function Penguin({ size, user_id }) {
@@ -8,62 +9,17 @@ export default function Penguin({ size, user_id }) {
     useEffect(() => {
         axios.get(route('user.penguin_data', { twitch_id: user_id }))
             .then((resp) => {
-                setCosmetics(resp.data);
+                let cosmeticsData = {};
+                resp.data.forEach((cosmetic) => {
+                    cosmeticsData[cosmetic.sub_type] = parse(cosmetic.style.replace(/\n/g,"").trim());
+                    console.log(cosmeticsData[cosmetic.sub_type]);
+                    let w = cosmeticsData[cosmetic.sub_type].props.width;
+                    let h = cosmeticsData[cosmetic.sub_type].props.height;
+                    console.log(w, h);
+                });
+                setCosmetics(cosmeticsData);
             });
-    }, [])
-
-    /*let cosmetics_data = {
-        cosmetics: [
-            {
-                type: "hat",
-                url: "https://example.com/image.svg",
-                position: {
-                    x: 0,
-                    y: 0
-                }
-            },
-            {
-                type: "back",
-                url: "https://example.com/image.svg",
-                position: {
-                    x: 0,
-                    y: 0
-                }
-            },
-            {
-                type: "body",
-                url: "https://example.com/image.svg",
-                position: {
-                    x: 0,
-                    y: 0
-                }
-            },
-            {
-                type: "feet",
-                url: "https://example.com/image.svg",
-                position: {
-                    x: 0,
-                    y: 0
-                }
-            },
-            {
-                type: "podium",
-                url: "https://example.com/image.svg",
-                position: {
-                    x: 0,
-                    y: 0
-                }
-            },
-            {
-                type: "accessory",
-                url: "https://example.com/image.svg",
-                position: {
-                    x: 0,
-                    y: 0
-                }
-            }
-        ]
-    }*/
+    }, []);
 
     return (
         <svg
@@ -91,6 +47,7 @@ export default function Penguin({ size, user_id }) {
                     <path id="Vector_6" d="M407.818 139.672C405.537 149.619 404.26 156.192 409.671 165.131C419.386 182.348 435.555 213.392 434.505 237.892C429.784 224.725 423.633 210.336 414.734 198.631C414.117 197.817 413.501 197.002 412.866 196.162C397.11 176.958 372.572 169.235 348.734 166.631C310.514 163.554 268.637 179.989 239.761 204.291C199.009 241.96 178.497 352.857 178.546 404.506C178.546 405.569 178.547 406.632 178.547 407.727C178.568 425.443 179.109 442.981 180.734 460.631C180.835 461.787 180.937 462.944 181.042 464.135C185.006 507.981 196.472 554.167 231.546 584.006C240.233 591.396 264.5 601.5 274 603C271.815 610.404 258.696 629.675 248 632.6C235.358 636.057 191.066 623.514 178.734 616.631C147.867 599.403 135.058 590.131 125.322 557.372C121.276 543.662 118.53 529.894 116.25 515.793C115.912 513.725 115.561 511.66 115.193 509.598C95.6744 399.129 134.96 274.196 181.421 172.506C183.813 167.255 186.188 161.996 188.597 156.752C192.996 147.148 196.614 137.474 199.817 127.411C235.756 14.5 432.738 31 407.818 139.672Z" fill="#3E526B" />
                     <path id="Vector_7" d="M341.5 622.501C313.513 630.221 274.809 632.521 246 633C246 621.856 252.697 607.012 259.5 598.6C300.504 608.597 350.083 605.513 391 596.07C384.267 602.439 370.5 614.501 341.5 622.501Z" fill="#546B88" />
                     <g id="head">
+                        {cosmetics.hat}
                         <path id="head_2" d="M385.03 16.8538C389.139 19.5553 392.978 22.4588 396.734 25.6312C397.557 26.3208 398.381 27.0105 399.23 27.721C408.479 35.7311 408.56 37.1194 414 48C417.25 54.5 414 97 412.734 115.631C412.632 116.509 412.53 117.387 412.425 118.291C411.397 125.504 407.5 138 399.5 140C356.894 150.651 190.417 160.5 208 105.5C222.94 58.766 234.606 36.4945 279.734 12.6312C289.433 7.77589 299.22 4.98755 309.734 2.63116C310.338 2.45536 310.942 2.27956 311.565 2.09844C336.25 -3.21991 363.91 3.94969 385.03 16.8538Z" fill="#3E526B" />
                         <path id="Vector_8" d="M385.031 16.8538C398.765 27.5562 402.349 27.3531 410.734 41.6312C415.924 50.3528 384.829 49.8918 382.441 47.3578C378.172 42.9466 373.634 32.6312 363.234 26.6312C337.234 11.6312 324.265 4.58609 291.765 7.58602C307.265 2.39209 344.765 -10.4438 385.031 16.8538Z" fill="#546B88" />
                         <g id="beak">

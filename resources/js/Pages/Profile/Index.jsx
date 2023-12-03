@@ -3,16 +3,16 @@ import { Head } from "@inertiajs/react";
 
 import Penguin from "../../Components/User/Penguin";
 
-export default function ProfileIndex() {
+export default function ProfileIndex(props) {
 
     return (
         <MainLayout>
             <Head title="Profil" />
             <div className="info flex justify-center items-center w-full h-full">
-                Coming Soon...
-                <div className="absolute bottom-[-20%]">
-                    <Penguin size={{ width: 300, height: 400 }} />
-                </div>
+                <Penguin
+                    size={{ width: 300 }}
+                    user_id={props.auth?.twitch?.id}
+                />
             </div>
 
             <style>

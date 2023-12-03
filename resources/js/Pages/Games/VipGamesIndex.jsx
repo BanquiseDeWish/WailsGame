@@ -26,8 +26,6 @@ export default function VipGamesIndex() {
 
     const props = usePage().props;
 
-    console.log("TWITCH_ID: ", props.lastWinner.twitch_id);
-
     return (
         <MainLayout showOverflow={true}>
             <Head title="VIP Games" />
