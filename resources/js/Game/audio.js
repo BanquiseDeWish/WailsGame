@@ -5,7 +5,7 @@ import MISS_4 from '../../assets/sounds/miss_4.wav';
 import MISS_5 from '../../assets/sounds/miss_5.wav';
 import MISS_6 from '../../assets/sounds/miss_6.wav';
 
-import MISS_SECRET from '../../assets/sounds/miss_secret.wav';
+import MISS_SECRET from '../../assets/sounds/vipgames/miss/miss_secret.ogg';
 
 import BONUS_1 from '../../assets/sounds/bonus_1.mp3';
 import BONUS_2 from '../../assets/sounds/bonus_2.mp3';
@@ -66,7 +66,7 @@ export default class GameSound {
     }
     
     playMissSoundSecret() {
-        this.playSound(0.2);
+        this.playSound(0.1);
     }
     
     playBonusSound() {
