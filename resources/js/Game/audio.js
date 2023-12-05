@@ -18,6 +18,9 @@ import SPIN_END from '../../assets/sounds/slot_end.wav';
 
 import WIN from '../../assets/sounds/win.mp3';
 
+
+import PG_NOTIF from '../../assets/sounds/pg_notif.wav';
+
 export default class GameSound {
 
     constructor(type) {
@@ -40,6 +43,9 @@ export default class GameSound {
             case 'win':
                 this.urls = [WIN];
                 break;
+            case 'pg_notif':
+                this.urls = [PG_NOTIF];
+                break;
         }
 
         this.audios = [];
@@ -60,23 +66,23 @@ export default class GameSound {
         else
             audio.play();
     }
-    
+
     playMissSound() {
         this.playSound(0.2);
     }
-    
+
     playMissSoundSecret() {
         this.playSound(0.1);
     }
-    
+
     playBonusSound() {
         this.playSound(0.2);
     }
-    
+
     playSlotPinSound() {
         this.playSound(0.05);
     }
-    
+
     playSlotEndSound() {
         this.playSound(0.15);
     }
