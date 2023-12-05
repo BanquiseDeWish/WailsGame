@@ -18,6 +18,7 @@ import SPIN_END from '../../assets/sounds/slot_end.wav';
 
 import WIN from '../../assets/sounds/win.mp3';
 
+
 import PG_NOTIF from '../../assets/sounds/pg_notif.wav';
 
 export default class GameSound {

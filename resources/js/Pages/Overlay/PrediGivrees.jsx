@@ -62,6 +62,7 @@ export default class PrediGivrees extends React.Component {
 
             if(reason == "predi") this.notifPG.playSound(0.5, false)
 
+
             document.querySelector('.pronoKart .statistics #voteCount').textContent = countTotal;
         })
         this.socket.on('pronoKart__timeout', (args) => {
