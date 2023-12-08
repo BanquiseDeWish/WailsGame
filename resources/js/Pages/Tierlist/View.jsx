@@ -68,7 +68,7 @@ export default class TierListView extends React.Component {
                                     return (
                                         <div key={index} onClick={() => { this.changeActiveItem(val.id) }} className={`item ${this.state.itemActive == val?.id ? "active" : ""}`}
                                             style={{ background: `${this.state.itemActive == val?.id ? `url('/storage/tierlist/${this.props.idc}/items/${val.id}.webp')` : "var(--content_background)"}` }} >
-                                            <span className="name">{val?.name} {val?.id}</span>
+                                            <span className="name">{val?.name}</span>
                                             <span className="average">{val.average}</span>
                                         </div>
                                     )
@@ -77,12 +77,12 @@ export default class TierListView extends React.Component {
                         </div>
                         <div className="flex flex-1 flex-col gap-6 w-full h-full justify-start items-start">
                             <div className="rating_average items-start card">
-                                <div className="flex flex-col">
+                                <div className="view flex flex-col">
                                     <span className="text-2xl font-bold">Note Finale</span>
-                                    <span className="text-xl">{this.calcAverage(this.itemCurrent?.rating)}</span>
+                                    <span className={`${this.calcAverage(this.itemCurrent?.rating) >= 9 ? "average gold" : "average"} text-xl`}>{this.calcAverage(this.itemCurrent?.rating)}</span>
                                 </div>
                                 <div className="flex items-center gap-6">
-                                    <a class="simple_button button_green" style={{ height: '4rem' }} href={route('tierlist.play', { id: this.tierlist.id, tls_id: this.props.tlShare?.id })}>Éditer ma Tierlist</a>
+                                    {this.twitch.id == this.props.user.twitch_id && <a className="simple_button button_green" style={{ height: '4rem' }} href={route('tierlist.play', { id: this.tierlist.id, tls_id: this.props.tlShare?.id })}>Éditer ma Tierlist</a>}
                                     <PenguinCard data={{ id: this.state.user?.id, username: this.state.user?.twitch_username == undefined ? " - " : this.state.user?.twitch_username }} />
                                 </div>
                             </div>

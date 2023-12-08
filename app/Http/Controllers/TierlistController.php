@@ -17,10 +17,7 @@ class TierlistController extends Controller
     public function index(Request $request) {
         $user = $request->session()->get('twitch');
         $tierlist = TierlistCategories::get();
-        $tlShare = TierlistShare::where('user_id', $user->id)->get();
-        foreach($tlShare as $k => $tls) {
-            $tlShare[$k]->category = TierlistCategories::select('id', 'name')->where('id', $tls->category_id)->first();
-        }
+        $tlShare = TierlistShare::getTLSFromUser($user->id);
         return Inertia::render('Tierlist/Index', ['tierlist' => $tierlist, 'tlShare' => $tlShare]);
 
     }
@@ -35,8 +32,9 @@ class TierlistController extends Controller
 
         $tlShare = null;
         if($tls_id !== "new") {
-            $tlShare = TierlistShare::where('id', $tls_id)->where('category_id', $id)->where('user_id', $user->id)->first();
-            if($tlShare == null) return redirect()->route('tierlist.play', ['id' => $id, 'tls_id' => 'new']);
+            $tlShare = TierlistShare::where('id', $tls_id)->where('category_id', $id)->first();
+            if($tlShare == null) return redirect()->route('tierlist.play', ['id' => $id, 'tls_id' => 'new'])->with('status', $this->toastResponse('error', 'Impossible de trouver cette tierlist'));
+            if($tlShare->user_id !== intval($user->id)) return redirect()->route('tierlist.play', ['id' => $id, 'tls_id' => 'new'])->with('status', $this->toastResponse('error', 'Vous n\'êtes pas autorisé à voir cette page.'));
         }
 
         return Inertia::render('Tierlist/Play', ['tierlist' => $tierlist, 'idc' => $id, 'items' => $items, 'tlShare' => $tlShare, 'categoriesRating' => $categoriesRating]);
@@ -46,15 +44,21 @@ class TierlistController extends Controller
         $inputs = $request->all();
         $user = $request->session()->get('twitch');
         $tl_id = $inputs["category_id"];
-        $name = $inputs["name"];
+        $name = "Sans titre";
+        if(isset($inputs["name"])) $name = $inputs["name"];
         $tlsID = null;
         if(isset($inputs["tls_id"])) $tlsID = $inputs["tls_id"];
         $data = $inputs["data"];
 
-        $checkName = TierlistShare::where('name', $name)->where('category_id', $tl_id)->where('id', '!=', $tlsID)->where('user_id', $user->id)->first();
-        if($checkName !== null) return response()->json(["status" => "error", "message" => "Une tierlist de cette catégorie porte déjà ce nom"]);
 
-        $tlShare = TierlistShare::where('category_id', $tl_id)->where('id', $tlsID)->where('user_id', $user->id)->first();
+        $tlShare = TierlistShare::where('category_id', $tl_id)->where('id', $tlsID)->first();
+        if($tlShare !== null)
+            if($tlShare->user_id !== intval($user->id))
+                return response()->json(["status" => "error", "message" => "Vous n'êtes pas autorisé à éditer cette tierlist."]);
+        if($name !== "Sans titre"){
+            $checkName = TierlistShare::where('name', $name)->where('category_id', $tl_id)->where('id', '!=', $tlsID)->where('user_id', $user->id)->first();
+            if($checkName !== null) return response()->json(["status" => "error", "message" => "Une tierlist de cette catégorie porte déjà ce nom"]);
+        }
         if($tlShare == null) {
             $tlShare = new TierlistShare();
             $tlShare->user_id = $user->id;
@@ -71,7 +75,7 @@ class TierlistController extends Controller
         }
 
 
-        return response()->json(["status" => "success", "message" => "Sauvegarde de la Tierlist avec succès", "tls" => ['id' => $tlShare->id]]);
+        return response()->json(["status" => "success", "message" => "Sauvegarde de la Tierlist avec succès", "tls" => $tlShare]);
     }
 
     public function view(Request $request, $userid, $id) {
@@ -87,6 +91,21 @@ class TierlistController extends Controller
         $user = User::select('twitch_id', 'twitch_username')->where('twitch_id', $tlShare->user_id)->first();
 
         return Inertia::render('Tierlist/View', ['tierlist' => $tierlist, 'items' => $items, 'idc' => $tierlist->id, 'categoriesRating' => $categoriesRating, 'user' => $user, 'tlShare' => $tlShare]);
+    }
+
+    public function delete(Request $request) {
+        $inputs = $request->all();
+        $user = $request->session()->get('twitch');
+        if(!isset($inputs['tlsid'])) return response()->json(["status" => "error", "message" => "TLS_ID is required."]);
+        $tlsID = $inputs['tlsid'];
+        $tlShare = TierlistShare::where('id', $tlsID)->first();
+        if($tlShare == null) return response()->json(["status" => "error", "message" => "TLS Share is not found"]);
+        if($tlShare->user_id !== intval($user->id)) return response()->json(["status" => "error", "message" => "Impossible de supprimer, vous n'êtes pas autorisé."]);
+        $tlShare->delete();
+
+        $newListTLShare = TierlistShare::getTLSFromUser($user->id);
+
+        return response()->json(["status" => "success", "message" => "Supprimé avec succès", "tlShare" => $newListTLShare]);
     }
 
 
