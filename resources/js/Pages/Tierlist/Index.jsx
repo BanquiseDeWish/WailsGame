@@ -61,7 +61,7 @@ export default function TierListIndex(props) {
 
                                         <img width={180} src={`/storage/tierlist/${val.category.id}/category.png`} alt="category_logo" />
                                         <div className="flex flex-col items-center gap-1">
-                                            <span className="text-2xl font-bold">{val?.name == undefined ? "Sans titre" : val?.name}</span>
+                                            <span className="nameTlShare text-2xl font-bold">{val?.name == undefined ? "Sans titre" : val?.name}</span>
                                             <span>{val?.category.name}</span>
                                         </div>
                                     </a>

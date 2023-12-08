@@ -1,3 +1,10 @@
+.tierlist .nameTlShare{
+    width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .tierlist .items {
     display: flex;
     flex-direction: column;
