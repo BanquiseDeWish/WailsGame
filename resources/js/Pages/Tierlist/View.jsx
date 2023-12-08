@@ -76,7 +76,7 @@ export default class TierListView extends React.Component {
                             </div>
                         </div>
                         <div className="flex flex-1 flex-col gap-6 w-full h-full justify-start items-start">
-                            <div className="rating_average items-start card">
+                            <div className="rating_average flex-col lg:flex-row items-start card">
                                 <div className="view flex flex-col">
                                     <span className="text-2xl font-bold">Note Finale</span>
                                     <span className={`${this.calcAverage(this.itemCurrent?.rating) >= 9 ? "average gold" : "average"} text-xl`}>{this.calcAverage(this.itemCurrent?.rating)}</span>
@@ -86,7 +86,7 @@ export default class TierListView extends React.Component {
                                     <PenguinCard data={{ id: this.state.user?.id, username: this.state.user?.twitch_username == undefined ? " - " : this.state.user?.twitch_username }} />
                                 </div>
                             </div>
-                            <div className={`ratingList grid grid-cols-2 gap-4 overflow-x-hidden w-full oerflow-y-auto`}>
+                            <div className={`ratingList grid grid-cols-1 lg:grid-cols-2 pb-24 lg:pb-0 gap-4 overflow-x-hidden w-full oerflow-y-auto`}>
                                 {this.state.itemActive !== undefined &&
                                     <>
                                         {this.categoriesRating.map((item, index) => {
@@ -94,11 +94,14 @@ export default class TierListView extends React.Component {
                                             const rate = itemCurrent.rating.find((rating, idx) => idx == index);
                                             return (
                                                 <div key={index} className="rating" style={{
-                                                    textOverflow: 'ellipsis', overflow: 'hidden', alignItems: 'center'
+                                                    textOverflow: 'ellipsis', overflow: 'hidden', alignItems: 'center', minHeight: '4rem',
                                                 }}>
-                                                    <span className="defil text-xl" style={{ animation: item?.name?.length > 24 ? 'scroll 6s linear infinite' : '' }}>
-                                                        {item?.name}
-                                                    </span>
+                                                    <div className="flex items-center gap-3 py-[8px] px-[16px]">
+                                                        <img className="min-w-[28px] w-[28px] h-[28px]" src={`/storage/tierlist/${this.tierlist.id}/subcategory/${item.id}.svg`} alt="" />
+                                                        <span className="defil text-xl">
+                                                            {item?.name}
+                                                        </span>
+                                                    </div>
                                                     <div className="input">
                                                         <span className="card px-[8px] py-[4px] text-lg" style={{ background: 'var(--light_background)' }}>{rate?.rate}/10</span>
                                                     </div>

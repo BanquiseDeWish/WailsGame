@@ -6,6 +6,17 @@ import Settings from '@/Components/Icons/Settings';
 import { toast } from "sonner";
 import BDWSwitch from "@/Components/BDWSwitch";
 
+/*WeilsMood*/
+import BadWeils from '../../../assets/img/tierlist/WeilsMood/bad.png'
+import BadLittleWeils from '../../../assets/img/tierlist/WeilsMood/bad_little.png'
+import MehWeils from '../../../assets/img/tierlist/WeilsMood/meh.png'
+import WhyNotWeils from '../../../assets/img/tierlist/WeilsMood/why_not.png'
+import GoodWeils from '../../../assets/img/tierlist/WeilsMood/good.png'
+import AmazingWeils from '../../../assets/img/tierlist/WeilsMood/amazing.png'
+import PerfectWeils from '../../../assets/img/tierlist/WeilsMood/perfect.png'
+import TooCrazyWeils from '../../../assets/img/tierlist/WeilsMood/toocrazy.png'
+/**********/
+
 export default function TierListIndex(props) {
 
     const tierlist = props.tierlist;
@@ -23,6 +34,8 @@ export default function TierListIndex(props) {
     const [itemActive, setItemActive] = useState(0)
     const dataTierlist = tlShare == null ? undefined : typeof tlShare?.data == "object" ? tlShare?.dataTierlist : JSON.parse(tlShare?.data)
     const [tierlistName, setTierlistName] = useState(tlShare?.name)
+    const [moodWeils, setMoodWeils] = useState(BadWeils)
+    const [bgAverage, setBgAverage] = useState("default");
     const DEFAULT_INTERVAL_AUTOSAVE = 120;
     let counterAutoSave = DEFAULT_INTERVAL_AUTOSAVE;
     let intervalAutoSave = null;
@@ -48,21 +61,52 @@ export default function TierListIndex(props) {
         console.log('Launch counter auto save')
         intervalAutoSave = setInterval(() => {
             console.log('AutoSave!')
+            setHasUpdate(false)
             autoSave()
         }, 120000)
     }, [])
 
     useEffect(() => {
+        updateWeils()
         changeActiveItem(itemActive)
     }, [items])
 
     useEffect(() => {
+        updateWeils()
         if (hasUpdate == undefined) setHasUpdate(false);
         else if (hasUpdate) {
             setHasUpdate(false)
             autoSave()
         }
     }, [itemActive])
+
+    const updateWeils = () => {
+        if(items[itemActive]?.average >= 0 && items[itemActive]?.average <= 1.99) {
+            setMoodWeils(BadWeils);
+            setBgAverage('bad')
+        }else if(items[itemActive]?.average >= 2 && items[itemActive]?.average <= 3.99) {
+            setMoodWeils(BadLittleWeils);
+            setBgAverage('badLittle')
+        }else if(items[itemActive]?.average >= 4 && items[itemActive]?.average <= 4.99) {
+            setMoodWeils(MehWeils);
+            setBgAverage('meh')
+        }else if(items[itemActive]?.average >= 5 && items[itemActive]?.average <= 5.99) {
+            setMoodWeils(WhyNotWeils);
+            setBgAverage('whyNot')
+        }else if(items[itemActive]?.average >= 6 && items[itemActive]?.average <= 6.99) {
+            setMoodWeils(GoodWeils);
+            setBgAverage('good')
+        }else if(items[itemActive]?.average >= 7 && items[itemActive]?.average <= 7.99) {
+            setMoodWeils(AmazingWeils);
+            setBgAverage('amazing')
+        }else if(items[itemActive]?.average >= 8 && items[itemActive]?.average <= 8.99) {
+            setMoodWeils(PerfectWeils);
+            setBgAverage('perfect')
+        }else if(items[itemActive]?.average >= 9 && items[itemActive]?.average <= 10) {
+            setMoodWeils(TooCrazyWeils);
+            setBgAverage('tooCrazy')
+        }
+    }
 
     const autoSave = () =>{
         share(true).then(() => {
@@ -148,7 +192,6 @@ export default function TierListIndex(props) {
                 //setShareLoad(true)
             })
         })
-
     }
 
     return (
@@ -183,7 +226,7 @@ export default function TierListIndex(props) {
                             <BDWSwitch bool={averageViewState} setBool={setAverageViewState} />
                         </div>
                     </div>
-                    <div className="card flex p-4 flex-row w-full justify-between">
+                    <div className="card hidden lg:flex p-4 flex-row w-full justify-between">
                         <span className="text-md font-semibold">Mode streamer</span>
                         <div className="flex items-center gap-2">
                             <BDWSwitch bool={modeStreamer} setBool={setModeStreamer} />
@@ -194,20 +237,23 @@ export default function TierListIndex(props) {
                     </div>
                 </div>
                 <div className="flex flex-1 flex-col gap-6 w-full h-full justify-center items-center">
-                    <div className="rating_average items-start card">
-                        <div className="view flex flex-col">
+                    <div className={`rating_average ${bgAverage} flex-col lg:flex-row items-start card`} style={{ padding: 0 }}>
+                        <div className="view flex flex-col p-[16px]">
                             <span className="text-2xl font-bold">Note Finale</span>
                             <span className={`${items[itemActive].average >= 9 ? "average gold" : "average"} text-xl`}>{items[itemActive].average}</span>
                         </div>
-                        <div className="flex gap-6">
+                        <div className="relative w-[6rem] h-[6rem] hidden lg:flex">
+                            <img style={{ width: '60%' }} class="weilsMood" src={moodWeils} alt="mood_weils" />
+                        </div>
+                        <div className="flex gap-6 p-[16px]">
                             <input type="text" value={tierlistName} onChange={(e) => { setTierlistName(e.target.value) }} disabled={shareLoad} placeholder="Nom de la Tierlist" />
-                            <button className="simple_button button_green" onClick={() => { share(false) }} disabled={shareLoad}>Sauvegarder ma Tierlist</button>
+                            <button className="simple_button button_green" onClick={() => { share(false) }} disabled={shareLoad}>Sauvegarder</button>
                         </div>
                     </div>
-                    <div className={`ratingList grid grid-cols-2 gap-4 overflow-x-hidden w-full ${modeStreamer ? "pr-4" : ""} overflow-y-auto`}>
+                    <div className={`ratingList grid grid-cols-1 lg:grid-cols-2 pb-24 lg:pb-0 gap-4 overflow-x-hidden w-full ${modeStreamer ? "pr-4" : ""} overflow-y-auto`}>
                         {categoriesRating.map((rating, index) => {
                             return (
-                                <div key={index} className="rating" style={{ overflow: 'hidden' }}>
+                                <div key={index} className={`rating ${bgAverage}`} style={{ minHeight: '4rem', overflow: 'hidden' }}>
                                     <div className="flex items-center gap-3 py-[8px] px-[16px]">
                                         <img className="min-w-[28px] w-[28px] h-[28px]" src={`/storage/tierlist/${props.idc}/subcategory/${rating.id}.svg`} alt="" />
                                         <span className="defil text-xl" style={{ animation: rating?.name?.length > 24 ? 'scroll 6s linear infinite' : '' }}>
