@@ -80,8 +80,9 @@ Route::prefix('overlay')->name('overlay.')->group(function() {
 Route::prefix('tierlist')->name('tierlist.')->middleware(['auth_twitch'])->group(function() {
     Route::get('/', [TierlistController::class, 'index'])->name('index');
     Route::get('/play/{id}/{tls_id}', [TierlistController::class, 'play'])->name('play');
-    Route::post('/share', [TierlistController::class, 'share'])->name('share');
     Route::get('/view/{userid}/{id}', [TierlistController::class, 'view'])->name('view');
+    Route::post('/share', [TierlistController::class, 'share'])->name('share');
+    Route::post('/delete', [TierlistController::class, 'delete'])->name('delete');
 });
 
 require __DIR__.'/auth.php';

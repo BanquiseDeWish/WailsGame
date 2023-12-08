@@ -1,9 +1,23 @@
 .tierlist .items {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    max-width: 520px;
+    gap: 12px;
+    padding: 8px 16px 32px;
     width: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-mask-image: -webkit-gradient(linear, left 90%, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+}
+
+.tierlist .items .item:hover {
+    transform: scale(1.05);
+}
+.tierlist .tlink {
+    transition: transform 0.2s ease-in-out;
+}
+.tierlist .tlink:hover {
+    transform: scale(1.05);
 }
 
 .tierlist .items .item {
@@ -17,13 +31,18 @@
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
-    transition: padding 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.tierlist .items .item .average {
+    font-weight: 800;
 }
 
 .tierlist .items .item.active {
     padding: 48px 16px;
     background-size: cover !important;
     background-position: center center !important;
+    transform: scale(1.05);
 }
 
 .tierlist .items .item.active .name {
@@ -57,7 +76,7 @@
     position: relative;
     display: flex !important;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     border-radius: 8px;
@@ -66,12 +85,10 @@
 
 .tierlist .rating span.defil {
     width: 100%;
-    position: absolute;
-    left: 12px;
 }
 
 .tierlist .rating .input {
-    padding: 8px;
+    padding: 8px 5px;
     background: var(--content_background);
 }
 
@@ -82,6 +99,20 @@
     align-items: center;
     width: 100%;
     padding: 16px;
+}
+
+.tierlist .rating_average .view .average.gold {
+    background: linear-gradient(#cfc09f 0%, #634f2c 10%, #cfc09f 40%, #ffecb3 50%, #3a2c0f 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    display: flex;
+    text-transform: uppercase;
+    line-height: 26px;
+    font-size: 26px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #ffd700;
 }
 
 .tierlist .streamer {
@@ -135,12 +166,15 @@
 .loader-spin::after {
     animation-delay: 1s;
 }
+
 .simple_button {
     position: relative;
 }
+
 .simple_button:disabled {
     outline: none;
 }
+
 .simple_button:disabled:after {
     content: '';
     background: rgba(0, 0, 0, 0.35);
