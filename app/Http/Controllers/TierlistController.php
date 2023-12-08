@@ -55,6 +55,9 @@ class TierlistController extends Controller
         if($tlShare !== null)
             if($tlShare->user_id !== intval($user->id))
                 return response()->json(["status" => "error", "message" => "Vous n'êtes pas autorisé à éditer cette tierlist."]);
+        if(strlen($name) > 250) {
+            return response()->json(["status" => "error", "message" => "Le nom de la tierlist ne peut dépasser les 250 caractères"]);
+        }
         if($name !== "Sans titre"){
             $checkName = TierlistShare::where('name', $name)->where('category_id', $tl_id)->where('id', '!=', $tlsID)->where('user_id', $user->id)->first();
             if($checkName !== null) return response()->json(["status" => "error", "message" => "Une tierlist de cette catégorie porte déjà ce nom"]);
