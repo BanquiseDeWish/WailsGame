@@ -110,6 +110,7 @@ export default function TierListIndex(props) {
 
     const autoSave = () =>{
         share(true).then(() => {
+            router.reload()
             toast.success('Sauvegarde automatique terminée')
         }).catch((err) => {
             console.log(err)
@@ -180,8 +181,6 @@ export default function TierListIndex(props) {
                             </div>
                         );
                     }
-                    setTLShare(resp.data?.tls)
-                    setTierlistName(resp.data?.tls?.name)
                     window.history.replaceState({}, null, resp.data?.tls?.id)
                     return resolve()
                 }
@@ -226,7 +225,7 @@ export default function TierListIndex(props) {
                             <BDWSwitch bool={averageViewState} setBool={setAverageViewState} />
                         </div>
                     </div>
-                    <div className="card hidden lg:flex p-4 flex-row w-full justify-between">
+                    <div className="card hidden 2xl:flex p-4 flex-row w-full justify-between">
                         <span className="text-md font-semibold">Mode streamer</span>
                         <div className="flex items-center gap-2">
                             <BDWSwitch bool={modeStreamer} setBool={setModeStreamer} />
@@ -239,7 +238,7 @@ export default function TierListIndex(props) {
                 <div className="flex flex-1 flex-col gap-6 w-full h-full justify-center items-center">
                     <div className={`rating_average ${bgAverage} flex-col lg:flex-row items-start card`} style={{ padding: 0 }}>
                         <div className="view flex flex-col p-[16px]">
-                            <span className="text-2xl font-bold">Note Finale</span>
+                            <span className="text-2xl font-bold" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '170px' }}>Note Finale</span>
                             <span className={`${items[itemActive].average >= 9 ? "average gold" : "average"} text-xl`}>{items[itemActive].average}</span>
                         </div>
                         <div className="relative w-[6rem] h-[6rem] hidden lg:flex">
@@ -250,7 +249,7 @@ export default function TierListIndex(props) {
                             <button className="simple_button button_green" onClick={() => { share(false) }} disabled={shareLoad}>Sauvegarder</button>
                         </div>
                     </div>
-                    <div className={`ratingList grid grid-cols-1 lg:grid-cols-2 pb-24 lg:pb-0 gap-4 overflow-x-hidden w-full ${modeStreamer ? "pr-4" : ""} overflow-y-auto`}>
+                    <div className={`ratingList grid grid-cols-1 2xl:grid-cols-2 pb-24 lg:pb-0 gap-4 overflow-x-hidden w-full ${modeStreamer ? "pr-4" : ""} overflow-y-auto`}>
                         {categoriesRating.map((rating, index) => {
                             return (
                                 <div key={index} className={`rating ${bgAverage}`} style={{ minHeight: '4rem', overflow: 'hidden' }}>
@@ -270,7 +269,7 @@ export default function TierListIndex(props) {
                     </div>
                 </div>
                 {modeStreamer &&
-                    <div className="streamer">
+                    <div className="streamer hidden 2xl:flex">
                         <div className={`cam card ${camState ? "flex" : "hidden"}`}>
                             Mets ta cam ici
                         </div>
