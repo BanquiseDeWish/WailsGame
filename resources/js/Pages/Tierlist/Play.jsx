@@ -85,7 +85,7 @@ export default function TierListIndex(props) {
                 setTLShare(data)
                 tlsID.current = data?.id
             })
-        }, 10000);
+        }, 120000);
         return () => clearInterval(interval);
     }, [itemActive])
 

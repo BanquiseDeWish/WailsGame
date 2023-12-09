@@ -295,7 +295,7 @@ div:has(label + input) {
     gap: 16px;
     color: white;
 }
-.navbar .link a {
+.navbar .link a, .navbar button.link  {
     display: block;
     position: relative;
     padding: 16px 32px;

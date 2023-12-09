@@ -9,6 +9,7 @@ import ProfileSidebar from './Sidebar/ProfileSidebar';
 import TwitchSVG from '@/Components/Icons/IconTwitch';
 
 import AppLogo from '@/Components/AppLogo';
+import DropdownNav from './Buttons/DropdownNav';
 
 export default function Navbar() {
 
@@ -24,7 +25,7 @@ export default function Navbar() {
                     props.auth.twitch ? (
                         <ProfileSidebar className="" isWeils={isWeils} />
                     ) : (
-                        <Link href={route('twitch.start')} className='flex items-center justify-center lg:hidden z-[0] gap-[8px] p-[12px] rounded-[8px]' 
+                        <Link href={route('twitch.start')} className='flex items-center justify-center lg:hidden z-[0] gap-[8px] p-[12px] rounded-[8px]'
                             style={{ background: 'linear-gradient(90deg, #8B5ABB 0%, #362565 100%)' }}  >
                             <TwitchSVG />
                         </Link>
@@ -40,9 +41,17 @@ export default function Navbar() {
                     <div className={`link ${window.location.href.startsWith(route('predigivre.halloffame', { filter: 'today' })) ? "active" : ""}`}>
                         <Link href={route('predigivre.halloffame', { filter: 'today' })}>Prédi Givrées</Link>
                     </div>
-                    <div className={`link ${window.location.href.startsWith(route('kartchance.index')) ? "active" : ""}`}>
-                        <Link href={route('kartchance.index')}>Kart Chance</Link>
-                    </div>
+                    <DropdownNav labelDropdown={"Outils"}
+                            menu={[
+                                {
+                                    label: "KartChance",
+                                    url: route('kartchance.index')
+                                },
+                                {
+                                    label: "Tierlist",
+                                    url: route('tierlist.index')
+                                }
+                            ]} />
 
                     {props.auth.twitch ? (
                         <>
