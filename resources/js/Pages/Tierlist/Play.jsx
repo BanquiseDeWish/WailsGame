@@ -1,7 +1,7 @@
 import MainLayout from "@/Layouts/MainLayout"
-import { Head, router } from "@inertiajs/react"
+import { Head, router, usePage } from "@inertiajs/react"
 import '../../../css/tierlist.css'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Settings from '@/Components/Icons/Settings';
 import { toast } from "sonner";
 import BDWSwitch from "@/Components/BDWSwitch";
@@ -36,11 +36,7 @@ export default function TierListIndex(props) {
     const [tierlistName, setTierlistName] = useState(tlShare?.name)
     const [moodWeils, setMoodWeils] = useState(BadWeils)
     const [bgAverage, setBgAverage] = useState("default");
-    const DEFAULT_INTERVAL_AUTOSAVE = 120;
-    let counterAutoSave = DEFAULT_INTERVAL_AUTOSAVE;
-    let intervalAutoSave = null;
-
-    clearInterval(intervalAutoSave);
+    const tlsID = useRef(props.tlShare?.id)
 
     useEffect(() => {
         items.forEach((item, iidx) => {
@@ -58,13 +54,12 @@ export default function TierListIndex(props) {
         })
         setItems(items);
 
-        console.log('Launch counter auto save')
-        intervalAutoSave = setInterval(() => {
-            console.log('AutoSave!')
-            setHasUpdate(false)
-            autoSave()
-        }, 120000)
+
     }, [])
+
+    useEffect(() => {
+        console.log('Update', tlShare)
+    }, [tlShare])
 
     useEffect(() => {
         updateWeils()
@@ -76,8 +71,22 @@ export default function TierListIndex(props) {
         if (hasUpdate == undefined) setHasUpdate(false);
         else if (hasUpdate) {
             setHasUpdate(false)
-            autoSave()
+            autoSave().then((data) => {
+                setTLShare(data)
+                tlsID.current = data?.id
+            })
         }
+
+        console.log('Launch counter auto save')
+        const interval = setInterval(() => {
+            console.log('AutoSave!', tlsID)
+            setHasUpdate(false)
+            autoSave().then((data) => {
+                setTLShare(data)
+                tlsID.current = data?.id
+            })
+        }, 10000);
+        return () => clearInterval(interval);
     }, [itemActive])
 
     const updateWeils = () => {
@@ -108,13 +117,19 @@ export default function TierListIndex(props) {
         }
     }
 
-    const autoSave = () =>{
-        share(true).then(() => {
-            router.reload()
-            toast.success('Sauvegarde automatique terminée')
-        }).catch((err) => {
-            console.log(err)
+    const autoSave = (tls) =>{
+        return new Promise((resolve, reject) => {
+            //tls
+            share(true).then((tls) => {
+                console.log(tls)
+                toast.success('Sauvegarde automatique terminée')
+                return resolve(tls);
+            }).catch((err) => {
+                console.log(err)
+                return reject();
+            })
         })
+
     }
 
     const changeActiveItem = (index) => {
@@ -159,13 +174,14 @@ export default function TierListIndex(props) {
     const share = (autoSave) => {
         return new Promise((resolve, reject) => {
             setShareLoad(true)
+            console.log('TLShareID?', tlShare)
             const data = []
             items.forEach((item) => {
                 data.push({ average: item.average, category_id: item.category_id, id: item.id, rating: item.rating })
             })
             axios.post(route('tierlist.share'), {
                 category_id: props.idc,
-                tls_id: tlShare?.id,
+                tls_id: tlsID.current,
                 name: tierlistName,
                 data: data
             }).then((resp) => {
@@ -182,16 +198,19 @@ export default function TierListIndex(props) {
                         );
                     }
                     window.history.replaceState({}, null, resp.data?.tls?.id)
-                    return resolve()
+                    return resolve(resp.data?.tls)
                 }
             }).catch(() => {
                 setShareLoad(false)
                 toast.error("Une erreur est survenue lors de la sauvegarde :(")
                 return reject()
-                //setShareLoad(true)
             })
         })
     }
+
+    /*useEffect(() => {
+
+    }, []);*/
 
     return (
         <MainLayout showOverflow={true}>
@@ -245,7 +264,7 @@ export default function TierListIndex(props) {
                             <img style={{ width: '60%' }} class="weilsMood" src={moodWeils} alt="mood_weils" />
                         </div>
                         <div className="flex gap-6 p-[16px]">
-                            <input type="text" value={tierlistName} onChange={(e) => { setTierlistName(e.target.value) }} disabled={shareLoad} placeholder="Nom de la Tierlist" />
+                            <input type="text" value={tlShare?.name} onChange={(e) => { setTierlistName(e.target.value) }} disabled={shareLoad} placeholder="Nom de la Tierlist" />
                             <button className="simple_button button_green" onClick={() => { share(false) }} disabled={shareLoad}>Sauvegarder</button>
                         </div>
                     </div>
