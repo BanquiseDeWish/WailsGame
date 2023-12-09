@@ -37,7 +37,7 @@ class TierlistController extends Controller
             if($tlShare->user_id !== intval($user->id)) return redirect()->route('tierlist.play', ['id' => $id, 'tls_id' => 'new'])->with('status', $this->toastResponse('error', 'Vous n\'êtes pas autorisé à voir cette page.'));
         }
 
-        return Inertia::render('Tierlist/Play', ['tierlist' => $tierlist, 'idc' => $id, 'items' => $items, 'tlShare' => $tlShare, 'categoriesRating' => $categoriesRating]);
+        return Inertia::render('Tierlist/Play', ['tierlist' => $tierlist, 'idc' => $id, 'items' => $items, 'tlsIDQuery' => $tls_id, 'tlShare' => $tlShare, 'categoriesRating' => $categoriesRating]);
     }
 
     public function share(Request $request) {
