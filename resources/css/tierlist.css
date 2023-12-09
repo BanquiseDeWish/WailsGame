@@ -194,7 +194,6 @@
 }
 
 .tierlist .streamer {
-    display: flex;
     gap: 18px;
     flex-direction: column;
     height: 100%;
