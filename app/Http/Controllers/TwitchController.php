@@ -20,6 +20,7 @@ class TwitchController extends Controller
 
     public function start()
     {
+
         return Inertia::location($this->twitch->getOAuthAuthorizeUrl('code', ['user_read']));
     }
 
@@ -37,7 +38,13 @@ class TwitchController extends Controller
 
         User::registerOrUpdateUser($userId->user_id, $userInfo->data[0]->display_name);
 
-        return redirect(route('/'));
+        if($request->session()->has('referer_url_before_twitch')) {
+            $url = $request->session()->get('referer_url_before_twitch');
+            $request->session()->forget('referer_url_before_twitch');
+            return Inertia::location($url);
+        }else{
+            return redirect(route('/'));
+        }
     }
 
     public function destroy(Request $request)
