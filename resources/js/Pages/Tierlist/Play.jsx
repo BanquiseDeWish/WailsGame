@@ -264,7 +264,7 @@ export default function TierListIndex(props) {
                             <img style={{ width: '60%' }} class="weilsMood" src={moodWeils} alt="mood_weils" />
                         </div>
                         <div className="flex gap-6 p-[16px]">
-                            <input type="text" value={tlShare?.name} onChange={(e) => { setTierlistName(e.target.value) }} disabled={shareLoad} placeholder="Nom de la Tierlist" />
+                            <input type="text" value={tierlistName} onChange={(e) => { setTierlistName(e.target.value) }} disabled={shareLoad} placeholder="Nom de la Tierlist" />
                             <button className="simple_button button_green" onClick={() => { share(false) }} disabled={shareLoad}>Sauvegarder</button>
                         </div>
                     </div>
