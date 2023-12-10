@@ -315,7 +315,7 @@ input,
     position: relative;
     overflow-y: hidden;
     overflow-x: visible !important;
-    mask: linear-gradient(180deg, transparent 0%, white 50%, transparent 100%);
+    mask: linear-gradient(180deg, transparent 0%, white 20%, white 80%, transparent 100%);
 }
 
 .wheel-slot::before {
