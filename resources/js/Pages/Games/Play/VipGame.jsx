@@ -7,7 +7,7 @@ import Ticket from '../../../Components/Games/VIPGames/Ticket';
 
 import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 
-import VipGamesLogo from '../../../../assets/games/vip_games_inline.svg';
+import VipGamesLogo from '../../../../assets/img/vipgames/vip_games_inline_christmas.svg';
 
 import UserCard from '@/Components/User/UserCard';
 import GameNewsItem from '@/Components/Games/VIPGames/GameNewsItem';
@@ -80,17 +80,21 @@ export default function VipGame() {
         let tickets = document.getElementById('tickets_pack');
         let penguin = document.getElementById('penguin');
         let player_points = document.getElementById('player_points');
+        //temporary
+        player_points.classList.remove('my-hidden');
+        penguin.classList.add('my-hidden');
+
         if (wheels.classList.contains('my-hidden')) {
             wheels.classList.remove('my-hidden');
-            player_points.classList.remove('my-hidden');
-            penguin.classList.add('my-hidden');
+            //player_points.classList.remove('my-hidden');
+            //penguin.classList.add('my-hidden');
             tickets.classList.add('my-hidden');
         }
         else {
             wheels.classList.add('my-hidden');
-            player_points.classList.add('my-hidden');
+            //player_points.classList.add('my-hidden');
             tickets.classList.remove('my-hidden');
-            penguin.classList.remove('my-hidden');
+            //penguin.classList.remove('my-hidden');
         }
     }
 
@@ -160,7 +164,7 @@ export default function VipGame() {
     }, [values.remove_player]);
 
     return (
-        <GlobalLayout>
+        <GlobalLayout disableEvent={true}>
             <Head title="VIP Game" />
 
             {
@@ -177,7 +181,7 @@ export default function VipGame() {
             }
 
             <div id="game_menu">
-                <img src={VipGamesLogo} width={500} alt="Logo VipGames" />
+                <img src={VipGamesLogo} width={540} alt="Logo VipGames" style={{filter: 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.99))'}}/>
 
                 <div className='flex flex-col gap-[8px]'>
                     <div className='flex w-full justify-center items-center h-[620px] gap-[8px] flex-shrink-0 relative'>
@@ -187,7 +191,7 @@ export default function VipGame() {
                                 <span>LA CAM</span>
                             </div>
                             <div className='le-tchat container flex-grow items-start p-[16px]'>
-                                LE T'CHAT
+                                Le T'Chat
                             </div>
                         </div>
 
