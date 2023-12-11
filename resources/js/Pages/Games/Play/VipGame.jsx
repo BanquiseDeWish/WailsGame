@@ -184,25 +184,25 @@ export default function VipGame() {
                 <img src={VipGamesLogo} width={540} alt="Logo VipGames" style={{filter: 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.99))'}}/>
 
                 <div className='flex flex-col gap-[8px]'>
-                    <div className='flex w-full justify-center items-center h-[620px] gap-[8px] flex-shrink-0 relative'>
+                    <div className='flex w-full justify-center items-center h-[680px] gap-[24px] flex-shrink-0 relative'>
                         {/* Left Menu ( For Weils Cam and Chat) */}
-                        <div className='flex flex-col gap-[8px] h-full w-[400px] flex-shrink-0'>
+                        <div className='flex flex-col gap-[24px] h-full w-[400px] flex-shrink-0'>
                             <div className='le-tchat flex-col container h-[220px]'>
                                 <span>LA CAM</span>
                             </div>
-                            <div className='le-tchat container flex-grow items-start p-[16px]'>
+                            <div className='le-tchat container flex-grow items-start p-[16px] pt-[32px] snow_cap_chat'>
                                 Le T'Chat
                             </div>
                         </div>
 
                         {/* Center Div */}
-                        <div className='flex flex-col gap-[8px] h-full w-[980px] relative'>
+                        <div className='flex flex-col gap-[24px] h-full w-[980px] relative'>
                             <div id='game_news' className='h-[80px] w-full flex-shrink-0'>
                                 {values.news_list}
                             </div>
 
-                            <div className='flex-1 flex-shrink-0 w-full overflow-hidden'>
-                                <div className='container p-[16px] max-h-full h-full overflow-hidden flex-shrink-0 w-full'>
+                            <div className='flex-1 flex-shrink-0 w-full'>
+                                <div className='container p-[16px] max-h-full h-full flex-shrink-0 w-full snow_cap_center'>
                                     <div id='user-list-container' className='w-full overflow-hidden'>
                                         <div id='user-list' className='w-full max-h-full flex flex-row flex-wrap gap-[8px] overflow-auto'>
                                             {values.waiting_users}
@@ -249,10 +249,10 @@ export default function VipGame() {
                         </div>
 
                         {/* Right Div - Penguin of the user */}
-                        <div className='flex flex-col gap-[8px] h-full w-[440px]'>
+                        <div className='flex flex-col gap-[24px] h-full w-[440px]'>
 
                             {/* Current Player */}
-                            <div className='container h-[80px] justify-between p-[16px] relative current_player'>
+                            <div className='container h-[80px] justify-between p-[16px] relative current_player snow_cap_player'>
                                 <div className='flex justify-center items-center gap-[16px] p-[0px]'>
                                     <img src={values.avatar} alt="" className='rounded-full h-[48px]' width={48} />
                                     <div className='flex flex-col gap-[0px]'>
@@ -270,13 +270,13 @@ export default function VipGame() {
                             </div>
 
                             {/* Penguin and Points List */}
-                            <div className='le-tchat container flex-grow relative'>
+                            <div className='le-tchat container flex-grow relative snow_cap_points'>
                                 <div id='penguin' className='flex justify-center items-center w-full h-full absolute'>
                                     Coming Soon
                                 </div>
 
-                                <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden my-hidden'>
-                                    <div className='title-20 flex justify-center items-center w-full'>
+                                <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] pt-[64px] gap-[16px] overflow-hidden my-hidden'>
+                                    <div className='flex justify-center items-center w-full le-tchat'>
                                         Les Joueurs & leurs points
                                     </div>
                                     <div className='flex flex-grow w-full flex-col gap-[8px] overflow-y-scroll pr-2'>
