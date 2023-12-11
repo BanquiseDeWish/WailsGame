@@ -20,7 +20,7 @@ body::after {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.25);
+    background: rgba(0,0,0,0.4);
     top: 0;
     left: 0;
 
@@ -625,14 +625,14 @@ input,
     font-weight: 700;
     line-height: normal;
     background: linear-gradient(99deg, #10A3F5 0%, #0B308E 100%);
-    padding: 4px 64px;
+    padding: 12px 64px;
     display: flex;
     justify-content: center;
     align-items: center;
     width: fit-content;
     border-radius: 8px 8px 0 0;
     position: absolute;
-    top: -29px;
+    top: -45px;
     left: 8;
 }
 

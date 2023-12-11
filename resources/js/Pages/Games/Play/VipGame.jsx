@@ -20,6 +20,7 @@ import { waitUntil } from '../../../../js/Game/utils';
 import BinIcon from '@/Components/Icons/BinIcon';
 
 import Confetti from 'react-confetti'
+import RedButton from '@/Components/Navigation/Buttons/RedButton';
 
 export default function VipGame() {
     const props = usePage().props;
@@ -107,7 +108,7 @@ export default function VipGame() {
     }
 
     function getUserCard(player) {
-        return (<UserCard key={randomId()} userId={player.id} userName={player.name} />);
+        return (<UserCard  key={randomId()} userId={player.id} userName={player.name} />);
     }
 
     useEffect(() => {
@@ -293,10 +294,19 @@ export default function VipGame() {
                         <div className='flex flex-row gap-8 pt-[16px]'>
                             {
                                 values.game_start
-                                    ? <GreenButton id="switch_button" className="button_green" onClick={() => {
-                                        switchGame();
-                                    }}
-                                    >Switch</GreenButton>
+                                    ? (
+                                        values.game_end ?
+                                        (
+                                            <RedButton id="quit_button" className="button_red" onClick={() => { window.location.href = route('vipgames.index') }}>
+                                                Quitter
+                                            </RedButton>
+                                        ) :
+                                        (
+                                            <GreenButton id="switch_button" className="button_green" onClick={() => { switchGame(); }}>
+                                                Switch
+                                            </GreenButton>
+                                        )
+                                    )
                                     :
                                     <BlueButton id="play_button" className="button_blue w-[280px]" onClick={
                                         () => {

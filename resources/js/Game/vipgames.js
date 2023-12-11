@@ -122,7 +122,6 @@ export default class VIPGames {
                     this.modifyValue('current_player', {id: -1, name: '?????????'});
                     this.modifyValue('choosen_player', data.player.id);
                     this.modifyValue('spin_1', 0);
-                    console.log("Round: ", data.round);
                     this.modifyValue('round', data.round);
                 }
                 else {
