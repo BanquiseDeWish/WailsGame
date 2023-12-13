@@ -107,7 +107,7 @@ export default class PrediGivrees extends React.Component {
     CompPos = (pos) => {
         return (
             <div key={pos} className="pronoItem" id={`prono__${pos}`}>
-                <div className="title">{pos == 1 ? `${pos}er` : `${pos}ème`}</div>
+                <div className="title">{pos == 1 ? `${pos} er` : `${pos} ème`}</div>
                 <div className='progress'><div className='after'></div></div>
                 <div className='state'>(0)</div>
             </div>
@@ -136,7 +136,7 @@ export default class PrediGivrees extends React.Component {
                 <div className="pronoKart" style={{ opacity: this.state.test ? 1 : this.state.show ? 1 : 0 }}>
                     <div className="flex flex-col justify-center items-center">
                         <img src={logo} alt="logo" />
-                        <div className="subtitle">!pg [position]</div>
+                        <div className="subtitle snow_cap_player">!pg [position]</div>
                     </div>
                     <div className={`result`} style={{ display: this.state.result ? "flex" : "none" }}>
                         <h2 className="text-white text-[4rem] font-extrabold">Résultat</h2>

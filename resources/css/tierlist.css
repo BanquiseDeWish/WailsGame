@@ -97,7 +97,7 @@
     align-items: center;
     width: 100%;
     border-radius: 8px;
-    background: var(--content_background);
+    background: var(--container_background);
 }
 
 .tierlist .rating span.defil {
@@ -106,7 +106,7 @@
 
 .tierlist .rating .input {
     padding: 8px 5px;
-    background: var(--content_background);
+    background: var(--container_background);
 }
 
 .tierlist .rating_average {

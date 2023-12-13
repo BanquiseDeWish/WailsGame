@@ -222,7 +222,7 @@ export default function TierListIndex(props) {
                         {items.map((val, index) => {
                             return (
                                 <div key={index} onClick={() => { changeActiveItem(index) }} className={`item ${itemActive == index ? "active" : ""}`}
-                                    style={{ background: `${itemActive == index ? `url('/storage/tierlist/${props.idc}/items/${val.id}.webp')` : "var(--content_background)"}` }} >
+                                    style={{ background: `${itemActive == index ? `url('/storage/tierlist/${props.idc}/items/${val.id}.webp')` : "var(--container_background)"}` }} >
                                     <span className="name">{val?.name}</span>
                                     {modeStreamer && !averageViewState || !modeStreamer ? <span className="average">{val?.average == undefined ? " - " : val?.average}</span> : <></>}
                                 </div>
