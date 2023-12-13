@@ -67,7 +67,7 @@ export default class TierListView extends React.Component {
                                 {this.state.items.map((val, index) => {
                                     return (
                                         <div key={index} onClick={() => { this.changeActiveItem(val.id) }} className={`item ${this.state.itemActive == val?.id ? "active" : ""}`}
-                                            style={{ background: `${this.state.itemActive == val?.id ? `url('/storage/tierlist/${this.props.idc}/items/${val.id}.webp')` : "var(--content_background)"}` }} >
+                                            style={{ background: `${this.state.itemActive == val?.id ? `url('/storage/tierlist/${this.props.idc}/items/${val.id}.webp')` : "var(--container_background)"}` }} >
                                             <span className="name">{val?.name}</span>
                                             <span className="average">{val.average}</span>
                                         </div>
