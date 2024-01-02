@@ -136,7 +136,7 @@ export default class PrediGivrees extends React.Component {
                 <div className="pronoKart" style={{ opacity: this.state.test ? 1 : this.state.show ? 1 : 0 }}>
                     <div className="flex flex-col justify-center items-center">
                         <img src={logo} alt="logo" />
-                        <div className="subtitle snow_cap_player">!pg [position]</div>
+                        <div className="subtitle">!pg [position]</div>
                     </div>
                     <div className={`result`} style={{ display: this.state.result ? "flex" : "none" }}>
                         <h2 className="text-white text-[4rem] font-extrabold">Résultat</h2>
