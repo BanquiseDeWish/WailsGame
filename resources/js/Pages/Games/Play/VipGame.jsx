@@ -7,7 +7,7 @@ import Ticket from '../../../Components/Games/VIPGames/Ticket';
 
 import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 
-import VipGamesLogo from '../../../../assets/img/vipgames/vip_games_inline_christmas.svg';
+import VipGamesLogo from '../../../../assets/img/vipgames/vip_games_inline.svg';
 
 import UserCard from '@/Components/User/UserCard';
 import GameNewsItem from '@/Components/Games/VIPGames/GameNewsItem';
