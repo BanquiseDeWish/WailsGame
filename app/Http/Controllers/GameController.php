@@ -14,15 +14,12 @@ use Inertia\Inertia;
 class GameController extends Controller
 {
     //
-
-    public function show($game)
+    public function toolsIndex($game)
     {
-        if($game == 'vipgames')
-            return Inertia::render('Games/VipGamesIndex');
-        else if($game == 'predi_grivee')
-            return Inertia::render('Games/PrediGivreeIndex');
+        if($game == 'shiny_race_battle')
+            return Inertia::render('Tools/ShinyRaceBattle');
 
-        return Inertia::render('Games/VipGamesIndex');
+        return Inertia::render('Tools/ShinyRaceBattle');
     }
 
     public function play(Request $request, $game)
