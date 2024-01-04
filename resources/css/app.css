@@ -6,6 +6,10 @@
     --light_background: #2C3344;
 }
 
+.container_background {
+    background-color: var(--container_background);
+}
+
 html {
     font-size: 16px !important;
     color: white;
@@ -146,9 +150,13 @@ input {
     gap: 24px !important;
     align-self: stretch !important;
     border-radius: 8px !important;
-    background: var(--light_background) !important;
+    background: var(--container_background) !important;
     color: white !important;
     border: none !important;
+}
+
+#modal input {
+    background: var(--light_background) !important;
 }
 
 input:focus {
@@ -160,9 +168,9 @@ input:focus {
 label:has(+ input) {
     color: #FFF;
     font-family: Poppins;
-    font-size: 18px;
+    font-size: 16px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 600;
     line-height: normal;
 }
 

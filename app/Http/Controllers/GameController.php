@@ -17,9 +17,9 @@ class GameController extends Controller
     public function toolsIndex($game)
     {
         if($game == 'shiny_race_battle')
-            return Inertia::render('Tools/ShinyRaceBattle');
+            return Inertia::render('Tools/ShinyRaceBattle/ShinyRaceBattle');
 
-        return Inertia::render('Tools/ShinyRaceBattle');
+        return Inertia::render('Tools/ShinyRaceBattle/ShinyRaceBattle');
     }
 
     public function play(Request $request, $game)
