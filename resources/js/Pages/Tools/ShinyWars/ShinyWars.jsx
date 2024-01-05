@@ -1,5 +1,6 @@
 import { Head, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
+import BDWSocket from '../../../Game/socket';
 
 import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 
@@ -10,6 +11,8 @@ import MapTeranium from '../../../../assets/games/shiny_wars/maps/teranium.png';
 
 
 import MainLayout from '@/Layouts/MainLayout';
+
+let socket = null;
 
 export default function ShinyWars() {
 
@@ -32,7 +35,7 @@ export default function ShinyWars() {
     }
 
     useEffect(() => {
-        socket = new BDWSocket("shinywars", { isWeils: isWeils !== null ? isWeils : false})
+        socket = new BDWSocket("shinywars", { gameId: 1, userId: props.auth?.twitch?.id, userName: props.auth?.twitch?.display_name })
 
         if (socket !== null) {
             function onConnect() {}
@@ -52,7 +55,7 @@ export default function ShinyWars() {
     return (
         <>
             <MainLayout showOverflow={true}>
-                <Head title="Shiny Race Battle" />
+                <Head title="Shiny Wars" />
                 <div className='flex flex-row gap-4'>
                     <PokemonMap mapUrl={MapTeranium} mapName={"Myrtille"} />
                 </div>
