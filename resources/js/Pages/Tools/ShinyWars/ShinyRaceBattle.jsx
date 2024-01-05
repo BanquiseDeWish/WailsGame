@@ -6,12 +6,12 @@ import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 import Input from '@/Components/Forms/Input';
 import PokemonMap from './PokemonMap';
 
-import MapTeranium from '../../../../assets/games/shiny_race_battle/maps/teranium.png';
+import MapTeranium from '../../../../assets/games/shiny_wars/maps/teranium.png';
 
 
 import MainLayout from '@/Layouts/MainLayout';
 
-export default function ShinyRaceBattle() {
+export default function ShinyWars() {
 
     const props = usePage().props;
 
@@ -30,6 +30,24 @@ export default function ShinyRaceBattle() {
             }));
         }
     }
+
+    useEffect(() => {
+        socket = new BDWSocket("shinywars", { isWeils: isWeils !== null ? isWeils : false})
+
+        if (socket !== null) {
+            function onConnect() {}
+
+            function onDisconnect() {}
+
+            socket.on('connect', onConnect);
+            socket.on('disconnect', onDisconnect);
+
+            return () => {
+                socket.off('connect', onConnect);
+                socket.off('disconnect', onDisconnect);
+            }
+        }
+    }, []);
 
     return (
         <>
