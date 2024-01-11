@@ -78,7 +78,7 @@ Route::prefix('overlay')->name('overlay.')->group(function() {
 });
 
 Route::prefix('tools')->name('tools.')->middleware(['auth_twitch'])->group(function() {
-    Route::get('/{game}', [GameController::class, 'toolsIndex'])->name('index');
+    Route::get('/{game}/{gameId?}', [GameController::class, 'toolsIndex'])->name('index');
 });
 
 Route::prefix('tierlist')->name('tierlist.')->middleware(['auth_twitch'])->group(function() {

@@ -17,6 +17,7 @@ let socket = null;
 export default function ShinyWars() {
 
     const props = usePage().props;
+    console.log(props?.gameId);
 
     const [values, setValues] = useState({
         player_number: 0

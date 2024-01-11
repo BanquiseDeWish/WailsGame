@@ -14,12 +14,12 @@ use Inertia\Inertia;
 class GameController extends Controller
 {
     //
-    public function toolsIndex($game)
+    public function toolsIndex($game, ?string $gameId = null)
     {
         if($game == 'shiny_wars')
-            return Inertia::render('Tools/ShinyWars/ShinyWars');
+            return Inertia::render('Tools/ShinyWars/ShinyWars', ['gameId' => $gameId]);
 
-        return Inertia::render('Tools/ShinyWars/ShinyWars');
+        return Inertia::render('Tools/ShinyWars/ShinyWars', ['gameId' => $gameId]);
     }
 
     public function play(Request $request, $game)
