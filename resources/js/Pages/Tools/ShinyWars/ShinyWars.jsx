@@ -5,38 +5,39 @@ import BDWSocket from '../../../Game/socket';
 import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 
 import Input from '@/Components/Forms/Input';
-import PokemonMap from './PokemonMap';
+import PokemonMap from './Utils/PokemonMap';
 
 import MapTeranium from '../../../../assets/games/shiny_wars/maps/teranium.png';
 
 
 import MainLayout from '@/Layouts/MainLayout';
 
+import SettingsMenu from './SubPage/SettingsMenu';
+import GamePhaseHunt from './SubPage/GamePhaseHunt';
+import GamePhaseDrawPkmn from './SubPage/GamePhaseDrawPkmn';
+import GamePhaseDrawMap from './SubPage/GamePhaseDrawMap';
+
 let socket = null;
 
 export default function ShinyWars() {
 
-    const props = usePage().props;
-    console.log(props?.gameId);
-
     const [values, setValues] = useState({
-        player_number: 0
+        socket: null,
+        phaseId: 0,
     });
 
-    const handleChange = (event) => {
-        const allowed_names = [
-            'player_number'
-        ];
-        if (allowed_names.includes(event.target.id)) {
-            setValues(values => ({
-                ...values,
-                [event.target.id]: event.target.value
-            }));
-        }
+    const modifyValues = (key, value) => {
+        setValues(values => ({
+            ...values,
+            [key]: value
+        }));
     }
 
+    const props = usePage().props;
+
     useEffect(() => {
-        socket = new BDWSocket("shinywars", { gameId: 1, userId: props.auth?.twitch?.id, userName: props.auth?.twitch?.display_name })
+        socket = new BDWSocket("shinywars", { gameId: props.gameId, userId: props.auth?.twitch?.id, userName: props.auth?.twitch?.display_name })
+        modifyValues('socket', socket);
 
         if (socket !== null) {
             function onConnect() {}
@@ -45,6 +46,30 @@ export default function ShinyWars() {
 
             socket.on('connect', onConnect);
             socket.on('disconnect', onDisconnect);
+
+            socket.on('wheel_player_turn', (data) => {
+
+            });
+
+            socket.on('wheel_player_map', (data) => {
+
+            });
+
+            socket.on('player_choose_turn', (data) => {
+
+            });
+
+            socket.on('player_choose', (data) => {
+
+            });
+
+            socket.on('pokemon_types_list', (data) => {
+
+            });
+
+            socket.on('change_phase', (data) => {
+
+            }); 
 
             return () => {
                 socket.off('connect', onConnect);
@@ -57,14 +82,10 @@ export default function ShinyWars() {
         <>
             <MainLayout showOverflow={true}>
                 <Head title="Shiny Wars" />
-                <div className='flex flex-row gap-4'>
-                    <PokemonMap mapUrl={MapTeranium} mapName={"Myrtille"} />
-                </div>
-                <form action="" className='flex flex-col gap-4'>
-                    <Input label="Nombre de Joueur" type="number" id="player_number" onChange={handleChange} />
-                    <Input label="Nombre de Pokémon à attraper" type="number" id="pkm_number" onChange={handleChange} />
-                    <GreenButton type="submit" className="w-fit button_green">Lancer</GreenButton>
-                </form>
+                { values.phaseId == 0 && <SettingsMenu socket={values.socket}/> }
+                { values.phaseId == 1 && <GamePhaseDrawMap socket={values.socket}/> }
+                { values.phaseId == 2 && <GamePhaseHunt socket={values.socket}/> }
+                { values.phaseId == 3 && <GamePhaseDrawPkmn socket={values.socket}/> }
             </MainLayout>
             <style>{`
 
