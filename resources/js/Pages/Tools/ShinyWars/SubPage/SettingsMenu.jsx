@@ -1,4 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import PokemonMap from '../Utils/PokemonMap';
+
+import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
+
+import Input from '@/Components/Forms/Input';
+
+import MapTeranium from '../../../../../assets/games/shiny_wars/maps/teranium.png';
 
 export default function SettingsMenu({socket, ...otherProps}) {
 

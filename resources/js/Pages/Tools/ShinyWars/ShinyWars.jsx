@@ -2,13 +2,6 @@ import { Head, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import BDWSocket from '../../../Game/socket';
 
-import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
-
-import Input from '@/Components/Forms/Input';
-import PokemonMap from './Utils/PokemonMap';
-
-import MapTeranium from '../../../../assets/games/shiny_wars/maps/teranium.png';
-
 
 import MainLayout from '@/Layouts/MainLayout';
 
@@ -21,19 +14,31 @@ let socket = null;
 
 export default function ShinyWars() {
 
-    const [values, setValues] = useState({
+    const [globalValues, setGlobalValues] = useState({
         socket: null,
-        phaseId: 0,
+        phaseId: 2,
+        isLeader: true,
+        players_list: [
+            {id: '468764655', name:'WeilsTTV', catchPokemons: [false, false, false, false, false, false]},
+            {id: '984381267', name:'Amouranth', catchPokemons: [false, false, false, false, false, false]},
+            {id: '157698737', name:'Adyce', catchPokemons: [false, false, false, false, false, false]},
+            {id: '123456873', name:'Hizzle_Tv', catchPokemons: [false, false, false, false, false, false]}
+        ]
     });
 
+    const getPlayer = (id) => {
+        return globalValues.players_list.find(p => p.id == id);
+    }
+
     const modifyValues = (key, value) => {
-        setValues(values => ({
-            ...values,
+        setGlobalValues(globalValues => ({
+            ...globalValues,
             [key]: value
         }));
     }
 
     const props = usePage().props;
+    console.log(props);
 
     useEffect(() => {
         socket = new BDWSocket("shinywars", { gameId: props.gameId, userId: props.auth?.twitch?.id, userName: props.auth?.twitch?.display_name })
@@ -48,27 +53,35 @@ export default function ShinyWars() {
             socket.on('disconnect', onDisconnect);
 
             socket.on('wheel_player_turn', (data) => {
-
+                if(globalValues.phaseId != 1) return;
             });
 
             socket.on('wheel_player_map', (data) => {
+                if(globalValues.phaseId != 1) return;
+            });
 
+            socket.on('player_update_pokemon', (data) => {
+                if(globalValues.phaseId != 2) return;
+                let player = getPlayer(data.playerId);
+                if(player === undefined) return;
+                player.catchPokemons[data.pokemonIndex] = data.hasCatch;
+                modifyValues('players_list', globalValues.players_list);
             });
 
             socket.on('player_choose_turn', (data) => {
-
+                if(globalValues.phaseId != 3) return;
             });
 
             socket.on('player_choose', (data) => {
-
+                if(globalValues.phaseId != 3) return;
             });
 
             socket.on('pokemon_types_list', (data) => {
-
+                if(globalValues.phaseId != 3) return;
             });
 
             socket.on('change_phase', (data) => {
-
+                modifyValues('phaseId', data.phaseId);
             }); 
 
             return () => {
@@ -80,12 +93,12 @@ export default function ShinyWars() {
 
     return (
         <>
-            <MainLayout showOverflow={true}>
-                <Head title="Shiny Wars" />
-                { values.phaseId == 0 && <SettingsMenu socket={values.socket}/> }
-                { values.phaseId == 1 && <GamePhaseDrawMap socket={values.socket}/> }
-                { values.phaseId == 2 && <GamePhaseHunt socket={values.socket}/> }
-                { values.phaseId == 3 && <GamePhaseDrawPkmn socket={values.socket}/> }
+            <MainLayout showOverflow={true} className={"flex flex-col justify-center items-center gap-6"}>
+                <Head title="Shiny Wars"/>
+                { globalValues.phaseId == 0 && <SettingsMenu globalValues={globalValues} socket={globalValues.socket}/> }
+                { globalValues.phaseId == 1 && <GamePhaseDrawMap globalValues={globalValues} socket={globalValues.socket}/> }
+                { globalValues.phaseId == 2 && <GamePhaseHunt globalValues={globalValues} socket={globalValues.socket}/> }
+                { globalValues.phaseId == 3 && <GamePhaseDrawPkmn globalValues={globalValues} socket={globalValues.socket}/> }
             </MainLayout>
             <style>{`
 
