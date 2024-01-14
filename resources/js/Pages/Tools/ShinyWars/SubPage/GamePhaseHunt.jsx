@@ -23,19 +23,20 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
             pkms.push(
                 <div id={player.id + "_" + index} key={index} className='rounded-lg container_background p-4'>
                     { pkm ? 
-                        (<span>Shiny Capturé</span>) :
-                        (<span>Toujours en shasse...</span>)
+                        (<span className='font-semibold'>✨ Shiny Capturé</span>) :
+                        (<span className='text-[#62697D] font-semibold'>Toujours en shasse...</span>)
                     }
                 </div>
             )
         });
 
         return (
-            <div className='flex flex-col gap-6'>
-                <div className='rounded-lg container_background p-4 text-xl'>
+            <div className='flex flex-col gap-6 w-[300px]'>
+                <div className='rounded-lg container_background p-2 text-xl w-full flex items-center gap-4 font-semibold'>
+                    <img width={56} height={56} style={{ borderRadius: 50 }} src={player.profile_image_url} alt="avatar_twitch" />
                     {player.name}
                 </div>
-                <div className='flex flex-col gap-2'>
+                <div className='flex flex-col gap-2 w-full'>
                     {pkms}
                 </div>
             </div>
