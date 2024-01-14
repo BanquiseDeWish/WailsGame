@@ -16,7 +16,7 @@ export default function ShinyWars() {
 
     const [globalValues, setGlobalValues] = useState({
         socket: null,
-        phaseId: 2,
+        phaseId: 0,
         isLeader: true,
         players_list: [
             {id: '468764655', name:'WeilsTTV', catchPokemons: [false, false, false, false, false, false], profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/2656629d-c882-4f2c-9088-35ead338176b-profile_image-300x300.png'},
@@ -86,7 +86,11 @@ export default function ShinyWars() {
 
             socket.on('change_phase', (data) => {
                 modifyValues('phaseId', data.phaseId);
-            }); 
+            });
+
+            socket.on('error', (data) => {
+                console.log(data);
+            });
 
             return () => {
                 socket.off('connect', onConnect);

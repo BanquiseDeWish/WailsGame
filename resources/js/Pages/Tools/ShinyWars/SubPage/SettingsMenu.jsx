@@ -7,15 +7,15 @@ import Input from '@/Components/Forms/Input';
 
 import MapTeranium from '../../../../../assets/games/shiny_wars/maps/teranium.png';
 
-export default function SettingsMenu({socket, ...otherProps}) {
+export default function SettingsMenu({socket, globalValues, ...otherProps}) {
 
     const [values, setValues] = useState({
-        player_number: 0
+        player_name: '',
     });
 
     const handleChange = (event) => {
         const allowed_names = [
-            'player_number'
+            'player_name'
         ];
         if (allowed_names.includes(event.target.id)) {
             setValues(values => ({
@@ -25,8 +25,37 @@ export default function SettingsMenu({socket, ...otherProps}) {
         }
     }
 
+    useEffect(() => {
+
+    }, [globalValues.players_list]);
+
     return (
         <>
+            <div className='flex flex-col gap-4 w-[600px]'>
+                <div className='flex flex-row g-4 items-end'>
+                    <Input label="Joueur" type="text" id="player_name" placeholder={"Pseudo Twitch"} onChange={handleChange} />
+                    <GreenButton type="submit" className="w-fit button_green outline-none">Ajouter</GreenButton>
+                </div>
+                <div id='players' className='flex flex-col gap-2 w-full'>
+                    {
+                        globalValues.players_list.map((player, index) => {
+                            return (
+                                <div key={index} className='w-full container p-2 flex justify-between'>
+                                    <div className='flex justify-center items-center gap-2'>
+                                        <img width={48} height={48} style={{ borderRadius: 50 }} src={player.profile_image_url} alt="avatar_twitch" />
+                                        <span className='text-base font-semibold'>{player.name}</span>
+                                    </div>
+                                    <div>
+                                        DELETE
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+            <GreenButton type="submit" className="w-fit button_green outline-none">Lancer la Game</GreenButton>
+            {/*
             <div className='flex flex-row gap-4'>
                 <PokemonMap mapUrl={MapTeranium} mapName={"Myrtille"} />
             </div>
@@ -35,6 +64,7 @@ export default function SettingsMenu({socket, ...otherProps}) {
                 <Input label="Nombre de Pokémon à attraper" type="number" id="pkm_number" onChange={handleChange} />
                 <GreenButton type="submit" className="w-fit button_green">Lancer</GreenButton>
             </form>
+            */}
         </>
     )
 
