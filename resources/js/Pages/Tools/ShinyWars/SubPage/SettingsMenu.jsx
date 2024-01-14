@@ -4,6 +4,7 @@ import PokemonMap from '../Utils/PokemonMap';
 import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 
 import Input from '@/Components/Forms/Input';
+import CrossIcon from '@/Components/Icons/CrossIcon';
 
 import MapTeranium from '../../../../../assets/games/shiny_wars/maps/teranium.png';
 
@@ -45,9 +46,7 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
                                         <img width={48} height={48} style={{ borderRadius: 50 }} src={player.profile_image_url} alt="avatar_twitch" />
                                         <span className='text-base font-semibold'>{player.name}</span>
                                     </div>
-                                    <div>
-                                        DELETE
-                                    </div>
+                                    <CrossIcon width={32} height={32} className={"icon"}/>
                                 </div>
                             )
                         })
@@ -55,6 +54,18 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
                 </div>
             </div>
             <GreenButton type="submit" className="w-fit button_green outline-none">Lancer la Game</GreenButton>
+
+
+            <style>
+            {`
+                .icon {
+                    filter: invert(100%)
+                }
+                .icon:hover {
+                    filter: invert(39%) sepia(55%) saturate(2297%) hue-rotate(336deg) brightness(81%) contrast(91%);
+                }
+            `}
+            </style>
             {/*
             <div className='flex flex-row gap-4'>
                 <PokemonMap mapUrl={MapTeranium} mapName={"Myrtille"} />
