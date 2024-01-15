@@ -10,13 +10,15 @@ import GamePhaseHunt from './SubPage/GamePhaseHunt';
 import GamePhaseDrawPkmn from './SubPage/GamePhaseDrawPkmn';
 import GamePhaseDrawMap from './SubPage/GamePhaseDrawMap';
 
+import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
+
 let socket = null;
 
 export default function ShinyWars() {
 
     const [globalValues, setGlobalValues] = useState({
         socket: null,
-        phaseId: 0,
+        phaseId: -1,
         isLeader: true,
         players_list: [
             {id: '468764655', name:'WeilsTTV', catchPokemons: [false, false, false, false, false, false], profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/2656629d-c882-4f2c-9088-35ead338176b-profile_image-300x300.png'},
@@ -37,8 +39,15 @@ export default function ShinyWars() {
         }));
     }
 
+    const createGame = () => {
+        socket.emit('create_party');
+    }
+
     const props = usePage().props;
-    console.log(props);
+
+    useEffect(() => {
+        console.log('phaseId', globalValues.phaseId);
+    }, [globalValues.phaseId]);
 
     useEffect(() => {
         socket = new BDWSocket("shinywars", { gameId: props.gameId, userId: props.auth?.twitch?.id, userName: props.auth?.twitch?.display_name })
@@ -103,6 +112,13 @@ export default function ShinyWars() {
         <>
             <MainLayout showOverflow={true} className={"flex flex-col justify-center items-center gap-6"}>
                 <Head title="Shiny Wars"/>
+                { globalValues.phaseId == -1 && (
+                    <>
+                        <GreenButton className={"button button_green outline-none"} onClick={() => {createGame()}}>
+                            Créer une Game
+                        </GreenButton>
+                    </>
+                )}
                 { globalValues.phaseId == 0 && <SettingsMenu globalValues={globalValues} socket={globalValues.socket}/> }
                 { globalValues.phaseId == 1 && <GamePhaseDrawMap globalValues={globalValues} socket={globalValues.socket}/> }
                 { globalValues.phaseId == 2 && <GamePhaseHunt globalValues={globalValues} socket={globalValues.socket}/> }
