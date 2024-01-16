@@ -26,6 +26,14 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
         }
     }
 
+    const addPlayer = () => {
+        console.log('EMIT ADD PLAYER', values.player_name)
+        socket.emit('update_players', {
+            type:'add',
+            userName: values.player_name
+        });
+    }
+
     useEffect(() => {
 
     }, [globalValues.players_list]);
@@ -35,7 +43,7 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
             <div className='flex flex-col gap-4 w-[600px]'>
                 <div className='flex flex-row g-4 items-end'>
                     <Input label="Joueur" type="text" id="player_name" placeholder={"Pseudo Twitch"} onChange={handleChange} />
-                    <GreenButton type="submit" className="w-fit button_green outline-none">Ajouter</GreenButton>
+                    <GreenButton className="w-fit button_green outline-none" onClick={addPlayer}>Ajouter</GreenButton>
                 </div>
                 <div id='players' className='flex flex-col gap-2 w-full'>
                     {
