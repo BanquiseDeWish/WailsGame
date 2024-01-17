@@ -21,10 +21,6 @@ export default function ShinyWars() {
         phaseId: -1,
         isLeader: true,
         players_list: [
-            {id: '468764655', name:'WeilsTTV', catchPokemons: [false, false, false, false, false, false], profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/2656629d-c882-4f2c-9088-35ead338176b-profile_image-300x300.png'},
-            {id: '984381267', name:'Amouranth', catchPokemons: [false, false, false, false, false, false], profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/2656629d-c882-4f2c-9088-35ead338176b-profile_image-300x300.png'},
-            {id: '157698737', name:'Adyce', catchPokemons: [false, false, false, false, false, false], profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/2656629d-c882-4f2c-9088-35ead338176b-profile_image-300x300.png'},
-            {id: '123456873', name:'Hizzle_Tv', catchPokemons: [false, false, false, false, false, false], profile_image_url: 'https://static-cdn.jtvnw.net/jtv_user_pictures/2656629d-c882-4f2c-9088-35ead338176b-profile_image-300x300.png'}
         ]
     });
 
@@ -62,6 +58,7 @@ export default function ShinyWars() {
             socket.on('disconnect', onDisconnect);
 
             socket.on('update_players', (data) => {
+                console.log('update_players', data);
                 modifyValues('players_list', data.players);
             });
 

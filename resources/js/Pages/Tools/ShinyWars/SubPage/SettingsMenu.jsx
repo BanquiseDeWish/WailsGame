@@ -54,7 +54,9 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
                                         <img width={48} height={48} style={{ borderRadius: 50 }} src={player.profile_image_url} alt="avatar_twitch" />
                                         <span className='text-base font-semibold'>{player.name}</span>
                                     </div>
-                                    <CrossIcon width={32} height={32} className={"icon"}/>
+                                    <CrossIcon width={32} height={32} className={"icon"} onClick={() => {
+                                        socket.emit('update_players', {type: 'remove', player_id: player.id});
+                                    }}/>
                                 </div>
                             )
                         })
