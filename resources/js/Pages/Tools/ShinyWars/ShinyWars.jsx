@@ -2,7 +2,6 @@ import { Head, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import BDWSocket from '../../../Game/socket';
 
-
 import MainLayout from '@/Layouts/MainLayout';
 
 import SettingsMenu from './SubPage/SettingsMenu';
