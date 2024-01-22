@@ -11,6 +11,8 @@ import GamePhaseDrawMap from './SubPage/GamePhaseDrawMap';
 
 import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 
+import { toast } from 'sonner'
+
 let socket = null;
 
 export default function ShinyWars() {
@@ -94,7 +96,7 @@ export default function ShinyWars() {
             });
 
             socket.on('error', (data) => {
-                console.log(data);
+                toast.error(data.message);
             });
 
             return () => {

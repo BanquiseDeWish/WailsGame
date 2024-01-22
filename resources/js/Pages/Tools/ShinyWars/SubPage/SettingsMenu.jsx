@@ -42,7 +42,18 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
         <>
             <div className='flex flex-col gap-4 w-[600px]'>
                 <div className='flex flex-row g-4 items-end'>
-                    <Input label="Joueur" type="text" id="player_name" placeholder={"Pseudo Twitch"} onChange={handleChange} />
+                    <Input label="Joueur" type="text" id="player_name" placeholder={"Pseudo Twitch"} onChange={handleChange}
+                        value={values.player_name}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                addPlayer();
+                                setValues(values => ({
+                                    ...values,
+                                    player_name: ''
+                                }));
+                            }
+                        }}
+                    />
                     <GreenButton className="w-fit button_green outline-none" onClick={addPlayer}>Ajouter</GreenButton>
                 </div>
                 <div id='players' className='flex flex-col gap-2 w-full'>

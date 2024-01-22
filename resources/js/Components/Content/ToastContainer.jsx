@@ -30,7 +30,7 @@ export default function ToastContainer(){
     }, [])
 
     return (
-        <Toaster position='bottom-right' />
+        <Toaster position='bottom-right' richColors />
     )
 
 

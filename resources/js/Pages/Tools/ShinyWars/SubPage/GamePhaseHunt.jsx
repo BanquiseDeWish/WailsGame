@@ -50,7 +50,7 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
             <div className="flex gap-12">
                 {players}
             </div>
-            { globalValues?.isLeader && <GreenButton className="button_green w-fit">Tirage au Sorts</GreenButton>}
+            { globalValues?.isLeader && <GreenButton className="w-fit button_green outline-none" >Il est temps, de choisir !</GreenButton>}
         </>
     )
 
