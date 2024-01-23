@@ -27,7 +27,6 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
     }
 
     const addPlayer = () => {
-        console.log('EMIT ADD PLAYER', values.player_name)
         socket.emit('update_players', {
             type:'add',
             userName: values.player_name
