@@ -64,7 +64,7 @@ export default function Slot({ id, type, winner, spin, game, onClick, game_start
             <div id={id} className='wheel-slot'>
                 
             </div>
-            <GreenButton className='button_green w-[200px]' onClick={onClick}>Tourner !</GreenButton>
+            {!otherProps?.noButton && <GreenButton className='button_green w-[200px]' onClick={onClick}>Tourner !</GreenButton>}
         </div>
     );
 

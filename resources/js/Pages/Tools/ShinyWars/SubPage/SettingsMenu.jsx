@@ -74,7 +74,7 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
                 </div>
             </div>
             <GreenButton type="submit" className="w-fit button_green outline-none" onClick={() => {
-                socket.emit('start_game', {});
+                socket.emit('update_game_status', {type: 'start'});
                 console.log('Start_Game')
             }}>Lancer la Game</GreenButton>
 
