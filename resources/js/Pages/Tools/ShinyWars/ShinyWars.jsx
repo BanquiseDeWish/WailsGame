@@ -19,7 +19,7 @@ export default function ShinyWars() {
 
     const [globalValues, setGlobalValues] = useState({
         socket: null,
-        phaseId: 1,
+        phaseId: -1,
         isLeader: true,
         players_list: [
         ],
