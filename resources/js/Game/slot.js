@@ -2,13 +2,12 @@ import GameSound from './audio';
 
 export default class Slot {
 
-    constructor(id, type, game, link) {
+    constructor(id, type, link) {
         this.id = id;
         this.current_index = 0;
         this.data = [];
         this.slot = undefined;
         this.type = type;
-        this.game = game;
         this.isSpinning = false;
         this.pinSound = new GameSound('pin');
         this.endSlotSound = new GameSound('slot_end');
@@ -35,19 +34,19 @@ export default class Slot {
         
         let contentDiv = document.createElement('div');
         contentDiv.classList.add('item_content');
-        contentDiv.innerHTML = this.data[i];
+        contentDiv.innerHTML = this.data[i].id;
 
         div.appendChild(contentDiv);
-        div.setAttribute('data_id', this.data[i]);
+        div.setAttribute('data_id', this.data[i].id);
         return div;
     }
 
     preloadImages() {
         for (let i = 0; i < this.data.length; i++) {
-            if(this.imageCache.has(this.data[i])) continue;
+            if(this.imageCache.has(this.data[i].id)) continue;
             const image = new Image();
-            image.src = this.playerAvatarLink.replace('{id}', this.data[i]);
-            this.imageCache.set(this.data[i], image);
+            image.src = this.playerAvatarLink.replace('{id}', this.data[i].id);
+            this.imageCache.set(this.data[i].id, image);
         }
     }
 
@@ -58,7 +57,7 @@ export default class Slot {
         let contentDiv = document.createElement('div');
         contentDiv.classList.add('item_content');
 
-        let cachedImage = this.imageCache.get(this.data[i]);
+        let cachedImage = this.imageCache.get(this.data[i].id);
         if(cachedImage) {
             let img = cachedImage.cloneNode(true);
             img.loading = 'lazy';
@@ -68,13 +67,11 @@ export default class Slot {
 
         let username = document.createElement('div');
         username.classList.add('username');
-        let player = this.game.getPlayer(this.data[i]);
-        if(player)
-            username.innerHTML = player.name;
+        username.innerHTML = this.data[i].name;
         contentDiv.appendChild(username);
         
         div.appendChild(contentDiv);
-        div.setAttribute('data_id', this.data[i]);
+        div.setAttribute('data_id', this.data[i].id);
 
         return div;
     }
@@ -96,7 +93,7 @@ export default class Slot {
     findValueIndexFromCurrentIndex(value) {
         let i = this.current_index;
         let y = 0;
-        while (this.data[i] != value && y < 20) {
+        while (this.data[i].id != value && y < 20) {
             i = (i + 1)%this.data.length;
             y++;
         }

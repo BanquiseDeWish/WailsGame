@@ -56,7 +56,7 @@ export default function Slot({ id, type, winner, spin, game, onClick, game_start
     }, [game]);
 
     useEffect(() => {
-        modifyValue('slot', new SlotJS(id, type, game, props.ziggy.url + '/api/user/{id}/icon'));
+        modifyValue('slot', new SlotJS(id, type, props.ziggy.url + '/api/user/{id}/icon'));
     }, []);
 
     return (

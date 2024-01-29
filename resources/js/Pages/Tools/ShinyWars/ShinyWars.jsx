@@ -19,9 +19,61 @@ export default function ShinyWars() {
 
     const [globalValues, setGlobalValues] = useState({
         socket: null,
-        phaseId: -1,
+        phaseId: 1,
         isLeader: true,
         players_list: [
+            {
+                "id": "532538904",
+                "name": "NiixooZ",
+                "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/91a264eb-cfd3-47cb-9f11-b04471943a9d-profile_image-300x300.png",
+                "catchPokemons": [
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                ]
+            },
+            {
+                "id": "121111915",
+                "name": "hJune",
+                "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/7610c39060476845-profile_image-300x300.png",
+                "catchPokemons": [
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                ]
+            },
+            {
+                "id": "432857248",
+                "name": "Krolay",
+                "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/2656629d-c882-4f2c-9088-35ead338176b-profile_image-300x300.png",
+                "catchPokemons": [
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                ]
+            },
+            {
+                "id": "79824508",
+                "name": "WeilsTTV",
+                "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/553f2f68-c103-4cbf-bcfc-1120b18b2e6e-profile_image-300x300.png",
+                "catchPokemons": [
+                    false,
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                ]
+            }
         ],
         areMapsChosen: false,
     });

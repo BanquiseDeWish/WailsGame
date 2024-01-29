@@ -8,6 +8,12 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
 
     return (
         <>
+            <Slot
+                id={"player_wheel"}
+                winner={undefined}
+                data={globalValues.players_list}
+                noButton
+            />
             { globalValues?.isLeader && <GreenButton className="w-fit button_green outline-none" onClick={() => {
                 globalValues?.socket?.emit('update_game_status', {type: 'map'});
             }}>Lancer le Tirage</GreenButton>}
