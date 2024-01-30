@@ -78,7 +78,11 @@ export default class VIPGames {
         this.modifyValue('current_player', data.current_player ? data.current_player : {id: -1, name: '?????????'});
         this.modifyValue('avatar', data.current_player ? data.current_player.id : 0);
         this.modifyValue('roll_players', data.roll_players);
-        this.modifyValue('roll_playCount', data.roll_playCount);
+        let rollPlayCount = [];
+        data.roll_playCount.forEach((playCount) => {
+            rollPlayCount.push({id: playCount, name: playCount});
+        });
+        this.modifyValue('roll_playCount', rollPlayCount);
         this.modifyValue('game_start', data.phaseWaitingEnd);
         this.modifyValue('players', data.players);
         this.player_list = [...data.players];
