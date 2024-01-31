@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import SlotJS from '../../../Game/slot';
 import { waitUntil } from "../../../Game/utils";
 
-export default function Slot({ id, type, winner, spin, game, onClick, onSpinEnd, game_start, data, modifyValueParent, ...otherProps }) {
+export default function Slot({ id, type, winner, spin, game, onClick, onSpinEnd, game_start, data, ...otherProps }) {
 
     const props = usePage().props;
     const [values, setValues] = useState({
@@ -45,11 +45,6 @@ export default function Slot({ id, type, winner, spin, game, onClick, onSpinEnd,
         if(data == null || data == undefined || data.length == 0) return;
         onNewData(data);
     }, [data]);
-
-    useEffect(() => {
-        if(values.slot == undefined) return;
-        values.slot.game = game;
-    }, [game]);
 
     useEffect(() => {
         modifyValue('slot', new SlotJS(id, type, props.ziggy.url + '/api/user/{id}/icon'));

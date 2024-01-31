@@ -222,7 +222,6 @@ export default function VipGame() {
                                             data={values.roll_players}
                                             winner={values.choosen_player}
                                             spin={values.spin_1}
-                                            game={values.game}
                                             onSpinEnd={() => {
                                                 modifyValue('current_player', values.game.getPlayer(values.choosen_player));
                                                 modifyValue('avatar', values.choosen_player);
@@ -237,7 +236,6 @@ export default function VipGame() {
                                             data={values.roll_playCount}
                                             winner={values.choosen_playCount}
                                             spin={values.spin_2}
-                                            game={values.game}
                                             onSpinEnd={() => {
                                                 modifyValue('playCount', values.choosen_playCount);
                                             }}
