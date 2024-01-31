@@ -34,7 +34,7 @@ export default class Slot {
         
         let contentDiv = document.createElement('div');
         contentDiv.classList.add('item_content');
-        contentDiv.innerHTML = this.data[i].id;
+        contentDiv.innerHTML = this.data[i].name;
         
         div.appendChild(contentDiv);
         div.setAttribute('data_id', this.data[i].id);

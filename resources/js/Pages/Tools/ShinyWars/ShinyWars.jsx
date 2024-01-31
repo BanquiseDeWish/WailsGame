@@ -75,6 +75,24 @@ export default function ShinyWars() {
                 ]
             }
         ],
+        map_list: [
+            {
+                "id": "polar_zone",
+                "name": "Zone Polaire",
+            },
+            {
+                "id": "savana_zone",
+                "name": "Zone Savane",
+            },
+            {
+                "id": "canyon_zone",
+                "name": "Zone Canyon",
+            },
+            {
+                "id": "coastal_zone",
+                "name": "Zone Côtière",
+            }
+        ],
         areMapsChosen: false,
     });
 
