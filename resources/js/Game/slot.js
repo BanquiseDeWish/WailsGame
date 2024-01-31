@@ -11,7 +11,7 @@ export default class Slot {
         this.isSpinning = false;
         this.pinSound = new GameSound('pin');
         this.endSlotSound = new GameSound('slot_end');
-        if(this.type === 'player') {
+        if(this.type === 'with_icon') {
             this.playerAvatarLink = link;
             this.imageCache = new Map();
             this.preloadImages();
@@ -20,10 +20,10 @@ export default class Slot {
 
     getSlotItem(i) {
         switch(this.type) {
-            case 'number':
+            case 'text':
                 return this.getNumberSlotItem(i);
-            case 'player':
-                return this.getPlayerSlotItem(i);
+            case 'with_icon':
+                return this.getIconSlotItem(i);
         }
         return false;
     }
@@ -35,7 +35,7 @@ export default class Slot {
         let contentDiv = document.createElement('div');
         contentDiv.classList.add('item_content');
         contentDiv.innerHTML = this.data[i].id;
-
+        
         div.appendChild(contentDiv);
         div.setAttribute('data_id', this.data[i].id);
         return div;
@@ -45,12 +45,15 @@ export default class Slot {
         for (let i = 0; i < this.data.length; i++) {
             if(this.imageCache.has(this.data[i].id)) continue;
             const image = new Image();
-            image.src = this.playerAvatarLink.replace('{id}', this.data[i].id);
+            if(this.data[i].icon != null && this.data[i].icon != undefined)
+                image.src = this.data[i].icon;
+            else
+                image.src = this.playerAvatarLink.replace('{id}', this.data[i].id);
             this.imageCache.set(this.data[i].id, image);
         }
     }
 
-    getPlayerSlotItem(i) {
+    getIconSlotItem(i) {
         let div = document.createElement('div');
         div.classList.add('slot_item', 'player');
 
@@ -86,7 +89,7 @@ export default class Slot {
 
     setData(data) {
         this.data = data;
-        if(this.type === 'player')
+        if(this.type === 'with_icon')
             this.preloadImages();
     }
 

@@ -4,7 +4,9 @@ import { useEffect, useState, useRef } from "react";
 import SlotJS from '../../../Game/slot';
 import { waitUntil } from "../../../Game/utils";
 
-export default function Slot({ id, type, winner, spin, game, onClick, onSpinEnd, game_start, data, ...otherProps }) {
+import WheelSlot from '../../../../css/components/slot/wheel_slot.css';
+
+export default function Slot({ id, type, winner, spin, onClick, onSpinEnd, link, game_start, data, ...otherProps }) {
 
     const props = usePage().props;
     const [values, setValues] = useState({
@@ -29,12 +31,6 @@ export default function Slot({ id, type, winner, spin, game, onClick, onSpinEnd,
     }
 
     useEffect(() => {
-        if(game_start) {
-            values.slot.init();
-        }
-    }, [game_start]);
-
-    useEffect(() => {
         if(winner != null && winner != undefined) {
             values.slot.spin(winner, values.slot);
             waitEndSpin();
@@ -47,8 +43,15 @@ export default function Slot({ id, type, winner, spin, game, onClick, onSpinEnd,
     }, [data]);
 
     useEffect(() => {
-        modifyValue('slot', new SlotJS(id, type, props.ziggy.url + '/api/user/{id}/icon'));
-    }, []);
+        if(game_start) {
+            let slot = values.slot;
+            if(slot == undefined)
+                slot = new SlotJS(id, type, link);
+            slot.setData(data);
+            slot.init();
+            modifyValue('slot', slot);
+        }
+    }, [game_start]);
 
     return (
         <div className='flex flex-col items-center gap-[24px]' {...otherProps}>

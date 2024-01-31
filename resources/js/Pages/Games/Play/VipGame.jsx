@@ -217,11 +217,12 @@ export default function VipGame() {
                                     <div id="wheels" className='transition-back absolute my-hidden'>
                                         <Slot
                                             id={'wheel_slot_1'}
-                                            type={'player'}
+                                            type={'with_icon'}
                                             onClick={() => { values.game.askRandomPlayer() }}
                                             data={values.roll_players}
                                             winner={values.choosen_player}
                                             spin={values.spin_1}
+                                            link={props.ziggy.url + '/api/user/{id}/icon'}
                                             onSpinEnd={() => {
                                                 modifyValue('current_player', values.game.getPlayer(values.choosen_player));
                                                 modifyValue('avatar', values.choosen_player);
@@ -231,7 +232,7 @@ export default function VipGame() {
 
                                         <Slot
                                             id={'wheel_slot_2'}
-                                            type={'number'}
+                                            type={'text'}
                                             onClick={() => { values.game.askRandomPlayCount() }}
                                             data={values.roll_playCount}
                                             winner={values.choosen_playCount}

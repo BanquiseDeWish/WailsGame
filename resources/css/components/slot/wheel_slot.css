@@ -1,0 +1,117 @@
+.wheel-slot {
+    padding: 16px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 384px;
+    height: 400px;
+    position: relative;
+    overflow-y: hidden;
+    overflow-x: visible !important;
+    mask: linear-gradient(180deg, transparent 0%, white 20%, white 80%, transparent 100%);
+}
+
+.wheel-slot::before {
+    content: '';
+    position: absolute;
+    background-image: url('../../../assets/img/vipgames/cursor_slots.svg');
+    background-size: cover;
+    top: 50%;
+    right: 32px;
+    height: 34px;
+    width: 42px;
+    z-index: 120;
+    transform: translateY(-50%);
+}
+
+.wheel-slot div.slot_item {
+    width: 100%;
+    flex-shrink: 0;
+    flex-basis: 0px;
+    height: 64px;
+    flex-basis: 64px;
+    margin: 4px 0px;
+    /*animation: grow_slot_item 0.2s linear forwards;
+    -webkit-animation: grow_slot_item 0.2s linear forwards;*/
+}
+
+.wheel-slot div.slot_item .item_content {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background-color: #18212E;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.wheel-slot .slot_item.number {
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.wheel-slot .slot_item.player img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.wheel-slot .slot_item.player .item_content {
+    display: flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 16px;
+    align-self: stretch;
+}
+
+.wheel-slot .slot_item.player .username {
+    color: #FFF;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.item-glow {
+    position: relative;
+    z-index: 0;
+}
+
+.item-glow::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -5;
+    height: 100%;
+    width: 100%;
+    transform: scale(1);
+    filter: blur(15px);
+    background: linear-gradient(135deg,#ff0f7b,#f89b29, #ff0f7b);
+    background-size: 200% 200%;
+    animation: animateGlow 1.25s linear infinite;
+  }
+
+@keyframes animateGlow {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
+    }
+  }

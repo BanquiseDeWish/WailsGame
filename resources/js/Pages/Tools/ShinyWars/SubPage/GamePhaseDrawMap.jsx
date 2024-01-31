@@ -10,8 +10,13 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
         <>
             <Slot
                 id={"player_wheel"}
+                type={"with_icon"}
                 winner={undefined}
+                onSpinEnd={() => {
+                    console.log('spin end');
+                }}
                 data={globalValues.players_list}
+                game_start={true}
                 noButton
             />
             { globalValues?.isLeader && <GreenButton className="w-fit button_green outline-none" onClick={() => {
