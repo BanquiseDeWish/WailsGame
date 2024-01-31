@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import SlotJS from '../../../Game/slot';
 import { waitUntil } from "../../../Game/utils";
 
-export default function Slot({ id, type, winner, spin, game, onClick, game_start, data, modifyValueParent, ...otherProps }) {
+export default function Slot({ id, type, winner, spin, game, onClick, onSpinEnd, game_start, data, modifyValueParent, ...otherProps }) {
 
     const props = usePage().props;
     const [values, setValues] = useState({
@@ -24,12 +24,8 @@ export default function Slot({ id, type, winner, spin, game, onClick, game_start
 
     async function waitEndSpin() {
         await waitUntil(() => !values.slot.isSpinning);
-        if(type == 'player') {
-            modifyValueParent('current_player', game.getPlayer(winner));
-            modifyValueParent('avatar', winner);
-        }
-        else
-            modifyValueParent('playCount', winner);
+        if(onSpinEnd != undefined)
+            onSpinEnd();
     }
 
     useEffect(() => {

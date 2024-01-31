@@ -223,8 +223,11 @@ export default function VipGame() {
                                             winner={values.choosen_player}
                                             spin={values.spin_1}
                                             game={values.game}
+                                            onSpinEnd={() => {
+                                                modifyValue('current_player', values.game.getPlayer(values.choosen_player));
+                                                modifyValue('avatar', values.choosen_player);
+                                            }}
                                             game_start={values.game_start}
-                                            modifyValueParent={modifyValue}
                                         />
 
                                         <Slot
@@ -235,8 +238,10 @@ export default function VipGame() {
                                             winner={values.choosen_playCount}
                                             spin={values.spin_2}
                                             game={values.game}
+                                            onSpinEnd={() => {
+                                                modifyValue('playCount', values.choosen_playCount);
+                                            }}
                                             game_start={values.game_start}
-                                            modifyValueParent={modifyValue}
                                         />
                                     </div>
                                 </div>
