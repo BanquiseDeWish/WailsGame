@@ -61,7 +61,7 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
                             return (
                                 <div key={index} className='w-full container p-2 flex justify-between'>
                                     <div className='flex justify-center items-center gap-2'>
-                                        <img width={48} height={48} style={{ borderRadius: 50 }} src={player.profile_image_url} alt="avatar_twitch" />
+                                        <img width={48} height={48} style={{ borderRadius: 50 }} src={player.icon} alt="avatar_twitch" />
                                         <span className='text-base font-semibold'>{player.name}</span>
                                     </div>
                                     <CrossIcon width={32} height={32} className={"icon"} onClick={() => {

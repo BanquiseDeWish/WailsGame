@@ -1,10 +1,23 @@
+import React, { useState, useEffect } from 'react';
+
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton"
 
 import Slot from '@/Components/Games/VIPGames/Slot';
 
 export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
 
-    console.log(globalValues.players_list);
+    const [mapReceived, setMapReceived] = useState(false);
+
+    useEffect(() => {
+        if (globalValues.map_list.length > 0) {
+            setMapReceived(true);
+        }
+    }, [globalValues.map_list]);
+
+    useEffect(() => {
+        console.log("SPIN 1 : " + globalValues.spin_nb_1);
+        console.log("SPIN 2 : " + globalValues.spin_nb_2);
+    }, [globalValues.spin_nb_1, globalValues.spin_nb_2]);
 
     return (
         <div className="flex flex-col gap-16 justify-center items-center">
@@ -18,6 +31,7 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
                     }}
                     data={globalValues.players_list}
                     game_start={true}
+                    spin={globalValues.spin_nb_1}
                     noButton
                 />
                 <Slot
@@ -28,7 +42,8 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
                         console.log('spin map end');
                     }}
                     data={globalValues.map_list}
-                    game_start={true}
+                    game_start={mapReceived}
+                    spin={globalValues.spin_nb_2}
                     noButton
                 />    
             </div>

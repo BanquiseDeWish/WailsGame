@@ -16,7 +16,6 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
     }
 
     let players = globalValues?.players_list.map((player, index) => {
-        console.log(player);
 
         let pkms = [];
         player.catchPokemons.forEach((pkm, index) => {

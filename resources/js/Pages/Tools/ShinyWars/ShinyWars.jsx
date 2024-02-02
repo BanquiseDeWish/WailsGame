@@ -19,10 +19,10 @@ export default function ShinyWars() {
 
     const [globalValues, setGlobalValues] = useState({
         socket: null,
-        phaseId: 1,
+        phaseId: -1,
         isLeader: true,
         players_list: [
-            {
+            /*{
                 "id": "532538904",
                 "name": "NiixooZ",
                 "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/91a264eb-cfd3-47cb-9f11-b04471943a9d-profile_image-300x300.png",
@@ -73,10 +73,10 @@ export default function ShinyWars() {
                     false,
                     false
                 ]
-            }
+            }*/
         ],
         map_list: [
-            {
+            /*{
                 "id": "polar_zone",
                 "name": "Zone Polaire",
             },
@@ -91,9 +91,13 @@ export default function ShinyWars() {
             {
                 "id": "coastal_zone",
                 "name": "Zone Côtière",
-            }
+            }*/
         ],
         areMapsChosen: false,
+        playerWheelWinner: null,
+        mapWheelWinner: null,
+        spin_nb_1: 0,
+        spin_nb_2: 0,
     });
 
     const getPlayer = (id) => {
@@ -101,10 +105,13 @@ export default function ShinyWars() {
     }
 
     const modifyValues = (key, value) => {
-        setGlobalValues(globalValues => ({
-            ...globalValues,
-            [key]: value
-        }));
+        setGlobalValues(prevGlobalValues => {
+            if (key === 'spin_nb_1' || key === 'spin_nb_2') {
+                return { ...prevGlobalValues, [key]: prevGlobalValues[key] + 1 };
+            } else {
+                return { ...prevGlobalValues, [key]: value };
+            }
+        });
     }
 
     const createGame = () => {
@@ -115,9 +122,12 @@ export default function ShinyWars() {
 
     useEffect(() => {
         console.log('phaseId', globalValues.phaseId);
+        console.log('globalValues', globalValues);
     }, [globalValues.phaseId]);
 
     useEffect(() => {
+        console.log("ZEBI");
+
         socket = new BDWSocket("shinywars", { gameId: props.gameId, userId: props.auth?.twitch?.id, userName: props.auth?.twitch?.display_name })
         modifyValues('socket', socket);
 
@@ -129,17 +139,37 @@ export default function ShinyWars() {
             socket.on('connect', onConnect);
             socket.on('disconnect', onDisconnect);
 
-            socket.on('update_players', (data) => {
-                console.log('update_players', data);
-                modifyValues('players_list', data.players);
+            socket.on('update_game_data', (data) => {
+                switch(data.type) {
+                    case 'players':
+                        modifyValues('players_list', data.players);
+                        break;
+                    case 'maps':
+                        let maps = [];
+                        data.maps.forEach((map) => {
+                            map.subMaps.forEach((subMap) => {
+                                maps.push(subMap);
+                            });
+                        });
+                        modifyValues('map_list', maps);
+                        break;
+                }
             });
 
             socket.on('wheel_player_turn', (data) => {
+                console.log("globalValues:", globalValues);
                 if(globalValues.phaseId != 1) return;
+                modifyValues('playerWheelWinner', data.playerId);
+                modifyValues('spin_nb_1', 0);
+                console.log('wheel_player_turn', data);
             });
 
             socket.on('wheel_player_map', (data) => {
+                console.log("globalValues:", globalValues);
                 if(globalValues.phaseId != 1) return;
+                modifyValues('mapWheelWinner', data.map);
+                modifyValues('spin_nb_2', 0);
+                console.log('wheel_player_map', data);
             });
 
             socket.on('player_update_pokemon', (data) => {
