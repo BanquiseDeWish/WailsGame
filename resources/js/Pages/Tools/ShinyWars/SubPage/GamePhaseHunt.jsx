@@ -15,7 +15,7 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
         }));
     }
 
-    let players = globalValues?.players_list.map((player, index) => {
+    let players = globalValues.current?.players_list.map((player, index) => {
 
         let pkms = [];
         player.catchPokemons.forEach((pkm, index) => {
@@ -49,7 +49,7 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
             <div className="flex gap-12">
                 {players}
             </div>
-            { globalValues?.isLeader && <GreenButton className="w-fit button_green outline-none" >Il est temps, de choisir !</GreenButton>}
+            { globalValues.current?.isLeader && <GreenButton className="w-fit button_green outline-none" >Il est temps, de choisir !</GreenButton>}
         </>
     )
 

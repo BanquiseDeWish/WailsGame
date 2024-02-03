@@ -4,7 +4,7 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
 
     return (
         <>
-            { globalValues?.isLeader && <GreenButton className="w-fit button_green outline-none" >C'est l'heure du dudududuDUEL !</GreenButton>}
+            { globalValues.current?.isLeader && <GreenButton className="w-fit button_green outline-none" >C'est l'heure du dudududuDUEL !</GreenButton>}
         </>
     )
 

@@ -35,7 +35,7 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
 
     useEffect(() => {
 
-    }, [globalValues.players_list]);
+    }, [globalValues.current.players_list]);
 
     return (
         <>
@@ -57,7 +57,7 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
                 </div>
                 <div id='players' className='flex flex-col gap-2 w-full'>
                     {
-                        globalValues.players_list.map((player, index) => {
+                        globalValues.current.players_list.map((player, index) => {
                             return (
                                 <div key={index} className='w-full container p-2 flex justify-between'>
                                     <div className='flex justify-center items-center gap-2'>
@@ -75,7 +75,6 @@ export default function SettingsMenu({socket, globalValues, ...otherProps}) {
             </div>
             <GreenButton type="submit" className="w-fit button_green outline-none" onClick={() => {
                 socket.emit('update_game_status', {type: 'start'});
-                console.log('Start_Game')
             }}>Lancer la Game</GreenButton>
 
 

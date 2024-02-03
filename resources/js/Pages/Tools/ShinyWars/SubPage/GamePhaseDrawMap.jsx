@@ -9,15 +9,15 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
     const [mapReceived, setMapReceived] = useState(false);
 
     useEffect(() => {
-        if (globalValues.map_list.length > 0) {
+        if (globalValues.current.map_list.length > 0) {
             setMapReceived(true);
         }
-    }, [globalValues.map_list]);
+    }, [globalValues.current.map_list]);
 
     useEffect(() => {
-        console.log("SPIN 1 : " + globalValues.spin_nb_1);
-        console.log("SPIN 2 : " + globalValues.spin_nb_2);
-    }, [globalValues.spin_nb_1, globalValues.spin_nb_2]);
+        console.log("SPIN 1 : " + globalValues.current.spin_nb_1);
+        console.log("SPIN 2 : " + globalValues.current.spin_nb_2);
+    }, [globalValues.current.spin_nb_1, globalValues.current.spin_nb_2]);
 
     return (
         <div className="flex flex-col gap-16 justify-center items-center">
@@ -29,9 +29,9 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
                     onSpinEnd={() => {
                         console.log('spin player end');
                     }}
-                    data={globalValues.players_list}
+                    data={globalValues.current.players_list}
                     game_start={true}
-                    spin={globalValues.spin_nb_1}
+                    spin={globalValues.current.spin_nb_1}
                     noButton
                 />
                 <Slot
@@ -41,16 +41,16 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
                     onSpinEnd={() => {
                         console.log('spin map end');
                     }}
-                    data={globalValues.map_list}
+                    data={globalValues.current.map_list}
                     game_start={mapReceived}
-                    spin={globalValues.spin_nb_2}
+                    spin={globalValues.current.spin_nb_2}
                     noButton
                 />    
             </div>
-            { globalValues?.isLeader && <GreenButton className="w-fit button_green outline-none" onClick={() => {
-                globalValues?.socket?.emit('update_game_status', {type: 'map'});
+            { globalValues.current?.isLeader && <GreenButton className="w-fit button_green outline-none" onClick={() => {
+                globalValues.current?.socket?.emit('update_game_status', {type: 'map'});
             }}>Lancer le Tirage</GreenButton>}
-            { globalValues?.isLeader && globalValues?.areMapsChosen && <GreenButton className="w-fit button_green outline-none" >Allons Shasser !</GreenButton>}
+            { globalValues.current?.isLeader && globalValues.current?.areMapsChosen && <GreenButton className="w-fit button_green outline-none" >Allons Shasser !</GreenButton>}
         </div>
     )
 
