@@ -25,7 +25,7 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
                 <Slot
                     id={"player_wheel"}
                     type={"with_icon"}
-                    winner={undefined}
+                    winner={globalValues.current.playerWheelWinner}
                     onSpinEnd={() => {
                         console.log('spin player end');
                     }}
@@ -37,7 +37,7 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
                 <Slot
                     id={"map_wheel"}
                     type={"text"}
-                    winner={undefined}
+                    winner={globalValues.current.mapWheelWinner?.id}
                     onSpinEnd={() => {
                         console.log('spin map end');
                     }}
