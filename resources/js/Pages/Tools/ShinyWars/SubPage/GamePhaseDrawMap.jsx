@@ -47,10 +47,24 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
                     noButton
                 />    
             </div>
-            { globalValues.current?.isLeader && <GreenButton className="w-fit button_green outline-none" onClick={() => {
+            
+            <div>
+
+            </div>
+            { globalValues.current?.isLeader && !globalValues.current?.areMapsChosen && <GreenButton className="w-fit button_green outline-none" onClick={() => {
                 globalValues.current?.socket?.emit('update_game_status', {type: 'map'});
             }}>Lancer le Tirage</GreenButton>}
-            { globalValues.current?.isLeader && globalValues.current?.areMapsChosen && <GreenButton className="w-fit button_green outline-none" >Allons Shasser !</GreenButton>}
+            
+            { globalValues.current?.isLeader && globalValues.current?.areMapsChosen && 
+                <GreenButton className="w-fit button_green outline-none"
+                    onClick={() => {
+                            globalValues.current?.socket?.emit('next_phase', {});
+                        }
+                    }
+                >
+                    Allons Shasser !
+                </GreenButton>
+            }
         </div>
     )
 

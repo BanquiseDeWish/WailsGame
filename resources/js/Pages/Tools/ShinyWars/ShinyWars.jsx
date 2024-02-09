@@ -152,6 +152,9 @@ export default function ShinyWars() {
                         });
                         modifyValues('map_list', maps);
                         break;
+                    case 'end_map_choice':
+                        modifyValues('areMapsChosen', true);
+                        break;
                 }
             });
 
