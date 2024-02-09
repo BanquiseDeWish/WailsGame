@@ -20,16 +20,16 @@ export default function ShinyWars() {
     const [, forceUpdate] = useReducer((x) => x + 1, 0)
     const globalValues = useRef({
         socket: null,
-        phaseId: -1,
+        phaseId: 2,
         isLeader: true,
-        players_list: [],
-        map_list: [],
+        //players_list: [],
+        //map_list: [],
         areMapsChosen: false,
         playerWheelWinner: null,
         mapWheelWinner: null,
         spin_nb_1: 0,
         spin_nb_2: 0,
-        /*players_list: [
+        players_list: [
             {
                 "id": "532538904",
                 "name": "NiixooZ",
@@ -100,7 +100,7 @@ export default function ShinyWars() {
                 "id": "coastal_zone",
                 "name": "Zone Côtière",
             }
-        ],*/
+        ],
     });
 
     const getPlayer = (id) => {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { usePage } from '@inertiajs/react';
+import PokemonComboBox from '@/Components/Navigation/ComboBox/PokemonComboBox';
 
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton"
 
@@ -25,9 +26,10 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
                 if(player.id == props.auth?.twitch?.id) {
                     pkms.push(
                         <>
-                        <div id={player.id + "_" + index} key={index} className='rounded-lg container_background p-4 h-[56px]'>
-
-                        </div>
+                        <PokemonComboBox
+                            id={player.id + "_" + index}
+                            key={index}
+                        />
                         </>
                     )
                 }
