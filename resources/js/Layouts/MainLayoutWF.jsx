@@ -1,6 +1,7 @@
 import { Link, router, usePage } from '@inertiajs/react';
 import GlobalLayout from "./GlobalLayout";
 import EasterEggEars from '@/Components/Easter-Egg/EasterEggEars';
+import EasterEggHizzle from '@/Components/Easter-Egg/EasterEggHizzle';
 import Footer from '@/Components/Content/Footer';
 
 import Navbar from '@/Components/Navigation/Navbar';
@@ -14,6 +15,7 @@ export default function MainLayoutWF({ children }) {
             <GlobalLayout showOverflow={true}>
                 <Navbar />
                 <EasterEggEars />
+                <EasterEggHizzle />
                 <div id='main-content' className="w-full h-full relative z-[1]">
                     {children}
                     <Footer />
