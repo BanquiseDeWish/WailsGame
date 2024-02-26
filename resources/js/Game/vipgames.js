@@ -16,6 +16,7 @@ export default class VIPGames {
         this.missSecret = new GameSound('miss_secret');
         this.bonusSound = new GameSound('bonus');
         this.winSound = new GameSound('win');
+        this.deadSound = new GameSound('dead');
         this.gameStart = false;
         this.player_list = [];
     }
@@ -111,9 +112,13 @@ export default class VIPGames {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_bonus', 'animate__flip');
                     this.bonusSound.playBonusSound();
                 }
+                else if(data.action == 'dead') {
+                    document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_dead', 'animate__flip');
+                    this.deadSound.playSound(0.8);
+                }
                 else if (data.action == 'win') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_win', 'animate__flip');
-                    this.winSound.playWinSound();
+                    this.deadSound.playWinSound();
                 }
                 document.getElementById("ticket_" + data.ticket_id).onClick = null;
                 this.modifyValue('playCount', data.playCount);

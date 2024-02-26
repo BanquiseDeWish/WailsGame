@@ -36,6 +36,7 @@ body::after {
     --ticket_miss: linear-gradient(99deg, #d9170b 0%, #761111 100%);
     --ticket_bonus: linear-gradient(99deg, #10a3f5 0%, #0b308e 100%);
     --ticket_win: linear-gradient(99deg, #02f41a 0%, #0d6b05 100%);
+    --ticket_dead: linear-gradient(99deg, #313233 0%, #05050E 100%);
 }
 
 html {
@@ -196,6 +197,11 @@ input,
 .ticket_bonus {
     background: var(--ticket_bonus);
     border-color: #0e6bc3;
+}
+
+.ticket_dead {
+    background: var(--ticket_dead);
+    border-color: #474849;
 }
 
 .ticket_win {
