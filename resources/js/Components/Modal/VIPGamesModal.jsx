@@ -22,6 +22,7 @@ export default class VIPGamesModal extends BaseModal {
             winning_ticket: -1,
             bonus_tickets: [],
             number_of_bonus_tickets: 5,
+            number_of_dead_tickets: 1,
             number_of_tickets: 100,
             isConnected: this.socket?.connected,
         };
@@ -47,6 +48,7 @@ export default class VIPGamesModal extends BaseModal {
     randomStart = () => {
         this.state.winning_ticket = Math.floor(Math.random() * this.state.number_of_tickets);
         let bonus_tickets = [];
+        let dead_tickets = [];
         let values = this.state;
 
         for (let i = 0; i < this.state.number_of_bonus_tickets; i++) {
@@ -59,7 +61,19 @@ export default class VIPGamesModal extends BaseModal {
             bonus_tickets.push(ticket);
         }
 
+        for (let i = 0; i < this.state.number_of_dead_tickets; i++) {
+            let ticket = Math.floor(Math.random() * this.state.number_of_tickets);
+
+            while (dead_tickets.includes(ticket) || bonus_tickets.includes(ticket) || ticket == this.state.winning_ticket) {
+                ticket = Math.floor(Math.random() * this.state.number_of_tickets);
+            }
+
+            dead_tickets.push(ticket);
+        }
+
+
         values.bonus_tickets = bonus_tickets;
+        values.dead_tickets = dead_tickets;
         this.socket.emit('init_game', values);
         router.get('/vipgames/play');
     }

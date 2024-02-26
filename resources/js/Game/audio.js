@@ -18,6 +18,8 @@ import SPIN_END from '../../assets/sounds/slot_end.wav';
 
 import WIN from '../../assets/sounds/win.mp3';
 
+import DEAD_1 from '../../assets/sounds/vipgames/dead/thunder_impact.wav'
+
 
 import PG_NOTIF from '../../assets/sounds/pg_notif.wav';
 
@@ -42,6 +44,9 @@ export default class GameSound {
                 break;
             case 'win':
                 this.urls = [WIN];
+                break;
+            case 'dead':
+                this.urls = [DEAD_1];
                 break;
             case 'pg_notif':
                 this.urls = [PG_NOTIF];
