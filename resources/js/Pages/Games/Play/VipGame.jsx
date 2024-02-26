@@ -280,7 +280,7 @@ export default function VipGame() {
                                     Coming Soon
                                 </div>
 
-                                <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] pt-[64px] gap-[16px] overflow-hidden my-hidden'>
+                                <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden my-hidden'>
                                     <div className='flex justify-center items-center w-full le-tchat'>
                                         Les Joueurs & leurs points
                                     </div>
