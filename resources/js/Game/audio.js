@@ -5,7 +5,7 @@ import MISS_4 from '../../assets/sounds/miss_4.wav';
 import MISS_5 from '../../assets/sounds/miss_5.wav';
 import MISS_6 from '../../assets/sounds/miss_6.wav';
 
-import MISS_SECRET from '../../assets/sounds/miss_secret.wav';
+import MISS_SECRET from '../../assets/sounds/vipgames/miss/miss_secret.ogg';
 
 import BONUS_1 from '../../assets/sounds/bonus_1.mp3';
 import BONUS_2 from '../../assets/sounds/bonus_2.mp3';
@@ -17,6 +17,11 @@ import SLOT_PIN from '../../assets/sounds/slot_pin.wav';
 import SPIN_END from '../../assets/sounds/slot_end.wav';
 
 import WIN from '../../assets/sounds/win.mp3';
+
+import DEAD_1 from '../../assets/sounds/vipgames/dead/thunder_impact.wav'
+
+
+import PG_NOTIF from '../../assets/sounds/pg_notif.wav';
 
 export default class GameSound {
 
@@ -40,6 +45,12 @@ export default class GameSound {
             case 'win':
                 this.urls = [WIN];
                 break;
+            case 'dead':
+                this.urls = [DEAD_1];
+                break;
+            case 'pg_notif':
+                this.urls = [PG_NOTIF];
+                break;
         }
 
         this.audios = [];
@@ -60,23 +71,23 @@ export default class GameSound {
         else
             audio.play();
     }
-    
+
     playMissSound() {
         this.playSound(0.2);
     }
-    
+
     playMissSoundSecret() {
-        this.playSound(0.2);
+        this.playSound(0.1);
     }
-    
+
     playBonusSound() {
         this.playSound(0.2);
     }
-    
+
     playSlotPinSound() {
         this.playSound(0.05);
     }
-    
+
     playSlotEndSound() {
         this.playSound(0.15);
     }

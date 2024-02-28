@@ -4,12 +4,14 @@ import '../../../css/overlay.css'
 import BDWSocket from "@/Game/socket";
 import logo from '../../../assets/img/pg_logo.png'
 import Confetti from 'react-confetti'
+import GameSound from '../../Game/audio';
 
 export default class PrediGivrees extends React.Component {
 
     constructor(props) {
         super(props);
         this.socket = new BDWSocket('predigivre');
+        this.notifPG = new GameSound('pg_notif');
         this.state = {
             test: props?.test !== undefined ? props.test : false,
             show: false,
@@ -47,10 +49,9 @@ export default class PrediGivrees extends React.Component {
 
         this.socket.on('pronoKart__update', (args) => {
             const mapData = new Map(args.data);
+            const reason = args.reason
             let countTotal = 0;
             mapData.forEach((val) => countTotal += val.length);
-
-
             mapData.forEach((val, index) => {
                 const percentage = (val.length * 100) / countTotal;
                 document.querySelector('.pronoKart .pronoItem[id="prono__' + index + '"] .state')
@@ -58,6 +59,9 @@ export default class PrediGivrees extends React.Component {
                 document.querySelector('.pronoKart .pronoItem[id="prono__' + index + '"] .progress .after')
                     .style.width = `${percentage}%`
             })
+
+            if(reason == "predi") this.notifPG.playSound(0.5, false)
+
 
             document.querySelector('.pronoKart .statistics #voteCount').textContent = countTotal;
         })
@@ -103,7 +107,7 @@ export default class PrediGivrees extends React.Component {
     CompPos = (pos) => {
         return (
             <div key={pos} className="pronoItem" id={`prono__${pos}`}>
-                <div className="title">{pos == 1 ? `${pos}er` : `${pos}ème`}</div>
+                <div className="title">{pos == 1 ? `${pos} er` : `${pos} ème`}</div>
                 <div className='progress'><div className='after'></div></div>
                 <div className='state'>(0)</div>
             </div>

@@ -25,6 +25,7 @@ class UserController extends Controller
     }
 
     public function getUserVIPGamesPoints(Request $request, $twitch_id) {
+        # points without bonus
         $points = DB::table('vipgames_points')
                         ->select(DB::raw('user_id, count(user_id) as points'))
                         ->where('user_id', $twitch_id)

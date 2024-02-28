@@ -6,6 +6,14 @@
     --light_background: #2C3344;
 }
 
+.light_bg {
+    background-color: var(--light_background);
+}
+
+.container_background {
+    background-color: var(--container_background);
+}
+
 html {
     font-size: 16px !important;
     color: white;
@@ -146,9 +154,13 @@ input {
     gap: 24px !important;
     align-self: stretch !important;
     border-radius: 8px !important;
-    background: var(--light_background) !important;
+    background: var(--container_background) !important;
     color: white !important;
     border: none !important;
+}
+
+#modal input {
+    background: var(--light_background) !important;
 }
 
 input:focus {
@@ -160,9 +172,9 @@ input:focus {
 label:has(+ input) {
     color: #FFF;
     font-family: Poppins;
-    font-size: 18px;
+    font-size: 16px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 600;
     line-height: normal;
 }
 
@@ -221,6 +233,19 @@ div:has(label + input) {
 }
 .dropdown .menu .link:hover {
     background-color: var(--light_background);
+}
+.simple_button {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-family: Poppins;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
 }
 /* Spinner loader */
 .icon-loader {
@@ -282,7 +307,7 @@ div:has(label + input) {
     gap: 16px;
     color: white;
 }
-.navbar .link a {
+.navbar .link a, .navbar button.link  {
     display: block;
     position: relative;
     padding: 16px 32px;

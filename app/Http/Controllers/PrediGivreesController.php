@@ -45,11 +45,16 @@ class PrediGivreesController extends Controller
         //Most Choice
         $statsMostChoice = DB::table('predigivrees__history');
 
-        switch ($filter) {
-            case 'today':
-                $prediGivreData = $prediGivreData->whereDate('created_at', Carbon::now());
-                $statsMostWin = $statsMostWin->whereDate('created_at', Carbon::now());
-                $statsMostChoice = $statsMostChoice->whereDate('created_at', Carbon::now());
+        $filterSplit = explode('_', $filter);
+
+        switch ($filterSplit[0]) {
+            case 'last':
+                $dataLast = DB::table('predigivrees__points')->latest()->first();
+                if($dataLast !== null) {
+                    $prediGivreData = $prediGivreData->whereDate('created_at', Carbon::parse($dataLast->created_at));
+                    $statsMostWin = $statsMostWin->whereDate('created_at', Carbon::parse($dataLast->created_at));
+                    $statsMostChoice = $statsMostChoice->whereDate('created_at', Carbon::parse($dataLast->created_at));
+                }
                 break;
             case 'week':
                 $prediGivreData = $prediGivreData
@@ -59,7 +64,7 @@ class PrediGivreesController extends Controller
                 $statsMostChoice = $statsMostChoice
                     ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
                 break;
-            case 'month':
+            /*case 'month':
                 $prediGivreData = $prediGivreData
                     ->whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year);
                 $statsMostWin = $statsMostWin
@@ -74,6 +79,25 @@ class PrediGivreesController extends Controller
                     ->whereYear('created_at', Carbon::now()->year);
                 $statsMostChoice = $statsMostChoice
                     ->whereYear('created_at', Carbon::now()->year);
+                break;*/
+            case 'month':
+                $month = Carbon::parse($filterSplit[1])->month;
+                $year = Carbon::parse($filterSplit[2])->year;
+                $prediGivreData = $prediGivreData
+                    ->whereMonth('created_at', $month)->whereYear('created_at', $year);
+                $statsMostWin = $statsMostWin
+                    ->whereMonth('created_at', $month)->whereYear('created_at', $year);
+                $statsMostChoice = $statsMostChoice
+                    ->whereMonth('created_at', $month)->whereYear('created_at', $year);
+                break;
+            case 'year':
+                $year = Carbon::parse($filterSplit[1])->year;
+                $prediGivreData = $prediGivreData
+                    ->whereYear('created_at', $year);
+                $statsMostWin = $statsMostWin
+                    ->whereYear('created_at', $year);
+                $statsMostChoice = $statsMostChoice
+                    ->whereYear('created_at', $year);
                 break;
             case 'all':
                 break;

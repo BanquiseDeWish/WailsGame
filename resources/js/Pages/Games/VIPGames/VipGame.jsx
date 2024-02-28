@@ -7,19 +7,24 @@ import Ticket from '../../../Components/Games/VIPGames/Ticket';
 
 import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 
-import VipGamesLogo from '../../../../assets/games/vip_games_inline.svg';
+import VipGamesLogo from '../../../../assets/img/vipgames/vip_games_inline.svg';
 
 import UserCard from '@/Components/User/UserCard';
 import GameNewsItem from '@/Components/Games/VIPGames/GameNewsItem';
 import BlueButton from '@/Components/Navigation/Buttons/BlueButton';
 
-import Slot from '@/Components/Games/VIPGames/Slot';
-import { randomId } from '../../../../js/Game/random';
-import { waitUntil } from '../../../../js/Game/utils';
+import { randomId } from '../../../Game/random';
+import { waitUntil } from '../../../Game/utils';
 
 import BinIcon from '@/Components/Icons/BinIcon';
 
 import Confetti from 'react-confetti'
+import RedButton from '@/Components/Navigation/Buttons/RedButton';
+
+import { VIPGamesProvider } from './VIPGamesContext';
+import LeftContent from './VIP_LeftContent';
+import MiddleContent from './VIP_MiddleContent';
+import RightContent from './VIP_RightContent';
 
 export default function VipGame() {
     const props = usePage().props;
@@ -80,17 +85,21 @@ export default function VipGame() {
         let tickets = document.getElementById('tickets_pack');
         let penguin = document.getElementById('penguin');
         let player_points = document.getElementById('player_points');
+        //temporary
+        player_points.classList.remove('my-hidden');
+        penguin.classList.add('my-hidden');
+
         if (wheels.classList.contains('my-hidden')) {
             wheels.classList.remove('my-hidden');
-            player_points.classList.remove('my-hidden');
-            penguin.classList.add('my-hidden');
+            //player_points.classList.remove('my-hidden');
+            //penguin.classList.add('my-hidden');
             tickets.classList.add('my-hidden');
         }
         else {
             wheels.classList.add('my-hidden');
-            player_points.classList.add('my-hidden');
+            //player_points.classList.add('my-hidden');
             tickets.classList.remove('my-hidden');
-            penguin.classList.remove('my-hidden');
+            //penguin.classList.remove('my-hidden');
         }
     }
 
@@ -103,7 +112,7 @@ export default function VipGame() {
     }
 
     function getUserCard(player) {
-        return (<UserCard key={randomId()} userId={player.id} userName={player.name} />);
+        return (<UserCard  key={randomId()} userId={player.id} userName={player.name} />);
     }
 
     useEffect(() => {
@@ -160,7 +169,11 @@ export default function VipGame() {
     }, [values.remove_player]);
 
     return (
-        <GlobalLayout>
+        <VIPGamesProvider value={{
+            values: values,
+            modifyValue: modifyValue,
+        }}>
+        <GlobalLayout disableEvent={true}>
             <Head title="VIP Game" />
 
             {
@@ -177,111 +190,18 @@ export default function VipGame() {
             }
 
             <div id="game_menu">
-                <img src={VipGamesLogo} width={500} alt="Logo VipGames" />
+                <img src={VipGamesLogo} width={540} alt="Logo VipGames" style={{filter: 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.99))'}}/>
 
                 <div className='flex flex-col gap-[8px]'>
-                    <div className='flex w-full justify-center items-center h-[620px] gap-[8px] flex-shrink-0 relative'>
+                    <div className='flex w-full justify-center items-center h-[680px] gap-[24px] flex-shrink-0 relative'>
                         {/* Left Menu ( For Weils Cam and Chat) */}
-                        <div className='flex flex-col gap-[8px] h-full w-[400px] flex-shrink-0'>
-                            <div className='le-tchat flex-col container h-[220px]'>
-                                <span>LA CAM</span>
-                            </div>
-                            <div className='le-tchat container flex-grow items-start p-[16px]'>
-                                LE T'CHAT
-                            </div>
-                        </div>
+                        <LeftContent />
 
-                        {/* Center Div */}
-                        <div className='flex flex-col gap-[8px] h-full w-[980px] relative'>
-                            <div id='game_news' className='h-[80px] w-full flex-shrink-0'>
-                                {values.news_list}
-                            </div>
-
-                            <div className='flex-1 flex-shrink-0 w-full overflow-hidden'>
-                                <div className='container p-[16px] max-h-full h-full overflow-hidden flex-shrink-0 w-full'>
-                                    <div id='user-list-container' className='w-full overflow-hidden'>
-                                        <div id='user-list' className='w-full max-h-full flex flex-row flex-wrap gap-[8px] overflow-auto'>
-                                            {values.waiting_users}
-                                        </div>
-                                    </div>
-
-                                    <div id='tickets_pack' className='transition-back absolute my-hidden'>
-                                        {values.tickets}
-                                    </div>
-
-                                    <div id="wheels" className='transition-back absolute my-hidden'>
-                                        <Slot
-                                            id={'wheel_slot_1'}
-                                            type={'player'}
-                                            onClick={() => { values.game.askRandomPlayer() }}
-                                            data={values.roll_players}
-                                            winner={values.choosen_player}
-                                            spin={values.spin_1}
-                                            game={values.game}
-                                            game_start={values.game_start}
-                                            modifyValueParent={modifyValue}
-                                        />
-
-                                        <Slot
-                                            id={'wheel_slot_2'}
-                                            type={'number'}
-                                            onClick={() => { values.game.askRandomPlayCount() }}
-                                            data={values.roll_playCount}
-                                            winner={values.choosen_playCount}
-                                            spin={values.spin_2}
-                                            game={values.game}
-                                            game_start={values.game_start}
-                                            modifyValueParent={modifyValue}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Winning Menu */}
-                            <div id='winning_menu' className='container w-full h-full flex absolute my-hidden'>
-
-                            </div>
-
-                        </div>
+                        {/* Middle Div */}
+                        <MiddleContent />
 
                         {/* Right Div - Penguin of the user */}
-                        <div className='flex flex-col gap-[8px] h-full w-[440px]'>
-
-                            {/* Current Player */}
-                            <div className='container h-[80px] justify-between p-[16px] relative current_player'>
-                                <div className='flex justify-center items-center gap-[16px] p-[0px]'>
-                                    <img src={values.avatar} alt="" className='rounded-full h-[48px]' width={48} />
-                                    <div className='flex flex-col gap-[0px]'>
-                                        <div className='item_username'>{values.current_player.name}</div>
-                                        <div className='item_subtext'>Un Pingouin Content de Jouer</div>
-                                    </div>
-                                </div>
-                                <div className='play_count_text'>
-                                    {values.playCount}
-                                </div>
-
-                                <div id='current_player_prio' className='transition-back my-hidden'>
-                                    PRIO
-                                </div>
-                            </div>
-
-                            {/* Penguin and Points List */}
-                            <div className='le-tchat container flex-grow relative'>
-                                <div id='penguin' className='flex justify-center items-center w-full h-full absolute'>
-                                    Coming Soon
-                                </div>
-
-                                <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden my-hidden'>
-                                    <div className='title-20 flex justify-center items-center w-full'>
-                                        Les Joueurs & leurs points
-                                    </div>
-                                    <div className='flex flex-grow w-full flex-col gap-[8px] overflow-y-scroll pr-2'>
-                                        {values.players_points}
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                        <RightContent />
 
                     </div>
 
@@ -289,10 +209,19 @@ export default function VipGame() {
                         <div className='flex flex-row gap-8 pt-[16px]'>
                             {
                                 values.game_start
-                                    ? <GreenButton id="switch_button" className="button_green" onClick={() => {
-                                        switchGame();
-                                    }}
-                                    >Switch</GreenButton>
+                                    ? (
+                                        values.game_end ?
+                                        (
+                                            <RedButton id="quit_button" className="button_red" onClick={() => { window.location.href = route('vipgames.index') }}>
+                                                Quitter
+                                            </RedButton>
+                                        ) :
+                                        (
+                                            <GreenButton id="switch_button" className="button_green" onClick={() => { switchGame(); }}>
+                                                Switch
+                                            </GreenButton>
+                                        )
+                                    )
                                     :
                                     <BlueButton id="play_button" className="button_blue w-[280px]" onClick={
                                         () => {
@@ -318,5 +247,6 @@ export default function VipGame() {
                 </div>
             </div>
         </GlobalLayout>
+        </VIPGamesProvider>
     );
 }

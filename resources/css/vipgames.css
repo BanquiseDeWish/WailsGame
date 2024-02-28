@@ -1,17 +1,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-    --container-background: linear-gradient(180deg, #081318 0%, #020C11 100%);
+    --container-background: #09101A;
 }
 
 .container {
     background: var(--container-background) !important;
+    backdrop-filter: blur(5px);
 }
 
 body {
     background-image: url('../assets/img/vipgames/vipgames_background.png') !important;
     background-size: cover !important;
     background-position: center !important;
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    top: 0;
+    left: 0;
+
 }
 
 #app_background::after {
@@ -24,6 +36,7 @@ body {
     --ticket_miss: linear-gradient(99deg, #d9170b 0%, #761111 100%);
     --ticket_bonus: linear-gradient(99deg, #10a3f5 0%, #0b308e 100%);
     --ticket_win: linear-gradient(99deg, #02f41a 0%, #0d6b05 100%);
+    --ticket_dead: linear-gradient(99deg, #313233 0%, #05050E 100%);
 }
 
 html {
@@ -65,7 +78,7 @@ html {
     background: var(--ticket);
     border-radius: 4px;
     padding: 8px;
-    border: 2px solid #c88e08;
+    border: 1px solid #c88e08;
     transition: 0.2s;
 }
 
@@ -186,6 +199,11 @@ input,
     border-color: #0e6bc3;
 }
 
+.ticket_dead {
+    background: var(--ticket_dead);
+    border-color: #474849;
+}
+
 .ticket_win {
     background: var(--ticket_win);
     border-color: #08b010;
@@ -303,93 +321,6 @@ input,
     transition: visibility 0s 0.3s, opacity 0.3s linear;
 }
 
-.wheel-slot {
-    padding: 16px 48px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 384px;
-    height: 400px;
-    position: relative;
-    overflow-y: hidden;
-    overflow-x: visible !important;
-    mask: linear-gradient(180deg, transparent 0%, white 50%, transparent 100%);
-}
-
-.wheel-slot::before {
-    content: '';
-    position: absolute;
-    background-image: url('../assets/img/vipgames/cursor_slots.svg');
-    background-size: cover;
-    top: 50%;
-    right: 32px;
-    height: 34px;
-    width: 42px;
-    z-index: 120;
-    transform: translateY(-50%);
-}
-
-.wheel-slot div.slot_item {
-    width: 100%;
-    flex-shrink: 0;
-    flex-basis: 0px;
-    height: 64px;
-    flex-basis: 64px;
-    margin: 4px 0px;
-    /*animation: grow_slot_item 0.2s linear forwards;
-    -webkit-animation: grow_slot_item 0.2s linear forwards;*/
-}
-
-.wheel-slot div.slot_item .item_content {
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    background-color: #121A25;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.wheel-slot .slot_item.number {
-    color: #FFF;
-    font-family: Poppins;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
-
-.wheel-slot .slot_item.player img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-.wheel-slot .slot_item.player .item_content {
-    display: flex;
-    padding: 8px 16px;
-    align-items: center;
-    gap: 16px;
-    align-self: stretch;
-}
-
-.wheel-slot .slot_item.player .username {
-    color: #FFF;
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    flex-grow: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
 /*@keyframes grow_slot_item {
     to {
         margin: 4px 0px;
@@ -518,40 +449,9 @@ input,
 }
 
 
-.item-glow {
-    position: relative;
-    z-index: 0;
-}
-
-.item-glow::after {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: -5;
-    height: 100%;
-    width: 100%;
-    transform: scale(1);
-    filter: blur(15px);
-    background: linear-gradient(135deg,#ff0f7b,#f89b29, #ff0f7b);
-    background-size: 200% 200%;
-    animation: animateGlow 1.25s linear infinite;
-  }
-
-@keyframes animateGlow {
-    0% {
-      background-position: 0% 50%;
-    }
-    100% {
-      background-position: 200% 50%;
-    }
-  }
-
-
 .player_points_item {
     border-radius: 8px;
-    background-color: #121A25;
+    background-color: #18212E;
     padding: 12px 16px;
     width: 100%;
     display: flex;
@@ -613,16 +513,15 @@ input,
     font-weight: 700;
     line-height: normal;
     background: linear-gradient(99deg, #10A3F5 0%, #0B308E 100%);
-    padding: 4px 96px;
+    padding: 12px 64px;
     display: flex;
     justify-content: center;
     align-items: center;
     width: fit-content;
     border-radius: 8px 8px 0 0;
     position: absolute;
-    top: -29px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: -45px;
+    left: 8;
 }
 
 .points_bin {
@@ -647,3 +546,79 @@ input,
 #winning_menu {
     
 }
+
+/*.snow_cap_player::after {
+    content: '';
+    position: absolute;
+    width: 350px;
+    height: 60px;
+    background-image: url('../assets/img/decoration/christmas/snow_caps/snow_cap_6.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    right: -12px;
+    top: -20px;
+    z-index: 200;
+}
+
+.snow_cap_chat::after {
+    content: '';
+    position: absolute;
+    width: 370px;
+    height: 60px;
+    background-image: url('../assets/img/decoration/christmas/snow_caps/snow_cap_8.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    left: -30px;
+    top: -27px;
+    z-index: 200;
+}
+
+
+.snow_cap_points::after {
+    content: '';
+    position: absolute;
+    width: 370px;
+    height: 90px;
+    background-image: url('../assets/img/decoration/christmas/snow_caps/snow_cap_4.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    left: -16px;
+    top: -25px;
+    z-index: 200;
+}
+
+.snow_cap_center::before {
+    content: '';
+    position: absolute;
+    width: 350px;
+    height: 135px;
+    background-image: url('../assets/img/decoration/christmas/snow_caps/snow_cap_18.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    right: -30px;
+    bottom: -55px;
+    z-index: 0;
+}
+
+.snow_cap_center .button_green {
+    z-index: 300;
+}
+
+.snow_cap_center::after {
+    content: '';
+    position: absolute;
+    width: 730px;
+    height: 80px;
+    background-image: url('../assets/img/decoration/christmas/snow_caps/snow_cap_6_v2.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -25px;
+    z-index: 200;
+}*/

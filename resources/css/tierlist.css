@@ -1,0 +1,277 @@
+.tierlist .nameTlShare{
+    width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.tierlist .items {
+    display: flex;
+    flex-direction: column;
+    max-width: 520px;
+    gap: 12px;
+    padding: 8px 16px 32px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-mask-image: -webkit-gradient(linear, left 90%, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+}
+
+.tierlist .weilsMood {
+    min-width: calc(433px / 3.6);
+    height: calc(577px / 3.6);
+    position: absolute;
+    display: block;
+    top: -64px;
+    left: 0;
+}
+
+.tierlist .items .item:hover {
+    transform: scale(1.05);
+}
+.tierlist .tlink {
+    transition: transform 0.2s ease-in-out;
+}
+.tierlist .tlink:hover {
+    transform: scale(1.05);
+}
+
+.tierlist .items .item {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    width: 100%;
+    border-radius: 8px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.tierlist .items .item .average {
+    font-weight: 800;
+}
+
+.tierlist .items .item.active {
+    padding: 48px 16px;
+    background-size: cover !important;
+    background-position: center center !important;
+    transform: scale(1.05);
+}
+
+.tierlist .items .item.active .name {
+    width: 26rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tierlist .items .item.active .name {
+    font-size: 24px;
+}
+
+.tierlist .items .item.active .average {
+    font-size: 20px;
+}
+
+.tierlist .items .item.active::before {
+    position: absolute;
+    content: '';
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+}
+
+.tierlist .rating {
+    position: relative;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-radius: 8px;
+    background: var(--container_background);
+}
+
+.tierlist .rating span.defil {
+    width: 100%;
+}
+
+.tierlist .rating .input {
+    padding: 8px 5px;
+    background: var(--container_background);
+}
+
+.tierlist .rating_average {
+    display: flex;
+    gap:16px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+}
+
+.tierlist .rating_average.bad {
+    background: #5f0a0a;
+    background: -moz-linear-gradient(90deg, #5f0a0a 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: -webkit-linear-gradient(90deg, #5f0a0a 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: linear-gradient(90deg, #5f0a0a 0%, var(--container_background) 22%, var(--container_background) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5f0a0a",endColorstr="#ffffff",GradientType=1);
+}
+
+.tierlist .rating_average.badLittle {
+    background: #7e360d;
+    background: -moz-linear-gradient(90deg, #7e360d 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: -webkit-linear-gradient(90deg, #7e360d 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: linear-gradient(90deg, #7e360d 0%, var(--container_background) 22%, var(--container_background) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#7e360d",endColorstr="#ffffff",GradientType=1);
+}
+
+.tierlist .rating_average.meh {
+    background: #885a04;
+    background: -moz-linear-gradient(90deg, #885a04 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: -webkit-linear-gradient(90deg, #885a04 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: linear-gradient(90deg, #885a04 0%, var(--container_background) 22%, var(--container_background) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#885a04",endColorstr="#ffffff",GradientType=1);
+}
+
+.tierlist .rating_average.whyNot {
+    background: #76940c;
+    background: -moz-linear-gradient(90deg, #76940c 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: -webkit-linear-gradient(90deg, #76940c 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: linear-gradient(90deg, #76940c 0%, var(--container_background) 22%, var(--container_background) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#76940c",endColorstr="#ffffff",GradientType=1);
+}
+
+.tierlist .rating_average.good {
+    background: #288a0a;
+    background: -moz-linear-gradient(90deg, #288a0a 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: -webkit-linear-gradient(90deg, #288a0a 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: linear-gradient(90deg, #288a0a 0%, var(--container_background) 22%, var(--container_background) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#288a0a",endColorstr="#ffffff",GradientType=1);
+}
+
+.tierlist .rating_average.amazing {
+    background: #0a6581;
+    background: -moz-linear-gradient(90deg, #0a6581 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: -webkit-linear-gradient(90deg, #0a6581 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: linear-gradient(90deg, #0a6581 0%, var(--container_background) 22%, var(--container_background) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0a6581",endColorstr="#ffffff",GradientType=1);
+}
+
+.tierlist .rating_average.perfect {
+    background: #124d5f;
+    background: -moz-linear-gradient(90deg, #124d5f 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: -webkit-linear-gradient(90deg, #124d5f 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: linear-gradient(90deg, #124d5f 0%, var(--container_background) 22%, var(--container_background) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#124d5f",endColorstr="#ffffff",GradientType=1);
+}
+
+.tierlist .rating_average.tooCrazy{
+    background: #948531;
+    background: -moz-linear-gradient(90deg, #948531 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: -webkit-linear-gradient(90deg, #948531 0%, var(--container_background) 22%, var(--container_background) 100%);
+    background: linear-gradient(90deg, #948531 0%, var(--container_background) 22%, var(--container_background) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#948531",endColorstr="#ffffff",GradientType=1);
+}
+
+.tierlist .rating_average .view .average {
+    color: transparent;
+    position: relative;
+    display: flex;
+    text-transform: uppercase;
+    line-height: 26px;
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+}
+
+.tierlist .streamer {
+    gap: 18px;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tierlist .streamer .cam {
+    width: 26rem;
+    height: 14rem;
+}
+
+.tierlist .streamer .chat {
+    width: 26rem;
+    flex: 1 1 0%;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(90%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.loader-spin {
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    position: relative;
+}
+
+.loader-spin::after,
+.loader-spin::before {
+    content: '';
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #FFF;
+    position: absolute;
+    left: 0;
+    top: 0;
+    animation: animloader 2s linear infinite;
+}
+
+.loader-spin::after {
+    animation-delay: 1s;
+}
+
+.simple_button {
+    position: relative;
+}
+
+.simple_button:disabled {
+    outline: none;
+}
+
+.simple_button:disabled:after {
+    content: '';
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: inherit;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+@keyframes animloader {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}

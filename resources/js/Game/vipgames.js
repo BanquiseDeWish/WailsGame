@@ -16,6 +16,7 @@ export default class VIPGames {
         this.missSecret = new GameSound('miss_secret');
         this.bonusSound = new GameSound('bonus');
         this.winSound = new GameSound('win');
+        this.deadSound = new GameSound('dead');
         this.gameStart = false;
         this.player_list = [];
     }
@@ -78,7 +79,11 @@ export default class VIPGames {
         this.modifyValue('current_player', data.current_player ? data.current_player : {id: -1, name: '?????????'});
         this.modifyValue('avatar', data.current_player ? data.current_player.id : 0);
         this.modifyValue('roll_players', data.roll_players);
-        this.modifyValue('roll_playCount', data.roll_playCount);
+        let rollPlayCount = [];
+        data.roll_playCount.forEach((playCount) => {
+            rollPlayCount.push({id: playCount, name: playCount});
+        });
+        this.modifyValue('roll_playCount', rollPlayCount);
         this.modifyValue('game_start', data.phaseWaitingEnd);
         this.modifyValue('players', data.players);
         this.player_list = [...data.players];
@@ -107,6 +112,10 @@ export default class VIPGames {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_bonus', 'animate__flip');
                     this.bonusSound.playBonusSound();
                 }
+                else if(data.action == 'dead') {
+                    document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_dead', 'animate__flip');
+                    this.deadSound.playSound(0.8);
+                }
                 else if (data.action == 'win') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_win', 'animate__flip');
                     this.winSound.playWinSound();
@@ -122,7 +131,6 @@ export default class VIPGames {
                     this.modifyValue('current_player', {id: -1, name: '?????????'});
                     this.modifyValue('choosen_player', data.player.id);
                     this.modifyValue('spin_1', 0);
-                    console.log("Round: ", data.round);
                     this.modifyValue('round', data.round);
                 }
                 else {

@@ -4,7 +4,9 @@ import { useEffect, useState, useRef } from "react";
 import SlotJS from '../../../Game/slot';
 import { waitUntil } from "../../../Game/utils";
 
-export default function Slot({ id, type, winner, spin, game, onClick, game_start, data, modifyValueParent, ...otherProps }) {
+import '../../../../css/components/slot/wheel_slot.css';
+
+export default function Slot({ id, type, winner, spin, onClick, onSpinEnd, link, game_start, data, ...otherProps }) {
 
     const props = usePage().props;
     const [values, setValues] = useState({
@@ -24,19 +26,9 @@ export default function Slot({ id, type, winner, spin, game, onClick, game_start
 
     async function waitEndSpin() {
         await waitUntil(() => !values.slot.isSpinning);
-        if(type == 'player') {
-            modifyValueParent('current_player', game.getPlayer(winner));
-            modifyValueParent('avatar', winner);
-        }
-        else
-            modifyValueParent('playCount', winner);
+        if(onSpinEnd != undefined)
+            onSpinEnd();
     }
-
-    useEffect(() => {
-        if(game_start) {
-            values.slot.init();
-        }
-    }, [game_start]);
 
     useEffect(() => {
         if(winner != null && winner != undefined) {
@@ -51,20 +43,22 @@ export default function Slot({ id, type, winner, spin, game, onClick, game_start
     }, [data]);
 
     useEffect(() => {
-        if(values.slot == undefined) return;
-        values.slot.game = game;
-    }, [game]);
-
-    useEffect(() => {
-        modifyValue('slot', new SlotJS(id, type, game, props.ziggy.url + '/api/user/{id}/icon'));
-    }, []);
+        if(game_start) {
+            let slot = values.slot;
+            if(slot == undefined)
+                slot = new SlotJS(id, type, link);
+            slot.setData(data);
+            slot.init();
+            modifyValue('slot', slot);
+        }
+    }, [game_start]);
 
     return (
         <div className='flex flex-col items-center gap-[24px]' {...otherProps}>
             <div id={id} className='wheel-slot'>
                 
             </div>
-            <GreenButton className='button_green w-[200px]' onClick={onClick}>Tourner !</GreenButton>
+            {!otherProps?.noButton && <GreenButton className='button_green w-[200px]' onClick={onClick}>Tourner !</GreenButton>}
         </div>
     );
 
