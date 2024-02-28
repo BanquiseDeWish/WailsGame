@@ -11,6 +11,8 @@ import TopHatPenguin from '../../../assets/img/modals/vipgames/penguin_top_hat.p
 
 import BaseModal from "./BaseModal";
 
+import { InputRange } from '../Forms/InputRange';
+
 export default class VIPGamesModal extends BaseModal {
 
     constructor(props) {
@@ -40,12 +42,6 @@ export default class VIPGamesModal extends BaseModal {
 
     handleSubmit = (e) => {
         e.preventDefault();
-
-        this.socket.emit('init_game', this.state);
-        router.get('/vipgames/play');
-    }
-
-    randomStart = () => {
         this.socket.emit('init_game', this.state);
         router.get('/vipgames/play');
     }
@@ -78,25 +74,40 @@ export default class VIPGamesModal extends BaseModal {
             <img src={CrownPenguin} className='absolute top-[-180px] right-[30px] modal_child_img' width={150} alt="" />
             <img src={TopHatPenguin} className='absolute top-[-180px] left-[30px] modal_child_img' width={150} alt="" />
             <form onSubmit={this.handleSubmit} className='flex flex-col gap-4 items-center justify-center w-[560px]'>
-                <div className='flex flex-col gap-1'>
-                    <label htmlFor="number_of_tickets">Nombre Total de Ticket</label>
-                    <input id="number_of_tickets" type='number' value={this.state.number_of_tickets} onChange={this.handleChange} />
-                </div>
-                <div className='flex flex-col gap-1'>
-                    <label htmlFor="winning_ticket">Ticket Gagnant</label>
-                    <input id="winning_ticket" type='number' value={this.state.winning_ticket} onChange={this.handleChange} />
-                </div>
-                <div className='flex flex-col gap-1'>
-                    <label htmlFor="number_of_bonus_tickets">Nombre de Ticket Bonus</label>
-                    <input id="number_of_bonus_tickets" type='number' value={this.state.number_of_bonus_tickets} onChange={this.handleChange} />
-                </div>
-                <div className='flex flex-col gap-1'>
-                    <label htmlFor="bonus_ticket">Tickets Bonus</label>
-                    <input id="bonus_tickets" value={this.state.bonus_tickets} onChange={this.handleChange} />
-                </div>
+                <InputRange
+                    label="Nombre Total de Ticket"
+                    value={this.state.number_of_tickets}
+                    onChange={this.handleChange}
+                    min={50}
+                    max={150}
+                    id="number_of_tickets"
+                />
+                <InputRange
+                    label="Nombre de Ticket Gagnant"
+                    value={this.state.number_of_winning_tickets}
+                    onChange={this.handleChange}
+                    min={1}
+                    max={10}
+                    id="number_of_winning_tickets"
+                />
+                <InputRange
+                    label="Nombre de Ticket Bonus"
+                    value={this.state.number_of_bonus_tickets}
+                    onChange={this.handleChange}
+                    min={0}
+                    max={20}
+                    id="number_of_bonus_tickets"
+                />
+                <InputRange
+                    label="Nombre de Ticket Explosif"
+                    value={this.state.number_of_dead_tickets}
+                    onChange={this.handleChange}
+                    min={0}
+                    max={20}
+                    id="number_of_dead_tickets"
+                />
                 <div className='flex flex-row gap-8'>
                     <GreenButton type="submit" className="w-fit button_green">Lancer</GreenButton>
-                    <BlueButton onClick={this.randomStart}>Random</BlueButton>
                 </div>
             </form>
             <style>{`

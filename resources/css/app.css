@@ -6,6 +6,10 @@
     --light_background: #2C3344;
 }
 
+.light_bg {
+    background-color: var(--light_background);
+}
+
 .container_background {
     background-color: var(--container_background);
 }
