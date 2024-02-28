@@ -118,7 +118,7 @@ export default class VIPGames {
                 }
                 else if (data.action == 'win') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_win', 'animate__flip');
-                    this.deadSound.playWinSound();
+                    this.winSound.playWinSound();
                 }
                 document.getElementById("ticket_" + data.ticket_id).onClick = null;
                 this.modifyValue('playCount', data.playCount);

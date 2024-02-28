@@ -13,14 +13,18 @@ import UserCard from '@/Components/User/UserCard';
 import GameNewsItem from '@/Components/Games/VIPGames/GameNewsItem';
 import BlueButton from '@/Components/Navigation/Buttons/BlueButton';
 
-import Slot from '@/Components/Games/VIPGames/Slot';
-import { randomId } from '../../../../js/Game/random';
-import { waitUntil } from '../../../../js/Game/utils';
+import { randomId } from '../../../Game/random';
+import { waitUntil } from '../../../Game/utils';
 
 import BinIcon from '@/Components/Icons/BinIcon';
 
 import Confetti from 'react-confetti'
 import RedButton from '@/Components/Navigation/Buttons/RedButton';
+
+import { VIPGamesProvider } from './VIPGamesContext';
+import LeftContent from './VIP_LeftContent';
+import MiddleContent from './VIP_MiddleContent';
+import RightContent from './VIP_RightContent';
 
 export default function VipGame() {
     const props = usePage().props;
@@ -165,6 +169,10 @@ export default function VipGame() {
     }, [values.remove_player]);
 
     return (
+        <VIPGamesProvider value={{
+            values: values,
+            modifyValue: modifyValue,
+        }}>
         <GlobalLayout disableEvent={true}>
             <Head title="VIP Game" />
 
@@ -187,110 +195,13 @@ export default function VipGame() {
                 <div className='flex flex-col gap-[8px]'>
                     <div className='flex w-full justify-center items-center h-[680px] gap-[24px] flex-shrink-0 relative'>
                         {/* Left Menu ( For Weils Cam and Chat) */}
-                        <div className='flex flex-col gap-[24px] h-full w-[400px] flex-shrink-0'>
-                            <div className='le-tchat flex-col container h-[220px]'>
-                                <span>LA CAM</span>
-                            </div>
-                            <div className='le-tchat container flex-grow items-start p-[16px] pt-[32px] snow_cap_chat'>
-                                Le T'Chat
-                            </div>
-                        </div>
+                        <LeftContent />
 
-                        {/* Center Div */}
-                        <div className='flex flex-col gap-[24px] h-full w-[980px] relative'>
-                            <div id='game_news' className='h-[80px] w-full flex-shrink-0'>
-                                {values.news_list}
-                            </div>
-
-                            <div className='flex-1 flex-shrink-0 w-full'>
-                                <div className='container p-[16px] max-h-full h-full flex-shrink-0 w-full snow_cap_center'>
-                                    <div id='user-list-container' className='w-full overflow-hidden'>
-                                        <div id='user-list' className='w-full max-h-full flex flex-row flex-wrap gap-[8px] overflow-auto'>
-                                            {values.waiting_users}
-                                        </div>
-                                    </div>
-
-                                    <div id='tickets_pack' className='transition-back absolute my-hidden'>
-                                        {values.tickets}
-                                    </div>
-
-                                    <div id="wheels" className='transition-back absolute my-hidden'>
-                                        <Slot
-                                            id={'wheel_slot_1'}
-                                            type={'with_icon'}
-                                            onClick={() => { values.game.askRandomPlayer() }}
-                                            data={values.roll_players}
-                                            winner={values.choosen_player}
-                                            spin={values.spin_1}
-                                            link={props.ziggy.url + '/api/user/{id}/icon'}
-                                            onSpinEnd={() => {
-                                                modifyValue('current_player', values.game.getPlayer(values.choosen_player));
-                                                modifyValue('avatar', values.choosen_player);
-                                            }}
-                                            game_start={values.game_start}
-                                        />
-
-                                        <Slot
-                                            id={'wheel_slot_2'}
-                                            type={'text'}
-                                            onClick={() => { values.game.askRandomPlayCount() }}
-                                            data={values.roll_playCount}
-                                            winner={values.choosen_playCount}
-                                            spin={values.spin_2}
-                                            onSpinEnd={() => {
-                                                modifyValue('playCount', values.choosen_playCount);
-                                            }}
-                                            game_start={values.game_start}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Winning Menu */}
-                            <div id='winning_menu' className='container w-full h-full flex absolute my-hidden'>
-
-                            </div>
-
-                        </div>
+                        {/* Middle Div */}
+                        <MiddleContent />
 
                         {/* Right Div - Penguin of the user */}
-                        <div className='flex flex-col gap-[24px] h-full w-[440px]'>
-
-                            {/* Current Player */}
-                            <div className='container h-[80px] justify-between p-[16px] relative current_player snow_cap_player'>
-                                <div className='flex justify-center items-center gap-[16px] p-[0px]'>
-                                    <img src={values.avatar} alt="" className='rounded-full h-[48px]' width={48} />
-                                    <div className='flex flex-col gap-[0px]'>
-                                        <div className='item_username'>{values.current_player.name}</div>
-                                        <div className='item_subtext'>Un Pingouin Content de Jouer</div>
-                                    </div>
-                                </div>
-                                <div className='play_count_text'>
-                                    {values.playCount}
-                                </div>
-
-                                <div id='current_player_prio' className='transition-back my-hidden'>
-                                    PRIO
-                                </div>
-                            </div>
-
-                            {/* Penguin and Points List */}
-                            <div className='le-tchat container flex-grow relative snow_cap_points'>
-                                <div id='penguin' className='flex justify-center items-center w-full h-full absolute'>
-                                    Coming Soon
-                                </div>
-
-                                <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden my-hidden'>
-                                    <div className='flex justify-center items-center w-full le-tchat'>
-                                        Les Joueurs & leurs points
-                                    </div>
-                                    <div className='flex flex-grow w-full flex-col gap-[8px] overflow-y-scroll pr-2'>
-                                        {values.players_points}
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                        <RightContent />
 
                     </div>
 
@@ -336,5 +247,6 @@ export default function VipGame() {
                 </div>
             </div>
         </GlobalLayout>
+        </VIPGamesProvider>
     );
 }

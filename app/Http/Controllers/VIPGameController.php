@@ -28,7 +28,7 @@ class VIPGameController extends Controller
 
     public function play(Request $request)
     {
-        return Inertia::render('Games/Play/VipGame');
+        return Inertia::render('Games/VIPGames/VipGame');
     }
 
     /**
