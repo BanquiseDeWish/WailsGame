@@ -19,8 +19,7 @@ export default class VIPGamesModal extends BaseModal {
         this.socket = new BDWSocket('vipgames');
         this.state = {
             ...this.state,
-            winning_ticket: -1,
-            bonus_tickets: [],
+            number_of_winning_tickets: 1,
             number_of_bonus_tickets: 5,
             number_of_dead_tickets: 1,
             number_of_tickets: 100,
@@ -41,40 +40,13 @@ export default class VIPGamesModal extends BaseModal {
 
     handleSubmit = (e) => {
         e.preventDefault();
+
         this.socket.emit('init_game', this.state);
         router.get('/vipgames/play');
     }
 
     randomStart = () => {
-        this.state.winning_ticket = Math.floor(Math.random() * this.state.number_of_tickets);
-        let bonus_tickets = [];
-        let dead_tickets = [];
-        let values = this.state;
-
-        for (let i = 0; i < this.state.number_of_bonus_tickets; i++) {
-            let ticket = Math.floor(Math.random() * this.state.number_of_tickets);
-
-            while (bonus_tickets.includes(ticket) || ticket == this.state.winning_ticket) {
-                ticket = Math.floor(Math.random() * this.state.number_of_tickets);
-            }
-
-            bonus_tickets.push(ticket);
-        }
-
-        for (let i = 0; i < this.state.number_of_dead_tickets; i++) {
-            let ticket = Math.floor(Math.random() * this.state.number_of_tickets);
-
-            while (dead_tickets.includes(ticket) || bonus_tickets.includes(ticket) || ticket == this.state.winning_ticket) {
-                ticket = Math.floor(Math.random() * this.state.number_of_tickets);
-            }
-
-            dead_tickets.push(ticket);
-        }
-
-
-        values.bonus_tickets = bonus_tickets;
-        values.dead_tickets = dead_tickets;
-        this.socket.emit('init_game', values);
+        this.socket.emit('init_game', this.state);
         router.get('/vipgames/play');
     }
 
