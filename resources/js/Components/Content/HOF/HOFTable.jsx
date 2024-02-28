@@ -7,11 +7,11 @@ import '../../../../css/hof.css'
 
 import HoFPodium from "./HOFPodium";
 
-export default function HoFTable({ load, logoPos, logo, data, labelPoints, className }) {
+export default function HoFTable({ load, logoPos, filter, logo, data, labelPoints, className }) {
 
-    const pos1 = data.find((val, index) => index == 0)
-    const pos2 = data.find((val, index) => index == 1)
-    const pos3 = data.find((val, index) => index == 2)
+    const pos1 = data?.find((val, index) => index == 0)
+    const pos2 = data?.find((val, index) => index == 1)
+    const pos3 = data?.find((val, index) => index == 2)
 
     return (
         <div className={`hof h-fit max-h-full xl:h-full w-fit ${className}`}>
@@ -20,19 +20,31 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
             </div>
 
             {load &&
-                <div className="flex justify-center items-center w-full h-[12rem] gap-4 text-white text-2xl">
-                    <span className="loader"></span> Chargement des données
+                <div className="flex justify-center items-center w-full h-[12rem] xl:h-full gap-4 text-white text-2xl">
+                    <span className="icon-loader"></span> Chargement des données
                 </div>
             }
 
             {!load && data?.length == 0 &&
-                <div className="flex justify-center items-center w-full h-[12rem] text-white text-2xl">
+                <div className="flex justify-center items-center w-full h-[12rem] xl:h-full text-white text-2xl">
                     Aucune données
                 </div>
             }
 
-            {!load && data?.length !== 0 &&
+            {!load && data == undefined && data == null &&
+                <div className="flex justify-center items-center w-full h-[12rem] xl:h-full text-white text-2xl">
+                    Aucune données
+                </div>
+            }
+
+            {!load && data?.length !== 0 && data !== null && data !== undefined &&
                 <>
+                    {filter?.type !== "category" &&
+                        <div className="flex justify-center w-full text-2xl">
+                            {filter?.displayName}
+                        </div>
+                    }
+
                     <div className="podium w-full hidden xl:flex flex-wrap justify-between items-end">
                         <HoFPodium
                             data={{
@@ -78,9 +90,7 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
 
                             if (position > 3) {
                                 return (
-                                    <>
-                                        <HOFEntry position={position} data={val} labelPoints={labelPoints} />
-                                    </>
+                                    <HOFEntry key={index} position={position} data={val} labelPoints={labelPoints} />
                                 )
                             }
                         })}
@@ -91,7 +101,7 @@ export default function HoFTable({ load, logoPos, logo, data, labelPoints, class
                             const position = (index + 1);
 
                             return (
-                                <HOFEntry position={position} data={val} labelPoints={labelPoints} />
+                                <HOFEntry key={index} position={position} data={val} labelPoints={labelPoints} />
                             )
                         })}
                     </div>

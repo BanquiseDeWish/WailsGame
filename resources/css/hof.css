@@ -154,3 +154,25 @@
 .hof table {
     width: 100%;
 }
+.rmdp-wrapper {
+    background-color: var(--content_background) !important;
+    box-shadow: 0 0 5px black !important;
+}
+.rmdp-wrapper span {
+    color: white;
+}
+.rmdp-wrapper .rmdp-month-picker, .rmdp-wrapper .rmdp-year-picker {
+    background-color: var(--content_background) !important;
+}
+.rmdp-wrapper .rmdp-day.rmdp-today span {
+    background-color: #0a1018 !important;
+}
+.rmdp-wrapper .rmdp-day.rmdp-today span {
+    background-color: #0a1018 !important;
+}
+.rmdp-wrapper  .rmdp-day.rmdp-selected span:not(.highlight) {
+    box-shadow: 0 0 3px #0a1018 !important;
+}
+.rmdp-wrapper .rmdp-day:not(.rmdp-disabled,.rmdp-day-hidden) span:hover {
+    background-color: #0c1827 !important;
+}
