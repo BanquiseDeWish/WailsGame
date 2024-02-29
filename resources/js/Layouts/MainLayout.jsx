@@ -15,7 +15,7 @@ export default function MainLayout({ children, showOverflow, className, disableE
                 <Navbar />
                 <EasterEggEars />
                 <EasterEggHizzle />
-                <div id='main-content' className={`w-[100dvw] p-[16px] lg:p-[32px] h-full relative z-[1] ${className}`} >
+                <div id='main-content' className={`w-[100dvw] p-[16px] lg:p-[32px] h-full z-[1] ${className}`} >
                     {children}
                 </div>
             </GlobalLayout>

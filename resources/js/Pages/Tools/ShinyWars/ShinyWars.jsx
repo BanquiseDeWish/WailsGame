@@ -31,9 +31,9 @@ export default function ShinyWars() {
         spin_nb_2: 0,
         players_list: [
             {
-                "id": "532538904",
-                "name": "NiixooZ",
-                "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/91a264eb-cfd3-47cb-9f11-b04471943a9d-profile_image-300x300.png",
+                "id": "121111915",
+                "name": "hJune",
+                "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/7610c39060476845-profile_image-300x300.png",
                 "catchPokemons": [
                     false,
                     false,
@@ -44,9 +44,9 @@ export default function ShinyWars() {
                 ]
             },
             {
-                "id": "121111915",
-                "name": "hJune",
-                "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/7610c39060476845-profile_image-300x300.png",
+                "id": "532538904",
+                "name": "NiixooZ",
+                "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/91a264eb-cfd3-47cb-9f11-b04471943a9d-profile_image-300x300.png",
                 "catchPokemons": [
                     false,
                     false,
@@ -81,7 +81,7 @@ export default function ShinyWars() {
                     false,
                     false
                 ]
-            }
+            },
         ],
         map_list: [
             {
@@ -232,6 +232,7 @@ export default function ShinyWars() {
                     --content_background: #121A25;
                     --light_background: #2C3344;
                     --web_background: linear-gradient(254deg, #18273D 0%, #070A1E 100%);
+                    --modal_background: linear-gradient(254deg, #1F304A 0%, #0D1B30 100%);
                 }
             `}
             </style>

@@ -16,7 +16,7 @@ export default function MainLayoutWF({ children }) {
                 <Navbar />
                 <EasterEggEars />
                 <EasterEggHizzle />
-                <div id='main-content' className="w-full h-full relative z-[1]">
+                <div id='main-content' className="w-full h-full z-[1]">
                     {children}
                     <Footer />
                 </div>

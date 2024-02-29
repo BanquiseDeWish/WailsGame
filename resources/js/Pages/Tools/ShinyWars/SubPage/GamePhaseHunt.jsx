@@ -49,7 +49,7 @@ export default function GamePhaseHunt({ socket, globalValues, ...otherProps }) {
             });
 
             return (
-                <div className='flex flex-col gap-6 w-[300px]'>
+                <div className={`flex flex-col gap-6 w-[300px] ${player.id != props.auth?.twitch?.id && 'z-0'}`}>
                     <div className='rounded-lg container_background p-2 text-xl w-full flex items-center gap-4 font-semibold'>
                         <img width={56} height={56} style={{ borderRadius: 50 }} src={player.icon} alt="avatar_twitch" />
                         {player.name}
@@ -70,7 +70,7 @@ export default function GamePhaseHunt({ socket, globalValues, ...otherProps }) {
             <div className="flex gap-12">
                 {huntValues.players}
             </div>
-            {globalValues.current?.isLeader && <GreenButton className="w-fit button_green outline-none" >Il est temps, de choisir !</GreenButton>}
+            {globalValues.current?.isLeader && <GreenButton className="w-fit button_green outline-none z-0" >Il est temps, de choisir !</GreenButton>}
         </>
     )
 

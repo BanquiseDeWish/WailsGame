@@ -1,5 +1,6 @@
 :root {
     --modal_transition: 0.4s;
+    --modal_background: var(--container_background);
 }
 
 .modal_container {
@@ -62,7 +63,7 @@
     transform: scale(0);
     justify-content: center;
     align-items: center;
-    background-color: var(--container_background);
+    background: var(--modal_background);
     transform-style: preserve-3d;
 }
 

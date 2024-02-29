@@ -10,8 +10,9 @@ export default class AddPokemonModal extends BaseModal {
 
         this.state = {
             ...this.state,
-            
+
         };
+        this.state.openModal = false;
     }
 
     getButton() {
