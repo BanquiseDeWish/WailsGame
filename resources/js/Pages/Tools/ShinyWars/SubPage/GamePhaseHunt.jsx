@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { usePage } from '@inertiajs/react';
-import PokemonComboBox from '@/Components/Navigation/ComboBox/PokemonComboBox';
 
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton"
 
-export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
+import AddPokemonModal from '../Modal/AddPokemonModal';
+
+export default function GamePhaseHunt({ socket, globalValues, ...otherProps }) {
 
     const [huntValues, setHuntValues] = useState({
         players: [],
@@ -23,28 +24,30 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
 
             let pkms = [];
             player.catchPokemons.forEach((pkm, index) => {
-                if(player.id == props.auth?.twitch?.id) {
+                if (player.id == props.auth?.twitch?.id) {
                     pkms.push(
                         <>
-                        <PokemonComboBox
-                            id={player.id + "_" + index}
-                            key={index}
-                        />
+                            {pkm ? (
+                                <div id={player.id + "_" + index} key={index} className='rounded-lg container_background p-4 h-[56px]'>
+                                    <span className='font-semibold'>PKM</span>
+                                </div>) :
+                                (<AddPokemonModal />)
+                            }
                         </>
                     )
                 }
                 else {
                     pkms.push(
                         <div id={player.id + "_" + index} key={index} className='rounded-lg container_background p-4 h-[56px]'>
-                            { pkm ? 
+                            {pkm ?
                                 (<span className='font-semibold'>✨ Shiny Capturé</span>) :
-                                (<span className='text-[#62697D] font-semibold'>Toujours en shasse...</span>)
+                                (<span className='text-[#57779D] font-semibold'>Toujours en shasse...</span>)
                             }
                         </div>
                     );
                 }
             });
-    
+
             return (
                 <div className='flex flex-col gap-6 w-[300px]'>
                     <div className='rounded-lg container_background p-2 text-xl w-full flex items-center gap-4 font-semibold'>
@@ -67,7 +70,7 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
             <div className="flex gap-12">
                 {huntValues.players}
             </div>
-            { globalValues.current?.isLeader && <GreenButton className="w-fit button_green outline-none" >Il est temps, de choisir !</GreenButton>}
+            {globalValues.current?.isLeader && <GreenButton className="w-fit button_green outline-none" >Il est temps, de choisir !</GreenButton>}
         </>
     )
 

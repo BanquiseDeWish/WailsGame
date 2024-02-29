@@ -14,4 +14,10 @@ export default defineConfig({
         }),
         react(),
     ],
+    resolve: {
+        alias: {
+            '@assets': '/resources/assets',
+            '@css': '/resources/css',
+        },
+    },
 });

@@ -13,15 +13,6 @@ export default function GlobalLayout({ children, showOverflow, disableEvent }) {
                 <ToastContainer />
                 {children}
             </div>
-            <style>
-                {
-                    `
-                        body {
-                            background-image: linear-gradient(254deg, #09101A 0%, #050A11 100%);
-                        }
-                    `
-                }
-            </style>
         </>
     );
 }

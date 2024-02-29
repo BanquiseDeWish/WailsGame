@@ -227,7 +227,12 @@ export default function ShinyWars() {
                 { globalValues.current.phaseId == 3 && <GamePhaseDrawPkmn globalValues={globalValues} socket={globalValues.current.socket}/> }
             </MainLayout>
             <style>{`
-
+                :root {
+                    --container_background: rgba(61.34, 105.63, 173.19, 0.20);
+                    --content_background: #121A25;
+                    --light_background: #2C3344;
+                    --web_background: linear-gradient(254deg, #18273D 0%, #070A1E 100%);
+                }
             `}
             </style>
         </>
