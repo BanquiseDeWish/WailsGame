@@ -12,8 +12,8 @@ use Inertia\Inertia;
 class VIPGameController extends Controller
 {
     /**
-    * Index for VipGames
-    */
+     * Index for VipGames
+     */
     public function index(Request $request)
     {
         $ranking = self::getRanking();
@@ -34,7 +34,8 @@ class VIPGameController extends Controller
     /**
      * Get the ranking of the VIPGames
      */
-    public static function getRanking() {
+    public static function getRanking()
+    {
         $ranking = DB::table('vipgames_history')
             ->select(DB::raw('winner_id AS user_id, COUNT(winner_id) AS points'))
             ->groupBy('winner_id')
@@ -44,22 +45,25 @@ class VIPGameController extends Controller
 
         foreach ($ranking as $index => $rank) {
             $user = User::where('twitch_id', '=', $rank->user_id)->first();
-            if ($user == null) $rank->userName = "N/A";
-            else $rank->userName = $user->twitch_username;
+            if ($user == null)
+                $rank->userName = "N/A";
+            else
+                $rank->userName = $user->twitch_username;
         }
 
         return $ranking;
     }
 
-    public static function registerGame(Request $request) {
+    public static function registerGame(Request $request)
+    {
         $input = $request->all();
-        if(!isset($input['winner_id']))
+        if (!isset($input['winner_id']))
             return response()->json(['error' => 'winner_id must be set'], 400);
-        if(!isset($input['stream_id']))
+        if (!isset($input['stream_id']))
             return response()->json(['error' => 'stream_id must be set'], 400);
-        if(!isset($input['stats']))
+        if (!isset($input['stats']))
             return response()->json(['error' => 'stats must be set'], 400);
-        VipGame::registerOrUpdate(
+        VipGame::register(
             $input['winner_id'],
             $input['stream_id'],
             $input['stats']
@@ -69,7 +73,8 @@ class VIPGameController extends Controller
         return response()->json(['success' => 'VIPGame registered'], 200);
     }
 
-    private static function calcStats() {
+    private static function calcStats()
+    {
         $vipgames = VipGame::all();
         $gameTime = [];
         $tickets = array_fill(0, 100, 0);
@@ -79,30 +84,31 @@ class VIPGameController extends Controller
         $all_bonus = [];
         $vipgames_with_gametime_stats = 0;
         $vipgames_with_players_stats = 0;
-        foreach($vipgames as $vipgame) {
-            if(!isset($vipgame->stats)) continue;
+        foreach ($vipgames as $vipgame) {
+            if (!isset($vipgame->stats))
+                continue;
             $vipgameStats = json_decode($vipgame->stats);
-            if(isset($vipgameStats->gameTime))
+            if (isset($vipgameStats->gameTime))
                 $gameTime[] = $vipgameStats->gameTime;
-            if(isset($vipgameStats->tickets)) {
-                foreach($vipgameStats->tickets as $ticket) {
+            if (isset($vipgameStats->tickets)) {
+                foreach ($vipgameStats->tickets as $ticket) {
                     $tickets[$ticket->ticket] += 1;
                 }
                 $ticketsAttempt += count($vipgameStats->tickets);
                 $vipgames_with_gametime_stats++;
             }
-            if(isset($vipgameStats->players)) {
-                foreach($vipgameStats->players as $player) {
-                    if(!isset($players[$player->id]))
+            if (isset($vipgameStats->players)) {
+                foreach ($vipgameStats->players as $player) {
+                    if (!isset($players[$player->id]))
                         $players[$player->id] = 0;
                     $players[$player->id] += $player->totalAttempt;
                 }
                 $playersAverage[] = count($vipgameStats->players);
                 $vipgames_with_players_stats++;
             }
-            if(isset($vipgameStats->bonus)) {
-                foreach($vipgameStats->bonus as $bonus) {
-                    if(!isset($all_bonus[$bonus->bonus]))
+            if (isset($vipgameStats->bonus)) {
+                foreach ($vipgameStats->bonus as $bonus) {
+                    if (!isset($all_bonus[$bonus->bonus]))
                         $all_bonus[$bonus->bonus] = 0;
                     $all_bonus[$bonus->bonus] += 1;
                 }
@@ -110,10 +116,10 @@ class VIPGameController extends Controller
         }
 
         $stats = [
-            'average_game_time' => array_sum($gameTime)/$vipgames_with_gametime_stats,
+            'average_game_time' => array_sum($gameTime) / $vipgames_with_gametime_stats,
             'most_ticket_played' => array_search(max($tickets), $tickets),
             'total_attempt' => $ticketsAttempt,
-            'average_player' => intval(array_sum($playersAverage)/$vipgames_with_players_stats),
+            'average_player' => intval(array_sum($playersAverage) / $vipgames_with_players_stats),
             'player_with_most_attempt' => array_search(max($players), $players),
             'most_bonus_used' => array_search(max($all_bonus), $all_bonus),
         ];
@@ -129,24 +135,27 @@ class VIPGameController extends Controller
     /**
      * Get all stats for the VIPGames
      */
-    public static function getStats() {
+    public static function getStats()
+    {
         $stats = GameStat::where('game', '=', 'vipgames')->get();
         $stats = $stats->keyBy('stat_name');
 
         $stats['most_ticket_played']->stat_value = $stats['most_ticket_played']->stat_value + 1;
 
         $user = User::where('twitch_id', '=', $stats['player_with_most_attempt']->stat_value)->first();
-        if($user != null)
+        if ($user != null)
             $stats['player_with_most_attempt']->stat_value = $user->twitch_username;
 
-        $stats['average_game_time']->stat_value = sprintf('%d mins %d sec', $stats['average_game_time']->stat_value/60%60, $stats['average_game_time']->stat_value%60);
+        $stats['average_game_time']->stat_value = sprintf('%d mins %d sec', $stats['average_game_time']->stat_value / 60 % 60, $stats['average_game_time']->stat_value % 60);
 
         return $stats;
     }
 
-    public static function getLastWinner() {
+    public static function getLastWinner()
+    {
         $lastWinner = VipGame::orderBy('created_at', 'desc')->first();
-        if($lastWinner == null) return null;
+        if ($lastWinner == null)
+            return null;
         $user = User::where('twitch_id', '=', $lastWinner->winner_id)->first();
         return $user;
     }
