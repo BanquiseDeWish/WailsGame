@@ -114,7 +114,7 @@
     background-color: var(--container_background);
     border-radius: 4px;
     outline: none;
-    grid-template: 1fr/1fr 1.9em;
+    grid-template: 1fr/1fr 50px;
     width: 100%;
   }
   .rw-widget-picker.rw-hide-caret {
