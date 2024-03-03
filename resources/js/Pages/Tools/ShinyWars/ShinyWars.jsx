@@ -233,6 +233,7 @@ export default function ShinyWars() {
                     --light_background: #2C3344;
                     --web_background: linear-gradient(254deg, #18273D 0%, #070A1E 100%);
                     --modal_background: linear-gradient(254deg, #1F304A 0%, #0D1B30 100%);
+                    --input_placeholder_color: #57779D;
                 }
             `}
             </style>

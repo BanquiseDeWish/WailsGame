@@ -15,7 +15,7 @@ export default class AddPokemonModal extends BaseModal {
         this.state = {
             ...this.state,
             formData: [{ id: 1, label: 'Bulbizarre' }],
-            pokemon: pokemonList[1],
+            pokemon: undefined,
             pokemonForm: { id: 'shiny', label: 'Bulbizarre'},
             lastPokemon: pokemonList[1]
         };
@@ -28,7 +28,7 @@ export default class AddPokemonModal extends BaseModal {
 
     onPokemonChange(value) {
         if(typeof value === 'string') {
-            let v = pokemonList.find(pokemon => pokemon.name === value);
+            let v = pokemonList.find(pokemon => pokemon.name.toLowerCase() === value.toLowerCase());
             if(v != null)
                 value = v;
         }
@@ -51,9 +51,9 @@ export default class AddPokemonModal extends BaseModal {
     render() {
         return super.render(
             <>
-                <div className='flex flex-col gap-[32px] items-center justify-center'>
-                    <span className='text-[24px]'>Ajouter un Pokémon</span>
-                    <div className='flex flex-row justify-between items-center w-full'>
+                <div className='flex flex-col gap-[32px] items-center justify-center w-[800px] px-[32px]'>
+                    <span className='text-[24px] font-semibold'>Ajouter un Pokémon</span>
+                    <div className='flex flex-row justify-between gap-[80px] items-center w-full'>
 
                         <div className='flex flex-col gap-[24px] w-full justify-center items-center'>
                             <InputComboBox
@@ -65,6 +65,8 @@ export default class AddPokemonModal extends BaseModal {
                                 hideCaret
                                 onChange={value => this.onPokemonChange(value)}
                                 onSelect={value => this.onPokemonChange(value)}
+                                globalClassName='w-full z-50'
+                                placeholder='Nom du Pokémon'
                             />
                             <InputDropdown
                                 label='Forme'
@@ -74,12 +76,24 @@ export default class AddPokemonModal extends BaseModal {
                                 value={this.state.pokemonForm}
                                 defaultValue={'regular'}
                                 onChange={(value) => this.setState({ pokemonForm: value })}
+                                globalClassName='w-full z-40'
+                                autoComplete='off'
                             />
-
+                            <GreenButton className='button_green outline-none w-fit'>Ajouter</GreenButton>
                         </div>
                         <img width={256} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${this.state.lastPokemon.id}/${this.state.pokemonForm.id}.png`} alt="" />
                     </div>
                 </div>
+                <style>{`
+                    #modal input {
+                        background: none !important;
+                    }
+                    :root {
+                        --rw_popup_background: #233E67;
+                        --rw-list-option-color: #fff;
+                        --rw-list-option-hover: #395786;
+                    }
+                `}</style>
             </>
         )
     }
