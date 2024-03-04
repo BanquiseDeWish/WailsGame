@@ -81,7 +81,16 @@ export default class AddPokemonModal extends BaseModal {
                                 globalClassName='w-full z-40'
                                 autoComplete='off'
                             />
-                            <GreenButton className='button_green outline-none w-fit'>Ajouter</GreenButton>
+                            <GreenButton 
+                                className='button_green outline-none w-fit'
+                                onClick={() => {
+                                    setTimeout(() => {
+                                        this.closeModal();
+                                    }, 300);
+                                }}
+                            >
+                                Ajouter
+                            </GreenButton>
                         </div>
                         <img 
                             width={256}
