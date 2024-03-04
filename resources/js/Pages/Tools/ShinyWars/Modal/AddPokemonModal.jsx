@@ -5,6 +5,8 @@ import InputComboBox from '@/Components/Forms/InputComboBox';
 
 import pokemonList from '@assets/data/pokemons';
 
+import EggImg from '@assets/img/tools/shinywars/egg.png';
+
 import '@css/modal.css';
 
 export default class AddPokemonModal extends BaseModal {
@@ -14,10 +16,11 @@ export default class AddPokemonModal extends BaseModal {
 
         this.state = {
             ...this.state,
-            formData: [{ id: 1, label: 'Bulbizarre' }],
+            formData: [],
             pokemon: undefined,
-            pokemonForm: { id: 'shiny', label: 'Bulbizarre'},
-            lastPokemon: pokemonList[1]
+            pokemonForm: undefined,
+            lastPokemon: pokemonList[1],
+            spriteLink: `https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/1/shiny.png`
         };
         this.state.openModal = false;
     }
@@ -74,14 +77,18 @@ export default class AddPokemonModal extends BaseModal {
                                 textField='label'
                                 data={this.state.formData}
                                 value={this.state.pokemonForm}
-                                defaultValue={'regular'}
                                 onChange={(value) => this.setState({ pokemonForm: value })}
                                 globalClassName='w-full z-40'
                                 autoComplete='off'
                             />
                             <GreenButton className='button_green outline-none w-fit'>Ajouter</GreenButton>
                         </div>
-                        <img width={256} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${this.state.lastPokemon.id}/${this.state.pokemonForm.id}.png`} alt="" />
+                        <img 
+                            width={256}
+                            src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${this.state.lastPokemon?.id}/${this.state.pokemonForm?.id}.png`}
+                            alt=""
+                            onError={(e) => { e.target.onerror = null; e.target.src = EggImg }}
+                        />
                     </div>
                 </div>
                 <style>{`
