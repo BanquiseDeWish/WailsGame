@@ -22,19 +22,27 @@ export default class AddPokemonModal extends BaseModal {
             formData: [],
             pokemon: undefined,
             pokemonForm: undefined,
-            lastPokemon: pokemonList[1],
-            spriteLink: `https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/1/shiny.png`
+            lastPokemon: pokemonList[1]
         };
         this.state.openModal = false;
     }
 
     getButton() {
         return (
-            <div className='rounded-lg container_background p-4 h-[56px] text-[#57779D] font-semibold cursor-pointer'>
+            <div className='rounded-lg relative overflow-hidden container_background p-4 h-[56px] text-[#57779D] font-semibold cursor-pointer'>
                 {!this.props.isCatch ? (
                     <>💭 Choisir un Shiny</>
                 ) : (
-                    <>✅ Modifier le Shiny</>
+                    <>
+                        <span>✅ Modifier le Shiny</span>
+                        <img
+                            className='absolute right-0 top-[50%] transform translate-y-[-50%]'
+                            width={100}
+                            src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${this.state.lastPokemon?.id}/${this.state.pokemonForm?.id}.png`}
+                            alt=""
+                            onError={(e) => { e.target.onerror = null; e.target.src = EggImg }}
+                        />
+                    </>
                 )}
             </div>
         );

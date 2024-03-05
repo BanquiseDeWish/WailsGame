@@ -105,10 +105,13 @@ export default function ShinyWars() {
     });
 
     const getPlayer = (id) => {
-        return globalValues.players_list.find(p => p.id == id);
+        return globalValues.current.players_list.find(p => p.id == id);
     }
 
     const modifyValues = (key, value) => {
+        if (key === 'player_list') {
+            console.log('player_list', value);
+        }
         if (key === 'spin_nb_1' || key === 'spin_nb_2') {
             globalValues.current[key] = globalValues.current[key] + 1;
         } else {
@@ -160,35 +163,25 @@ export default function ShinyWars() {
             });
 
             socket.on('wheel_player_turn', (data) => {
-                console.log("globalValues:", globalValues.current);
                 if (globalValues.current.phaseId != 1) return;
                 modifyValues('playerWheelWinner', data.playerId);
                 modifyValues('spin_nb_1', 0);
-                console.log('wheel_player_turn', data);
             });
 
             socket.on('wheel_player_map', (data) => {
-                console.log("globalValues:", globalValues.current);
                 if (globalValues.current.phaseId != 1) return;
                 modifyValues('mapWheelWinner', data.map);
                 modifyValues('spin_nb_2', 0);
-                console.log('wheel_player_map', data);
             });
 
             socket.on('player_update_pokemon', (data) => {
-                console.log("player_update_pokemon, globalValues:", globalValues.current);
                 if (globalValues.current.phaseId != 2) return;
-                try {
-                    let player = getPlayer(data.playerId);
-                }
-                catch (e) {
-                    console.log('ERREUR', e);
-                }
-                console.log('player_update_pokemon', data, player);
+            
+                let players = [...globalValues.current.players_list];
+                let player = players.find(p => p.id == data.playerId);
                 if (player === undefined) return;
                 player.catchPokemons[data.pokemonIndex] = data.hasCatch;
-                console.log('player_update_pokemon', player);
-                modifyValues('players_list', globalValues.current.players_list);
+                modifyValues('players_list', players);
             });
 
             socket.on('player_choose_turn', (data) => {
