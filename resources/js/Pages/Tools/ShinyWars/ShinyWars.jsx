@@ -13,23 +13,24 @@ import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 
 import { toast } from 'sonner'
 
+import { ShinyWarsProvider } from './ShinyWarsContext';
+
 let socket = null;
+const DEV = false;
 
 export default function ShinyWars() {
 
     const [, forceUpdate] = useReducer((x) => x + 1, 0)
     const globalValues = useRef({
         socket: null,
-        phaseId: 2,
+        phaseId: -1,
         isLeader: true,
-        //players_list: [],
-        //map_list: [],
         areMapsChosen: false,
         playerWheelWinner: null,
         mapWheelWinner: null,
         spin_nb_1: 0,
         spin_nb_2: 0,
-        players_list: [
+        players_list: DEV ? [
             {
                 "id": "121111915",
                 "name": "hJune",
@@ -82,8 +83,8 @@ export default function ShinyWars() {
                     false
                 ]
             },
-        ],
-        map_list: [
+        ] : [],
+        map_list: DEV ? [
             {
                 "id": "polar_zone",
                 "name": "Zone Polaire",
@@ -100,7 +101,7 @@ export default function ShinyWars() {
                 "id": "coastal_zone",
                 "name": "Zone Côtière",
             }
-        ],
+        ] : [],
     });
 
     const getPlayer = (id) => {
@@ -127,19 +128,19 @@ export default function ShinyWars() {
     }, [globalValues.current.phaseId]);
 
     useEffect(() => {
-        socket = new BDWSocket("shinywars", { gameId: props.gameId, userId: props.auth?.twitch?.id, userName: props.auth?.twitch?.display_name })
+        socket = new BDWSocket("shinywars", {}, { gameId: props.gameId, userId: props.auth?.twitch?.id, userName: props.auth?.twitch?.display_name })
         modifyValues('socket', socket);
 
         if (socket !== null) {
-            function onConnect() {}
+            function onConnect() { }
 
-            function onDisconnect() {}
+            function onDisconnect() { }
 
             socket.on('connect', onConnect);
             socket.on('disconnect', onDisconnect);
 
             socket.on('update_game_data', (data) => {
-                switch(data.type) {
+                switch (data.type) {
                     case 'players':
                         modifyValues('players_list', data.players);
                         break;
@@ -160,7 +161,7 @@ export default function ShinyWars() {
 
             socket.on('wheel_player_turn', (data) => {
                 console.log("globalValues:", globalValues.current);
-                if(globalValues.current.phaseId != 1) return;
+                if (globalValues.current.phaseId != 1) return;
                 modifyValues('playerWheelWinner', data.playerId);
                 modifyValues('spin_nb_1', 0);
                 console.log('wheel_player_turn', data);
@@ -168,30 +169,38 @@ export default function ShinyWars() {
 
             socket.on('wheel_player_map', (data) => {
                 console.log("globalValues:", globalValues.current);
-                if(globalValues.current.phaseId != 1) return;
+                if (globalValues.current.phaseId != 1) return;
                 modifyValues('mapWheelWinner', data.map);
                 modifyValues('spin_nb_2', 0);
                 console.log('wheel_player_map', data);
             });
 
             socket.on('player_update_pokemon', (data) => {
-                if(globalValues.current.phaseId != 2) return;
-                let player = getPlayer(data.playerId);
-                if(player === undefined) return;
+                console.log("player_update_pokemon, globalValues:", globalValues.current);
+                if (globalValues.current.phaseId != 2) return;
+                try {
+                    let player = getPlayer(data.playerId);
+                }
+                catch (e) {
+                    console.log('ERREUR', e);
+                }
+                console.log('player_update_pokemon', data, player);
+                if (player === undefined) return;
                 player.catchPokemons[data.pokemonIndex] = data.hasCatch;
+                console.log('player_update_pokemon', player);
                 modifyValues('players_list', globalValues.current.players_list);
             });
 
             socket.on('player_choose_turn', (data) => {
-                if(globalValues.current.phaseId != 3) return;
+                if (globalValues.current.phaseId != 3) return;
             });
 
             socket.on('player_choose', (data) => {
-                if(globalValues.current.phaseId != 3) return;
+                if (globalValues.current.phaseId != 3) return;
             });
 
             socket.on('pokemon_types_list', (data) => {
-                if(globalValues.current.phaseId != 3) return;
+                if (globalValues.current.phaseId != 3) return;
             });
 
             socket.on('change_phase', (data) => {
@@ -212,26 +221,32 @@ export default function ShinyWars() {
 
     return (
         <>
-            <MainLayout showOverflow={true} className={"flex flex-col justify-center items-center gap-6"}>
-                <Head title="Shiny Wars"/>
-                { globalValues.current.phaseId == -1 && (
-                    <>
-                        <GreenButton className={"button button_green outline-none"} onClick={() => {createGame()}}>
-                            Créer une Game
-                        </GreenButton>
-                    </>
-                )}
-                { globalValues.current.phaseId == 0 && <SettingsMenu globalValues={globalValues} socket={globalValues.current.socket}/> }
-                { globalValues.current.phaseId == 1 && <GamePhaseDrawMap globalValues={globalValues} socket={globalValues.current.socket}/> }
-                { globalValues.current.phaseId == 2 && <GamePhaseHunt globalValues={globalValues} socket={globalValues.current.socket}/> }
-                { globalValues.current.phaseId == 3 && <GamePhaseDrawPkmn globalValues={globalValues} socket={globalValues.current.socket}/> }
+            <ShinyWarsProvider value={{
+                globalValues: globalValues.current,
+                modifyValues: modifyValues,
+                getPlayer: getPlayer,
+            }}>
+                <MainLayout showOverflow={true} className={"flex flex-col justify-center items-center gap-6"}>
 
-                <img className='z-0 absolute scale-x-[-1] left-[-80px] bottom-[-40px] rotate-[10deg]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${361}/${'shiny'}.png`} alt="" />
-                <img className='z-0 absolute scale-x-[-1] left-[160px] bottom-[-70px]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${184}/${'shiny'}.png`} alt="" />
-                <img className='z-0 absolute right-[220px] bottom-[-40px]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${570}/${'shiny'}.png`} alt="" />
-                <img className='z-0 absolute right-[-120px] bottom-[-80px] rotate-[-10deg]' width={480} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${376}/${'shiny'}.png`} alt="" />
-            </MainLayout>
-            <style>{`
+                    <Head title="Shiny Wars" />
+                    {globalValues.current.phaseId == -1 && (
+                        <>
+                            <GreenButton className={"button button_green outline-none"} onClick={() => { createGame() }}>
+                                Créer une Game
+                            </GreenButton>
+                        </>
+                    )}
+                    {globalValues.current.phaseId == 0 && <SettingsMenu globalValues={globalValues} socket={globalValues.current.socket} />}
+                    {globalValues.current.phaseId == 1 && <GamePhaseDrawMap globalValues={globalValues} socket={globalValues.current.socket} />}
+                    {globalValues.current.phaseId == 2 && <GamePhaseHunt globalValues={globalValues} socket={globalValues.current.socket} />}
+                    {globalValues.current.phaseId == 3 && <GamePhaseDrawPkmn globalValues={globalValues} socket={globalValues.current.socket} />}
+
+                    <img className='z-0 absolute scale-x-[-1] left-[-80px] bottom-[-40px] rotate-[10deg]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${361}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute scale-x-[-1] left-[160px] bottom-[-70px]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${184}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute right-[220px] bottom-[-40px]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${570}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute right-[-120px] bottom-[-80px] rotate-[-10deg]' width={480} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${376}/${'shiny'}.png`} alt="" />
+                </MainLayout>
+                <style>{`
                 :root {
                     --container_background: rgba(61.34, 105.63, 173.19, 0.20);
                     --content_background: #121A25;
@@ -241,7 +256,8 @@ export default function ShinyWars() {
                     --input_placeholder_color: #57779D;
                 }
             `}
-            </style>
+                </style>
+            </ShinyWarsProvider>
         </>
     );
 }

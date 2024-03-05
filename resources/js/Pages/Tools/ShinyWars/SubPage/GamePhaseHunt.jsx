@@ -27,12 +27,7 @@ export default function GamePhaseHunt({ socket, globalValues, ...otherProps }) {
                 if (player.id == props.auth?.twitch?.id) {
                     pkms.push(
                         <>
-                            {pkm ? (
-                                <div id={player.id + "_" + index} key={index} className='rounded-lg container_background p-4 h-[56px]'>
-                                    <span className='font-semibold'>PKM</span>
-                                </div>) :
-                                (<AddPokemonModal />)
-                            }
+                            <AddPokemonModal index={index} socket={socket} isCatch={pkm} />
                         </>
                     )
                 }

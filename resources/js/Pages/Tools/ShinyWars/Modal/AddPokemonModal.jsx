@@ -7,12 +7,15 @@ import pokemonList from '@assets/data/pokemons';
 
 import EggImg from '@assets/img/tools/shinywars/egg.png';
 
+import { useValues } from '../ShinyWarsContext';
+
 import '@css/modal.css';
 
 export default class AddPokemonModal extends BaseModal {
 
     constructor(props) {
         super(props);
+        console.log(props);
 
         this.state = {
             ...this.state,
@@ -26,24 +29,32 @@ export default class AddPokemonModal extends BaseModal {
     }
 
     getButton() {
-        return (<div className='rounded-lg container_background p-4 h-[56px] text-[#57779D] font-semibold cursor-pointer'>💭 Choisir un Shiny</div>);
+        return (
+            <div className='rounded-lg container_background p-4 h-[56px] text-[#57779D] font-semibold cursor-pointer'>
+                {!this.props.isCatch ? (
+                    <>💭 Choisir un Shiny</>
+                ) : (
+                    <>✅ Modifier le Shiny</>
+                )}
+            </div>
+        );
     }
 
     onPokemonChange(value) {
-        if(typeof value === 'string') {
+        if (typeof value === 'string') {
             let v = pokemonList.find(pokemon => pokemon.name.toLowerCase() === value.toLowerCase());
-            if(v != null)
+            if (v != null)
                 value = v;
         }
         this.setState({ pokemon: value });
-        if(typeof value === 'string') return;
+        if (typeof value === 'string') return;
         this.setState({ lastPokemon: value });
         axios.get(`https://tyradex.tech/api/v1/pokemon/${value.id}`)
             .then(response => {
-                let forms = [{ id: 'shiny', label: response.data.name.fr }];
+                let forms = [{ id: 'shiny', formRegion: 'regular', label: response.data.name.fr }];
                 if (response.data.formes && response.data.formes.length > 0) {
                     response.data.formes.forEach(form => {
-                        forms.push({ id: "shiny_" + form.region, label: form.name.fr });
+                        forms.push({ id: "shiny_" + form.region, formRegion: form.region, label: form.name.fr });
                     });
                 }
                 this.setState({ formData: forms });
@@ -81,9 +92,14 @@ export default class AddPokemonModal extends BaseModal {
                                 globalClassName='w-full z-40'
                                 autoComplete='off'
                             />
-                            <GreenButton 
+                            <GreenButton
                                 className='button_green outline-none w-fit'
                                 onClick={() => {
+                                    this.props.socket.emit('update_pokemon', {
+                                        index: this.props.index,
+                                        pokemonId: this.state.lastPokemon.id,
+                                        formRegion: this.state.pokemonForm.formRegion
+                                    })
                                     setTimeout(() => {
                                         this.closeModal();
                                     }, 300);
@@ -92,7 +108,7 @@ export default class AddPokemonModal extends BaseModal {
                                 Ajouter
                             </GreenButton>
                         </div>
-                        <img 
+                        <img
                             width={256}
                             src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${this.state.lastPokemon?.id}/${this.state.pokemonForm?.id}.png`}
                             alt=""
