@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import SlotJS from '../../../Game/slot';
 import { waitUntil } from "../../../Game/utils";
 
-import '../../../../css/components/slot/wheel_slot.css';
+import '@css/components/slot/wheel_slot.css';
 
 export default function Slot({ id, type, winner, spin, onClick, onSpinEnd, link, game_start, data, ...otherProps }) {
 

@@ -16,14 +16,14 @@ import { toast } from 'sonner'
 import { ShinyWarsProvider } from './ShinyWarsContext';
 
 let socket = null;
-const DEV = false;
+const DEV = true;
 
 export default function ShinyWars() {
 
     const [, forceUpdate] = useReducer((x) => x + 1, 0)
     const globalValues = useRef({
         socket: null,
-        phaseId: -1,
+        phaseId: 1,
         isLeader: true,
         areMapsChosen: false,
         playerWheelWinner: null,
