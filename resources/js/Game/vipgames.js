@@ -2,6 +2,7 @@ import BDWSocket from './socket';
 import Player from './player'
 
 import GameSound from './audio';
+import { waitUntil } from './utils';
 
 
 export default class VIPGames {
@@ -114,7 +115,10 @@ export default class VIPGames {
                 }
                 else if(data.action == 'dead') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_dead', 'animate__flip');
-                    this.deadSound.playSound(0.8);
+                    this.deadSound.playSound(0.5);
+                    setTimeout(() => {
+                        this.modifyValue('skull_update', 1);
+                    }, 1000);
                 }
                 else if (data.action == 'win') {
                     document.getElementById("ticket_" + data.ticket_id).classList.add('ticket_win', 'animate__flip');
