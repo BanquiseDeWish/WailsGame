@@ -69,7 +69,11 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
         </div>
         <style>{`
             :root {
-                --slot-item-background: var(--container_background)
+                --slot-item-background: #182847;
+            }
+
+            .wheel-slot .slot_item.number {
+                font-size: 24px;
             }
         `}</style>
         </>

@@ -16,14 +16,14 @@ import { toast } from 'sonner'
 import { ShinyWarsProvider } from './ShinyWarsContext';
 
 let socket = null;
-const DEV = true;
+const DEV = false;
 
 export default function ShinyWars() {
 
     const [, forceUpdate] = useReducer((x) => x + 1, 0)
     const globalValues = useRef({
         socket: null,
-        phaseId: 1,
+        phaseId: -1,
         isLeader: true,
         areMapsChosen: false,
         playerWheelWinner: null,
@@ -131,11 +131,13 @@ export default function ShinyWars() {
     }, [globalValues.current.phaseId]);
 
     useEffect(() => {
-        socket = new BDWSocket("shinywars", {}, { gameId: props.gameId, userId: props.auth?.twitch?.id, userName: props.auth?.twitch?.display_name })
+        socket = new BDWSocket("shinywars", {}, { userName: props.auth?.twitch?.display_name }, {gameId: props.gameId, userId: props.auth?.twitch?.id})
         modifyValues('socket', socket);
 
         if (socket !== null) {
-            function onConnect() { }
+            function onConnect() {
+                socket.emit('need_game_data');
+            }
 
             function onDisconnect() { }
 
