@@ -131,7 +131,7 @@ export default function ShinyWars() {
     }, [globalValues.current.phaseId]);
 
     useEffect(() => {
-        socket = new BDWSocket("shinywars", {}, { gameId: props.gameId, userId: props.auth?.twitch?.id, userName: props.auth?.twitch?.display_name })
+        socket = new BDWSocket("shinywars", {}, {userName: props.auth?.twitch?.display_name}, { gameId: props.gameId, userId: props.auth?.twitch?.id })
         modifyValues('socket', socket);
 
         if (socket !== null) {
@@ -143,23 +143,21 @@ export default function ShinyWars() {
             socket.on('disconnect', onDisconnect);
 
             socket.on('update_game_data', (data) => {
-                switch (data.type) {
-                    case 'players':
-                        modifyValues('players_list', data.players);
-                        break;
-                    case 'maps':
-                        let maps = [];
+                if(data.maps) {
+                    let maps = [];
                         data.maps.forEach((map) => {
                             map.subMaps.forEach((subMap) => {
                                 maps.push(subMap);
                             });
                         });
-                        modifyValues('map_list', maps);
-                        break;
-                    case 'end_map_choice':
-                        modifyValues('areMapsChosen', true);
-                        break;
+                    modifyValues('map_list', maps);
                 }
+                if(data.players)
+                    modifyValues('players_list', data.players);
+                if(data.phaseId)
+                    modifyValues('phaseId', data.phaseId);
+                if(data.end_map_choice)
+                    modifyValues('areMapsChosen', true);
             });
 
             socket.on('wheel_player_turn', (data) => {
