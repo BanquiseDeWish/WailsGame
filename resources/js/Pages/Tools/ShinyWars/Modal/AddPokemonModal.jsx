@@ -113,7 +113,7 @@ export default class AddPokemonModal extends BaseModal {
                                     }, 300);
                                 }}
                             >
-                                Ajouter
+                                {this.props.isCatch ? 'Modifier' : 'Ajouter'}
                             </GreenButton>
                         </div>
                         <img
