@@ -20,6 +20,7 @@ export default function Slot({ id, type, winner, spin, onClick, onSpinEnd, link,
     async function onNewData(data) {
         if(values.slot != undefined) {
             await waitUntil(() => !values.slot.isSpinning);
+            console.log("new data: ", data);
             values.slot.setData(data);
         }
     }
