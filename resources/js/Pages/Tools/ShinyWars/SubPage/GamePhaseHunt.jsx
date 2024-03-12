@@ -27,7 +27,7 @@ export default function GamePhaseHunt({ socket, globalValues, ...otherProps }) {
                 if (player.id == props.auth?.twitch?.id) {
                     pkms.push(
                         <>
-                            <AddPokemonModal index={index} socket={socket} isCatch={pkm} />
+                            <AddPokemonModal index={index} socket={socket} isCatch={pkm} pkm={globalValues.current?.pokemons[index]} />
                         </>
                     )
                 }

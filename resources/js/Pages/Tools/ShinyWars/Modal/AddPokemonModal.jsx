@@ -15,16 +15,21 @@ export default class AddPokemonModal extends BaseModal {
 
     constructor(props) {
         super(props);
-        console.log(props);
 
         this.state = {
             ...this.state,
             formData: [],
-            pokemon: undefined,
+            pokemon: props?.pkm,
             pokemonForm: undefined,
-            lastPokemon: pokemonList[1]
+            lastPokemon: props?.pkm
         };
         this.state.openModal = false;
+    }
+
+    componentDidMount() {
+        if(this.state.pokemon) {
+            this.onPokemonChange(this.state.pokemon, this.state.pokemon.formRegion);
+        }
     }
 
     getButton() {
@@ -48,7 +53,7 @@ export default class AddPokemonModal extends BaseModal {
         );
     }
 
-    onPokemonChange(value) {
+    onPokemonChange(value, mountForm = undefined) {
         if (typeof value === 'string') {
             let v = pokemonList.find(pokemon => pokemon.name.toLowerCase() === value.toLowerCase());
             if (v != null)
@@ -66,7 +71,10 @@ export default class AddPokemonModal extends BaseModal {
                     });
                 }
                 this.setState({ formData: forms });
-                this.setState({ pokemonForm: forms[0] });
+                if(mountForm !== undefined)
+                    this.setState({ pokemonForm: forms.find(form => form.formRegion == mountForm) });
+                else
+                    this.setState({ pokemonForm: forms[0] });
             })
     }
 

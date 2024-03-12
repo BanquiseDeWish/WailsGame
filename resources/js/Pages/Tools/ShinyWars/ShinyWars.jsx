@@ -102,6 +102,7 @@ export default function ShinyWars() {
                 "name": "Zone Côtière",
             }
         ] : [],
+        pokemons: [undefined, undefined, undefined, undefined, undefined, undefined],
     });
 
     const getPlayer = (id) => {
@@ -158,6 +159,8 @@ export default function ShinyWars() {
                     modifyValues('phaseId', data.phaseId);
                 if(data.end_map_choice)
                     modifyValues('areMapsChosen', true);
+                if(data.pokemons)
+                    modifyValues('pokemons', data.pokemons);
             });
 
             socket.on('wheel_player_turn', (data) => {
