@@ -24,7 +24,7 @@ export default function ShinyWars() {
     const globalValues = useRef({
         socket: null,
         phaseId: -1,
-        isLeader: true,
+        isLeader: false,
         areMapsChosen: false,
         playerWheelWinner: null,
         mapWheelWinner: null,
@@ -161,6 +161,8 @@ export default function ShinyWars() {
                     modifyValues('areMapsChosen', true);
                 if(data.pokemons)
                     modifyValues('pokemons', data.pokemons);
+                if(data.isLeader)
+                    modifyValues('isLeader', data.isLeader);
             });
 
             socket.on('wheel_player_turn', (data) => {
@@ -198,7 +200,6 @@ export default function ShinyWars() {
             });
 
             socket.on('change_phase', (data) => {
-                console.log('change_phase', data);
                 modifyValues('phaseId', data.phaseId);
             });
 
