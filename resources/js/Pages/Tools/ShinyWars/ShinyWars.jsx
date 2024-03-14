@@ -1,4 +1,4 @@
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, router } from '@inertiajs/react';
 import React, { useState, useEffect, useRef, useReducer } from 'react';
 import BDWSocket from '../../../Game/socket';
 
@@ -152,6 +152,12 @@ export default function ShinyWars() {
                             });
                         });
                     modifyValues('map_list', maps);
+                }
+                if(data.gameId) {
+                    if(globalValues.current.gameId != data.gameId) {
+                        router.replace(`/tools/shinywars/${data.gameId}`);
+                        modifyValues('gameId', data.gameId);
+                    }
                 }
                 if(data.players)
                     modifyValues('players_list', data.players);
