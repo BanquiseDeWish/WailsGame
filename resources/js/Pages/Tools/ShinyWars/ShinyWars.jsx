@@ -103,6 +103,7 @@ export default function ShinyWars() {
             }
         ] : [],
         pokemons: [undefined, undefined, undefined, undefined, undefined, undefined],
+        pokemon_types: [],
     });
 
     const getPlayer = (id) => {
@@ -169,6 +170,8 @@ export default function ShinyWars() {
                     modifyValues('pokemons', data.pokemons);
                 if(data.isLeader)
                     modifyValues('isLeader', data.isLeader);
+                if(data.pokemon_types)
+                    modifyValues('pokemon_types', data.pokemon_types);
             });
 
             socket.on('wheel_player_turn', (data) => {
@@ -193,15 +196,11 @@ export default function ShinyWars() {
                 modifyValues('players_list', players);
             });
 
-            socket.on('player_choose_turn', (data) => {
+            socket.on('drawpkm_player_turn', (data) => {
                 if (globalValues.current.phaseId != 3) return;
             });
 
-            socket.on('player_choose', (data) => {
-                if (globalValues.current.phaseId != 3) return;
-            });
-
-            socket.on('pokemon_types_list', (data) => {
+            socket.on('drawpkm_player_choose', (data) => {
                 if (globalValues.current.phaseId != 3) return;
             });
 

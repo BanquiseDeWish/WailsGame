@@ -65,7 +65,16 @@ export default function GamePhaseHunt({ socket, globalValues, ...otherProps }) {
             <div className="flex gap-12">
                 {huntValues.players}
             </div>
-            {globalValues.current?.isLeader && <GreenButton className="w-fit button_green outline-none z-0" >Il est temps, de choisir !</GreenButton>}
+            {globalValues.current?.isLeader &&
+                <GreenButton
+                    className="w-fit button_green outline-none z-0"
+                    onClick={() => {
+                        globalValues.current?.socket?.emit('next_phase', {});
+                    }}
+                >
+                    Il est temps, de choisir !
+                </GreenButton>
+            }
         </>
     )
 
