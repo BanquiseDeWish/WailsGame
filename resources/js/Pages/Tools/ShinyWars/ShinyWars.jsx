@@ -14,6 +14,7 @@ import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 import { toast } from 'sonner'
 
 import { ShinyWarsProvider } from './ShinyWarsContext';
+import { randomId } from '@/Game/random';
 
 let socket = null;
 const DEV = false;
@@ -24,7 +25,7 @@ export default function ShinyWars() {
     const globalValues = useRef({
         socket: null,
         phaseId: -1,
-        isLeader: false,
+        isLeader: DEV ? true : false,
         areMapsChosen: false,
         playerWheelWinner: null,
         mapWheelWinner: null,
@@ -103,7 +104,34 @@ export default function ShinyWars() {
             }
         ] : [],
         pokemons: [undefined, undefined, undefined, undefined, undefined, undefined],
-        pokemon_types: [],
+        pokemon_types: DEV ? [
+            { name: "Dragon", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/dragon.png", available: true},
+            { name: "Dragon", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/dragon.png", available: true},
+            { name: "Dragon", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/dragon.png", available: true},
+            { name: "Dragon", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/dragon.png", available: false},
+            { name: "Dragon", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/dragon.png", available: false},
+            { name: "Dragon", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/dragon.png", available: true},
+            { name: "Feu", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/feu.png", available: true},
+            { name: "Feu", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/feu.png", available: true},
+            { name: "Feu", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/feu.png", available: false},
+            { name: "Feu", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/feu.png", available: true},
+            { name: "Feu", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/feu.png", available: true},
+            { name: "Feu", image: "https://raw.githubusercontent.com/Yarkis01/TyraDex/images/types/feu.png", available: false},
+        ]: [],
+        drawpkm_player_turn: DEV ? {
+            "id": "79824508",
+            "name": "WeilsTTV",
+            "icon": "https://static-cdn.jtvnw.net/jtv_user_pictures/553f2f68-c103-4cbf-bcfc-1120b18b2e6e-profile_image-300x300.png",
+            "catchPokemons": [
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+            ]
+        } : null,
+        drawpkm_player_choose: null,
     });
 
     const getPlayer = (id) => {
@@ -198,10 +226,18 @@ export default function ShinyWars() {
 
             socket.on('drawpkm_player_turn', (data) => {
                 if (globalValues.current.phaseId != 3) return;
+                modifyValues('drawpkm_player_turn', globalValues.current.players_list.find(p => p.id == data.playerId));
             });
 
             socket.on('drawpkm_player_choose', (data) => {
                 if (globalValues.current.phaseId != 3) return;
+                modifyValues('drawpkm_player_choose', data);
+                let types = [...globalValues.current.pokemon_types];
+                types[data.index].available = false;
+                modifyValues('pokemon_types', types);
+                let players = [...globalValues.current.players_list];
+                players.find(p => p.id == data.playerId)?.pokemons.push(data.pokemon);
+                modifyValues('players_list', players);
             });
 
             socket.on('change_phase', (data) => {
@@ -226,7 +262,7 @@ export default function ShinyWars() {
                 modifyValues: modifyValues,
                 getPlayer: getPlayer,
             }}>
-                <MainLayout showOverflow={true} className={"flex flex-col justify-center items-center gap-6"}>
+                <MainLayout showOverflow={true} className={"flex flex-col justify-center items-center gap-16"}>
 
                     <Head title="Shiny Wars" />
                     {globalValues.current.phaseId == -1 && (

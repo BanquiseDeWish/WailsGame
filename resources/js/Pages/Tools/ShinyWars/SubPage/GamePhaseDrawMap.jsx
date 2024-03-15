@@ -4,7 +4,7 @@ import GreenButton from "@/Components/Navigation/Buttons/GreenButton"
 
 import Slot from '@/Components/Games/VIPGames/Slot';
 
-export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
+export default function GamePhaseDrawMap({socket, globalValues, ...otherProps}) {
 
     const [mapReceived, setMapReceived] = useState(false);
 
