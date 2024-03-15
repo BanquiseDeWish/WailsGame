@@ -1,9 +1,12 @@
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton"
 
+import PokemonDrawModal from "../Modal/PokemonDrawModal"
+
 export default function GamePhaseDrawPkmn({ socket, globalValues, ...otherProps }) {
 
     return (
         <>
+            <PokemonDrawModal pokemon={globalValues.current?.drawpkm_player_choose?.pokemon} openModal={globalValues.current?.drawpkm_player_choose?.pokemon != undefined} />
             <div className="flex flex-row gap-16">
                 <div className="flex flex-col">
                     <span className="text-xl font-semibold">Au tour de</span>
