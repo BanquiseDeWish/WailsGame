@@ -198,8 +198,13 @@ export default function ShinyWars() {
                     modifyValues('pokemons', data.pokemons);
                 if(data.isLeader)
                     modifyValues('isLeader', data.isLeader);
-                if(data.pokemon_types)
-                    modifyValues('pokemon_types', data.pokemon_types);
+                if(data.drawPkmPhase) {
+                    if(data.drawPkmPhase.pokemon_types)
+                        modifyValues('pokemon_types', data.drawPkmPhase.pokemon_types);
+                    if(data.drawPkmPhase.current_player) 
+                        modifyValues('drawpkm_player_turn', globalValues.current.players_list.find(p => p.id == data.drawPkmPhase.current_player));
+                }
+                    
             });
 
             socket.on('wheel_player_turn', (data) => {

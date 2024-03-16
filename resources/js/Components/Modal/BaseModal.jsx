@@ -32,11 +32,14 @@ export default class BaseModal extends React.Component {
     render(children) {
         return (
             <>
-                <div onClick={this.openModal}>
-                    {this.getButton()}
-                </div>
+                {this.getButton() && (
+                    <div onClick={this.openModal}>
+                        {this.getButton()}
+                    </div>
+                    )
+                }
 
-                <div 
+                <div
                     className={`modal_container ${!this.state.totallyClose ? 'active' : ''}`}
                     {...this.props}
                 >
