@@ -6,7 +6,7 @@ export default function GamePhaseDrawPkmn({ socket, globalValues, ...otherProps 
 
     return (
         <>
-            <PokemonDrawModal pokemon={globalValues.current?.drawpkm_player_choose?.pokemon} openModal={globalValues.current?.drawpkm_player_choose?.pokemon != undefined} />
+            <PokemonDrawModal pokemon={globalValues.current?.drawpkm_player_choose?.pokemon} openModal={true} />
             <div className="flex flex-row gap-16">
                 <div className="flex flex-col">
                     <span className="text-xl font-semibold">Au tour de</span>
