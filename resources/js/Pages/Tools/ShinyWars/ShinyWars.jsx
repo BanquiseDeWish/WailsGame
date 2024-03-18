@@ -244,6 +244,8 @@ export default function ShinyWars() {
                 types[data.index].available = false;
                 modifyValues('pokemon_types', types);
                 let players = [...globalValues.current.players_list];
+                let p = players.find(p => p.id == data.playerId);
+                if(p.pokemons === undefined) p.pokemons = [];
                 players.find(p => p.id == data.playerId)?.pokemons.push(data.pokemon);
                 modifyValues('players_list', players);
             });
