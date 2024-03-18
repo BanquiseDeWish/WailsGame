@@ -20,6 +20,7 @@ export default function GamePhaseDrawMap({socket, globalValues, ...otherProps}) 
     }, [globalValues.current.spin_nb_1, globalValues.current.spin_nb_2]);
 
     return (
+        <>
         <div className="flex flex-col gap-16 justify-center items-center">
             <div className="flex flex-row gap-8">
                 <Slot
@@ -66,6 +67,16 @@ export default function GamePhaseDrawMap({socket, globalValues, ...otherProps}) 
                 </GreenButton>
             }
         </div>
+        <style>{`
+            :root {
+                --slot-item-background: #182847;
+            }
+
+            .wheel-slot .slot_item.number {
+                font-size: 24px;
+            }
+        `}</style>
+        </>
     )
 
 }

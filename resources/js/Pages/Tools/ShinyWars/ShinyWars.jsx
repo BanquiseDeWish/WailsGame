@@ -161,11 +161,14 @@ export default function ShinyWars() {
     }, [globalValues.current.phaseId]);
 
     useEffect(() => {
-        socket = new BDWSocket("shinywars", {}, {userName: props.auth?.twitch?.display_name}, { gameId: props.gameId, userId: props.auth?.twitch?.id })
+
+        socket = new BDWSocket("shinywars", {}, { userName: props.auth?.twitch?.display_name }, { gameId: props.gameId, userId: props.auth?.twitch?.id })
         modifyValues('socket', socket);
 
         if (socket !== null) {
-            function onConnect() { }
+            function onConnect() {
+                socket.emit('need_game_data');
+            }
 
             function onDisconnect() { }
 

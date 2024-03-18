@@ -12,7 +12,7 @@ export default function VIP_LeftContent() {
                 <div className='le-tchat flex-col container h-[220px]'>
                     <span>LA CAM</span>
                 </div>
-                <div className='le-tchat container flex-grow items-start p-[16px] pt-[32px] snow_cap_chat'>
+                <div className='le-tchat container flex-grow items-start p-[16px] pt-[16px] snow_cap_chat'>
                     Le T'Chat
                 </div>
             </div>
