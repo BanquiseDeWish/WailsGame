@@ -14,11 +14,6 @@ export default function GamePhaseDrawMap({socket, globalValues, ...otherProps}) 
         }
     }, [globalValues.current.map_list]);
 
-    useEffect(() => {
-        console.log("SPIN 1 : " + globalValues.current.spin_nb_1);
-        console.log("SPIN 2 : " + globalValues.current.spin_nb_2);
-    }, [globalValues.current.spin_nb_1, globalValues.current.spin_nb_2]);
-
     return (
         <>
         <div className="flex flex-col gap-16 justify-center items-center">
