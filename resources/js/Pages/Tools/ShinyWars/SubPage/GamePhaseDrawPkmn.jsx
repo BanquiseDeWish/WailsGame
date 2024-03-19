@@ -62,7 +62,8 @@ export default function GamePhaseDrawPkmn({ socket, globalValues, ...otherProps 
                                         'cursor-not-allowed brightness-35 filter transition-none'
                                     }`}
                                 onClick={() => {
-                                    socket.emit('drawpkm_player_choose', { index: index })
+                                    if(type.available)
+                                        socket.emit('drawpkm_player_choose', { index: index })
                                 }}
                             />
                         )

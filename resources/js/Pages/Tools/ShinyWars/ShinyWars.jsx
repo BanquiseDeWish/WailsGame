@@ -8,13 +8,11 @@ import SettingsMenu from './SubPage/SettingsMenu';
 import GamePhaseHunt from './SubPage/GamePhaseHunt';
 import GamePhaseDrawPkmn from './SubPage/GamePhaseDrawPkmn';
 import GamePhaseDrawMap from './SubPage/GamePhaseDrawMap';
-
-import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
+import IndexMenu from './SubPage/IndexMenu';
 
 import { toast } from 'sonner'
 
 import { ShinyWarsProvider } from './ShinyWarsContext';
-import { randomId } from '@/Game/random';
 
 let socket = null;
 const DEV = false;
@@ -150,10 +148,6 @@ export default function ShinyWars() {
         forceUpdate();
     }
 
-    const createGame = () => {
-        socket.emit('create_party');
-    }
-
     const props = usePage().props;
 
     useEffect(() => {
@@ -275,13 +269,7 @@ export default function ShinyWars() {
                 <MainLayout showOverflow={true} className={"flex flex-col justify-center items-center gap-16"}>
 
                     <Head title="Shiny Wars" />
-                    {globalValues.current.phaseId == -1 && (
-                        <>
-                            <GreenButton className={"button button_green outline-none"} onClick={() => { createGame() }}>
-                                Créer une Game
-                            </GreenButton>
-                        </>
-                    )}
+                    {globalValues.current.phaseId == -1 && <IndexMenu globalValues={globalValues} socket={globalValues.current.socket} />}
                     {globalValues.current.phaseId == 0 && <SettingsMenu globalValues={globalValues} socket={globalValues.current.socket} />}
                     {globalValues.current.phaseId == 1 && <GamePhaseDrawMap globalValues={globalValues} socket={globalValues.current.socket} />}
                     {globalValues.current.phaseId == 2 && <GamePhaseHunt globalValues={globalValues} socket={globalValues.current.socket} />}
