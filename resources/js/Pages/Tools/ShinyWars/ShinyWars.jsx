@@ -276,10 +276,10 @@ export default function ShinyWars() {
                     {globalValues.current.phaseId == 2 && <GamePhaseHunt globalValues={globalValues} socket={globalValues.current.socket} />}
                     {globalValues.current.phaseId == 3 && <GamePhaseDrawPkmn globalValues={globalValues} socket={globalValues.current.socket} />}
 
-                    <img className='z-0 absolute scale-x-[-1] left-[-80px] bottom-[-40px] rotate-[10deg]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${361}/${'shiny'}.png`} alt="" />
-                    <img className='z-0 absolute scale-x-[-1] left-[160px] bottom-[-70px]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${184}/${'shiny'}.png`} alt="" />
-                    <img className='z-0 absolute right-[220px] bottom-[-40px]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${570}/${'shiny'}.png`} alt="" />
-                    <img className='z-0 absolute right-[-120px] bottom-[-80px] rotate-[-10deg]' width={480} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${376}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute scale-x-[-1] left-[-80px] bottom-[-50px] rotate-[10deg]' width={256} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${361}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute scale-x-[-1] left-[120px] bottom-[-60px]' width={256} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${184}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute right-[180px] bottom-[-40px]' width={256} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${570}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute right-[-90px] bottom-[-60px] rotate-[-10deg]' width={360} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${376}/${'shiny'}.png`} alt="" />
                 </MainLayout>
                 <style>{`
                 :root {
