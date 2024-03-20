@@ -60,11 +60,12 @@
     line-height: normal;
 }
 
-.wheel-slot .slot_item.player img {
+.wheel-slot .slot_item.player .item_content img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
 }
+
 
 .wheel-slot .slot_item.player .item_content {
     display: flex;

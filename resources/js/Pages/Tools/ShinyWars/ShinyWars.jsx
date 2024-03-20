@@ -10,6 +10,11 @@ import GamePhaseDrawPkmn from './SubPage/GamePhaseDrawPkmn';
 import GamePhaseDrawMap from './SubPage/GamePhaseDrawMap';
 import IndexMenu from './SubPage/IndexMenu';
 
+import SavannahIcon from '@assets/icons/shinywars/savannah-svgrepo-com.svg';
+import PolarIcon from '@assets/icons/shinywars/iceberg-svgrepo-com.svg';
+import CanyonIcon from '@assets/icons/shinywars/desert-svgrepo-com.svg';
+import CoastalIcon from '@assets/icons/shinywars/beach-svgrepo-com.svg';
+
 import { toast } from 'sonner'
 
 import { ShinyWarsProvider } from './ShinyWarsContext';
@@ -172,11 +177,25 @@ export default function ShinyWars() {
             socket.on('update_game_data', (data) => {
                 if(data.maps) {
                     let maps = [];
-                        data.maps.forEach((map) => {
-                            map.subMaps.forEach((subMap) => {
-                                maps.push(subMap);
-                            });
+                    data.maps.forEach((map) => {
+                        map.subMaps.forEach((subMap) => {
+                            switch (subMap.id) {
+                                case 'polar_zone':
+                                    subMap.icon = PolarIcon;
+                                    break;
+                                case 'savanna_zone':
+                                    subMap.icon = SavannahIcon;
+                                    break;
+                                case 'canyon_zone':
+                                    subMap.icon = CanyonIcon;
+                                    break;
+                                case 'coastal_zone':
+                                    subMap.icon = CoastalIcon;
+                                    break;
+                            }
+                            maps.push(subMap);
                         });
+                    });
                     modifyValues('map_list', maps);
                 }
                 if(data.gameId) {
@@ -196,7 +215,6 @@ export default function ShinyWars() {
                 if(data.isLeader)
                     modifyValues('isLeader', data.isLeader);
                 if(data.drawPkmPhase) {
-                    console.log("DATA: ", data.drawPkmPhase)
                     if(data.drawPkmPhase.pokemon_types)
                         modifyValues('pokemon_types', data.drawPkmPhase.pokemon_types);
                     if(data.drawPkmPhase.current_player)

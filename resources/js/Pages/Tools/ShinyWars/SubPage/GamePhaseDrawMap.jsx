@@ -32,7 +32,7 @@ export default function GamePhaseDrawMap({socket, globalValues, ...otherProps}) 
                 />
                 <Slot
                     id={"map_wheel"}
-                    type={"text"}
+                    type={"with_icon"}
                     winner={globalValues.current.mapWheelWinner?.id}
                     onSpinEnd={() => {
                         console.log('spin map end');
@@ -64,7 +64,7 @@ export default function GamePhaseDrawMap({socket, globalValues, ...otherProps}) 
         </div>
         <style>{`
             :root {
-                --slot-item-background: #182847;
+                --slot-item-background: var(--container_background);
             }
 
             .wheel-slot .slot_item.number {
