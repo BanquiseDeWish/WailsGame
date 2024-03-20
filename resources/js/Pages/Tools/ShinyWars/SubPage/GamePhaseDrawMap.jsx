@@ -8,10 +8,13 @@ import CanyonIcon from '@assets/icons/shinywars/desert-svgrepo-com.svg';
 import CoastalIcon from '@assets/icons/shinywars/beach-svgrepo-com.svg';
 import Slot from '@/Components/Games/VIPGames/Slot';
 
+import { useValues } from '../ShinyWarsContext';
+
 export default function GamePhaseDrawMap({ socket, globalValues, ...otherProps }) {
 
+    const modifyValues = useValues().modifyValues;
+
     const [mapReceived, setMapReceived] = useState(false);
-    const [players_map, setPlayersMap] = useState({});
 
     useEffect(() => {
         if (globalValues.current.map_list.length > 0) {
@@ -31,10 +34,10 @@ export default function GamePhaseDrawMap({ socket, globalValues, ...otherProps }
                                         <img width={56} src={player?.icon} alt="" className="rounded-full" />
                                         <div className='flex flex-col justify-between h-full'>
                                             <span className='text-lg font-medium'>{player?.name}</span>
-                                            {players_map[player.id] ? (
+                                            {globalValues.current.players_map[player.id] ? (
                                                 <div className='flex flex-row gap-2'>
-                                                    <img width={16} src={players_map[player.id]?.icon} alt="" />
-                                                    <span>{players_map[player.id]?.name}</span>
+                                                    <img width={16} src={globalValues.current.players_map[player.id]?.icon} alt="" />
+                                                    <span>{globalValues.current.players_map[player.id]?.name}</span>
                                                 </div>
                                             ) : (
                                                 <span className='italic'>En attente...</span>
@@ -61,7 +64,7 @@ export default function GamePhaseDrawMap({ socket, globalValues, ...otherProps }
                             type={"with_icon"}
                             winner={globalValues.current.mapWheelWinner?.id}
                             onSpinEnd={() => {
-                                let p_maps = { ...players_map };
+                                let p_maps = { ...globalValues.current.players_map };
                                 let map = globalValues.current?.map_list.find(m => m.id == globalValues.current?.mapWheelWinner?.id);
                                 switch (map.id) {
                                     case 'polar_zone':
@@ -78,7 +81,7 @@ export default function GamePhaseDrawMap({ socket, globalValues, ...otherProps }
                                         break;
                                 }
                                 p_maps[globalValues.current?.playerWheelWinner] = map;
-                                setPlayersMap(p_maps);
+                                modifyValues('players_map', p_maps);
                             }}
                             data={globalValues.current.map_list}
                             game_start={mapReceived}

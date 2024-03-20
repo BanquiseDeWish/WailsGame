@@ -135,7 +135,7 @@ export default function ShinyWars() {
             ]
         } : null,
         drawpkm_player_choose: null,
-        players_map: {},
+        players_map: {}
     });
 
     const getPlayer = (id) => {
@@ -202,8 +202,31 @@ export default function ShinyWars() {
                         modifyValues('gameId', data.gameId);
                     }
                 }
-                if(data.players)
+                if(data.players) {
                     modifyValues('players_list', data.players);
+                    let p_maps = { };
+                    data.players.forEach((player) => {
+                        if(player.map != undefined && player.map != null) {
+                            let map = globalValues.current?.map_list.find(m => m.id == player.map.id);
+                            switch (map.id) {
+                                case 'polar_zone':
+                                    map.icon = PolarIcon;
+                                    break;
+                                case 'savanna_zone':
+                                    map.icon = SavannahIcon;
+                                    break;
+                                case 'canyon_zone':
+                                    map.icon = CanyonIcon;
+                                    break;
+                                case 'coastal_zone':
+                                    map.icon = CoastalIcon;
+                                    break;
+                            }
+                            p_maps[player.id] = map;
+                        }
+                    });
+                    modifyValues('players_map', p_maps);
+                }
                 if(data.phaseId)
                     modifyValues('phaseId', data.phaseId);
                 if(data.end_map_choice)
@@ -231,23 +254,6 @@ export default function ShinyWars() {
                 if (globalValues.current.phaseId != 1) return;
                 modifyValues('mapWheelWinner', data.map);
                 modifyValues('spin_nb_2', 0);
-                let players_map = { ...globalValues.current.players_map };
-                switch (data.map.id) {
-                    case 'polar_zone':
-                        data.map.icon = PolarIcon;
-                        break;
-                    case 'savanna_zone':
-                        data.map.icon = SavannahIcon;
-                        break;
-                    case 'canyon_zone':
-                        data.map.icon = CanyonIcon;
-                        break;
-                    case 'coastal_zone':
-                        data.map.icon = CoastalIcon;
-                        break;
-                }
-                players_map[data.playerId] = data.map;
-                modifyValues('players_map', players_map);
             });
 
             socket.on('player_update_pokemon', (data) => {
