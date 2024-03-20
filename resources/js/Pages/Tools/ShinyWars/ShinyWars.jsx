@@ -135,6 +135,7 @@ export default function ShinyWars() {
             ]
         } : null,
         drawpkm_player_choose: null,
+        players_map: {},
     });
 
     const getPlayer = (id) => {
@@ -142,9 +143,6 @@ export default function ShinyWars() {
     }
 
     const modifyValues = (key, value) => {
-        if (key === 'player_list') {
-            console.log('player_list', value);
-        }
         if (key === 'spin_nb_1' || key === 'spin_nb_2') {
             globalValues.current[key] = globalValues.current[key] + 1;
         } else {
@@ -233,6 +231,23 @@ export default function ShinyWars() {
                 if (globalValues.current.phaseId != 1) return;
                 modifyValues('mapWheelWinner', data.map);
                 modifyValues('spin_nb_2', 0);
+                let players_map = { ...globalValues.current.players_map };
+                switch (data.map.id) {
+                    case 'polar_zone':
+                        data.map.icon = PolarIcon;
+                        break;
+                    case 'savanna_zone':
+                        data.map.icon = SavannahIcon;
+                        break;
+                    case 'canyon_zone':
+                        data.map.icon = CanyonIcon;
+                        break;
+                    case 'coastal_zone':
+                        data.map.icon = CoastalIcon;
+                        break;
+                }
+                players_map[data.playerId] = data.map;
+                modifyValues('players_map', players_map);
             });
 
             socket.on('player_update_pokemon', (data) => {
