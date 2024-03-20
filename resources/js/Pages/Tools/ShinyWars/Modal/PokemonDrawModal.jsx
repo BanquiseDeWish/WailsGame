@@ -29,7 +29,6 @@ export default class PokemonDrawModal extends BaseModal {
                 this.closeModal();
                 GameSound.playSound(wooshOut, 0.05);
             }, 5000);
-            console.log('PokemonDrawModal', this.props.data?.pokemon);
         }
     }
 

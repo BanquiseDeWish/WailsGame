@@ -196,9 +196,10 @@ export default function ShinyWars() {
                 if(data.isLeader)
                     modifyValues('isLeader', data.isLeader);
                 if(data.drawPkmPhase) {
+                    console.log("DATA: ", data.drawPkmPhase)
                     if(data.drawPkmPhase.pokemon_types)
                         modifyValues('pokemon_types', data.drawPkmPhase.pokemon_types);
-                    if(data.drawPkmPhase.current_player) 
+                    if(data.drawPkmPhase.current_player)
                         modifyValues('drawpkm_player_turn', globalValues.current.players_list.find(p => p.id == data.drawPkmPhase.current_player));
                 }
                     
