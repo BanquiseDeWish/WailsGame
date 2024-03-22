@@ -13,7 +13,7 @@ export default function GamePhaseDrawPkmn({ socket, globalValues, ...otherProps 
     const [player, setPlayer] = useState(undefined);
 
     useEffect(() => {
-        if(!globalValues.current?.drawpkm_player_turn)
+        if(!player)
             setPlayer(globalValues.current?.drawpkm_player_turn);
         else
             setTimeout(() => {
