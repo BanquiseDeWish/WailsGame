@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppareanceController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\KartChanceController;
 use App\Http\Controllers\PrediGivreesController;
@@ -57,7 +58,7 @@ Route::get('/vip_games', function () {
 
 Route::prefix('profile')->name('profile.')->group(function() {
     Route::get('/', [ProfileController::class, 'index'])->name('index');
-    Route::get('/appearance', [ProfileController::class, 'appearance'])->name('appearance');
+    Route::get('/appearance', [AppareanceController::class, 'index'])->name('appearance');
 });
 
 

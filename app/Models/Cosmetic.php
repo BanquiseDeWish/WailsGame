@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Cosmetic extends Model
 {
@@ -28,5 +29,20 @@ class Cosmetic extends Model
 
     public static function getCosmeticsForTypeAndSubType($type, $subType) {
         return Cosmetic::where('type', $type)->where('sub_type', $subType)->get();
+    }
+
+    public static function getCosmeticsActiveUser($twitch_id) {
+        $activePenguin = User::getActivePenguin($twitch_id);
+        if($activePenguin == null)
+            return response()->json([]);
+
+        $cosmeticsId = DB::table('users__penguin')->where('id', $activePenguin)->first();
+        if($cosmeticsId == null)
+            return response()->json([]);
+
+        $cosmeticsId = explode(',', $cosmeticsId->active_cosmetics);
+        $cosmetics = DB::table('cosmetic')->whereIn('id', $cosmeticsId)->get();
+
+        return $cosmetics;
     }
 }

@@ -124,7 +124,10 @@ class PrediGivreesController extends Controller
             $user = User::where('twitch_id', '=', $pgd->user_id)->first();
             $pcUser = PenguinCard::getCardFromTWID($pgd->user_id);
             if ($user == null) $pgd->userName = "N/A";
-            else $pgd->userName = $user->twitch_username;
+            else {
+                $pgd->user_id = $user->twitch_id;
+                $pgd->userName = $user->twitch_username;
+            }
 
             if ($pcUser !== null) $pgd->pcUser = $pcUser;
             else $pgd->pcUser = null;

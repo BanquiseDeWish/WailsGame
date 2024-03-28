@@ -4,6 +4,8 @@ import '../../../css/vipgames.css';
 
 export default function UserCard({userId=0, userName="Unkown Username", ...otherProps}) {
 
+
+    console.log(userId)
     const props = usePage().props;
     const avatar = props.ziggy.url + '/api/user/' + userId + '/icon';
 

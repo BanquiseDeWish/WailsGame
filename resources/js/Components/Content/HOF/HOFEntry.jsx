@@ -8,6 +8,7 @@ export default function HoFEntry({ position, data, labelPoints }) {
             <PenguinCard
                 data={{
                     iconSize: 32,
+                    userID: data?.user_id,
                     username: data?.userName,
                     points: data?.points,
                     labelPoints: labelPoints,

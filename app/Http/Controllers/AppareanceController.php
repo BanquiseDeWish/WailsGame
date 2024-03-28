@@ -11,12 +11,13 @@ use Inertia\Inertia;
 class AppareanceController extends Controller
 {
 
-
-
     public function index(Request $request) {
-        $penguinCard = PenguinCard::getCardFromTWID($request->session()->get('twitch')->id);
+        $twitch_id = $request->session()->get('twitch')->id;
+        $penguinCard = PenguinCard::getCardFromTWID($twitch_id);
+        $activeCosmetics = Cosmetic::getCosmeticsActiveUser($twitch_id);
         return Inertia::render('Profile/Appearance', [
-            'penguinCard' => $penguinCard
+            'penguinCard' => $penguinCard,
+            'activeCosmetics' => $activeCosmetics
         ]);
     }
 

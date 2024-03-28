@@ -2,27 +2,46 @@ import { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import axios from 'axios';
 
-export default function Penguin({ size, user_id }) {
+export default function Penguin({ className, size, noRequest, data, user_id }) {
 
-    const [cosmetics, setCosmetics] = useState({})
+    const [cosmetics, setCosmetics] = useState(data == undefined ? {} : data)
 
     useEffect(() => {
-        axios.get(route('user.penguin_data', { twitch_id: user_id }))
-            .then((resp) => {
-                let cosmeticsData = {};
-                resp.data.forEach((cosmetic) => {
-                    cosmeticsData[cosmetic.sub_type] = parse(cosmetic.style.replace(/\n/g,"").trim());
-                    console.log(cosmeticsData[cosmetic.sub_type]);
-                    let w = cosmeticsData[cosmetic.sub_type].props.width;
-                    let h = cosmeticsData[cosmetic.sub_type].props.height;
-                    console.log(w, h);
+        if (noRequest == undefined || !noRequest) {
+            axios.get(route('user.penguin_data', { twitch_id: user_id }))
+                .then((resp) => {
+                    let cosmeticsData = {};
+                    let cosmeticsPreData = resp.data.filter((cosm) => cosm.type !== "card")
+                    cosmeticsPreData.forEach((cosmetic) => {
+                        cosmeticsData[cosmetic.sub_type] = parse(cosmetic.style.replace(/\n/g, "").trim());
+                        let w = cosmeticsData[cosmetic.sub_type].props.width;
+                        let h = cosmeticsData[cosmetic.sub_type].props.height;
+                        console.log(w, h);
+                    });
+                    setCosmetics(cosmeticsData);
+                })
+                .catch((err) => {
+                    console.log(err)
                 });
-                setCosmetics(cosmeticsData);
-            });
+        }
     }, []);
+
+    useEffect(() => {
+        let cosmeticsData = {};
+        if(cosmetics?.length == undefined) return;
+        let cosmeticsPreData = cosmetics.filter((cosm) => cosm.type !== "card")
+        cosmeticsPreData.forEach((cosmetic) => {
+            cosmeticsData[cosmetic.sub_type] = parse(cosmetic.style.replace(/\n/g, "").trim());
+            let w = cosmeticsData[cosmetic.sub_type].props.width;
+            let h = cosmeticsData[cosmetic.sub_type].props.height;
+            console.log(w, h);
+        });
+        setCosmetics(cosmeticsData);
+    }, [cosmetics])
 
     return (
         <svg
+            className={className}
             width={size?.width !== undefined ? size.width : "64"}
             height={size?.width !== undefined ? size.width * (4 / 3) : "112"}
             viewBox="0 0 518 688" fill="none" xmlns="http://www.w3.org/2000/svg"

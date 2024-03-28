@@ -2,6 +2,7 @@
     padding: 32px;
     width: 100%;
     height: 100%;
+    gap: 6rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -23,35 +24,47 @@
     gap: 8px;
 }
 .appareance .tabs .tab_link {
-    display: block;
+    display: flex;
+    align-items: center;
     width: 100%;
-    background-color: #020C11;
+    margin: 0;
+    background-color: var(--container_background);
     padding: 16px;
     border-radius: 8px;
-
+    height: 80px;
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-
+    outline: none;
+    border: none;
+    -moz-user-select: none;
     user-select: none;
     -webkit-user-select: none;
-
     border-bottom: 5px solid transparent;
     transition: 0.2s all ease-in-out;
+    border-width: 0;
+    border-bottom: 0;
 }
 .appareance .tabs .tab_link.active {
-    border-bottom-color: #2C6DEC;
+    background: linear-gradient(99deg, #5A98BB 0%, #354368 100%);
 }
 .appareance .cosmetics {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 24px;
     overflow-y: auto;
-    height: 600px;
-    padding: 16px;
+    flex: 1 1 0%;
 }
-.appareance .cosmetic.item {
+.appareance .cosmetics .items {
+    display: grid;
+    grid-template-columns: repeat(5, 0fr);
+    grid-template-rows: 0fr;
+    grid-column-gap: 24px;
+    grid-row-gap: 24px;
+    flex: 1 1 0;
+}
+.appareance .cosmetics .item {
     width: 220px;
     height: 220px;
     display: flex;
@@ -60,20 +73,29 @@
     justify-content: center;
     align-items: center;
     border-radius: 8px;
-    background: linear-gradient(180deg, #020C11 0%, #020C11 83.85%);
+    background: var(--container_background);
 
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
 }
-.appareance .cosmetic.item.active {
-    background: linear-gradient(180deg, #113243 0%, #020C11 100%);
-    outline: 5px solid rgba(50, 115, 149, 0.20);
+.appareance .cosmetics .item.active {
+    background: linear-gradient(99deg, #5A98BB 0%, #354368 100%);
 }
 /* Sub_Type Cosmetic */
-.appareance .cosmetic.item .colorIcon {
+.appareance .cosmetics .item .colorIcon {
     width: 122px;
     height: 122px;
     border-radius: 250px;
+}
+.appareance .current_appareance {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.appareance .item .circleColor {
+    width: 122px;
+    height: 122px;
+    border-radius: 100%;
 }

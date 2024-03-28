@@ -27,14 +27,15 @@ export default function HoFPodium({ data, style }) {
                         <img src={data?.topIcon} alt="Position Icon" />
                     </div>)
                 }
-                <Penguin 
+                <Penguin
                     size={{  width: data?.penguinWidth ? data?.penguinWidth : 84 }}
                     user_id={data?.userInfo?.user_id}
                 />
-                
+
                 <div className="flex w-full flex-col items-center">
                     <PenguinCard
                         data={{
+                            userID: data?.userInfo?.user_id,
                             username: data?.userInfo?.userName,
                             background_type: "color",
                             background_data: {

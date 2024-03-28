@@ -85,6 +85,8 @@ export default function HoFTable({ load, logoPos, filter, logo, data, labelPoint
 
                             const position = (index + 1);
 
+                            console.log(val)
+
                             if (position > 3) {
                                 return (
                                     <HOFEntry key={index} position={position} data={val} labelPoints={labelPoints} />

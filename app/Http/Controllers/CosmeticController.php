@@ -12,7 +12,7 @@ class CosmeticController extends Controller
     public function getCosmetics(Request $request) {
         $inputs = $request->all();
         if(!isset($inputs['type']))
-            return response()->json(["error" => "No type provided"]);
+            return response()->json(["error" => "No type provided", "inputs" => $inputs]);
         $typeCosmetic = $inputs['type'];
 
         if(!isset($inputs['sub_type']))
@@ -34,7 +34,7 @@ class CosmeticController extends Controller
         return response()->json($cosmetics);
     }
 
-    public function getUserActiveCosmetics(Request $request, $twitch_id) {
+    public static function getUserActiveCosmetics(Request $request, $twitch_id) {
         $activePenguin = User::getActivePenguin($twitch_id);
         if($activePenguin == null)
             return response()->json([]);
