@@ -24,6 +24,10 @@ export default function Welcome(props) {
     const [counter, setCounter] = useState(0);
     const [discordData, setDiscordData] = useState(undefined)
 
+    const dateCurrent = new Date(Date.now()).getDate();
+    const monthCurrent = new Date(Date.now()).getMonth();
+    const isFirstApril = dateCurrent == 1 && monthCurrent == 12
+
     let urlDiscordWidget = "https://discord.com/api/guilds/722862220458983495/widget.json"
 
     useEffect(() => {
@@ -54,10 +58,10 @@ export default function Welcome(props) {
                         <img src={WeilsLogoSVG} className='px-[32px] w-[80%]' />
                     </div>
                     <div className="hidden lg:flex flex-col items-center">
-                        <WeilsText className="w-[940px] h-[132px]" />
+                        <WeilsText isFirstApril={isFirstApril} className="w-[940px] h-[132px]" />
                         <WeilsLogo p1="gold_0" p2="gold_1" className="mt-[-45px] w-[352px] h-[380px]" />
                     </div>
-                    <BadgeStream onLive={onLive} counter={counter} />
+                    <BadgeStream event={{ isFirstApril: isFirstApril }} onLive={onLive} counter={17} />
                     <WidgetDiscord discordData={discordData} />
                 </div>
                 <SectionHome
