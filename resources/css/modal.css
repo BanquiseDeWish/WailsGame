@@ -1,5 +1,7 @@
 :root {
     --modal_transition: 0.4s;
+    --modal_background_transition: 0.2s;
+    --modal_background: var(--container_background);
 }
 
 .modal_container {
@@ -30,21 +32,18 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(1, 8, 12, 0.7);
-    opacity: 0;
     top: 0;
     left: 0;
-    transition-property: opacity, backdrop-filter;
-    transition-duration: 0.4s;
-    transition-timing-function: ease-in-out;
-    backdrop-filter: blur(0px);
 }
 
 #modal_background.active {
-    opacity: 1;
     backdrop-filter: blur(3px);
-    transition-property: opacity, backdrop-filter;
-    transition-duration: 0.4s;
-    transition-timing-function: ease-in-out;
+    animation: fade-in var(--modal_background_transition) linear forwards;
+}
+
+#modal_background.inactive {
+    backdrop-filter: blur(0px);
+    animation: fade-out var(--modal_background_transition) linear forwards;
 }
 
 .modal {
@@ -62,7 +61,7 @@
     transform: scale(0);
     justify-content: center;
     align-items: center;
-    background-color: var(--container_background);
+    background: var(--modal_background);
     transform-style: preserve-3d;
 }
 
@@ -73,6 +72,16 @@
 .modal.inactive {
     animation: modal_shrink 0.2s linear forwards;
 
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
 
 @-webkit-keyframes modal_grow {

@@ -1,23 +1,28 @@
 import React, { memo } from 'react';
 
 
-import '../../../css/modal.css';
+import '@css/modal.css';
 
 export default class BaseModal extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            openModal: false
+            openModal: false,
+            totallyClose: true
         };
     }
 
     openModal = () => {
+        this.setState((prevState) => ({ ...prevState, totallyClose: false }));
         this.setState((prevState) => ({ ...prevState, openModal: true }));
     }
 
     closeModal = () => {
         this.setState((prevState) => ({ ...prevState, openModal: false }));
+        setTimeout(() => {
+            this.setState((prevState) => ({ ...prevState, totallyClose: true }));
+        }, 300);
     }
 
     getButton() {
@@ -27,18 +32,21 @@ export default class BaseModal extends React.Component {
     render(children) {
         return (
             <>
-                <div onClick={this.openModal}>
-                    {this.getButton()}
-                </div>
+                {this.getButton() && (
+                    <div onClick={this.openModal}>
+                        {this.getButton()}
+                    </div>
+                    )
+                }
 
-                <div 
-                    className={`modal_container ${this.state.openModal ? 'active' : ''}`}
+                <div
+                    className={`modal_container ${!this.state.totallyClose ? 'active' : ''}`}
                     {...this.props}
                 >
                     <div
                         id='modal_background'
                         onClick={this.closeModal}
-                        className={`${this.state.openModal ? 'active' : ''}`}
+                        className={`${this.state.openModal ? 'active' : 'inactive'}`}
                     >
                     </div>
 

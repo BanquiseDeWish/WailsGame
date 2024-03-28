@@ -59,6 +59,13 @@ export default class GameSound {
         }
     }
 
+    static playSound(url, volume = 0.5, loop = false) {
+        let audio = new Audio(url);
+        audio.volume = volume;
+        audio.loop = loop;
+        audio.play();
+    }
+
     playSound(volume = 0.5, loop = false) {
         let audio = this.audios[Math.floor(Math.random() * this.audios.length)];
         audio.volume = volume;

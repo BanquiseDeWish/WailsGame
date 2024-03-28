@@ -4,7 +4,7 @@ import GreenButton from "@/Components/Navigation/Buttons/GreenButton"
 
 import Slot from '@/Components/Games/VIPGames/Slot';
 
-export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
+export default function GamePhaseDrawMap({socket, globalValues, ...otherProps}) {
 
     const [mapReceived, setMapReceived] = useState(false);
 
@@ -20,6 +20,7 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
     }, [globalValues.current.spin_nb_1, globalValues.current.spin_nb_2]);
 
     return (
+        <>
         <div className="flex flex-col gap-16 justify-center items-center">
             <div className="flex flex-row gap-8">
                 <Slot
@@ -66,6 +67,16 @@ export default function GamePhaseHunt({socket, globalValues, ...otherProps}) {
                 </GreenButton>
             }
         </div>
+        <style>{`
+            :root {
+                --slot-item-background: #182847;
+            }
+
+            .wheel-slot .slot_item.number {
+                font-size: 24px;
+            }
+        `}</style>
+        </>
     )
 
 }

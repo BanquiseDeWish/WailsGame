@@ -1,7 +1,7 @@
 import { Head, usePage } from '@inertiajs/react';
 import React, { useState, useEffect } from 'react';
 import VIPGames from '../../../Game/vipgames';
-import '../../../../css/vipgames.css';
+import '@css/vipgames.css';
 import GlobalLayout from '@/Layouts/GlobalLayout';
 import Ticket from '../../../Components/Games/VIPGames/Ticket';
 
@@ -25,6 +25,7 @@ import { VIPGamesProvider } from './VIPGamesContext';
 import LeftContent from './VIP_LeftContent';
 import MiddleContent from './VIP_MiddleContent';
 import RightContent from './VIP_RightContent';
+import PopupContent from './VIP_PopupContent';
 
 export default function VipGame() {
     const props = usePage().props;
@@ -52,6 +53,8 @@ export default function VipGame() {
 
         round: 0,
         available_tickets: 100,
+
+        skull_update: 0,
     });
 
     async function modifyValue(key, value) {
@@ -64,7 +67,7 @@ export default function VipGame() {
         else if (key == 'news_list') {
             setValues(values => ({ ...values, [key]: [...values.news_list, value] }));
         }
-        else if (key == 'spin_1' || key == 'spin_2') {
+        else if (key == 'spin_1' || key == 'spin_2' || key == 'skull_update') {
             setValues(values => ({ ...values, [key]: values[key] + 1 }));
         }
         else if (key == 'current_player') {
@@ -193,7 +196,8 @@ export default function VipGame() {
                 <img src={VipGamesLogo} width={540} alt="Logo VipGames" style={{filter: 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.99))'}}/>
 
                 <div className='flex flex-col gap-[8px]'>
-                    <div className='flex w-full justify-center items-center h-[680px] gap-[24px] flex-shrink-0 relative'>
+                    <div className='flex w-full justify-center items-center h-[680px] gap-[24px] flex-shrink-0'>
+
                         {/* Left Menu ( For Weils Cam and Chat) */}
                         <LeftContent />
 
@@ -202,6 +206,10 @@ export default function VipGame() {
 
                         {/* Right Div - Penguin of the user */}
                         <RightContent />
+
+                        <PopupContent
+                            resetAn={values.skull_update}
+                        />
 
                     </div>
 

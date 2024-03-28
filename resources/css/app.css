@@ -4,6 +4,13 @@
     --container_background: #18212E;
     --content_background: #121A25;
     --light_background: #2C3344;
+    --web_background: linear-gradient(254deg, #09101A 0%, #050A11 100%);
+    --input_text_color: #fff;
+    --input_placeholder_color: #8C8C8C;
+}
+
+body {
+    background: var(--web_background);
 }
 
 .light_bg {

@@ -94,7 +94,7 @@ export default class Slot {
     }
 
     findValueIndexFromCurrentIndex(value) {
-        let i = this.current_index;
+        let i = this.current_index >= this.data.length ? 0 : this.current_index;
         let y = 0;
         while (this.data[i].id != value && y < 20) {
             i = (i + 1)%this.data.length;

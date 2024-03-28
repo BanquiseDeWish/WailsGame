@@ -26,7 +26,7 @@ export default class PrediGivrees extends React.Component {
         this.socket.on('connect', this.onConnect);
         this.socket.on('disconnect', this.onDisconnect);
 
-        this.socket.on('error', function(err) {
+        this.socket.on('error', function (err) {
             throw new Error(err);
         });
 
@@ -36,7 +36,7 @@ export default class PrediGivrees extends React.Component {
             this.setState((prevState) => ({ ...prevState, result: args.showResultAr }));
             this.setState((prevState) => ({ ...prevState, winPosition: 0 }));
             this.setState((prevState) => ({ ...prevState, pingOmni: 0 }));
-            if(!enabled) {
+            if (!enabled) {
                 document.querySelector('.pronoKart').style.opacity = 0;
                 document.querySelector('.pronoKart .list').childNodes.forEach((node) => {
                     node.querySelector('.pronoItem .state').innerText = "(0)";
@@ -60,7 +60,7 @@ export default class PrediGivrees extends React.Component {
                     .style.width = `${percentage}%`
             })
 
-            if(reason == "predi") this.notifPG.playSound(0.5, false)
+            if (reason == "predi") this.notifPG.playSound(0.5, false)
 
 
             document.querySelector('.pronoKart .statistics #voteCount').textContent = countTotal;
@@ -125,49 +125,56 @@ export default class PrediGivrees extends React.Component {
     render() {
 
         return (
-            <div className="overlay">
-                <Confetti
-                    className={`display: ${this.state.result ? "opacity-1" : "opacity-0"}`}
-                    style={{ zIndex: 100 }}
-                    width={window.innerWidth}
-                    height={window.innerHeight}
+            <>
+                <div className="overlay">
+                    <Confetti
+                        className={`display: ${this.state.result ? "opacity-1" : "opacity-0"}`}
+                        style={{ zIndex: 100 }}
+                        width={window.innerWidth}
+                        height={window.innerHeight}
                     />
-                <Head title="PrediGivrees Overlay" />
-                <div className="pronoKart" style={{ opacity: this.state.test ? 1 : this.state.show ? 1 : 0 }}>
-                    <div className="flex flex-col justify-center items-center">
-                        <img src={logo} alt="logo" />
-                        <div className="subtitle">!pg [position]</div>
-                    </div>
-                    <div className={`result`} style={{ display: this.state.result ? "flex" : "none" }}>
-                        <h2 className="text-white text-[4rem] font-extrabold">Résultat</h2>
-                        <div className="stats flex flex-wrap gap-6 my-4 w-full justify-center py-10 rounded-2xl">
-                            <div className="flex flex-col justify-center items-center">
-                                <span className="text-white text-7xl font-extrabold">{this.state.winPosition == 1 ? `${this.state.winPosition}er` : `${this.state.winPosition}ème`}</span>
-                                <h4 className="text-white text-center text-4xl font-extrabold">Position <br /> gagnante</h4>
+                    <Head title="PrediGivrees Overlay" />
+                    <div className="pronoKart" style={{ opacity: this.state.test ? 1 : this.state.show ? 1 : 0 }}>
+                        <div className="flex flex-col justify-center items-center">
+                            <img src={logo} alt="logo" />
+                            <div className="subtitle">!pg [position]</div>
+                        </div>
+                        <div className={`result`} style={{ display: this.state.result ? "flex" : "none" }}>
+                            <h2 className="text-white text-[4rem] font-extrabold">Résultat</h2>
+                            <div className="stats flex flex-wrap gap-6 my-4 w-full justify-center py-10 rounded-2xl">
+                                <div className="flex flex-col justify-center items-center">
+                                    <span className="text-white text-7xl font-extrabold">{this.state.winPosition == 1 ? `${this.state.winPosition}er` : `${this.state.winPosition}ème`}</span>
+                                    <h4 className="text-white text-center text-4xl font-extrabold">Position <br /> gagnante</h4>
+                                </div>
+                                <div className="flex flex-col justify-center items-center">
+                                    <span className="text-white text-7xl font-extrabold">{this.state.pingOmni}</span>
+                                    <h4 className="text-white text-center text-4xl font-bold">Pingouin(s) <br /> omniscient</h4>
+                                </div>
                             </div>
-                            <div className="flex flex-col justify-center items-center">
-                                <span className="text-white text-7xl font-extrabold">{this.state.pingOmni}</span>
-                                <h4 className="text-white text-center text-4xl font-bold">Pingouin(s) <br /> omniscient</h4>
+                            <h2 className="text-white text-4xl text-center font-extrabold italic">Les personnes ayant votés une place au dessus et en dessous gagnent 1 point</h2>
+                        </div>
+                        <div className={`list`} style={{ display: this.state.result ? "none" : "grid" }}>
+                            {this.pols()}
+                        </div>
+                        <div className={`statistics`} style={{ display: this.state.result ? "none" : "flex" }}>
+                            <div className="timeOut text-white">
+                                <span id="timeOutLeft" className="text-[4rem]">N/A</span>
+                                <span className="text-[2rem] font-semibold ">Temps restant</span>
+                            </div>
+                            <div className="voteCount text-white">
+                                <span id="voteCount" className="text-[4rem]">0</span>
+                                <span className="text-[2rem] font-semibold ">Votes totaux</span>
                             </div>
                         </div>
-                        <h2 className="text-white text-4xl text-center font-extrabold italic">Les personnes ayant votés une place au dessus et en dessous gagnent 1 point</h2>
+                        <div className="timeOutBar" style={{ width: "100%" }}></div>
                     </div>
-                    <div className={`list`} style={{ display: this.state.result ? "none" : "grid" }}>
-                        {this.pols()}
-                    </div>
-                    <div className={`statistics`} style={{ display: this.state.result ? "none" : "flex" }}>
-                        <div className="timeOut text-white">
-                            <span id="timeOutLeft" className="text-[4rem]">N/A</span>
-                            <span className="text-[2rem] font-semibold ">Temps restant</span>
-                        </div>
-                        <div className="voteCount text-white">
-                            <span id="voteCount" className="text-[4rem]">0</span>
-                            <span className="text-[2rem] font-semibold ">Votes totaux</span>
-                        </div>
-                    </div>
-                    <div className="timeOutBar" style={{ width: "100%" }}></div>
                 </div>
-            </div>
+                <style>{`
+                    :root {
+                        --web_background: none;
+                    }
+                `}</style>
+            </>
         )
     }
 

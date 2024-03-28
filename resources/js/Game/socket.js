@@ -4,9 +4,11 @@ const URL = process.env.NODE_ENV === 'production' ? env.socketServer : 'http://l
 
 export default class BDWSocket {
 
-    constructor(game, args) {
+    constructor(game, extra, args = {}, authData = {}) {
         this.game = game;
-        this.extra = args;
+        this.extra = extra;
+        this.args = args;
+        this.authData = authData;
 
         this.init();
     }
@@ -14,11 +16,13 @@ export default class BDWSocket {
     init() {
         this.socket = io(URL, {
             auth: {
-                token: env.socketServerToken
+                token: env.socketServerToken,
+                ...this.authData 
             },
             query: {
                 game: this.game,
-                extra: JSON.stringify(this.extra)
+                extra: JSON.stringify(this.extra),
+                ...this.args
             }
         });
     }
