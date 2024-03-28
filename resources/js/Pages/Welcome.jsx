@@ -2,6 +2,7 @@ import { Link, Head, usePage } from '@inertiajs/react';
 import MainLayoutWF from '@/Layouts/MainLayoutWF';
 import WeilsText from '@/Components/Icons/WeilsText';
 import WeilsLogoSVG from '../../assets/img/weils_logo_mobile.svg';
+import WeilsLogoAprilSVG from '../../assets/img/weils_logo_mobile_april.svg';
 import WeilsLogo from '@/Components/Icons/WeilsLogo';
 import { useEffect, useState } from 'react';
 import '../../css/home.css'
@@ -55,11 +56,11 @@ export default function Welcome(props) {
                 <Head title="Accueil" />
                 <div className="relative flex flex-col py-[64px] justify-center gap-[70px] lg:gap-0 lg:justify-between" style={{ height: "calc(100dvh - 93px)" }}>
                     <div className="flex lg:hidden flex-col items-center">
-                        <img src={WeilsLogoSVG} className='px-[32px] w-[80%]' />
+                        <img src={(isFirstApril ? WeilsLogoAprilSVG : WeilsLogoSVG)} className='px-[32px] w-[80%]' />
                     </div>
                     <div className="hidden lg:flex flex-col items-center">
                         <WeilsText isFirstApril={isFirstApril} className="w-[940px] h-[132px]" />
-                        <WeilsLogo p1="gold_0" p2="gold_1" className="mt-[-45px] w-[352px] h-[380px]" />
+                        <WeilsLogo isFirstApril={!isFirstApril} p1="gold_0" p2="gold_1" className="mt-[-45px] w-[352px] h-[380px]" />
                     </div>
                     <BadgeStream event={{ isFirstApril: isFirstApril }} onLive={onLive} counter={17} />
                     <WidgetDiscord discordData={discordData} />
