@@ -33,6 +33,7 @@
         "react-tooltip": "^5.22.0",
         "react-widgets": "^5.8.4",
         "socket.io-client": "^4.7.2",
-        "sonner": "^1.2.2"
+        "sonner": "^1.2.2",
+        "uuid": "^9.0.1"
     }
 }

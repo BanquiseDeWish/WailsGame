@@ -32,13 +32,13 @@ const QuizzResult = ({ auth, globalValues, modifyValues, emit }) => {
                     return (
                         <div className="flex w-full items-center gap-4">
                             <h2 className='text-[24px] font-semibold px-4'>{displayPosition}</h2>
-                            <div className="player w-full" key={i}>
+                            <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
                                 {player?.isLeader &&
                                     <div className="badgeLeader">
                                         <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
                                     </div>
                                 }
-                                <PenguinCard className="w-full h-[82px]" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? player?.username : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: 'var(--container_background)' } }} />
+                                <PenguinCard className="w-full h-[82px]" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${(player?.isConnected ? 'Con' : 'Dis')} ${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: 'var(--container_background)' } }} />
                             </div>
                         </div>
                     )

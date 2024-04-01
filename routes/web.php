@@ -90,8 +90,11 @@ Route::prefix('tierlist')->name('tierlist.')->middleware(['auth_twitch'])->group
     Route::post('/delete', [TierlistController::class, 'delete'])->name('delete');
 });
 
-Route::prefix('quizz')->name('quizz.')->middleware(['auth_twitch'])->group(function() {
-    Route::get('/', [QuizzMasterController::class, 'index'])->name('index');
+Route::prefix('games')->name('games.')->middleware(['auth_twitch'])->group(function() {
+    Route::prefix('quizz')->name('quizz.')->group(function() {
+        Route::get('/', [QuizzMasterController::class, 'index'])->name('index');
+        Route::get('/party/{gameId}', [QuizzMasterController::class, 'party'])->name('party');
+    });
 });
 
 require __DIR__.'/auth.php';

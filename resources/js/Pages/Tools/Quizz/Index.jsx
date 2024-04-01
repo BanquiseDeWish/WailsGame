@@ -4,10 +4,11 @@ import { Head } from "@inertiajs/react"
 import axios from "axios"
 import { useState, useEffect } from "react"
 import QuizzLogo from '../../../../assets/img/QuizzMasterLogo.webp'
-
+import { v4 as uuidv4 } from 'uuid'
 const QuizzMaster = () => {
 
     const [questions, setQuestions] = useState([])
+    const [uuidParty, setUUIDParty] = useState(uuidv4())
 
     useEffect(() => {
         axios.get('http://192.168.1.99:4589/quizz/viewQuestion')
@@ -32,7 +33,7 @@ const QuizzMaster = () => {
                         </p>
                         <div className="separator my-4 w-full" style={{ background: 'var(--container_background)' }} />
                         <div className="flex justify-end w-full">
-                            <BlueButton>Créer une nouvelle partie</BlueButton>
+                            <BlueButton href={route('games.quizz.party', { gameId: uuidParty })}>Créer une nouvelle partie</BlueButton>
                         </div>
                     </div>
                 </div>

@@ -12,13 +12,15 @@ import TickNotValidIcon from '../../../../../assets/icons/square.svg'
 import { Disclosure } from '@headlessui/react';
 import ChevronDown from '@/Components/Icons/ChevronDown';
 import ChevronUp from '@/Components/Icons/ChevronUp';
+import LogoutIcon from '../../../../../assets/icons/logout.svg'
+
 export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
 
     console.log(globalValues)
 
     const copyLink = () => {
         console.log(navigator, navigator.clipboard)
-        copyToClipboard(route('tools.index', { game: 'quizz', gameId: globalValues.current.gameId }));
+        copyToClipboard(route('games.quizz.party', { gameId: globalValues.current.gameId }));
         toast.success("Lien d'invitation copié avec succès !")
     }
 
@@ -45,13 +47,13 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                             const player = globalValues.current.players[i];
 
                             return (
-                                <div className="player">
+                                <div className={`player ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`}>
                                     {player?.isLeader &&
                                         <div className="badgeLeader">
                                             <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
                                         </div>
                                     }
-                                    <PenguinCard className="min-w-[250px] max-w-[250px] h-[82px]" skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${(player?.isConnected ? 'Con' : 'Dis')} ${player?.username}` : ' - '), background_type: "color", background_data: { color: 'var(--container_background)' } }} />
+                                    <PenguinCard className="min-w-[250px] max-w-[250px] h-[82px]" skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), background_type: "color", background_data: { color: 'var(--container_background)' } }} />
                                 </div>
                             )
 

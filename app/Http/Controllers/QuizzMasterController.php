@@ -13,4 +13,9 @@ class QuizzMasterController extends Controller
         return Inertia::render('Tools/Quizz/Index', []);
     }
 
+    public function party($gameId)
+    {
+        return Inertia::render('Tools/Quizz/Quizz', ['gameId' => $gameId]);
+    }
+
 }

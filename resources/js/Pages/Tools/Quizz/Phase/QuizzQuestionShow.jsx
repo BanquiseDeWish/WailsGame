@@ -56,7 +56,10 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
             audioPlaying = Audio.playSound(`http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.mp3`, 0.4, false)
         }
 
-
+        let questionPicture = questionCurrent?.picture_url;
+        if(questionCurrent?.picture_reveal_url !== undefined && globalValues.current?.phaseId == 2) {
+            questionPicture = questionCurrent?.picture_reveal_url;
+        }
 
         return (
             <div className="flex w-full gap-8">
@@ -100,7 +103,9 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
                         </div>
                     }
                     {questionCurrent.type == 'picture' &&
-                        <img src={questionCurrent?.picture_url !== undefined ? questionCurrent?.picture_url : `http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.webp`} style={{
+                        <img src={questionPicture !== undefined ?
+                                questionPicture :
+                                `http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.webp`} style={{
                             maxHeight: "380px",
                             minHeight: "380px",
                             objectFit: "fill"
@@ -142,13 +147,13 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
                     <div className="card items-start p-4 justify-start h-full gap-4 min-w-[350px] overflow-y-auto">
                         {playersListScore.map((player, i) => {
                             return (
-                                <div className="player w-full" key={i}>
+                                <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
                                     {player?.isLeader &&
                                         <div className="badgeLeader">
                                             <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
                                         </div>
                                     }
-                                    <PenguinCard className="w-full h-[82px]" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${(player?.isConnected ? 'Dis' : 'Con')} ${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: 'var(--container_background)' } }} />
+                                    <PenguinCard className="w-full h-[82px]" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: 'var(--container_background)' } }} />
                                 </div>
                             )
 

@@ -26,7 +26,7 @@ export default function Quizz(props) {
         init: false,
         socket: null,
         phaseId: 0,
-        gameId: null,
+        gameId: props.gameId,
         data: undefined,
         alreadyPlaySound: false,
         isLeader: false,
@@ -56,7 +56,7 @@ export default function Quizz(props) {
 
     useEffect(() => {
         if(!globalValues.current.init){
-            const socket = new BDWSocket("quizz", {}, { userName: props.auth?.twitch?.display_name }, { gameId: props.gameId ?? globalValues.current?.gameId, userId: props.auth?.twitch?.id })
+            const socket = new BDWSocket("quizz", {}, { userName: props.auth?.twitch?.display_name }, { gameId: globalValues.current?.gameId, userId: props.auth?.twitch?.id })
             modifyValues('socket', socket);
             if (globalValues.current.socket !== null) {
                 function onConnect() {
