@@ -64,6 +64,7 @@ export default class GameSound {
         audio.volume = volume;
         audio.loop = loop;
         audio.play();
+        return audio;
     }
 
     playSound(volume = 0.5, loop = false) {

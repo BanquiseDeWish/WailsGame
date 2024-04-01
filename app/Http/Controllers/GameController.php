@@ -18,6 +18,8 @@ class GameController extends Controller
     {
         if($game == 'shiny_wars')
             return Inertia::render('Tools/ShinyWars/ShinyWars', ['gameId' => $gameId]);
+        else if($game == 'quizz')
+            return Inertia::render('Tools/Quizz/Quizz', ['gameId' => $gameId]);
 
         return Inertia::render('Tools/ShinyWars/ShinyWars', ['gameId' => $gameId]);
     }
