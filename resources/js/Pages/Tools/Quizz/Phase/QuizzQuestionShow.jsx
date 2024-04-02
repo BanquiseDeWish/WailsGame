@@ -65,8 +65,9 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
     }, [globalValues.current.resultSendAnswer])
 
     useEffect(() => {
-        if(globalValues.current.questionCurrent !== null) {
+        if(globalValues.current.questionCurrent !== undefined) {
             const questionCurrent = globalValues.current.questionCurrent;
+            console.log(questionCurrent)
             if (questionCurrent.type == 'sound') {
                 let urlSound = `http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.mp3`
                 if(questionCurrent?.sound_url !== undefined) {
