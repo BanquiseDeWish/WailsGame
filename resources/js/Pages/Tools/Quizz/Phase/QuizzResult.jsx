@@ -45,7 +45,7 @@ const QuizzResult = ({ auth, globalValues, modifyValues, emit }) => {
 
                 })}
             </div>
-            <BlueButton href={route('tools.index', { game: 'quizz', gameId: '' })}>Retour au lobby</BlueButton>
+            <BlueButton href={route('games.quizz.index')}>Retour au lobby</BlueButton>
         </div>
     )
 

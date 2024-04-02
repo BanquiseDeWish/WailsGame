@@ -9,6 +9,7 @@ const QuizzMaster = () => {
 
     const [questions, setQuestions] = useState([])
     const [uuidParty, setUUIDParty] = useState(uuidv4())
+    const [idParty, setIdParty] = useState("")
 
     useEffect(() => {
         axios.get('http://192.168.1.99:4589/quizz/viewQuestion')
@@ -32,8 +33,13 @@ const QuizzMaster = () => {
                             Le calcul des scores se fait en fonction du temps restant : plus vous répondez vite et correctement, plus vous gagnez de points, au contraire, si vous répondez plus lentement et faux, plus vous perdez des points.
                         </p>
                         <div className="separator my-4 w-full" style={{ background: 'var(--container_background)' }} />
-                        <div className="flex justify-end w-full">
-                            <BlueButton href={route('games.quizz.party', { gameId: uuidParty })}>Créer une nouvelle partie</BlueButton>
+                        <div className="flex w-full gap-4">
+                            <div className="flex-1 w-full">
+                                <input type="text" className="w-full" placeholder="ID de la partie" value={idParty} onChange={(e) => { setIdParty(e.target.value) }} id="" />
+                            </div>
+                            <BlueButton href={route('games.quizz.party', { gameId: idParty == "" ? uuidParty : idParty })}>
+                                {idParty == "" ? "Créer une nouvelle partie" : "Rejoindre la partie"}
+                            </BlueButton>
                         </div>
                     </div>
                 </div>

@@ -21,18 +21,20 @@ const DEV = false;
 export default function Quizz(props) {
 
     const [, forceUpdate] = useReducer((x) => x + 1, 0)
-
     const globalValues = useRef({
         init: false,
         socket: null,
         phaseId: 0,
+        launchingGame: false,
+        connectionError: false,
         gameId: props.gameId,
         data: undefined,
-        alreadyPlaySound: false,
+        messages: [],
+        alreadyPlaySoundQuestion: false,
         isLeader: false,
         answerCurrent: undefined,
         questionCurrent: undefined,
-        timerCurrent: 15,
+        timerCurrent: 5,
         resultSendAnswer: undefined,
         themes: [],
         players: []
@@ -60,10 +62,14 @@ export default function Quizz(props) {
             modifyValues('socket', socket);
             if (globalValues.current.socket !== null) {
                 function onConnect() {
-                    globalValues.current.socket.emit('need_game_data');
+                    if(globalValues.current.connectionError) {
+                        modifyValues('connectionError', false)
+                    }
                 }
 
-                function onDisconnect() { }
+                function onDisconnect() {
+                    toast.error('Déconnecté du serveur')
+                }
 
                 globalValues.current.socket.on('connect', onConnect);
                 globalValues.current.socket.on('disconnect', onDisconnect);
@@ -93,7 +99,7 @@ export default function Quizz(props) {
                     modifyValues('resultSendAnswer', undefined)
                     modifyValues('questionCurrent', args.questionData)
                     modifyValues('answerCurrent', undefined)
-                    modifyValues('alreadalreadyPlaySoundy', false)
+                    modifyValues('alreadyPlaySoundQuestion', false)
                 })
 
                 globalValues.current.socket.on('quizz_update_timer', (args) => {
@@ -108,8 +114,31 @@ export default function Quizz(props) {
                     modifyValues('data', args)
                 })
 
+                globalValues.current.socket.on('quizz_launching_game', (args) => {
+                    console.log('test launch')
+                    modifyValues('launchingGame', true)
+                })
+
+                globalValues.current.socket.on('quizz_new_chat_message', (args) => {
+                    let messages = [...globalValues.current.messages]
+                    messages = [args, ...messages];
+                    modifyValues('messages', messages)
+                })
+
+                globalValues.current.socket.on('errorMessage', (message) => {
+                    toast.error(message)
+                })
+
                 globalValues.current.socket.on('error', (data) => {
                     toast.error(data.message);
+                    alert('Ooops')
+                });
+
+                globalValues.current.socket.on("connect_error", (err) => {
+                    if(!globalValues.current.connectionError) {
+                        toast.error(`Connexion au serveur échoué`);
+                        modifyValues('connectionError', true)
+                    }
                 });
 
                 modifyValues('init', true);
@@ -127,7 +156,6 @@ export default function Quizz(props) {
         <>
             <MainLayout showOverflow={true} className={"flex flex-col items-center mb-12 pb-12 gap-8"}>
                 <Head title="QuizzMaster" />
-                <h2 className='text-[32px] font-bold'>QuizzMaster</h2>
                 {globalValues.current.phaseId == -1 && <></>}
                 {globalValues.current.phaseId == 0 && <QuizzLobby auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
                 {globalValues.current.phaseId == 1 || globalValues.current.phaseId == 2 ? <QuizzQuestionShow auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} /> : <></>}
@@ -205,6 +233,27 @@ export default function Quizz(props) {
                     text-align: center;
                     font-weight: bold;
                     font-style: italic;
+                }
+                .messages {
+                    display: flex;
+                    flex-direction: column-reverse;
+                    justify-content: flex-start;
+                    gap: 16px;
+                    padding-right: 10px;
+                }
+                .message {
+                    display: flex;
+                    flex-direction: column;
+                    background: var(--container_background);
+                    width: 100%;
+                    border-radius: 8px;
+                    padding: 12px 16px;
+                }
+                .message .author{
+                    font-weight: bold;
+                }
+                .message .content {
+                    font-size: 14px;
                 }
             `}
             </style>

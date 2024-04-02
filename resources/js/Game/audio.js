@@ -23,10 +23,16 @@ import DEAD_1 from '../../assets/sounds/vipgames/dead/thunder_impact.wav'
 
 import PG_NOTIF from '../../assets/sounds/pg_notif.wav';
 
+
+import QUIZZ_ANSWER_GOOD from '../../assets/sounds/quizz/answer_correct.mp3';
+import QUIZZ_ANSWER_BAD from '../../assets/sounds/quizz/answer_incorrect.mp3';
+import QUIZZ_ANSWER_SEND from '../../assets/sounds/quizz/answer_send.mp3';
+import QUIZZ_TIMER_COUNTDOWN from '../../assets/sounds/quizz/timer_countdown.mp3';
+
 export default class GameSound {
 
     constructor(type) {
-        switch(type) {
+        switch (type) {
             case 'miss':
                 this.urls = [MISS_1, MISS_2, MISS_3, MISS_4, MISS_5, MISS_6];
                 break;
@@ -51,10 +57,22 @@ export default class GameSound {
             case 'pg_notif':
                 this.urls = [PG_NOTIF];
                 break;
+            case 'quizz_aw_good':
+                this.urls = [QUIZZ_ANSWER_GOOD];
+                break;
+            case 'quizz_aw_bad':
+                this.urls = [QUIZZ_ANSWER_BAD];
+                break;
+            case 'quizz_aw_send':
+                this.urls = [QUIZZ_ANSWER_SEND];
+                break;
+            case 'quizz_aw_timer_countdown':
+                this.urls = [QUIZZ_TIMER_COUNTDOWN];
+                break;
         }
 
         this.audios = [];
-        for(let i = 0; i < this.urls.length; i++) {
+        for (let i = 0; i < this.urls.length; i++) {
             this.audios.push(new Audio(this.urls[i]));
         }
     }
@@ -71,7 +89,7 @@ export default class GameSound {
         let audio = this.audios[Math.floor(Math.random() * this.audios.length)];
         audio.volume = volume;
         audio.loop = loop;
-        if(audio.currentTime != 0) {
+        if (audio.currentTime != 0) {
             let a = audio.cloneNode();
             a.volume = volume;
             a.play();

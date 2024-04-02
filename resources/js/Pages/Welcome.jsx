@@ -60,7 +60,7 @@ export default function Welcome(props) {
                     </div>
                     <div className="hidden lg:flex flex-col items-center">
                         <WeilsText isFirstApril={isFirstApril} className="w-[940px] h-[132px]" />
-                        <WeilsLogo isFirstApril={!isFirstApril} p1="gold_0" p2="gold_1" className="mt-[-45px] w-[352px] h-[380px]" />
+                        <WeilsLogo isFirstApril={isFirstApril} p1="gold_0" p2="gold_1" className="mt-[-45px] w-[352px] h-[380px]" />
                     </div>
                     <BadgeStream event={{ isFirstApril: isFirstApril }} onLive={onLive} counter={17} />
                     <WidgetDiscord discordData={discordData} />

@@ -13,25 +13,32 @@ import { Disclosure } from '@headlessui/react';
 import ChevronDown from '@/Components/Icons/ChevronDown';
 import ChevronUp from '@/Components/Icons/ChevronUp';
 import LogoutIcon from '../../../../../assets/icons/logout.svg'
+import QuizzLogo from '../../../../../assets/img/QuizzMasterLogo.webp'
+import CountDown from '../Modal/CountDown';
 
 export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
 
-    console.log(globalValues)
-
     const copyLink = () => {
         console.log(navigator, navigator.clipboard)
-        copyToClipboard(route('games.quizz.party', { gameId: globalValues.current.gameId }));
-        toast.success("Lien d'invitation copié avec succès !")
+        copyToClipboard(globalValues.current.gameId);
+        toast.success("ID de la partie copié avec succès !")
     }
 
     const launcGame = () => {
         emit('quizz_launch_game', { gameId: globalValues.current.gameId })
     }
 
+    const copyListPlayers = [...globalValues.current.players];
+    const playersCount = copyListPlayers.filter(p => p.isConnected).length;
+
+
     return (
         <div className="quizz_lobby flex-1">
-            <div className="flex justify-center gap-8">
-                <div className="gap-4 card" style={{ alignItems: 'flex-start' }}>
+            <div className="flex justify-center gap-8 mt-8">
+                <div className="gap-4 card relative" style={{ alignItems: 'flex-start', paddingTop: '4rem' }}>
+                    <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
+                        <img src={QuizzLogo} style={{ width: '25%' }} />
+                    </div>
                     <h3 className='text-[24px] font-bold'>Code de la room</h3>
                     <div className="flex gap-4 w-full">
                         <input type="text" className='flex-1' name="gameId" defaultValue={globalValues.current.gameId} disabled />
@@ -39,7 +46,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                     </div>
                     <div className="flex items-center gap-3">
                         <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
-                        <h3 className='text-[14px] font-bold'>{globalValues.current.players.length}/30</h3>
+                        <h3 className='text-[14px] font-bold'>{playersCount < 10 ? `0${playersCount}` : playersCount}/30</h3>
                     </div>
                     <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[400px] pr-4">
                         {Array.from(Array(30)).map((s, i) => {
@@ -71,7 +78,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                         if (globalValues.current.isLeader) {
 
                             const onChangeTheme = (state, setState, subIndex) => {
-                                if(subIndex !== undefined)
+                                if (subIndex !== undefined)
                                     globalValues.current.themes[i].subcategories[subIndex].state = !state
                                 else
                                     globalValues.current.themes[i].state = !state
@@ -96,7 +103,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                                         <span>{s.dname}</span>
                                                         {open ?
                                                             <ChevronUp />
-                                                        :
+                                                            :
                                                             <ChevronDown />
                                                         }
                                                     </Disclosure.Button>
@@ -134,7 +141,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                                         <span>{s.dname}</span>
                                                         {open ?
                                                             <ChevronUp />
-                                                        :
+                                                            :
                                                             <ChevronDown />
                                                         }
                                                     </Disclosure.Button>
@@ -161,6 +168,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                     })}
                 </div>
             </div>
+            <CountDown data={{ launching: globalValues.current.launchingGame, timer: globalValues.current.timerCurrent }} />
         </div>
     )
 

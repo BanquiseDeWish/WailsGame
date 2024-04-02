@@ -5,27 +5,30 @@ import crown from '../../../../../assets/icons/crown.svg'
 import PenguinCard from '@/Components/User/PenguinCard';
 import { motion } from 'framer-motion'
 import MusicIcon from '../../../../../assets/icons/music.svg'
+import QuizzLogo from '../../../../../assets/img/QuizzMasterLogo.webp'
 
 import Audio from '@/Game/audio'
+import MessageObject from '../Object/MessageObject';
+import { useState } from 'react';
+import GameSound from '@/Game/audio';
+import { useEffect } from 'react';
 const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
 
+    const [messageChat, setMessageChat] = useState("")
     const questionCurrent = globalValues.current.questionCurrent;
     let audioPlaying = null;
 
+    const timerCurrent = globalValues.current.timerCurrent;
+
     const percentageTimer = () => {
-        return (globalValues.current.timerCurrent / 15 * 100)
+        return (timerCurrent / 15 * 100)
     }
 
     const selectAnswer = (propoId) => {
-        if (globalValues.current.phaseId !== 1) {
-            toast.error('Pas la phase de réponse :)')
-            return;
-        }
-        if (globalValues.current.answerCurrent !== undefined) {
-            toast.error('Déjà rep :)')
-            return;
-        }
         document.querySelector('.quizz_question_show .propal_button[dataanswer="' + propoId + '"]').classList.add('focused')
+        if(globalValues.current.answerCurrent == undefined) {
+            new GameSound('quizz_aw_send').playSound(0.5, false)
+        }
         modifyValues('answerCurrent', propoId)
         emit('quizz_send_answer_player', { answer: propoId, gameId: globalValues.current.gameId, auth: auth.twitch.id })
     }
@@ -44,44 +47,75 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
         })
     }
 
+    const sendChatMessage = (event) => {
+        if (event.key === 'Enter') {
+            if(messageChat == "") return;
+            setMessageChat("");
+            emit('quizz_send_message_player', { message: messageChat })
+        }
+    }
+
+    useEffect(() => {
+        if(globalValues.current.resultSendAnswer !== undefined) {
+            if(globalValues.current.resultSendAnswer?.answerGood == globalValues.current.resultSendAnswer?.answerSend) {
+                new GameSound('quizz_aw_good').playSound(0.5, false)
+            }else{
+                new GameSound('quizz_aw_bad').playSound(0.5, false)
+            }
+        }
+    }, [globalValues.current.resultSendAnswer])
+
     if (questionCurrent !== undefined) {
 
         //play audio
-        if (questionCurrent.type == 'sound' && !globalValues.current.alreadyPlaySound) {
-            /*if(audioPlaying !== undefined) {
-                audioPlaying.pause()
-                audioPlaying = undefined;
-            }*/
-            modifyValues('alreadyPlaySound', true)
-            audioPlaying = Audio.playSound(`http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.mp3`, 0.4, false)
+        setTimeout(() => {
+            if (questionCurrent.type == 'sound' && !globalValues.current.alreadyPlaySoundQuestion) {
+                /*if(audioPlaying !== undefined) {
+                    audioPlaying.pause()
+                    audioPlaying = undefined;
+                }*/
+                modifyValues('alreadyPlaySoundQuestion', true)
+                let urlSound = `http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.mp3`
+                if(questionCurrent?.sound_url !== undefined) {
+                    urlSound = questionCurrent?.sound_url
+                }
+                audioPlaying = Audio.playSound(urlSound, 0.4, false)
+            }
+        }, 1200)
+
+        let questionPicture = undefined;
+
+        if (questionPicture == undefined && questionCurrent?.picture_url !== undefined) {
+            questionPicture = questionCurrent?.picture_url;
+            if (questionCurrent?.picture_reveal_url !== undefined && globalValues.current?.phaseId == 2) {
+                questionPicture = questionCurrent?.picture_reveal_url;
+            }
         }
 
-        let questionPicture = questionCurrent?.picture_url;
-        if(questionCurrent?.picture_reveal_url !== undefined && globalValues.current?.phaseId == 2) {
-            questionPicture = questionCurrent?.picture_reveal_url;
+        if (questionCurrent?.picture_reveal_url !== undefined && globalValues.current?.phaseId == 2) {
+            if (questionPicture !== questionCurrent?.picture_reveal_url) {
+                questionPicture = questionCurrent?.picture_reveal_url;
+            }
         }
 
         return (
-            <div className="flex w-full gap-8">
-                <div className="quizz_question_show relative flex flex-1 flex-col items-center gap-6 card">
+            <div className="flex w-full gap-4 mt-8">
+                <div className="quizz_question_show relative flex flex-1 flex-col items-center gap-6 card" style={{ paddingTop: '5.5rem' }}>
+                    <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
+                        <img src={QuizzLogo} style={{ width: '20%' }} />
+                    </div>
                     <div style={{ position: 'absolute', top: '20px', left: '20px', width: 90, height: 90 }}>
                         <CircularProgressbar strokeWidth={10} value={percentageTimer()} text={`${globalValues.current.timerCurrent}`}
                             styles={{
                                 path: {
-                                    // Path color
-                                    stroke: `rgba(61.34, 105.63, 173.19, 1)`,
-                                    // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                    stroke: `${globalValues.current?.phaseId == 2 ? 'rgba(61.34, 105.63, 173.19, 1)' : timerCurrent > 10 ? 'rgba(61.34, 105.63, 173.19, 1)' : timerCurrent > 5 ? 'yellow' : 'red'}`,
                                     strokeLinecap: 'butt',
-                                    // Customize transition animation
                                     transition: 'stroke-dashoffset 0.5s ease 0s',
                                     transformOrigin: 'center center',
                                 },
                                 trail: {
-                                    // Trail color
                                     stroke: 'rgba(61.34, 105.63, 173.19, 0.20)',
-                                    // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
                                     strokeLinecap: 'butt',
-                                    // Rotate the trail
                                     transform: 'rotate(0.25turn)',
                                     transformOrigin: 'center center',
                                 },
@@ -90,10 +124,7 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
                                     fontWeight: 'bold',
                                     fontSize: '32px',
                                 },
-                            }}/>
-                    </div>
-                    <div className="flex w-full justify-center">
-                        <span className='text-[24px] font-semibold'>Question {(globalValues.current?.data?.questionCursor + 1)}/{globalValues.current?.data?.maxQuestions}</span>
+                            }} />
                     </div>
                     {questionCurrent.type == 'text' &&
                         <div className="relative rounded-[8px]" style={{ background: 'transparent' }}>
@@ -104,12 +135,12 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
                     }
                     {questionCurrent.type == 'picture' &&
                         <img src={questionPicture !== undefined ?
-                                questionPicture :
-                                `http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.webp`} style={{
-                            maxHeight: "380px",
-                            minHeight: "380px",
-                            objectFit: "fill"
-                        }} className="rounded-xl" alt="" />
+                            questionPicture :
+                            `http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.webp`} style={{
+                                maxHeight: "380px",
+                                minHeight: "380px",
+                                objectFit: "fill"
+                            }} className="rounded-xl" alt="" />
                     }
                     {questionCurrent.type == 'sound' &&
                         <div className="music">
@@ -127,7 +158,8 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
                             </video>
                         </div>
                     }
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col items-center gap-1">
+                        <span className='text-[24px] font-semibold'>Question {(globalValues.current?.data?.questionCursor + 1)}/{globalValues.current?.data?.maxQuestions}</span>
                         <h2 className="text-[24px] font-bold">
                             {questionCurrent.type !== 'text' ? questionCurrent.sentence : "Répondez à la question ci-dessus"}
                         </h2>
@@ -143,21 +175,36 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
                         })}
                     </div>
                 </div>
-                <div className="players h-full">
-                    <div className="card items-start p-4 justify-start h-full gap-4 min-w-[350px] overflow-y-auto">
-                        {playersListScore.map((player, i) => {
-                            return (
-                                <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
-                                    {player?.isLeader &&
-                                        <div className="badgeLeader">
-                                            <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
-                                        </div>
-                                    }
-                                    <PenguinCard className="w-full h-[82px]" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: 'var(--container_background)' } }} />
-                                </div>
-                            )
+                <div className="flex flex-col gap-4">
+                    <div className="players h-full">
+                        <div className="card items-start p-4 justify-start h-full gap-4 min-w-[350px] overflow-y-auto">
+                            {playersListScore.map((player, i) => {
+                                return (
+                                    <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
+                                        {player?.isLeader &&
+                                            <div className="badgeLeader">
+                                                <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
+                                            </div>
+                                        }
+                                        <PenguinCard className="w-full h-[82px]" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: 'var(--container_background)' } }} />
+                                    </div>
+                                )
 
-                        })}
+                            })}
+                        </div>
+                    </div>
+                    <div className="card gap-2">
+                        <h2 className='text-[20px] font-semibold'>Chat</h2>
+                        <div className="messages w-full" style={{ height: '250px', overflowY: 'auto' }}>
+                            {globalValues.current.messages.map((message) => {
+                                return (
+                                    <MessageObject data={message} />
+                                )
+                            })}
+                        </div>
+                        <div className="form w-full">
+                            <input type="text" className='w-full' onChange={(e) => { setMessageChat(e.target.value) }} onKeyDown={sendChatMessage} value={messageChat} />
+                        </div>
                     </div>
                 </div>
             </div>
