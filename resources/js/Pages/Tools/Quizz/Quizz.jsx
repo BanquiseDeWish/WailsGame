@@ -237,8 +237,8 @@ export default function Quizz(props) {
                     display: flex;
                     flex-direction: column-reverse;
                     justify-content: flex-start;
-                    gap: 16px;
-                    padding-right: 10px;
+                    gap: 8px;
+                    width: 100%;
                 }
                 .message {
                     display: flex;
@@ -253,6 +253,9 @@ export default function Quizz(props) {
                 }
                 .message .content {
                     font-size: 14px;
+                    width: 250px;
+                    text-wrap: wrap;
+                    word-wrap: break-word;
                 }
             `}
             </style>
