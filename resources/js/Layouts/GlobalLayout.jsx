@@ -3,8 +3,10 @@ import Snowfall from 'react-snowfall'
 import BgEffect from '../../assets/bg_effect.png'
 export default function GlobalLayout({ children, showOverflow, disableEvent }) {
 
+    const dateCurrent = new Date(Date.now()).getDate();
     const monthCurrent = new Date(Date.now()).getMonth();
     const isChristmas = monthCurrent == 11
+    const isFirstApril = dateCurrent == 1 && monthCurrent == 12
 
     return (
         <>

@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VIPGameController;
 use App\Http\Controllers\OverlayController;
+use App\Http\Controllers\QuizzMasterController;
 use App\Http\Controllers\TierlistController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -87,6 +88,13 @@ Route::prefix('tierlist')->name('tierlist.')->middleware(['auth_twitch'])->group
     Route::get('/view/{userid}/{id}', [TierlistController::class, 'view'])->name('view');
     Route::post('/share', [TierlistController::class, 'share'])->name('share');
     Route::post('/delete', [TierlistController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('games')->name('games.')->middleware(['auth_twitch'])->group(function() {
+    Route::prefix('quizz')->name('quizz.')->group(function() {
+        Route::get('/', [QuizzMasterController::class, 'index'])->name('index');
+        Route::get('/party/{gameId}', [QuizzMasterController::class, 'party'])->name('party');
+    });
 });
 
 require __DIR__.'/auth.php';

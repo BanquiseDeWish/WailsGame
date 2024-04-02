@@ -2,6 +2,7 @@ import { Link, Head, usePage } from '@inertiajs/react';
 import MainLayoutWF from '@/Layouts/MainLayoutWF';
 import WeilsText from '@/Components/Icons/WeilsText';
 import WeilsLogoSVG from '../../assets/img/weils_logo_mobile.svg';
+import WeilsLogoAprilSVG from '../../assets/img/weils_logo_mobile_april.svg';
 import WeilsLogo from '@/Components/Icons/WeilsLogo';
 import { useEffect, useState } from 'react';
 import '../../css/home.css'
@@ -23,6 +24,10 @@ export default function Welcome(props) {
     const [onLive, setOnLive] = useState(false);
     const [counter, setCounter] = useState(0);
     const [discordData, setDiscordData] = useState(undefined)
+
+    const dateCurrent = new Date(Date.now()).getDate();
+    const monthCurrent = new Date(Date.now()).getMonth();
+    const isFirstApril = dateCurrent == 1 && monthCurrent == 12
 
     let urlDiscordWidget = "https://discord.com/api/guilds/722862220458983495/widget.json"
 
@@ -51,13 +56,13 @@ export default function Welcome(props) {
                 <Head title="Accueil" />
                 <div className="relative flex flex-col py-[64px] justify-center gap-[70px] lg:gap-0 lg:justify-between" style={{ height: "calc(100dvh - 93px)" }}>
                     <div className="flex lg:hidden flex-col items-center">
-                        <img src={WeilsLogoSVG} className='px-[32px] w-[80%]' />
+                        <img src={(isFirstApril ? WeilsLogoAprilSVG : WeilsLogoSVG)} className='px-[32px] w-[80%]' />
                     </div>
                     <div className="hidden lg:flex flex-col items-center">
-                        <WeilsText className="w-[940px] h-[132px]" />
-                        <WeilsLogo p1="gold_0" p2="gold_1" className="mt-[-45px] w-[352px] h-[380px]" />
+                        <WeilsText isFirstApril={isFirstApril} className="w-[940px] h-[132px]" />
+                        <WeilsLogo isFirstApril={!isFirstApril} p1="gold_0" p2="gold_1" className="mt-[-45px] w-[352px] h-[380px]" />
                     </div>
-                    <BadgeStream onLive={onLive} counter={counter} />
+                    <BadgeStream event={{ isFirstApril: isFirstApril }} onLive={onLive} counter={17} />
                     <WidgetDiscord discordData={discordData} />
                 </div>
                 <SectionHome
