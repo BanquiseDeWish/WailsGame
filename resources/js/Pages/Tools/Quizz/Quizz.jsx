@@ -99,7 +99,6 @@ export default function Quizz(props) {
                     modifyValues('resultSendAnswer', undefined)
                     modifyValues('questionCurrent', args.questionData)
                     modifyValues('answerCurrent', undefined)
-                    modifyValues('alreadyPlaySoundQuestion', false)
                 })
 
                 globalValues.current.socket.on('quizz_update_timer', (args) => {

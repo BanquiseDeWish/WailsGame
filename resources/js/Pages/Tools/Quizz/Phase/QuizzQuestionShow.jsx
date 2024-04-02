@@ -15,7 +15,6 @@ import { useEffect } from 'react';
 const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
 
     const [messageChat, setMessageChat] = useState("")
-    const questionCurrent = globalValues.current.questionCurrent;
     let audioPlaying = null;
 
     const timerCurrent = globalValues.current.timerCurrent;
@@ -65,24 +64,22 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
         }
     }, [globalValues.current.resultSendAnswer])
 
-    if (questionCurrent !== undefined) {
-
-        //play audio
-        setTimeout(() => {
-            if (questionCurrent.type == 'sound' && !globalValues.current.alreadyPlaySoundQuestion) {
-                /*if(audioPlaying !== undefined) {
-                    audioPlaying.pause()
-                    audioPlaying = undefined;
-                }*/
-                modifyValues('alreadyPlaySoundQuestion', true)
+    useEffect(() => {
+        if(globalValues.current.questionCurrent !== null) {
+            const questionCurrent = globalValues.current.questionCurrent;
+            if (questionCurrent.type == 'sound') {
                 let urlSound = `http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.mp3`
                 if(questionCurrent?.sound_url !== undefined) {
                     urlSound = questionCurrent?.sound_url
                 }
                 audioPlaying = Audio.playSound(urlSound, 0.4, false)
             }
-        }, 1200)
+        }
+    }, [globalValues.current.questionCurrent])
 
+    if (questionCurrent !== undefined) {
+
+        //play audio
         let questionPicture = undefined;
 
         if (questionPicture == undefined && questionCurrent?.picture_url !== undefined) {

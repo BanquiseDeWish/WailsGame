@@ -7,16 +7,8 @@ import QuizzLogo from '../../../../assets/img/QuizzMasterLogo.webp'
 import { v4 as uuidv4 } from 'uuid'
 const QuizzMaster = () => {
 
-    const [questions, setQuestions] = useState([])
     const [uuidParty, setUUIDParty] = useState(uuidv4())
     const [idParty, setIdParty] = useState("")
-
-    useEffect(() => {
-        axios.get('http://192.168.1.99:4589/quizz/viewQuestion')
-            .then((resp) => {
-                setQuestions(resp.data)
-            })
-    }, [])
 
     return (
         <>
