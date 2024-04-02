@@ -77,8 +77,9 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
         }
     }, [globalValues.current.questionCurrent])
 
-    if (questionCurrent !== undefined) {
+    if (globalValues.current.questionCurrent !== undefined) {
 
+        const questionCurrent = globalValues.current.questionCurrent;
         //play audio
         let questionPicture = undefined;
 
