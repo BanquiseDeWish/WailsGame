@@ -24,8 +24,8 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
     }
 
     const selectAnswer = (propoId) => {
-        document.querySelector('.quizz_question_show .propal_button[dataanswer="' + propoId + '"]').classList.add('focused')
         if (globalValues.current.answerCurrent == undefined) {
+            document.querySelector('.quizz_question_show .propal_button[dataanswer="' + propoId + '"]').classList.add('focused')
             new GameSound('quizz_aw_send').playSound(0.5, false)
         }
         modifyValues('answerCurrent', propoId)
