@@ -28,6 +28,7 @@ export default function Quizz(props) {
         launchingGame: false,
         connectionError: false,
         gameId: props.gameId,
+        maximumQuestions: 30,
         data: undefined,
         messages: [],
         alreadyPlaySoundQuestion: false,
@@ -122,6 +123,10 @@ export default function Quizz(props) {
                     let messages = [...globalValues.current.messages]
                     messages = [args, ...messages];
                     modifyValues('messages', messages)
+                })
+
+                globalValues.current.socket.on('quizz_send_maximum_questions', (args) => {
+                    modifyValues('maximumQuestions', args)
                 })
 
                 globalValues.current.socket.on('errorMessage', (message) => {
