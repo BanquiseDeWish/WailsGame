@@ -227,10 +227,10 @@ export default function Quizz(props) {
                     padding: 6rem 10rem;
 
 
-                    font-size: 28px;
+                    font-size: 26px;
                     text-wrap: wrap;
                     text-align: center;
-                    font-weight: bold;
+                    font-weight: normal;
                     font-style: italic;
                 }
                 .messages {

@@ -192,7 +192,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                             </div>
                         }
                         <div className="flex flex-col items-center gap-1">
-                            <span className='text-[24px] font-semibold'>Question {(globalValues.current?.data?.questionCursor + 1)}/{globalValues.current?.data?.maxQuestions}</span>
+                            <span className='text-[24px] font-extralight'>Question {(globalValues.current?.data?.questionCursor + 1)}/{globalValues.current?.data?.maxQuestions}</span>
                             <h2 className="text-[24px] font-bold">
                                 {questionCurrent.type !== 'text' ? questionCurrent.sentence : "Répondez à la question ci-dessus"}
                             </h2>
