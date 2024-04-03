@@ -157,7 +157,7 @@ export default function Quizz(props) {
                 <Head title="QuizzMaster" />
                 {globalValues.current.phaseId == -1 && <></>}
                 {globalValues.current.phaseId == 0 && <QuizzLobby auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
-                {globalValues.current.phaseId == 1 || globalValues.current.phaseId == 2 ? <QuizzQuestionShow auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} /> : <></>}
+                {globalValues.current.phaseId == 1 || globalValues.current.phaseId == 2 ? <QuizzQuestionShow auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} /> : <></>}
                 {globalValues.current.phaseId == 3 && <QuizzResult auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
             </MainLayout>
             <style>{`

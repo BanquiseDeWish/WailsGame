@@ -12,7 +12,7 @@ import MessageObject from '../Object/MessageObject';
 import { useState } from 'react';
 import GameSound from '@/Game/audio';
 import { useEffect } from 'react';
-const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
+const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) => {
 
     const [messageChat, setMessageChat] = useState("")
     let audioPlaying = null;
@@ -69,7 +69,7 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
             setTimeout(() => {
                 const questionCurrent = globalValues.current.questionCurrent;
                 if (questionCurrent.type == 'sound') {
-                    let urlSound = `http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.mp3`
+                    let urlSound = `${ziggy.url}/storage/quizz/${questionCurrent?.asset}.mp3`
                     if (questionCurrent?.sound_url !== undefined) {
                         urlSound = questionCurrent?.sound_url
                     }
@@ -176,7 +176,7 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
                         {questionCurrent.type == 'picture' &&
                             <img src={questionPicture !== undefined ?
                                 questionPicture :
-                                `http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.webp`} style={{
+                                `${ziggy.url}/storage/quizz/${questionCurrent?.asset}.webp`} style={{
                                     maxHeight: "380px",
                                     minHeight: "380px",
                                     objectFit: "fill"
@@ -189,13 +189,6 @@ const QuizzQuestionShow = ({ auth, globalValues, modifyValues, emit }) => {
                                     minHeight: "380px",
                                     objectFit: "fill"
                                 }} alt="" />
-                            </div>
-                        }
-                        {questionCurrent.type == 'video' &&
-                            <div className="video">
-                                <video width="450" height="580">
-                                    <source src={`http://weilsgames.test/storage/quizz/${questionCurrent?.asset}.mp4`} type="video/mp4" />
-                                </video>
                             </div>
                         }
                         <div className="flex flex-col items-center gap-1">
