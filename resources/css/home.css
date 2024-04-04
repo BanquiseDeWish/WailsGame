@@ -94,7 +94,7 @@ section {
     overflow: hidden;
 }
 section.filled {
-    background-color: var(--content_background);
+    background-color: var(--container_background);
 }
 section.reverse {
     flex-direction: row-reverse;

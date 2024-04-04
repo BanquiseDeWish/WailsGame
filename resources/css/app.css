@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-    --container_background: #18212E;
+    --container_background: rgba(61.34, 105.63, 173.19, 0.20);
     --content_background: #121A25;
     --light_background: #2C3344;
-    --web_background: linear-gradient(254deg, #09101A 0%, #050A11 100%);
+    --web_background: linear-gradient(254deg, #18273D 0%, #070A1E 100%);
+    --modal_background: linear-gradient(254deg, #1F304A 0%, #0D1B30 100%);
     --input_text_color: #fff;
-    --input_placeholder_color: #8C8C8C;
+    --input_placeholder_color: #57779D;
 }
 
 body {
@@ -77,27 +78,22 @@ body {
 
 .button_twitch {
     background: linear-gradient(90deg, #8B5ABB 0%, #362565 100%) !important;
-    outline: 5px solid rgba(133, 90, 187, 0.20);
 }
 
 .button_green {
     background: linear-gradient(90deg, #5ABB81 0%, #356568 100%) !important;
-    outline: 5px solid rgba(87, 141, 144, 0.20);
 }
 
 .button_yellow {
-    outline: 5px solid rgba(169, 153, 72, 0.20);
     background: linear-gradient(99deg, #BBB15A 0%, #684A35 100%) !important;
 }
 
 .button_blue {
     background: linear-gradient(90deg, #5A98BB 0%, #354368 100%) !important;
-    outline: 5px solid rgba(90, 152, 187, 0.20);
 }
 
 .button_red {
     background: linear-gradient(99deg, #BB775A 0%, #683535 100%) !important;
-    outline: 5px solid rgba(144, 97, 87, 0.20);
 }
 
 .konami {
@@ -399,7 +395,6 @@ div:has(label + input) {
     justify-content: center;
     align-items: center;
     padding: 50px;
-    background-color: var(--container_background);
     width: 100%;
 }
 .footer .title {
