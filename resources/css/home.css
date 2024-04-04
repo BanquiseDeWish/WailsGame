@@ -34,7 +34,7 @@
     max-height: 258px;
     overflow-y: auto;
     flex: 1 1 0%;
-    background-color: var(--content_background);
+    background-color: var(--container_background);
 }
 .discord .actions {
     height: fit-content;
@@ -75,7 +75,7 @@
     left: 32px;
     top: 32px;
     border-radius: 100%;
-    outline: 3px solid var(--content_background);
+    outline: 3px solid var(--container_background);
     width: 16px;
     height: 16px;
     background-color: white;

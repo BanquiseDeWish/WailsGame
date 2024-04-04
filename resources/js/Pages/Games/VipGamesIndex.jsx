@@ -37,7 +37,7 @@ export default function VipGamesIndex() {
                 />
 
                 <div className='flex flex-col h-full gap-[16px]'>
-                    <div className='flex bg-[#18212E] items-center rounded-[8px] justify-around p-[16px]'>
+                    <div className='flex container_background items-center rounded-[8px] justify-around p-[16px]'>
                         <div className='flex flex-col gap-[16px]'>
                             <h1 className='title'>Gagnant en titre</h1>
                             <PenguinCard
@@ -84,8 +84,20 @@ export default function VipGamesIndex() {
                         />
                         <StatContainer
                             iconUrl={Clover}
-                            statName={"Le Joueur avec le plus de tentatives"}
-                            statData={props.stats.player_with_most_attempt.stat_value}
+                            statName={"Les Joueurs avec le plus de tentatives"}
+                            statData={
+                            <>
+                                <div className='flex flex-col justify-center items-center'>
+                                    {props.stats.players_with_most_attempt.stat_value.map((player, index) => {
+                                        return (
+                                            <span key={index}>
+                                                {player.username} ({player.totalAttempt})
+                                            </span>
+                                        )})
+                                    }
+                                </div>
+                            </>
+                            }
                         />
                     </div>
                 </div>

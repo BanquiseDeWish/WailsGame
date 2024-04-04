@@ -9,7 +9,7 @@ export default function StatContainer({ statName, statData, iconUrl }) {
                 <div className="text-center">
                     {statName}
                 </div>
-                <div className="text-[#9799A7]">
+                <div className="text-[#adb7c9]">
                     {statData}
                 </div>
             </div>
