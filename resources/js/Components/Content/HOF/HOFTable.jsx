@@ -39,7 +39,7 @@ export default function HoFTable({ load, logoPos, filter, logo, data, labelPoint
 
             {!load && data?.length !== 0 && data !== null && data !== undefined &&
                 <>
-                    {filter?.type !== "category" &&
+                    {filter?.type !== "category" && filter?.displayName &&
                         <div className="flex justify-center w-full text-2xl">
                             {filter?.displayName}
                         </div>
@@ -55,7 +55,7 @@ export default function HoFTable({ load, logoPos, filter, logo, data, labelPoint
                                 penguinWidth: 95
                             }}
                             style={{
-                                background: 'linear-gradient(180deg, var(--container_background) 0%, #9F9F9F 100%)'
+                                background: 'linear-gradient(180deg, transparent 0%, #9F9F9F 100%)'
                             }}
                         />
                         <HoFPodium
@@ -67,7 +67,7 @@ export default function HoFTable({ load, logoPos, filter, logo, data, labelPoint
                                 penguinWidth: 115
                             }}
                             style={{
-                                background: 'linear-gradient(180deg, var(--container_background) 0%, #EDA61E 100%)'
+                                background: 'linear-gradient(180deg, transparent 0%, #EDA61E 100%)'
                             }}
                         />
                         <HoFPodium
@@ -78,7 +78,7 @@ export default function HoFTable({ load, logoPos, filter, logo, data, labelPoint
                                 points: pos3?.points
                             }}
                             style={{
-                                background: 'linear-gradient(180deg, var(--container_background) 0%, #D87731 100%)'
+                                background: 'linear-gradient(180deg, transparent 0%, #D87731 100%)'
                             }}
                         />
                     </div>

@@ -204,7 +204,7 @@ div:has(label + input) {
     width: 70%;
     height: 2px;
     display: flex;
-    background-color: var(--light_background);
+    background-color: var(--container_background);
 }
 
 .dropdown {
