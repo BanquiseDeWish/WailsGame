@@ -22,7 +22,7 @@ export default function DropdownNav({ labelDropdown, menu }) {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
             >
-                <Menu.Items style={{ background: "var(--container_background)" }} className="absolute dropdown right-0 z-[100] mt-2 w-56 origin-top-right rounded-[4px] bg-[] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items style={{ background: "var(--dropdown_background)" }} className="absolute dropdown right-0 z-[100] mt-2 w-56 origin-top-right rounded-[4px] bg-[] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="p-[16px] flex flex-col gap-4">
                         <div className="menu">
                             {menu.map((item, i) => {
