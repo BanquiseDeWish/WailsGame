@@ -102,9 +102,7 @@ export default class TierListView extends React.Component {
                                                             {item?.name}
                                                         </span>
                                                     </div>
-                                                    <div className="input">
-                                                        <span className="card px-[8px] py-[4px] text-lg" style={{ background: 'var(--light_background)' }}>{rate?.rate}/10</span>
-                                                    </div>
+                                                    <span className="card px-[8px] py-[4px] text-lg container_background">{rate?.rate} / 10</span>
                                                 </div>
                                             )
                                         })}

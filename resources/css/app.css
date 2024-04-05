@@ -10,6 +10,7 @@
     --dropdown_background: linear-gradient(254deg, #334c72 0%, #1d375f 100%);
     --dropdown_link_hover_background: rgba(61.34, 105.63, 173.19, 0.40);
     --scrollbar_thumb_color: linear-gradient(180deg, #92ADD9, #6380ad);
+    --light_text: #abbad6;
 }
 
 body {
@@ -162,6 +163,10 @@ input {
     background: var(--container_background) !important;
     color: white !important;
     border: none !important;
+}
+
+input::placeholder {
+    color: var(--light_text) !important;
 }
 
 #modal input {
