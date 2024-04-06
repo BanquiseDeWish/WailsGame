@@ -1,16 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-    --container-background: #09101A;
+    --vip_container_background: rgba(24, 40, 71, 0.9);
+    --slot-item-background: #1e3b64 !important;
 }
 
 .container {
-    background: var(--container-background) !important;
+    background: var(--container_background) !important;
     backdrop-filter: blur(5px);
 }
 
 body {
-    background-image: url('../assets/img/vipgames/vipgames_background.png') !important;
+    /*background-image: url('../assets/img/vipgames/vipgames_background.png') !important;*/
+    background: var(--web_background) !important;
     background-size: cover !important;
     background-position: center !important;
 }
@@ -20,7 +22,7 @@ body::after {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.4);
+    /*background: rgba(0,0,0,0.4);*/
     top: 0;
     left: 0;
 
@@ -31,7 +33,7 @@ body::after {
 }
 
 :root {
-    --background: #0e1014;
+    --background: var(--web_background);
     --ticket: linear-gradient(99deg, #ffc700 0%, #905510 100%);
     --ticket_miss: linear-gradient(99deg, #d9170b 0%, #761111 100%);
     --ticket_bonus: linear-gradient(99deg, #10a3f5 0%, #0b308e 100%);
@@ -40,7 +42,6 @@ body::after {
 }
 
 html {
-    background: var(--background);
     color: #fff;
     font-family: "Poppins";
     font-size: 24px;
@@ -226,17 +227,7 @@ input,
     overflow: hidden;
     border-radius: 8px;
     position: relative;
-}
-
-#game_news::after {
-    content: '';
-    position: absolute;
-    width: 120px;
-    height: 80px;
-    background: linear-gradient(270deg, #020C11 0%, rgba(2, 12, 17, 0.00) 100%);
-    z-index: 100;
-    right: 0;
-    transition: all 2.0s ease-out;
+    mask: linear-gradient(90deg, white 0%, white 80%, transparent 100%);
 }
 
 .game_news_item {
@@ -451,7 +442,7 @@ input,
 
 .player_points_item {
     border-radius: 8px;
-    background-color: #18212E;
+    background-color: var(--container_background);
     padding: 12px 16px;
     width: 100%;
     display: flex;
@@ -534,7 +525,7 @@ input,
     top: 0;
     right: 0;
     visibility: hidden;
-    background: linear-gradient(90deg, #121A25 0%, #a01b1b 100%);
+    background: linear-gradient(90deg, transparent 0%, #a01b1b 40%, #a01b1b 100%);
 }
 
 .player_points_item:hover .points_bin {

@@ -193,7 +193,7 @@ export default function VipGame() {
             }
 
             <div id="game_menu">
-                <img src={VipGamesLogo} width={540} alt="Logo VipGames" style={{filter: 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.99))'}}/>
+                <img src={VipGamesLogo} width={540} alt="Logo VipGames"/>
 
                 <div className='flex flex-col gap-[8px]'>
                     <div className='flex w-full justify-center items-center h-[680px] gap-[24px] flex-shrink-0'>

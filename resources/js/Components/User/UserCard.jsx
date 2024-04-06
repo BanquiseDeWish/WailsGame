@@ -8,8 +8,8 @@ export default function UserCard({userId=0, userName="Unkown Username", ...other
     const avatar = props.ziggy.url + '/api/user/' + userId + '/icon';
 
     return (
-        <div className='flex flex-row rounded-[8px] w-[300px] h-fit p-[16px] flex-shrink-0 gap-[8px] bg-[#18212E]' {...otherProps}>
-            <img src={avatar} alt="" className='rounded-full h-[40px] w-[40px] bg-[#18212E]' width={40}/>
+        <div className='flex flex-row rounded-[8px] w-[300px] h-fit p-[16px] flex-shrink-0 gap-[8px] container_background' {...otherProps}>
+            <img src={avatar} alt="" className='rounded-full h-[40px] w-[40px] container_background' width={40}/>
             <div className='flex flex-col gap-[0px] w-full overflow-hidden'>
                 <div className='item_username'>{userName}</div>
                 <div className='item_subtext'>Un Pingouin Content de Jouer</div>
