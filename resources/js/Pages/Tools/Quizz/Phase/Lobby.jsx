@@ -41,44 +41,46 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
     return (
         <div className="quizz_lobby flex-1">
             <div className="flex justify-center gap-4 my-8">
-                <div className="gap-4 card relative" style={{ alignItems: 'flex-start', paddingTop: '4rem' }}>
-                    <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
-                        <img src={QuizzLogo} style={{ width: '25%' }} />
-                    </div>
-                    <h3 className='text-[24px] font-bold'>Code de la room</h3>
-                    <div className="flex gap-4 w-full">
-                        <input type="text" className='flex-1' name="gameId" defaultValue={globalValues.current.gameId} disabled />
-                        <BlueButton onClick={copyLink}>Copier le lien de la room</BlueButton>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
-                        <h3 className='text-[14px] font-bold'>{playersCount < 10 ? `0${playersCount}` : playersCount}/30</h3>
-                    </div>
-                    <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[400px] pr-4">
-                        {Array.from(Array(30)).map((s, i) => {
+                <div className="card relative p-0" style={{ alignItems: 'flex-start', paddingTop: '4rem' }}>
+                    <div className="flex flex-col gap-4 px-4">
+                        <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
+                            <img src={QuizzLogo} style={{ width: '25%' }} />
+                        </div>
+                        <h3 className='text-[24px] font-bold'>Code de la room</h3>
+                        <div className="flex gap-4 w-full">
+                            <input type="text" className='flex-1' name="gameId" defaultValue={globalValues.current.gameId} disabled />
+                            <BlueButton onClick={copyLink}>Copier l'ID de la room</BlueButton>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
+                            <h3 className='text-[14px] font-bold'>{playersCount < 10 ? `0${playersCount}` : playersCount}/30</h3>
+                        </div>
+                        <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[400px] pr-4 pb-4">
+                            {Array.from(Array(30)).map((s, i) => {
 
-                            const player = globalValues.current.players[i];
+                                const player = globalValues.current.players[i];
 
-                            return (
-                                <div className={`player ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`}>
-                                    {player?.isLeader &&
-                                        <div className="badgeLeader">
-                                            <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
-                                        </div>
-                                    }
-                                    <PenguinCard className="min-w-[250px] max-w-[250px] h-[82px]" skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), background_type: "color", background_data: { color: 'var(--container_background)' } }} />
-                                </div>
-                            )
+                                return (
+                                    <div className={`player ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`}>
+                                        {player?.isLeader &&
+                                            <div className="badgeLeader">
+                                                <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
+                                            </div>
+                                        }
+                                        <PenguinCard className="min-w-[250px] max-w-[250px] h-[82px]" skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), background_type: "color", background_data: { color: 'var(--container_background)' } }} />
+                                    </div>
+                                )
 
-                        })}
+                            })}
+                        </div>
                     </div>
-                    <div className="flex w-full justify-end">
+                    <div className="flex w-full justify-end px-4 py-2" style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
                         <BlueButton onClick={launcGame}>
                             Lancer la partie
                         </BlueButton>
                     </div>
                 </div>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 min-w-[350px]">
                     <div className="card p-4">
                         <div className="flex flex-col items-center gap-3 w-full">
                             <InputRange
@@ -91,7 +93,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                             />
                         </div>
                     </div>
-                    <div className="card p-4 flex-1" style={{ justifyContent: 'flex-start', minWidth: '268px', maxWidth: '268px', gap: '16px', alignItems: 'flex-start' }}>
+                    <div className="card p-4 flex-1 w-full" style={{ justifyContent: 'flex-start', gap: '16px', alignItems: 'flex-start', overflow: 'auto', flex: '1 1 0' }}>
                         {globalValues.current.themes.map((s, i) => {
 
                             if (globalValues.current.isLeader) {
@@ -105,16 +107,10 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                     emit("quizz_update_themes_state", { gameId: globalValues.current.gameId, themes: globalValues.current.themes })
                                 }
 
-                                if (s.type == "theme") {
-                                    const [state, setState] = useState(s?.state)
-
-                                    return (
-                                        <InputSwitch key={i} state={state} label={s?.dname} onChange={() => { onChangeTheme(state, setState, undefined) }} />
-                                    )
-                                } else if (s.type == "category") {
+                                if (s.type == "category") {
                                     return (
                                         <div className="category w-full">
-                                            <Disclosure>
+                                            <Disclosure defaultOpen={true}>
                                                 {({ open }) => (
                                                     <>
                                                         <Disclosure.Button className={`flex w-full justify-between ${open ? 'rounded-t-[4px]' : 'rounded-[4px]'} bg-[#4c6fab] px-4 py-2 text-left text-sm font-medium w-full`}>
@@ -125,12 +121,12 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                                                 <ChevronDown />
                                                             }
                                                         </Disclosure.Button>
-                                                        <Disclosure.Panel className="flex flex-col gap-2 p-2 text-sm rounded-b-[4px] bg-[#334b75]">
+                                                        <Disclosure.Panel className="flex flex-col gap-4 p-2 text-sm rounded-b-[4px] bg-[#334b75]">
                                                             {s?.subcategories?.map((sc, i2) => {
                                                                 const [state, setState] = useState(sc?.state)
                                                                 if (sc.type == "theme") {
                                                                     return (
-                                                                        <InputSwitch key={i2} state={state} label={sc?.dname} onChange={() => { onChangeTheme(state, setState, i2) }} />
+                                                                        <InputSwitch classNameContainer={"max-h-[28px]"} key={i2} state={state} label={sc?.dname} onChange={() => { onChangeTheme(state, setState, i2) }} />
                                                                     )
                                                                 }
                                                             })}
@@ -142,14 +138,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                     )
                                 }
                             } else {
-                                if (s.type == "theme") {
-                                    return (
-                                        <div className="flex gap-2">
-                                            <img src={(s?.state ? TickValidIcon : TickNotValidIcon)} style={{ width: '24px', height: '24px' }} alt="" />
-                                            <span>{s?.dname}</span>
-                                        </div>
-                                    )
-                                } else if (s.type == "category") {
+                                if (s.type == "category") {
                                     return (
                                         <div className="category w-full">
                                             <Disclosure>

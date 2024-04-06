@@ -33,7 +33,7 @@ export default function Quizz(props) {
         messages: [],
         alreadyPlaySoundQuestion: false,
         isLeader: false,
-        answerCurrent: undefined,
+        answerCurrent: [],
         questionCurrent: undefined,
         timerCurrent: 5,
         resultSendAnswer: undefined,
@@ -99,7 +99,7 @@ export default function Quizz(props) {
                 globalValues.current.socket.on('quizz_new_question_current', (args) => {
                     modifyValues('resultSendAnswer', undefined)
                     modifyValues('questionCurrent', args.questionData)
-                    modifyValues('answerCurrent', undefined)
+                    modifyValues('answerCurrent', [])
                 })
 
                 globalValues.current.socket.on('quizz_update_timer', (args) => {
@@ -127,6 +127,10 @@ export default function Quizz(props) {
 
                 globalValues.current.socket.on('quizz_send_maximum_questions', (args) => {
                     modifyValues('maximumQuestions', args)
+                })
+
+                globalValues.current.socket.on('quizz_new_player', (player) => {
+                    toast.info(`${player.username} a rejoint la partie !`)
                 })
 
                 globalValues.current.socket.on('errorMessage', (message) => {
@@ -219,6 +223,10 @@ export default function Quizz(props) {
                 .quizz_question_show .propal_button.good {
                     background: #207019;
                     transform: scale(1.05) !important;
+                }
+                .quizz_question_show .propal_button.goodNotGiven {
+                    outline: 4px solid #207019;
+                    transform: scale(1.012) !important;
                 }
                 .quizz_question_show .propal_button.bad {
                     background: #6b2018;

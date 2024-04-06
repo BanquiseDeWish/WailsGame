@@ -51,7 +51,7 @@ export default class CountDown extends BaseModal {
                                 path: {
                                     stroke: `rgba(61.34, 105.63, 173.19, 1)`,
                                     strokeLinecap: 'butt',
-                                    transition: 'stroke-dashoffset 0.5s ease 0s',
+                                    transition: 'stroke-dashoffset 1.05s ease 0s',
                                     transformOrigin: 'center center',
                                 },
                                 trail: {

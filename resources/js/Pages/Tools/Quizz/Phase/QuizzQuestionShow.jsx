@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import MusicIcon from '../../../../../assets/icons/music.svg'
 import QuizzLogo from '../../../../../assets/img/QuizzMasterLogo.webp'
 
+import { copyToClipboard } from '@/Game/utils';
 import Audio from '@/Game/audio'
 import MessageObject from '../Object/MessageObject';
 import { useState } from 'react';
@@ -23,13 +24,15 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
         return (timerCurrent / 15 * 100)
     }
 
-    const selectAnswer = (propoId) => {
-        if (globalValues.current.answerCurrent == undefined) {
-            document.querySelector('.quizz_question_show .propal_button[dataanswer="' + propoId + '"]').classList.add('focused')
-            new GameSound('quizz_aw_send').playSound(0.5, false)
-        }
-        modifyValues('answerCurrent', propoId)
-        emit('quizz_send_answer_player', { answer: propoId, gameId: globalValues.current.gameId, auth: auth.twitch.id })
+    const selectAnswer = (e, propoId) => {
+        const answers = globalValues.current.answerCurrent;
+        console.log("Oui", globalValues.current)
+        if (globalValues.current.answerCurrent.length > 0 && globalValues.current.questionCurrent.typeAnswer == "simple") return;
+        document.querySelector('.quizz_question_show .propal_button[dataanswer="' + propoId + '"]').classList.add('focused')
+        new GameSound('quizz_aw_send').playSound(0.5, false)
+        answers.push(propoId);
+        modifyValues('answerCurrent', answers)
+        emit('quizz_send_answer_player', { answer: answers, gameId: globalValues.current.gameId, auth: auth.twitch.id })
     }
 
     const playersListScore = globalValues.current.players;
@@ -55,12 +58,9 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
     }
 
     useEffect(() => {
-        if (globalValues.current.resultSendAnswer !== undefined) {
-            if (globalValues.current.resultSendAnswer?.answerGood == globalValues.current.resultSendAnswer?.answerSend) {
-                new GameSound('quizz_aw_good').playSound(0.5, false)
-            } else {
-                new GameSound('quizz_aw_bad').playSound(0.5, false)
-            }
+        const result = globalValues.current.resultSendAnswer;
+        if (result !== undefined) {
+            new GameSound(result.isBad ? 'quizz_aw_bad' : 'quizz_aw_good').playSound(0.5, false)
         }
     }, [globalValues.current.resultSendAnswer])
 
@@ -99,11 +99,16 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
         if (phaseId == 2) {
             if (questionCurrent?.type == "picture" && questionCurrent?.sound_reveal_url !== undefined) {
                 Audio.playSound(questionCurrent?.sound_reveal_url, 0.4, false)
-            }else if (questionCurrent?.type == "sound" && questionCurrent?.sound_reveal_url !== undefined) {
+            } else if (questionCurrent?.type == "sound" && questionCurrent?.sound_reveal_url !== undefined) {
                 Audio.playSound(questionCurrent?.sound_reveal_url, 0.4, false)
             }
         }
     }, [globalValues.current.phaseId])
+
+    const copyIdQuestion = () => {
+        copyToClipboard(globalValues.current.questionCurrent?.asset);
+        toast.success("ID de la partie copié avec succès !")
+    }
 
     if (globalValues.current.questionCurrent !== undefined) {
 
@@ -136,7 +141,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                                 path: {
                                     stroke: `${globalValues.current?.phaseId == 2 ? 'rgba(61.34, 105.63, 173.19, 1)' : timerCurrent > 10 ? 'rgba(61.34, 105.63, 173.19, 1)' : timerCurrent > 5 ? 'yellow' : 'red'}`,
                                     strokeLinecap: 'butt',
-                                    transition: 'stroke-dashoffset 0.5s ease 0s',
+                                    transition: 'stroke-dashoffset 1.05s ease 0s',
                                     transformOrigin: 'center center',
                                 },
                                 trail: {
@@ -152,6 +157,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                                 },
                             }} />
                     </div>
+
                     {isAnimatingNewQuestion &&
                         <motion.div
                             initial={{ x: -100, opacity: 0 }}
@@ -166,6 +172,14 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                         initial={{ x: 0, opacity: 1 }}
                         animate={isAnimatingNewQuestion ? { x: -100, opacity: 0 } : { x: 0, opacity: 1 }}
                         transition={{ duration: 0.1 }} className='flex justify-center items-center flex-col gap-4'>
+                        <div className="idQuestion absolute top-3 right-3 text-right text-[12px] select-none" onClick={copyIdQuestion}>
+                            <b>ID:</b> {questionCurrent.asset}<br />
+                            <b>Catégorie:</b> {questionCurrent.category}<br />
+                            <b>Thème:</b> {questionCurrent.theme}
+                        </div>
+                        <div className="authoQuestion absolute bottom-3 right-3 text-[12px] select-none" onClick={() => { }}>
+                            Proposée par <b>{questionCurrent.author !== undefined ? questionCurrent.author.name : 'le staff'}</b>
+                        </div>
                         {questionCurrent.type == 'text' &&
                             <div className="relative rounded-[8px]" style={{ background: 'transparent' }}>
                                 <div className="sentenceText">
@@ -200,8 +214,25 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                         {/*Propal*/}
                         <div className="propal w-fit grid grid-cols-3 gap-4">
                             {questionCurrent.proposal.map((propo) => {
+
+                                let isBad = undefined;
+                                let isGood = undefined;
+                                let isGoodNotGiven = undefined;
+                                let answerGive = undefined;
+                                const result = globalValues.current.resultSendAnswer;
+                                if (result !== undefined) {
+                                    answerGive = result.answerSend.find((answer) => answer.id == propo.id);
+                                    for(let i=0; i<result.answerGood.length; i++) {
+                                        const answer = result.answerGood[i];
+                                        if(answer == propo.id) {
+                                            isGood = result.answerGood.includes(propo.id) && result.answerSend.find((ans) => ans.id == answer) !== undefined
+                                            isGoodNotGiven = result.answerGood.includes(propo.id) && result.answerSend.find((ans) => ans.id == answer) == undefined
+                                        }
+                                    }
+                                }
+
                                 return (
-                                    <motion.div dataAnswer={propo.text} whileHover={{ scale: '1.05', transition: { duration: 800 } }} className={`propal_button ${globalValues.current.resultSendAnswer?.answerGood == propo.text ? 'good' : ''} ${globalValues.current.resultSendAnswer?.answerSend == propo.text ? globalValues.current.resultSendAnswer?.answerGood == propo.text ? 'good' : 'bad' : ''}`} onClick={() => { selectAnswer(propo.text) }}>
+                                    <motion.div dataAnswer={propo.id} whileHover={{ scale: '1.05', transition: { duration: 800 } }} className={`propal_button ${isGood ? 'good' : isGoodNotGiven ? 'goodNotGiven' : answerGive !== undefined ? answerGive.isBad ? 'bad' : '' : ''}`} onClick={(e) => { selectAnswer(e, propo.id) }}>
                                         {propo.text}
                                     </motion.div>
                                 )
