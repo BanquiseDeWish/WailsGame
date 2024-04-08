@@ -59,7 +59,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
     useEffect(() => {
         const result = globalValues.current.resultSendAnswer;
         if (result !== undefined) {
-            new GameSound(result.isBad ? 'quizz_aw_bad' : 'quizz_aw_good').playSound(0.5, false)
+            new GameSound(result.isBad || result.answerSend.length == 0 ? 'quizz_aw_bad' : 'quizz_aw_good').playSound(0.5, false)
         }
     }, [globalValues.current.resultSendAnswer])
 
@@ -219,8 +219,8 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                                 let isGoodNotGiven = undefined;
                                 let answerGive = undefined;
                                 const result = globalValues.current.resultSendAnswer;
-                                if (result !== undefined) {
-                                    answerGive = result.answerSend.find((answer) => answer.id == propo.id);
+                                if (result !== undefined && result.answerSend !== undefined) {
+                                    answerGive = result.answerSend?.find((answer) => answer.id == propo.id);
                                     for(let i=0; i<result.answerGood.length; i++) {
                                         const answer = result.answerGood[i];
                                         if(answer == propo.id) {
