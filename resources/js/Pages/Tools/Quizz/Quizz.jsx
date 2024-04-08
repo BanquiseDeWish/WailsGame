@@ -64,6 +64,7 @@ export default function Quizz(props) {
             if (globalValues.current.socket !== null) {
                 function onConnect() {
                     if(globalValues.current.connectionError) {
+                        toast.success('De nouveau connecté au serveur')
                         modifyValues('connectionError', false)
                     }
                 }
@@ -138,8 +139,6 @@ export default function Quizz(props) {
                 })
 
                 globalValues.current.socket.on('error', (data) => {
-                    toast.error(data.message);
-                    alert('Ooops')
                 });
 
                 globalValues.current.socket.on("connect_error", (err) => {

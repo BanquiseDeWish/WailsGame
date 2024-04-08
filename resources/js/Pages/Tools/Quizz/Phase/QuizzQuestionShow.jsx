@@ -26,7 +26,6 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
 
     const selectAnswer = (e, propoId) => {
         const answers = globalValues.current.answerCurrent;
-        console.log("Oui", globalValues.current)
         if (globalValues.current.answerCurrent.length > 0 && globalValues.current.questionCurrent.typeAnswer == "simple") return;
         document.querySelector('.quizz_question_show .propal_button[dataanswer="' + propoId + '"]').classList.add('focused')
         new GameSound('quizz_aw_send').playSound(0.5, false)
@@ -131,7 +130,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
 
         return (
             <div className="flex w-full gap-4 mt-8">
-                <div className="quizz_question_show relative flex flex-1 flex-col items-center gap-6 card" style={{ paddingTop: '5.5rem', minHeight: '720px' }}>
+                <div className="quizz_question_show relative flex flex-1 flex-col items-center gap-6 card" style={{ paddingTop: '5.5rem', minHeight: '720px', maxHeight: '720px' }}>
                     <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
                         <img src={QuizzLogo} style={{ width: '20%' }} />
                     </div>
