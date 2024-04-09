@@ -107,23 +107,45 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                     emit("quizz_update_themes_state", { gameId: globalValues.current.gameId, themes: globalValues.current.themes })
                                 }
 
+
                                 if (s.type == "category") {
+
+                                    const onChangeAllCategory = (state) => {
+                                        try {
+                                            globalValues.current.themes[i].state = !state
+                                            for (let ik=0; ik<globalValues.current.themes[i].subcategories.length; ik++) {
+                                                globalValues.current.themes[i].subcategories[ik].state = !state;
+                                            }
+                                            emit("quizz_update_themes_state", { gameId: globalValues.current.gameId, themes: globalValues.current.themes })
+                                        }catch(err) {
+                                            console.log(err)
+                                        }
+                                    }
+
                                     return (
                                         <div className="category w-full">
                                             <Disclosure defaultOpen={true}>
                                                 {({ open }) => (
                                                     <>
-                                                        <Disclosure.Button className={`flex w-full justify-between ${open ? 'rounded-t-[4px]' : 'rounded-[4px]'} bg-[#4c6fab] px-4 py-2 text-left text-sm font-medium w-full`}>
+                                                        <Disclosure.Button className={`flex w-full items-center justify-between ${open ? 'rounded-t-[4px]' : 'rounded-[4px]'} bg-[#4c6fab] px-4 py-2 text-left text-sm font-medium w-full`}>
                                                             <span>{s.dname}</span>
-                                                            {open ?
-                                                                <ChevronUp />
-                                                                :
-                                                                <ChevronDown />
-                                                            }
+                                                            <div className="flex items-center">
+                                                                <InputSwitch classNameContainer={"max-h-[28px]"} key={i} state={null} label={""} onChange={onChangeAllCategory} />
+                                                                {open ?
+                                                                    <ChevronUp />
+                                                                    :
+                                                                    <ChevronDown />
+                                                                }
+                                                            </div>
                                                         </Disclosure.Button>
                                                         <Disclosure.Panel className="flex flex-col gap-4 p-2 text-sm rounded-b-[4px] bg-[#334b75]">
                                                             {s?.subcategories?.map((sc, i2) => {
                                                                 const [state, setState] = useState(sc?.state)
+
+                                                                useEffect(() => {
+                                                                    setState(sc.state)
+                                                                }, [globalValues.current.themes])
+
                                                                 if (sc.type == "theme") {
                                                                     return (
                                                                         <InputSwitch classNameContainer={"max-h-[28px]"} key={i2} state={state} label={sc?.dname} onChange={() => { onChangeTheme(state, setState, i2) }} />
