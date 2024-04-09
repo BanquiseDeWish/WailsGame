@@ -43,7 +43,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
     return (
         <div className="quizz_lobby flex-1">
             <div className="flex justify-center gap-4 my-8">
-                <div className="card relative p-0" style={{ alignItems: 'flex-start', paddingTop: '4rem', minHeight: '740px', maxHeight: '740px' }}>
+                <div className="card relative p-0" style={{ alignItems: 'flex-start', paddingTop: '4rem' }}>
                     <div className="flex flex-col gap-4 px-4">
                         <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
                             <img src={QuizzLogo} style={{ width: '25%' }} />
