@@ -43,10 +43,13 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
     return (
         <div className="quizz_lobby flex-1">
             <div className="flex justify-center gap-4 my-8">
-                <div className="card relative p-0" style={{ alignItems: 'flex-start', paddingTop: '4rem' }}>
+                <div className="card relative p-0" style={{ alignItems: 'flex-start', paddingTop: '4rem', minHeight: '740px', maxHeight: '740px' }}>
                     <div className="flex flex-col gap-4 px-4">
                         <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
                             <img src={QuizzLogo} style={{ width: '25%' }} />
+                        </div>
+                        <div className="message">
+                            <span>Ce jeu est en version Bêta. Il se peut que lors de votre partie, vous rencontriez des problèmes de performances ou de gameplay.<br />Si c'est le cas, merci de vous rendre sur le serveur discord et de signaler le problème concerné</span>
                         </div>
                         <h3 className='text-[24px] font-bold'>Code de la room</h3>
                         <div className="flex gap-4 w-full">
