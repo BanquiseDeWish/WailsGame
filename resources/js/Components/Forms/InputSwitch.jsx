@@ -25,7 +25,7 @@ const InputSwitch = ({ label, classNameContainer, state, onChange }) => {
             pointer-events-none inline-block h-[14px] w-[14px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
                 />
             </Switch>
-            <span>{label}</span>
+            {label}
         </div>
     )
 

@@ -16,6 +16,7 @@ import LogoutIcon from '../../../../../assets/icons/logout.svg'
 import QuizzLogo from '../../../../../assets/img/QuizzMasterLogo.webp'
 import CountDown from '../Modal/CountDown';
 import { InputRange } from '@/Components/Forms/InputRange';
+import ConfirmMaxQuestions from '../Modal/ConfirmMaxQuestions';
 
 export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
 
@@ -26,7 +27,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
         toast.success("ID de la partie copié avec succès !")
     }
 
-    const launcGame = () => {
+    const launchGame = () => {
         emit('quizz_launch_game', { gameId: globalValues.current.gameId })
     }
 
@@ -34,6 +35,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
     const playersCount = copyListPlayers.filter(p => p.isConnected).length;
 
     const questionsMaxChange = (e) => {
+        if(!globalValues.current.isLeader) return;
         setMaxQuestions(e.target.value)
         emit("quizz_update_maximum_questions", { data: maxQuestions })
     }
@@ -53,9 +55,9 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                         </div>
                         <div className="flex items-center gap-3">
                             <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
-                            <h3 className='text-[14px] font-bold'>{playersCount < 10 ? `0${playersCount}` : playersCount}/30</h3>
+                            <h3 className='text-[14px] font-bold'>{playersCount < 10 || playersCount > 1 ? `0${playersCount}` : playersCount}/30</h3>
                         </div>
-                        <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[400px] pr-4 pb-4">
+                        <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[400px] pr-4 pb-4 mb-4">
                             {Array.from(Array(30)).map((s, i) => {
 
                                 const player = globalValues.current.players[i];
@@ -74,11 +76,13 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                             })}
                         </div>
                     </div>
-                    <div className="flex w-full justify-end px-4 py-2" style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
-                        <BlueButton onClick={launcGame}>
-                            Lancer la partie
-                        </BlueButton>
-                    </div>
+                    {globalValues.current.isLeader &&
+                        <div className="flex w-full justify-end px-4 py-2" style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
+                            <BlueButton onClick={launchGame}>
+                                Lancer la partie
+                            </BlueButton>
+                        </div>
+                    }
                 </div>
                 <div className="flex flex-col gap-4 min-w-[350px]">
                     <div className="card p-4">
@@ -113,11 +117,11 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                     const onChangeAllCategory = (state) => {
                                         try {
                                             globalValues.current.themes[i].state = !state
-                                            for (let ik=0; ik<globalValues.current.themes[i].subcategories.length; ik++) {
+                                            for (let ik = 0; ik < globalValues.current.themes[i].subcategories.length; ik++) {
                                                 globalValues.current.themes[i].subcategories[ik].state = !state;
                                             }
                                             emit("quizz_update_themes_state", { gameId: globalValues.current.gameId, themes: globalValues.current.themes })
-                                        }catch(err) {
+                                        } catch (err) {
                                             console.log(err)
                                         }
                                     }
@@ -138,7 +142,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                                                 }
                                                             </div>
                                                         </Disclosure.Button>
-                                                        <Disclosure.Panel className="flex flex-col gap-4 p-2 text-sm rounded-b-[4px] bg-[#334b75]">
+                                                        <Disclosure.Panel className="flex flex-col gap-0 py-2 text-sm rounded-b-[4px] bg-[#334b75]">
                                                             {s?.subcategories?.map((sc, i2) => {
                                                                 const [state, setState] = useState(sc?.state)
 
@@ -148,7 +152,14 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
 
                                                                 if (sc.type == "theme") {
                                                                     return (
-                                                                        <InputSwitch classNameContainer={"max-h-[28px]"} key={i2} state={state} label={sc?.dname} onChange={() => { onChangeTheme(state, setState, i2) }} />
+                                                                        <div className="flex flex-col items-start justify-start hover:bg-[rgba(0,0,0,0.2)] transition-all rounded-[0.275rem] px-2 mx-2 py-2" onClick={() => { onChangeTheme(state, setState, i2) }}>
+                                                                            <InputSwitch classNameContainer={"max-h-[28px]"} key={i2} state={state} label={
+                                                                                <div className='flex flex-col select-none'>
+                                                                                    <span>{sc.dname}</span>
+                                                                                    <span className='text-[12px] font-extralight'>{sc.questionsLength} Questions</span>
+                                                                                </div>
+                                                                            } onChange={() => { onChangeTheme(state, setState, i2) }} />
+                                                                        </div>
                                                                     )
                                                                 }
                                                             })}
@@ -163,10 +174,10 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                 if (s.type == "category") {
                                     return (
                                         <div className="category w-full">
-                                            <Disclosure>
+                                            <Disclosure defaultOpen={true}>
                                                 {({ open }) => (
                                                     <>
-                                                        <Disclosure.Button className={`flex w-full justify-between ${open ? 'rounded-t-[4px]' : 'rounded-[4px]'} bg-[#4c6fab] px-4 py-2 text-left text-sm font-medium w-full`}>
+                                                        <Disclosure.Button className={`flex w-full justify-between ${open ? 'rounded-t-[4px]' : 'rounded-[4px]'} bg-[#4c6fab] items-center px-4 py-2 text-left text-sm font-medium w-full`}>
                                                             <span>{s.dname}</span>
                                                             {open ?
                                                                 <ChevronUp />
@@ -174,13 +185,17 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                                                 <ChevronDown />
                                                             }
                                                         </Disclosure.Button>
-                                                        <Disclosure.Panel className="p-2 text-sm rounded-b-[4px] bg-[#334b75]">
+                                                        <Disclosure.Panel className="py-2 text-sm rounded-b-[4px] flex flex-col gap-0 bg-[#334b75] ">
                                                             {s?.subcategories?.map((sc, i2) => {
                                                                 if (sc.type == "theme") {
                                                                     return (
-                                                                        <div className="flex gap-2">
+                                                                        <div className="flex gap-2 hover:bg-[rgba(0,0,0,0.2)] transition-all rounded-[0.275rem] px-2 mx-2 py-2">
                                                                             <img src={(sc?.state ? TickValidIcon : TickNotValidIcon)} style={{ width: '24px', height: '24px' }} alt="" />
-                                                                            <span>{sc?.dname}</span>
+
+                                                                            <div className='flex flex-col select-none'>
+                                                                                <span>{sc.dname}</span>
+                                                                                <span className='text-[12px] font-extralight'>{sc.questionsLength} Questions</span>
+                                                                            </div>
                                                                         </div>
                                                                     )
                                                                 }
@@ -198,7 +213,8 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                     </div>
                 </div>
             </div>
-            <CountDown data={{ launching: globalValues.current.launchingGame, timer: globalValues.current.timerCurrent }} />
+            <ConfirmMaxQuestions data={{ lastError: globalValues.current.lastError }} launchGame={launchGame} emit={emit} />
+            <CountDown data={{ launching: globalValues.current.launchingGame, timer: globalValues.current.timerCurrent }}  />
         </div>
     )
 

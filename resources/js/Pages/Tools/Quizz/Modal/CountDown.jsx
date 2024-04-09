@@ -64,9 +64,10 @@ export default class CountDown extends BaseModal {
                                     fill: '#fff',
                                     fontWeight: 'bold',
                                     fontSize: '32px',
+                                    userSelect: 'none'
                                 },
                             }} />
-                        <h2 className='text-[32px] font-bold text-center'>Début de la partie dans..</h2>
+                        <h2 className='text-[32px] font-bold text-center select-none'>Début de la partie dans..</h2>
                     </div>
                 </div>
                 <style>{`

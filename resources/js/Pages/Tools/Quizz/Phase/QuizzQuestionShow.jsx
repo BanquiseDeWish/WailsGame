@@ -130,7 +130,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
 
         return (
             <div className="flex w-full gap-4 mt-8">
-                <div className="quizz_question_show relative flex flex-1 flex-col items-center gap-6 card" style={{ paddingTop: '5.5rem', minHeight: '720px', maxHeight: '720px' }}>
+                <div className="quizz_question_show relative flex flex-1 flex-col items-center gap-6 card" style={{ paddingTop: '5.5rem', minHeight: '740px', maxHeight: '740px' }}>
                     <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
                         <img src={QuizzLogo} style={{ width: '20%' }} />
                     </div>
@@ -153,6 +153,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                                     fill: '#fff',
                                     fontWeight: 'bold',
                                     fontSize: '32px',
+                                    userSelect: 'none'
                                 },
                             }} />
                     </div>
@@ -162,7 +163,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                             initial={{ x: -100, opacity: 0 }}
                             animate={isAnimatingNewQuestion ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }}
                             transition={{ duration: 0.1 }} className="loading w-full h-full absolute top-0 flex items-center">
-                            <h2 className='italic font-bold text-[36px] text-center w-full'>
+                            <h2 className='italic font-bold text-[36px] text-center w-full select-none'>
                                 {(globalValues.current?.data?.questionCursor + 1) == (globalValues.current?.data?.maxQuestions) ? "Partie terminée !" : "Question suivante !"}
                             </h2>
                         </motion.div>
@@ -181,7 +182,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                         </div>
                         {questionCurrent.type == 'text' &&
                             <div className="relative rounded-[8px]" style={{ background: 'transparent' }}>
-                                <div className="sentenceText">
+                                <div className="sentenceText select-none">
                                     {questionCurrent.sentence}
                                 </div>
                             </div>
@@ -193,20 +194,21 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                                     maxHeight: "380px",
                                     minHeight: "380px",
                                     objectFit: "fill"
-                                }} className="rounded-xl" alt="" />
+                                }} className="rounded-xl select-none" alt="" />
                         }
                         {questionCurrent.type == 'sound' &&
                             <div className="music flex justify-center">
                                 <img src={globalValues.current.phaseId == 1 ? MusicIcon : questionCurrent?.picture_reveal_url !== undefined ? questionCurrent?.picture_reveal_url : MusicIcon} style={{
                                     maxHeight: "380px",
                                     minHeight: "380px",
-                                    objectFit: "fill"
+                                    objectFit: "fill",
+                                    userSelect: "none"
                                 }} alt="" />
                             </div>
                         }
                         <div className="flex flex-col items-center gap-1">
-                            <span className='text-[24px] font-extralight'>Question {(globalValues.current?.data?.questionCursor + 1)}/{globalValues.current?.data?.maxQuestions}</span>
-                            <h2 className="text-[24px] font-bold">
+                            <span className='text-[24px] font-extralight select-none'>Question {(globalValues.current?.data?.questionCursor + 1)}/{globalValues.current?.data?.maxQuestions}</span>
+                            <h2 className="text-[24px] font-bold select-none">
                                 {questionCurrent.type !== 'text' ? questionCurrent.sentence : "Répondez à la question ci-dessus"}
                             </h2>
                         </div>
@@ -259,7 +261,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                         </div>
                     </div>
                     <div className="card gap-2 gap-2 p-4">
-                        <h2 className='text-[20px] font-semibold'>Chat</h2>
+                        <h2 className='text-[20px] font-semibold select-none'>Chat</h2>
                         <div className="messages w-full" style={{ height: '250px', overflowY: 'auto' }}>
                             {globalValues.current.messages.map((message) => {
                                 return (

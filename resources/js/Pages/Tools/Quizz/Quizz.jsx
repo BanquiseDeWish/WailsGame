@@ -27,6 +27,7 @@ export default function Quizz(props) {
         phaseId: 0,
         launchingGame: false,
         connectionError: false,
+        lastError: undefined,
         gameId: props.gameId,
         maximumQuestions: 30,
         data: undefined,
@@ -40,6 +41,11 @@ export default function Quizz(props) {
         themes: [],
         players: []
     });
+
+    const errorMessagesFilter = [
+        "themes_enable_not_superior_max_questions",
+        "reset_error"
+    ]
 
     const modifyValues = (key, value) => {
         if(key == "update_themes_state") {
@@ -127,6 +133,7 @@ export default function Quizz(props) {
                 })
 
                 globalValues.current.socket.on('quizz_send_maximum_questions', (args) => {
+                    console.log('maximum_questions', args)
                     modifyValues('maximumQuestions', args)
                 })
 
@@ -134,8 +141,11 @@ export default function Quizz(props) {
                     toast.info(`${player.username} a rejoint la partie !`)
                 })
 
-                globalValues.current.socket.on('errorMessage', (message) => {
-                    toast.error(message)
+                globalValues.current.socket.on('errorMessage', (args) => {
+                    modifyValues('lastError', (args.message !== "reset_error" ? args : undefined))
+                    const checkFilter = errorMessagesFilter.find(msg => msg == args.message)
+                    if(checkFilter) return;
+                    toast.error(args.message)
                 })
 
                 globalValues.current.socket.on('error', (data) => {
