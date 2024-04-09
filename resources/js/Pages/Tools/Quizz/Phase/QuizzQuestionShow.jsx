@@ -244,7 +244,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="players h-full">
-                        <div className="card items-start p-4 justify-start h-full gap-4 min-w-[350px] overflow-y-auto">
+                        <div className="card items-start p-4 justify-start max-h-[340px] min-h-[340px] gap-4 min-w-[350px] overflow-y-auto">
                             {playersListScore.map((player, i) => {
                                 return (
                                     <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
