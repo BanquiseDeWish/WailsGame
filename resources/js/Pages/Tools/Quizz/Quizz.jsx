@@ -101,16 +101,18 @@ export default function Quizz(props) {
                 })
 
                 globalValues.current.socket.on('quizz_update_phaseid', (args) => {
-                    if(args.phaseId == 1) modifyValues('timerCurrent', 15)
+                    if(args.phaseId == 1) {
+                        modifyValues('timerCurrent', 15)
+                        modifyValues('resultSendAnswer', undefined)
+                        modifyValues('resultAnswersPlayers', undefined)
+                        modifyValues('answerCurrent', [])
+                    }
                     if(args.phaseId == 2) modifyValues('timerCurrent', 6)
                     modifyValues('phaseId', args.phaseId)
                 })
 
                 globalValues.current.socket.on('quizz_new_question_current', (args) => {
-                    modifyValues('resultSendAnswer', undefined)
-                    modifyValues('resultAnswersPlayers', undefined)
                     modifyValues('questionCurrent', args.questionData)
-                    modifyValues('answerCurrent', [])
                 })
 
                 globalValues.current.socket.on('quizz_update_timer', (args) => {
