@@ -103,9 +103,6 @@ export default function Quizz(props) {
                 globalValues.current.socket.on('quizz_update_phaseid', (args) => {
                     if(args.phaseId == 1) {
                         modifyValues('timerCurrent', 15)
-                        modifyValues('resultSendAnswer', undefined)
-                        modifyValues('resultAnswersPlayers', undefined)
-                        modifyValues('answerCurrent', [])
                     }
                     if(args.phaseId == 2) modifyValues('timerCurrent', 6)
                     modifyValues('phaseId', args.phaseId)

@@ -85,6 +85,9 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                 if (!isAnimatingNewQuestion) {
                     setIsAnimatingNewQuestion(true)
                 }
+                modifyValues('resultSendAnswer', undefined)
+                modifyValues('resultAnswersPlayers', undefined)
+                modifyValues('answerCurrent', [])
                 questionPicture = undefined;
             }
         } else if (globalValues.current.phaseId == 1) {
