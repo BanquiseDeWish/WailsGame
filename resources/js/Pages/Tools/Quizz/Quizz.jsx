@@ -38,6 +38,7 @@ export default function Quizz(props) {
         questionCurrent: undefined,
         timerCurrent: 5,
         resultSendAnswer: undefined,
+        resultAnswersPlayers: undefined,
         themes: [],
         players: []
     });
@@ -105,6 +106,7 @@ export default function Quizz(props) {
 
                 globalValues.current.socket.on('quizz_new_question_current', (args) => {
                     modifyValues('resultSendAnswer', undefined)
+                    modifyValues('resultAnswersPlayers', undefined)
                     modifyValues('questionCurrent', args.questionData)
                     modifyValues('answerCurrent', [])
                 })
@@ -117,12 +119,15 @@ export default function Quizz(props) {
                     modifyValues('resultSendAnswer', args)
                 })
 
+                globalValues.current.socket.on('quizz_answer_result_players', (args) => {
+                    modifyValues('resultAnswersPlayers', args)
+                })
+
                 globalValues.current.socket.on('quizz_update_data', (args) => {
                     modifyValues('data', args)
                 })
 
                 globalValues.current.socket.on('quizz_launching_game', (args) => {
-                    console.log('test launch')
                     modifyValues('launchingGame', true)
                 })
 
@@ -133,7 +138,6 @@ export default function Quizz(props) {
                 })
 
                 globalValues.current.socket.on('quizz_send_maximum_questions', (args) => {
-                    console.log('maximum_questions', args)
                     modifyValues('maximumQuestions', args)
                 })
 
@@ -214,8 +218,6 @@ export default function Quizz(props) {
                     user-select: none;
 
                     transition: all 0.1s ease-in-out;
-
-                    background: #324b68;
                     padding: 12px 16px;
                     border-radius: 8px;
                     font-weight: 600;
@@ -255,6 +257,20 @@ export default function Quizz(props) {
                     font-weight: normal;
                     font-style: italic;
                 }
+                .quizz_question_show .playerBad {
+                    background: rgb(255,236,59);
+                    background: -moz-linear-gradient(128deg, rgba(255,236,59,0) 0%, rgba(107,32,24,1) 100%);
+                    background: -webkit-linear-gradient(128deg, rgba(255,236,59,0) 0%, rgba(107,32,24,1) 100%);
+                    background: linear-gradient(128deg, rgba(255,236,59,0) 0%, rgba(107,32,24,1) 100%);
+                    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffec3b",endColorstr="#6b2018",GradientType=1);
+                }
+                .quizz_question_show .playerGood {
+                    background: rgb(255,236,59);
+                    background: -moz-linear-gradient(128deg, rgba(255,236,59,0) 0%, rgba(32,112,25,1) 100%);
+                    background: -webkit-linear-gradient(128deg, rgba(255,236,59,0) 0%, rgba(32,112,25,1) 100%);
+                    background: linear-gradient(128deg, rgba(255,236,59,0) 0%, rgba(32,112,25,1) 100%);
+                    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffec3b",endColorstr="#207019",GradientType=1);
+                }
                 .messages {
                     display: flex;
                     flex-direction: column-reverse;
@@ -278,6 +294,44 @@ export default function Quizz(props) {
                     width: 250px;
                     text-wrap: wrap;
                     word-wrap: break-word;
+                }
+                .picture_proposal {
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    background: #324b68;
+                    padding: 16px;
+                    border-radius: 8px;
+                    transition: 0.2s all ease-in-out;
+                    min-width: 200px;
+                    min-height: 200px;
+                }
+                .picture_proposal.focused {
+                    background: #6095d1;
+                    transform: scale(1.05) !important;
+                }
+                .picture_proposal.good {
+                    background: #207019;
+                    transform: scale(1.10) !important;
+                }
+                .picture_proposal.bad {
+                    transform: scale(0.989) !important;
+                }
+                .picture_proposal img {
+                    position: relative;
+                    z-index: 1;
+                }
+                .picture_proposal.bad::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.85);
+                    backdrop-filter: blur(2px);
+                    border-radius: inherit;
+                    z-index: 2;
                 }
             `}
             </style>

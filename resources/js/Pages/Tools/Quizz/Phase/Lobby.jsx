@@ -17,17 +17,20 @@ import QuizzLogo from '../../../../../assets/img/QuizzMasterLogo.webp'
 import CountDown from '../Modal/CountDown';
 import { InputRange } from '@/Components/Forms/InputRange';
 import ConfirmMaxQuestions from '../Modal/ConfirmMaxQuestions';
+import HowToPlay from '../Modal/HowToPlay';
 
 export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
 
     const [maxQuestions, setMaxQuestions] = useState(globalValues.current.maximumQuestions)
-
+    const [timeGame, setTimeGame] = useState(-1)
+    const [isOpenHTP, setIsOpenHTP] = useState(false)
     const copyLink = () => {
         copyToClipboard(globalValues.current.gameId);
         toast.success("ID de la partie copié avec succès !")
     }
 
     const launchGame = () => {
+        if(!globalValues.current.isLeader) return;
         emit('quizz_launch_game', { gameId: globalValues.current.gameId })
     }
 
@@ -35,10 +38,16 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
     const playersCount = copyListPlayers.filter(p => p.isConnected).length;
 
     const questionsMaxChange = (e) => {
-        if(!globalValues.current.isLeader) return;
+        if (!globalValues.current.isLeader) return;
         setMaxQuestions(e.target.value)
         emit("quizz_update_maximum_questions", { data: maxQuestions })
     }
+
+    useEffect(() => {
+        const max = globalValues.current.maximumQuestions
+        const timeGame = Math.floor((20 * max) / 60)
+        setTimeGame(timeGame)
+    }, [globalValues.current.maximumQuestions])
 
     return (
         <div className="quizz_lobby flex-1">
@@ -79,13 +88,14 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                             })}
                         </div>
                     </div>
-                    {globalValues.current.isLeader &&
-                        <div className="flex w-full justify-end px-4 py-2" style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
-                            <BlueButton onClick={launchGame}>
-                                Lancer la partie
-                            </BlueButton>
-                        </div>
-                    }
+                    <div className="flex w-full justify-between px-2 py-2" style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
+                        <BlueButton onClick={() => { setIsOpenHTP(true) }}>
+                            Comment jouer ?
+                        </BlueButton>
+                        <BlueButton onClick={launchGame}>
+                            Lancer la partie
+                        </BlueButton>
+                    </div>
                 </div>
                 <div className="flex flex-col gap-4 min-w-[350px]">
                     <div className="card p-4">
@@ -98,6 +108,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                                 max={50}
                                 id="questions_max"
                             />
+                            <span><b>Temps de jeu:</b> {timeGame} minutes </span>
                         </div>
                     </div>
                     <div className="card p-4 flex-1 w-full" style={{ justifyContent: 'flex-start', gap: '16px', alignItems: 'flex-start', overflow: 'auto', flex: '1 1 0' }}>
@@ -216,8 +227,9 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                     </div>
                 </div>
             </div>
+            <HowToPlay isOpen={isOpenHTP} setIsOpen={setIsOpenHTP} />
             <ConfirmMaxQuestions data={{ lastError: globalValues.current.lastError }} launchGame={launchGame} emit={emit} />
-            <CountDown data={{ launching: globalValues.current.launchingGame, timer: globalValues.current.timerCurrent }}  />
+            <CountDown data={{ launching: globalValues.current.launchingGame, timer: globalValues.current.timerCurrent }} />
         </div>
     )
 

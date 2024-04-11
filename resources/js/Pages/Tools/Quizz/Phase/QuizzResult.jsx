@@ -26,12 +26,12 @@ const QuizzResult = ({ auth, globalValues, modifyValues, emit }) => {
                 {playersListScore.map((player, i) => {
 
                     const position = (i + 1);
-                    let displayPosition = `${position}ème`
+                    let displayPosition = `${position}e`
                     if(position == 1) displayPosition = `${position}er`
 
                     return (
                         <div className="flex w-full items-center gap-4">
-                            <h2 className='text-[24px] font-semibold min-w-[70px] text-center'>{displayPosition}</h2>
+                            <h2 className='text-[38px] font-semibold min-w-[70px] text-center'>{displayPosition}</h2>
                             <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
                                 {player?.isLeader &&
                                     <div className="badgeLeader">
