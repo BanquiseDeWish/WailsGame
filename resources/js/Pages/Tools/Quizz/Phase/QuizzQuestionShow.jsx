@@ -196,7 +196,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                                         maxHeight: "380px",
                                         minHeight: "380px",
                                         objectFit: "fill",
-                                    }} className="rounded-xl select-none" alt="" /> }
+                                    }} className="rounded-xl select-none" alt="" />}
                             </>
                         }
                         {questionCurrent.type == 'picture_multiple' &&
@@ -223,7 +223,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                                                 maxHeight: "200px",
                                                 minHeight: "200px",
                                                 objectFit: "fill"
-                                            }} className="rounded-xl select-none" alt="" /> }
+                                            }} className="rounded-xl select-none" alt="" />}
                                         </motion.div>
                                     )
                                 })}
