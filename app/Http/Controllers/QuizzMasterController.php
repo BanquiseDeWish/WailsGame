@@ -90,10 +90,16 @@ class QuizzMasterController extends Controller
 
             //Check Size File
             $sizeFile = $request->file('dropzone_file')->getSize();
-            number_format(($sizeFile / pow(1024, 2)), 2);
-        }
 
-        $file->storeAs('quizz/form', $uuid . '.' . $file->extension(), 'public');
+            if(number_format(($sizeFile / pow(1024, 2)), 2) > 2) {
+                $validator->errors()->add(
+                    'file', 'Ce fichier ne doit pas être supérieur à 2 Mo.'
+                );
+                return redirect(route('games.quizz.form'))->withErrors($validator);
+            }
+
+            $file->storeAs('quizz/form', $uuid . '.' . $file->extension(), 'public');
+        }
 
         //Check file sound
         if($typeQuestion == "sound") {
