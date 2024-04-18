@@ -166,7 +166,7 @@ class QuizzMasterController extends Controller
             "attachments" => []
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 
-        $this->discordmsg($msg, 'https://discord.com/api/webhooks/1230206654025302119/hGMU7KHRMvs36ytfcIQZlq29XctrQ6yAFc2v_apRcFOQ4xnEH34PfUIge0AZbHDHPBe-');
+        $this->discordmsg($msg, env('DISCORD_WEBHOOK_QUIZZMASTER'));
 
         return redirect(route('games.quizz.form'))->withErrors($validator);
     }
