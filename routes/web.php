@@ -92,8 +92,12 @@ Route::prefix('tierlist')->name('tierlist.')->middleware(['auth_twitch'])->group
 
 Route::prefix('games')->name('games.')->middleware(['auth_twitch'])->group(function() {
     Route::prefix('quizz')->name('quizz.')->group(function() {
-        Route::get('/', [QuizzMasterController::class, 'index'])->name('index');
-        Route::get('/party/{gameId}', [QuizzMasterController::class, 'party'])->name('party');
+        if(env('APP_ENV') == "local") {
+            Route::get('/', [QuizzMasterController::class, 'index'])->name('index');
+            Route::get('/party/{gameId}', [QuizzMasterController::class, 'party'])->name('party');
+        }
+        Route::get('/form', [QuizzMasterController::class, 'form'])->name('form');
+        Route::post('/form/send_question', [QuizzMasterController::class, 'send_question'])->name('form.submit');
     });
 });
 

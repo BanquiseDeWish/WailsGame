@@ -50,7 +50,7 @@ export default class HowToPlay extends BaseModal {
                         <h2 className='text-[28px] font-semibold'>Comment se déroule une partie ?</h2>
                     </div>
                     <p>
-                        Le principe est simple : vous répondez à 30 questions variées pendant 15 secondes chacune. Ça peut être une simple question, une question audio ou encore une image ou des images. Le but, avoir le meilleur score pour prouver à vos amis que vous avez un BIG BRAIN.<br /><br />
+                        Le principe est simple : vous répondez jusqu'à 50 questions variées pendant 15 secondes chacune. Ça peut être une simple question, une question audio ou encore une image ou des images. Le but, avoir le meilleur score pour prouver à vos amis que vous avez un BIG BRAIN.<br /><br />
                         Plus vous répondez vite, plus vous gagnerez ou perdrez de points. Cependant, à contrario, plus vous prenez votre temps pour répondre moins vous gagnerez ou perdrez de points.<br /><br />
                         <div className="flex">
                             <div className="message w-fit" style={{ width: 'fit-content' }}>
@@ -67,6 +67,7 @@ export default class HowToPlay extends BaseModal {
                 </div>
                 <style>{`
                     :root {
+                        --modal_background: transparent;
                         --rw_popup_background: #233E67;
                         --rw-list-option-color: #fff;
                         --rw-list-option-hover: #395786;

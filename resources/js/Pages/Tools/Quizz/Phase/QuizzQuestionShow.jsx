@@ -13,11 +13,17 @@ import MessageObject from '../Object/MessageObject';
 import { useState } from 'react';
 import GameSound from '@/Game/audio';
 import { useEffect } from 'react';
-const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) => {
+import RefreshIcon from '@/Components/Icons/RefreshIcon';
+import CogIcon from '@/Components/Icons/Cog';
+import ReplayIcon from '@/Components/Icons/Replay';
+const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValues, emit }) => {
 
     const [messageChat, setMessageChat] = useState("")
-    let audioPlaying = null;
+    const [audioPlaying, setAudioPlaying] = useState(null)
+    const [audioVolume, setAudioVolume] = useState(sv.volumeState)
+
     let questionPicture = undefined;
+
     const [isAnimatingNewQuestion, setIsAnimatingNewQuestion] = useState(true)
     const timerCurrent = globalValues.current.timerCurrent;
 
@@ -29,7 +35,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
         const answers = globalValues.current.answerCurrent;
         if (globalValues.current.answerCurrent.length > 0 && globalValues.current.questionCurrent.typeAnswer == "simple") return;
         e.currentTarget.classList.add('focused')
-        new GameSound('quizz_aw_send').playSound(0.5, false)
+        new GameSound('quizz_aw_send').playSound(getVolumeAudio(), false)
         answers.push(propoId);
         modifyValues('answerCurrent', answers)
         emit('quizz_send_answer_player', { answer: answers, gameId: globalValues.current.gameId, auth: auth.twitch.id })
@@ -49,10 +55,18 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
         })
     }
 
+    const getVolumeAudio = () => {
+        return localStorage.getItem('volume') !== undefined && localStorage.getItem('volume') !== null ? (parseInt(localStorage.getItem('volume')) / 10) : 0.5
+    }
+
     const sendChatMessage = (event) => {
         if (event.key === 'Enter') {
             if (messageChat == "") return;
             setMessageChat("");
+            const val = localStorage.getItem('chatState')
+            if (val !== undefined)
+                if (val !== "false")
+                    return toast.error('Vous avez désactivé le chat, impossible d\'envoyer un message !');
             emit('quizz_send_message_player', { message: messageChat })
         }
     }
@@ -60,11 +74,13 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
     useEffect(() => {
         const result = globalValues.current.resultSendAnswer;
         if (result !== undefined) {
-            new GameSound(result.isBad || result.answerSend.length == 0 ? 'quizz_aw_bad' : 'quizz_aw_good').playSound(0.5, false)
+            const volume =
+                new GameSound(result.isBad || result.answerSend.length == 0 ? 'quizz_aw_bad' : 'quizz_aw_good').playSound(getVolumeAudio(), false)
         }
     }, [globalValues.current.resultSendAnswer])
 
     useEffect(() => {
+        setAudioPlaying(null)
         if (globalValues.current.questionCurrent !== undefined) {
             setTimeout(() => {
                 const questionCurrent = globalValues.current.questionCurrent;
@@ -73,7 +89,9 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                     if (questionCurrent?.sound_url !== undefined) {
                         urlSound = questionCurrent?.sound_url
                     }
-                    audioPlaying = Audio.playSound(urlSound, 0.4, false)
+                    if (audioPlaying == null) {
+                        setAudioPlaying(Audio.playSound(urlSound, getVolumeAudio(), false))
+                    }
                 }
             }, 1000)
         }
@@ -81,6 +99,11 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
 
     useEffect(() => {
         if (globalValues.current.phaseId == 2) {
+            if (audioPlaying !== null) {
+                audioPlaying.pause()
+                audioPlaying.currentTime = 0
+                setAudioPlaying(null)
+            }
             if (globalValues.current.timerCurrent <= 2) {
                 if (!isAnimatingNewQuestion) {
                     setIsAnimatingNewQuestion(true)
@@ -102,17 +125,36 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
         const questionCurrent = globalValues.current.questionCurrent;
         if (phaseId == 2) {
             if (questionCurrent?.type == "picture" && questionCurrent?.sound_reveal_url !== undefined) {
-                Audio.playSound(questionCurrent?.sound_reveal_url, 0.4, false)
+                Audio.playSound(questionCurrent?.sound_reveal_url, getVolumeAudio(), false)
             } else if (questionCurrent?.type == "sound" && questionCurrent?.sound_reveal_url !== undefined) {
-                Audio.playSound(questionCurrent?.sound_reveal_url, 0.4, false)
+                Audio.playSound(questionCurrent?.sound_reveal_url, getVolumeAudio(), false)
             }
         }
     }, [globalValues.current.phaseId])
+
+    const replaySound = () => {
+        if(globalValues.current.questionCurrent.type !== "sound") return toast.error('Aucun son ne peut être joué dans une question de ce type.')
+        if (audioPlaying !== null) {
+            audioPlaying.pause()
+            audioPlaying.currentTime = 0
+            audioPlaying.play()
+        }
+    }
 
     const copyIdQuestion = () => {
         copyToClipboard(globalValues.current.questionCurrent?.asset);
         toast.success("ID de la partie copié avec succès !")
     }
+
+    useEffect(() => {
+        setAudioVolume(sv.volumeState)
+    }, [sv])
+
+    useEffect(() => {
+        if (audioPlaying !== null) {
+            audioPlaying.volume = (audioVolume) / 10
+        }
+    }, [audioVolume])
 
     if (globalValues.current.questionCurrent !== undefined) {
 
@@ -176,14 +218,29 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                         initial={{ x: 0, opacity: 1 }}
                         animate={isAnimatingNewQuestion ? { x: -100, opacity: 0 } : { x: 0, opacity: 1 }}
                         transition={{ duration: 0.1 }} className='flex justify-center items-center flex-col gap-4'>
-                        <div className="idQuestion absolute top-3 right-3 text-right text-[12px] select-none" onClick={copyIdQuestion}>
-                            <b>ID:</b> {questionCurrent.asset}<br />
+                        <div className="idQuestion flex flex-col justify-end absolute top-3 right-3 text-right text-[12px] select-none">
+                            <div onClick={copyIdQuestion}><b>ID:</b> {questionCurrent.asset}<br /></div>
+                            <div>
                             <b>Catégorie:</b> {questionCurrent.category}<br />
+                            </div>
+                            <div>
                             <b>Thème:</b> {questionCurrent.theme}
+                            </div>
+
+                            <div className="flex flex-col items-end mt-10 gap-2">
+                                <div onClick={replaySound} className={`buttonFast ${questionCurrent.type !== "sound" && "disabled"} gap-2 justify-end right-3 text-[20px] select-none`}>
+                                    <span>Rejouer le son</span> <ReplayIcon width={24} height={24} />
+                                </div>
+                                <div onClick={() => { settings.set(true) }} className="buttonFast gap-2 justify-end right-3 text-[20px] select-none">
+                                    <span>Paramètres</span> <CogIcon width={24} height={24} />
+                                </div>
+                            </div>
+
                         </div>
                         <div className="authoQuestion absolute bottom-3 right-3 text-[12px] select-none" onClick={() => { }}>
                             Proposée par <b>{questionCurrent.author !== undefined ? questionCurrent.author.name : 'le staff'}</b>
                         </div>
+
                         {questionCurrent.type == 'text' &&
                             <div className="relative rounded-[8px]" style={{ background: 'transparent' }}>
                                 <div className="sentenceText select-none">
@@ -233,17 +290,20 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                             </div>
                         }
                         {questionCurrent.type == 'sound' &&
-                            <div className="music flex justify-center">
-                                <img src={globalValues.current.phaseId == 1 ? MusicIcon : questionCurrent?.picture_reveal_url !== undefined ? questionCurrent?.picture_reveal_url : MusicIcon} style={{
-                                    maxHeight: "380px",
-                                    minHeight: "380px",
-                                    objectFit: "fill",
-                                    userSelect: "none"
-                                }} alt="" />
-                            </div>
+                            <>
+                                <div onClick={replaySound} className="music flex justify-center">
+                                    <img src={globalValues.current.phaseId == 1 ? MusicIcon : questionCurrent?.picture_reveal_url !== undefined ? questionCurrent?.picture_reveal_url : MusicIcon} style={{
+                                        maxHeight: "380px",
+                                        minHeight: "380px",
+                                        objectFit: "fill",
+                                        userSelect: "none"
+                                    }} alt="" />
+                                </div>
+                            </>
+
                         }
                         <div className="flex flex-col items-center gap-1">
-                            <span className='text-[24px] font-extralight select-none'>Question {(globalValues.current?.data?.questionCursor + 1)}/{globalValues.current?.data?.maxQuestions}</span>
+                            <span className='text-[24px] font-extralight select-none'>Question {(questionCurrent.index + 1)}/{globalValues.current?.data?.maxQuestions}</span>
                             <h2 className="text-[24px] font-bold select-none">
                                 {questionCurrent.type !== 'text' ? questionCurrent.sentence : "Répondez à la question ci-dessus"}
                             </h2>

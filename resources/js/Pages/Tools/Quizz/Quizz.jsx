@@ -14,12 +14,18 @@ import QuizzQuestionShow from './Phase/QuizzQuestionShow';
 import QuoteUpIcon from '../../../../assets/icons/quote-up.svg'
 import QuoteDownIcon from '../../../../assets/icons/quote-down.svg'
 import QuizzResult from './Phase/QuizzResult';
+import Settings from './Modal/Settings';
 
 let socket = null;
 const DEV = false;
 
 export default function Quizz(props) {
 
+    const [isOpenSettings, setIsOpenSettings] = useState(false)
+    const [settingsValues, setSettingsValues] = useState({
+        volumeState: localStorage.getItem('volume') !== undefined ? parseInt(localStorage.getItem('volume')) : 5,
+        chatState: localStorage.getItem('chatState') !== undefined ? localStorage.getItem('chatState') !== "false" : false,
+    })
     const [, forceUpdate] = useReducer((x) => x + 1, 0)
     const globalValues = useRef({
         init: false,
@@ -36,7 +42,7 @@ export default function Quizz(props) {
         isLeader: false,
         answerCurrent: [],
         questionCurrent: undefined,
-        timerCurrent: 5,
+        timerCurrent: 8,
         resultSendAnswer: undefined,
         resultAnswersPlayers: undefined,
         themes: [],
@@ -62,6 +68,16 @@ export default function Quizz(props) {
             const socket = globalValues.current.socket;
             socket.emit(event, args)
         }
+    }
+
+    const changeSetting = (key, val) => {
+        if(key == "chatState")
+            setSettingsValues({ ...settingsValues, chatState: val })
+
+        if(key == "volume")
+            setSettingsValues({ ...settingsValues, volumeState: parseInt(val) })
+
+        localStorage.setItem(key, parseInt(val))
     }
 
     useEffect(() => {
@@ -105,6 +121,9 @@ export default function Quizz(props) {
                         modifyValues('timerCurrent', 15)
                     }
                     if(args.phaseId == 2) modifyValues('timerCurrent', 6)
+                    if(args.phaseId == 3) {
+                        modifyValues('launchingGame', false)
+                    }
                     modifyValues('phaseId', args.phaseId)
                 })
 
@@ -132,9 +151,20 @@ export default function Quizz(props) {
                     modifyValues('launchingGame', true)
                 })
 
+                globalValues.current.socket.on('quizz_reset_other_data', (args) => {
+                    modifyValues('launchingGame', false)
+                })
+
                 globalValues.current.socket.on('quizz_new_chat_message', (args) => {
                     let messages = [...globalValues.current.messages]
                     messages = [args, ...messages];
+
+                    //Check settings chat
+                    const val = localStorage.getItem('chatState')
+                    if(val !== undefined)
+                        if(val !== "false")
+                            return;
+
                     modifyValues('messages', messages)
                 })
 
@@ -178,10 +208,11 @@ export default function Quizz(props) {
         <>
             <MainLayout showOverflow={true} className={"flex flex-col items-center mb-12 pb-12 gap-8"}>
                 <Head title="QuizzMaster" />
+                <Settings fsv={changeSetting} sv={settingsValues} isOpen={isOpenSettings} setIsOpen={setIsOpenSettings} />
                 {globalValues.current.phaseId == -1 && <></>}
-                {globalValues.current.phaseId == 0 && <QuizzLobby auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
-                {globalValues.current.phaseId == 1 || globalValues.current.phaseId == 2 ? <QuizzQuestionShow auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} /> : <></>}
-                {globalValues.current.phaseId == 3 && <QuizzResult auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
+                {globalValues.current.phaseId == 0 && <QuizzLobby settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
+                {globalValues.current.phaseId == 1 || globalValues.current.phaseId == 2 ? <QuizzQuestionShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} /> : <></>}
+                {globalValues.current.phaseId == 3 && <QuizzResult settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
             </MainLayout>
             <style>{`
                 :root {
@@ -272,6 +303,43 @@ export default function Quizz(props) {
                     background: linear-gradient(128deg, rgba(255,236,59,0) 0%, rgba(32,112,25,1) 100%);
                     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffec3b",endColorstr="#207019",GradientType=1);
                 }
+                .quizz_question_show .buttonFast {
+                    background: var(--container_background);
+                    border-radius: 8px;
+                    padding: 6px;
+                    width: 34px;
+                    height: 34px;
+                    display: flex;
+                    align-items: center;
+                    overflow: hidden;
+                }
+                .quizz_question_show .buttonFast svg {
+                    min-width: 24px;
+                    min-height: 24px;
+                }
+                .quizz_question_show .buttonFast.disabled span, .quizz_question_show .buttonFast.disabled svg, .quizz_question_show .buttonFast.disabled svg path {
+                    color: #787878;
+                    fill: #787878;
+                }
+                .quizz_question_show .buttonFast span {
+                    width: 0%;
+                    text-overflow: ellipsis;
+                    transition: all 0.2s ease-in-out;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+                .quizz_question_show .buttonFast.disabled:hover {
+                    width: 34px;
+                }
+                .quizz_question_show .buttonFast:hover {
+                    width: fit-content;
+                }
+                .quizz_question_show .buttonFast.disabled:hover span {
+                    width: 0%;
+                }
+                .quizz_question_show .buttonFast:hover span {
+                    width: 100%;
+                }
                 .messages {
                     display: flex;
                     flex-direction: column-reverse;
@@ -333,6 +401,10 @@ export default function Quizz(props) {
                     backdrop-filter: blur(2px);
                     border-radius: inherit;
                     z-index: 2;
+                }
+                .animate__animated.animate__heartBeat {
+                    --animate-duration: 1s;
+                    --animate-delay: 0s;
                 }
             `}
             </style>

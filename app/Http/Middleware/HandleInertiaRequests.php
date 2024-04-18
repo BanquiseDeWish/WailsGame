@@ -35,6 +35,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'twitch' => $request->session()->get('twitch')
             ],
+            'mode' => env('APP_ENV'),
             'weils_id' => env('TWITCH_WEILS_UID'),
             'flash' => [
                 'message' => fn () => $request->session()->get('status')

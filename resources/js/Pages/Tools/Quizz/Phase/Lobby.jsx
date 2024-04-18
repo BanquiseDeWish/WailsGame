@@ -19,7 +19,7 @@ import { InputRange } from '@/Components/Forms/InputRange';
 import ConfirmMaxQuestions from '../Modal/ConfirmMaxQuestions';
 import HowToPlay from '../Modal/HowToPlay';
 
-export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
+export default function QuizzLobby({ auth, globalValues, modifyValues, settings, emit }) {
 
     const [maxQuestions, setMaxQuestions] = useState(globalValues.current.maximumQuestions)
     const [timeGame, setTimeGame] = useState(-1)
@@ -89,9 +89,14 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, emit }) {
                         </div>
                     </div>
                     <div className="flex w-full justify-between px-2 py-2" style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
-                        <BlueButton onClick={() => { setIsOpenHTP(true) }}>
-                            Comment jouer ?
-                        </BlueButton>
+                        <div className="flex gap-2">
+                            <BlueButton onClick={() => { settings.set(true) }}>
+                                Paramètres
+                            </BlueButton>
+                            <BlueButton onClick={() => { setIsOpenHTP(true) }}>
+                                Comment jouer ?
+                            </BlueButton>
+                        </div>
                         <BlueButton onClick={launchGame}>
                             Lancer la partie
                         </BlueButton>
