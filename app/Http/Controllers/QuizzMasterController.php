@@ -159,7 +159,7 @@ class QuizzMasterController extends Controller
             "embeds" => [
                 [
                     "title" => "Nouvelle question postée - QuizzMaster",
-                    "description" => "**Intitulé de la question:**\n" . $request->input('sentence') . "\n**Type:**\n" . $request->input('type') . "\n**Catégorie:**\n" . $splitCategoryTheme[0]  . " - " . $splitCategoryTheme[1] . "\n**Auteur de la question:**\n*SunshineDev*",
+                    "description" => "**Intitulé de la question:**\n" . $request->input('sentence') . "\n**Type:**\n" . $request->input('type') . "\n**Catégorie:**\n" . $splitCategoryTheme[0]  . " - " . $splitCategoryTheme[1] . "\n**Auteur de la question:**\n*" . $user->display_name . "*",
                     "color" => 5814783,
                     "fields" => $fields,
                     "footer"  => [
