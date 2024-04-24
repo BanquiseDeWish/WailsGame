@@ -34,8 +34,8 @@ body::after {
 
 :root {
     --background: var(--web_background);
-    --ticket: linear-gradient(99deg, #ffc700 0%, #905510 100%);
-    --ticket_miss: linear-gradient(99deg, #d9170b 0%, #761111 100%);
+    --ticket: linear-gradient(99deg, #ffbb00 0%, #9e5807 100%);
+    --ticket_miss: linear-gradient(99deg, #b3120a 0%, #5f0d0d 100%);
     --ticket_bonus: linear-gradient(99deg, #10a3f5 0%, #0b308e 100%);
     --ticket_win: linear-gradient(99deg, #02f41a 0%, #0d6b05 100%);
     --ticket_dead: linear-gradient(99deg, #313233 0%, #05050E 100%);
@@ -181,7 +181,7 @@ input,
     font-size: 20px;
 }
 
-.ticket:hover:not(.ticket_miss),
+.ticket:hover:not(.ticket_miss):not(.ticket_bonus):not(.ticket_dead):not(.ticket_win),
 .button:hover {
     scale: 1.25;
     transition: 0.2s;
@@ -190,19 +190,21 @@ input,
 
 .ticket_miss {
     background: var(--ticket_miss);
-    border-color: #a9140e;
-    color: #f44;
+    border-color: rgb(194, 48, 48);
+    color: rgb(231, 55, 55);
     animation: tilt-shaking 0.4s linear;
 }
 
 .ticket_bonus {
     background: var(--ticket_bonus);
-    border-color: #0e6bc3;
+    border-color: #1578d4;
+    color: #91c4f5;
 }
 
 .ticket_dead {
     background: var(--ticket_dead);
     border-color: #474849;
+    color: #474849;
 }
 
 .ticket_win {
@@ -504,15 +506,16 @@ input,
     font-weight: 700;
     line-height: normal;
     background: linear-gradient(99deg, #10A3F5 0%, #0B308E 100%);
-    padding: 12px 64px;
+    padding: 6px 0px;
+    min-width: 320px;
     display: flex;
     justify-content: center;
     align-items: center;
     width: fit-content;
     border-radius: 8px 8px 0 0;
     position: absolute;
-    top: -45px;
-    left: 8;
+    top: -33px;
+    left: calc(50% - 160px);
 }
 
 .points_bin {

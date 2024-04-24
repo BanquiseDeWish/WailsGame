@@ -29,33 +29,39 @@ export default function VIP_MiddleContent() {
                         </div>
 
                         <div id="wheels" className='transition-back absolute my-hidden'>
-                            <Slot
-                                id={'wheel_slot_1'}
-                                type={'with_icon'}
-                                onClick={() => { values.game.askRandomPlayer() }}
-                                data={values.roll_players}
-                                winner={values.choosen_player}
-                                spin={values.spin_1}
-                                link={props.ziggy.url + '/api/user/{id}/icon'}
-                                onSpinEnd={() => {
-                                    modifyValue('current_player', values.game.getPlayer(values.choosen_player));
-                                    modifyValue('avatar', values.choosen_player);
-                                }}
-                                game_start={values.game_start}
-                            />
+                            <div className='flex flex-col justify-center items-center gap-2 le-tchat'>
+                                <span>Joueurs</span>
+                                <Slot
+                                    id={'wheel_slot_1'}
+                                    type={'with_icon'}
+                                    onClick={() => { values.game.askRandomPlayer() }}
+                                    data={values.roll_players}
+                                    winner={values.choosen_player}
+                                    spin={values.spin_1}
+                                    link={props.ziggy.url + '/api/user/{id}/icon'}
+                                    onSpinEnd={() => {
+                                        modifyValue('current_player', values.game.getPlayer(values.choosen_player));
+                                        modifyValue('avatar', values.choosen_player);
+                                    }}
+                                    game_start={values.game_start}
+                                />
+                            </div>
 
-                            <Slot
-                                id={'wheel_slot_2'}
-                                type={'text'}
-                                onClick={() => { values.game.askRandomPlayCount() }}
-                                data={values.roll_playCount}
-                                winner={values.choosen_playCount}
-                                spin={values.spin_2}
-                                onSpinEnd={() => {
-                                    modifyValue('playCount', values.choosen_playCount);
-                                }}
-                                game_start={values.game_start}
-                            />
+                            <div className='flex flex-col justify-center items-center gap-2 le-tchat'>
+                                <span>Nombre de Choix</span>
+                                <Slot
+                                    id={'wheel_slot_2'}
+                                    type={'text'}
+                                    onClick={() => { values.game.askRandomPlayCount() }}
+                                    data={values.roll_playCount}
+                                    winner={values.choosen_playCount}
+                                    spin={values.spin_2}
+                                    onSpinEnd={() => {
+                                        modifyValue('playCount', values.choosen_playCount);
+                                    }}
+                                    game_start={values.game_start}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
