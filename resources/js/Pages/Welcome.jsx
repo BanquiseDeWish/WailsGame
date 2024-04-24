@@ -18,6 +18,7 @@ import PGArtefact from '../../assets/games/mario_kart_character.png'
 import SectionHome from '@/Components/Content/SectionHome';
 import WidgetDiscord from '@/Components/Content/WidgetDiscord';
 import BadgeStream from '@/Components/Content/BadgeStream';
+import BlueButton from '@/Components/Navigation/Buttons/BlueButton';
 
 export default function Welcome(props) {
 
@@ -55,6 +56,9 @@ export default function Welcome(props) {
             <MainLayoutWF>
                 <Head title="Accueil" />
                 <div className="relative flex flex-col py-[64px] justify-center gap-[70px] lg:gap-0 lg:justify-between" style={{ height: "calc(100dvh - 93px)" }}>
+                    <div className="flex justify-center">
+                        <div className="card p-4 w-fit flex-row gap-6"><b className='text-[24px]'>QuizzMaster</b> <span>Vous êtes fan de Pokémon ? Vous aimez les Quiz ? Nous avons besoin de vous ! <br /> Venez contribuer en proposant vos questions !</span> <BlueButton href={route('games.quizz.form')}>Je veux !</BlueButton></div>
+                    </div>
                     <div className="flex lg:hidden flex-col items-center">
                         <img src={(isFirstApril ? WeilsLogoAprilSVG : WeilsLogoSVG)} className='px-[32px] w-[80%]' />
                     </div>
