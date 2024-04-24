@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\QuizzMasterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VIPGameController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,8 @@ Route::middleware('api_check')->group(function() {
     Route::post('/user/all/points/vipgames/register', [UserController::class, 'registerUsersVipGamesPoints'])->name('user.all.points.vipgames.register');
 
     Route::post('/game/vipgame/register', [VIPGameController::class, 'registerGame'])->name('game.vipgame.register');
+
+    //Route::post('/quizzmaster/register', [QuizzMasterController::class, 'registerHistory'])->name('game.quizzmaster.register');
 });
 
 Route::get('/user/{twitch_id}/icon', [UserController::class, 'getUserIcon'])->name('user.icon');

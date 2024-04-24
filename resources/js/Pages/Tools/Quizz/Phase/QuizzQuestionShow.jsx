@@ -7,15 +7,23 @@ import { motion } from 'framer-motion'
 import MusicIcon from '../../../../../assets/icons/music.svg'
 import QuizzLogo from '../../../../../assets/img/QuizzMasterLogo.webp'
 
+import { copyToClipboard } from '@/Game/utils';
 import Audio from '@/Game/audio'
 import MessageObject from '../Object/MessageObject';
 import { useState } from 'react';
 import GameSound from '@/Game/audio';
 import { useEffect } from 'react';
-const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) => {
+import RefreshIcon from '@/Components/Icons/RefreshIcon';
+import CogIcon from '@/Components/Icons/Cog';
+import ReplayIcon from '@/Components/Icons/Replay';
+const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValues, emit }) => {
 
     const [messageChat, setMessageChat] = useState("")
-    let audioPlaying = null;
+    const [audioPlaying, setAudioPlaying] = useState(null)
+    const [audioVolume, setAudioVolume] = useState(sv.volumeState)
+
+    let questionPicture = undefined;
+
     const [isAnimatingNewQuestion, setIsAnimatingNewQuestion] = useState(true)
     const timerCurrent = globalValues.current.timerCurrent;
 
@@ -23,13 +31,14 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
         return (timerCurrent / 15 * 100)
     }
 
-    const selectAnswer = (propoId) => {
-        if (globalValues.current.answerCurrent == undefined) {
-            document.querySelector('.quizz_question_show .propal_button[dataanswer="' + propoId + '"]').classList.add('focused')
-            new GameSound('quizz_aw_send').playSound(0.5, false)
-        }
-        modifyValues('answerCurrent', propoId)
-        emit('quizz_send_answer_player', { answer: propoId, gameId: globalValues.current.gameId, auth: auth.twitch.id })
+    const selectAnswer = (e, propoId) => {
+        const answers = globalValues.current.answerCurrent;
+        if (globalValues.current.answerCurrent.length > 0 && globalValues.current.questionCurrent.typeAnswer == "simple") return;
+        e.currentTarget.classList.add('focused')
+        new GameSound('quizz_aw_send').playSound(getVolumeAudio(), false)
+        answers.push(propoId);
+        modifyValues('answerCurrent', answers)
+        emit('quizz_send_answer_player', { answer: answers, gameId: globalValues.current.gameId, auth: auth.twitch.id })
     }
 
     const playersListScore = globalValues.current.players;
@@ -46,25 +55,32 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
         })
     }
 
+    const getVolumeAudio = () => {
+        return localStorage.getItem('volume') !== undefined && localStorage.getItem('volume') !== null ? (parseInt(localStorage.getItem('volume')) / 10) : 0.5
+    }
+
     const sendChatMessage = (event) => {
         if (event.key === 'Enter') {
             if (messageChat == "") return;
             setMessageChat("");
+            const val = localStorage.getItem('chatState')
+            if (val !== undefined)
+                if (val !== "false")
+                    return toast.error('Vous avez désactivé le chat, impossible d\'envoyer un message !');
             emit('quizz_send_message_player', { message: messageChat })
         }
     }
 
     useEffect(() => {
-        if (globalValues.current.resultSendAnswer !== undefined) {
-            if (globalValues.current.resultSendAnswer?.answerGood == globalValues.current.resultSendAnswer?.answerSend) {
-                new GameSound('quizz_aw_good').playSound(0.5, false)
-            } else {
-                new GameSound('quizz_aw_bad').playSound(0.5, false)
-            }
+        const result = globalValues.current.resultSendAnswer;
+        if (result !== undefined) {
+            const volume =
+                new GameSound(result.isBad || result.answerSend.length == 0 ? 'quizz_aw_bad' : 'quizz_aw_good').playSound(getVolumeAudio(), false)
         }
     }, [globalValues.current.resultSendAnswer])
 
     useEffect(() => {
+        setAudioPlaying(null)
         if (globalValues.current.questionCurrent !== undefined) {
             setTimeout(() => {
                 const questionCurrent = globalValues.current.questionCurrent;
@@ -73,7 +89,9 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                     if (questionCurrent?.sound_url !== undefined) {
                         urlSound = questionCurrent?.sound_url
                     }
-                    audioPlaying = Audio.playSound(urlSound, 0.4, false)
+                    if (audioPlaying == null) {
+                        setAudioPlaying(Audio.playSound(urlSound, getVolumeAudio(), false))
+                    }
                 }
             }, 1000)
         }
@@ -81,10 +99,19 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
 
     useEffect(() => {
         if (globalValues.current.phaseId == 2) {
+            if (audioPlaying !== null) {
+                audioPlaying.pause()
+                audioPlaying.currentTime = 0
+                setAudioPlaying(null)
+            }
             if (globalValues.current.timerCurrent <= 2) {
                 if (!isAnimatingNewQuestion) {
                     setIsAnimatingNewQuestion(true)
                 }
+                modifyValues('resultSendAnswer', undefined)
+                modifyValues('resultAnswersPlayers', undefined)
+                modifyValues('answerCurrent', [])
+                questionPicture = undefined;
             }
         } else if (globalValues.current.phaseId == 1) {
             if (isAnimatingNewQuestion) {
@@ -98,18 +125,41 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
         const questionCurrent = globalValues.current.questionCurrent;
         if (phaseId == 2) {
             if (questionCurrent?.type == "picture" && questionCurrent?.sound_reveal_url !== undefined) {
-                Audio.playSound(questionCurrent?.sound_reveal_url, 0.4, false)
-            }else if (questionCurrent?.type == "sound" && questionCurrent?.sound_reveal_url !== undefined) {
-                Audio.playSound(questionCurrent?.sound_reveal_url, 0.4, false)
+                Audio.playSound(questionCurrent?.sound_reveal_url, getVolumeAudio(), false)
+            } else if (questionCurrent?.type == "sound" && questionCurrent?.sound_reveal_url !== undefined) {
+                Audio.playSound(questionCurrent?.sound_reveal_url, getVolumeAudio(), false)
             }
         }
     }, [globalValues.current.phaseId])
+
+    const replaySound = () => {
+        if(globalValues.current.questionCurrent.type !== "sound") return toast.error('Aucun son ne peut être joué dans une question de ce type.')
+        if (audioPlaying !== null) {
+            audioPlaying.pause()
+            audioPlaying.currentTime = 0
+            audioPlaying.play()
+        }
+    }
+
+    const copyIdQuestion = () => {
+        copyToClipboard(globalValues.current.questionCurrent?.asset);
+        toast.success("ID de la partie copié avec succès !")
+    }
+
+    useEffect(() => {
+        setAudioVolume(sv.volumeState)
+    }, [sv])
+
+    useEffect(() => {
+        if (audioPlaying !== null) {
+            audioPlaying.volume = (audioVolume) / 10
+        }
+    }, [audioVolume])
 
     if (globalValues.current.questionCurrent !== undefined) {
 
         const questionCurrent = globalValues.current.questionCurrent;
         //play audio
-        let questionPicture = undefined;
 
         if (questionPicture == undefined && questionCurrent?.picture_url !== undefined) {
             questionPicture = questionCurrent?.picture_url;
@@ -126,7 +176,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
 
         return (
             <div className="flex w-full gap-4 mt-8">
-                <div className="quizz_question_show relative flex flex-1 flex-col items-center gap-6 card" style={{ paddingTop: '5.5rem', minHeight: '720px' }}>
+                <div className="quizz_question_show relative flex flex-1 flex-col items-center gap-6 card" style={{ paddingTop: '5.5rem', minHeight: '740px', maxHeight: '740px' }}>
                     <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
                         <img src={QuizzLogo} style={{ width: '20%' }} />
                     </div>
@@ -149,15 +199,17 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                                     fill: '#fff',
                                     fontWeight: 'bold',
                                     fontSize: '32px',
+                                    userSelect: 'none'
                                 },
                             }} />
                     </div>
+
                     {isAnimatingNewQuestion &&
                         <motion.div
                             initial={{ x: -100, opacity: 0 }}
                             animate={isAnimatingNewQuestion ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }}
                             transition={{ duration: 0.1 }} className="loading w-full h-full absolute top-0 flex items-center">
-                            <h2 className='italic font-bold text-[36px] text-center w-full'>
+                            <h2 className='italic font-bold text-[36px] text-center w-full select-none'>
                                 {(globalValues.current?.data?.questionCursor + 1) == (globalValues.current?.data?.maxQuestions) ? "Partie terminée !" : "Question suivante !"}
                             </h2>
                         </motion.div>
@@ -166,54 +218,144 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                         initial={{ x: 0, opacity: 1 }}
                         animate={isAnimatingNewQuestion ? { x: -100, opacity: 0 } : { x: 0, opacity: 1 }}
                         transition={{ duration: 0.1 }} className='flex justify-center items-center flex-col gap-4'>
+                        <div className="idQuestion flex flex-col justify-end absolute top-3 right-3 text-right text-[12px] select-none">
+                            <div onClick={copyIdQuestion}><b>ID:</b> {questionCurrent.asset}<br /></div>
+                            <div>
+                            <b>Catégorie:</b> {questionCurrent.category}<br />
+                            </div>
+                            <div>
+                            <b>Thème:</b> {questionCurrent.theme}
+                            </div>
+
+                            <div className="flex flex-col items-end mt-10 gap-2">
+                                <div onClick={replaySound} className={`buttonFast ${questionCurrent.type !== "sound" && "disabled"} gap-2 justify-end right-3 text-[20px] select-none`}>
+                                    <span>Rejouer le son</span> <ReplayIcon width={24} height={24} />
+                                </div>
+                                <div onClick={() => { settings.set(true) }} className="buttonFast gap-2 justify-end right-3 text-[20px] select-none">
+                                    <span>Paramètres</span> <CogIcon width={24} height={24} />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className="authoQuestion absolute bottom-3 right-3 text-[12px] select-none" onClick={() => { }}>
+                            Proposée par <b>{questionCurrent.author !== undefined ? questionCurrent.author.name : 'le staff'}</b>
+                        </div>
+
                         {questionCurrent.type == 'text' &&
                             <div className="relative rounded-[8px]" style={{ background: 'transparent' }}>
-                                <div className="sentenceText">
+                                <div className="sentenceText select-none">
                                     {questionCurrent.sentence}
                                 </div>
                             </div>
                         }
                         {questionCurrent.type == 'picture' &&
-                            <img src={questionPicture !== undefined ?
-                                questionPicture :
-                                `${ziggy.url}/storage/quizz/${questionCurrent?.asset}.webp`} style={{
-                                    maxHeight: "380px",
-                                    minHeight: "380px",
-                                    objectFit: "fill"
-                                }} className="rounded-xl" alt="" />
+                            <>
+                                {!isAnimatingNewQuestion && <img src={questionPicture !== undefined ?
+                                    questionPicture :
+                                    `${ziggy.url}/storage/quizz/${questionCurrent?.asset}.webp`} style={{
+                                        maxHeight: "380px",
+                                        minHeight: "380px",
+                                        objectFit: "fill",
+                                    }} className="rounded-xl select-none" alt="" />}
+                            </>
                         }
-                        {questionCurrent.type == 'sound' &&
-                            <div className="music flex justify-center">
-                                <img src={globalValues.current.phaseId == 1 ? MusicIcon : questionCurrent?.picture_reveal_url !== undefined ? questionCurrent?.picture_reveal_url : MusicIcon} style={{
-                                    maxHeight: "380px",
-                                    minHeight: "380px",
-                                    objectFit: "fill"
-                                }} alt="" />
+                        {questionCurrent.type == 'picture_multiple' &&
+                            <div className="grid grid-cols-2 gap-4">
+                                {questionCurrent.pictures?.map((picture, index) => {
+
+                                    let isGood = undefined;
+                                    let answerGive = undefined;
+                                    const result = globalValues.current.resultSendAnswer;
+                                    if (result !== undefined && result.answerSend !== undefined) {
+                                        answerGive = result.answerSend?.find((answer) => answer.id == picture.id);
+                                        isGood = false;
+                                        for (let i = 0; i < result.answerGood.length; i++) {
+                                            const answer = result.answerGood[i];
+                                            if (answer == picture.id) {
+                                                isGood = result.answerGood.includes(picture.id) && result.answerSend.find((ans) => ans.id == answer) !== undefined
+                                            }
+                                        }
+                                    }
+
+                                    return (
+                                        <motion.div whileHover={{ scale: '1.05', transition: { duration: 800 } }} className={`picture_proposal ${isGood !== undefined ? result.answerGood[0] == picture.id ? 'good' : 'bad' : 'test'}`} onClick={(e) => { selectAnswer(e, picture.id) }}>
+                                            {!isAnimatingNewQuestion && <img src={picture.url} style={{
+                                                maxHeight: "200px",
+                                                minHeight: "200px",
+                                                objectFit: "fill"
+                                            }} className="rounded-xl select-none" alt="" />}
+                                        </motion.div>
+                                    )
+                                })}
                             </div>
                         }
+                        {questionCurrent.type == 'sound' &&
+                            <>
+                                <div onClick={replaySound} className="music flex justify-center">
+                                    <img src={globalValues.current.phaseId == 1 ? MusicIcon : questionCurrent?.picture_reveal_url !== undefined ? questionCurrent?.picture_reveal_url : MusicIcon} style={{
+                                        maxHeight: "380px",
+                                        minHeight: "380px",
+                                        objectFit: "fill",
+                                        userSelect: "none"
+                                    }} alt="" />
+                                </div>
+                            </>
+
+                        }
                         <div className="flex flex-col items-center gap-1">
-                            <span className='text-[24px] font-extralight'>Question {(globalValues.current?.data?.questionCursor + 1)}/{globalValues.current?.data?.maxQuestions}</span>
-                            <h2 className="text-[24px] font-bold">
+                            <span className='text-[24px] font-extralight select-none'>Question {(questionCurrent.index + 1)}/{globalValues.current?.data?.maxQuestions}</span>
+                            <h2 className="text-[24px] font-bold select-none">
                                 {questionCurrent.type !== 'text' ? questionCurrent.sentence : "Répondez à la question ci-dessus"}
                             </h2>
+                            {questionCurrent.type == 'picture_multiple' &&
+                                <span><i>Cliquez sur l'image correspondante</i></span>
+                            }
                         </div>
                         {/*Propal*/}
-                        <div className="propal w-fit grid grid-cols-3 gap-4">
-                            {questionCurrent.proposal.map((propo) => {
-                                return (
-                                    <motion.div dataAnswer={propo.text} whileHover={{ scale: '1.05', transition: { duration: 800 } }} className={`propal_button ${globalValues.current.resultSendAnswer?.answerGood == propo.text ? 'good' : ''} ${globalValues.current.resultSendAnswer?.answerSend == propo.text ? globalValues.current.resultSendAnswer?.answerGood == propo.text ? 'good' : 'bad' : ''}`} onClick={() => { selectAnswer(propo.text) }}>
-                                        {propo.text}
-                                    </motion.div>
-                                )
-                            })}
-                        </div>
+                        {questionCurrent.type !== 'picture_multiple' &&
+                            <div className="propal w-fit grid grid-cols-3 gap-4">
+                                {questionCurrent.proposal.map((propo) => {
+
+                                    let isBad = undefined;
+                                    let isGood = undefined;
+                                    let isGoodNotGiven = undefined;
+                                    let answerGive = undefined;
+                                    const result = globalValues.current.resultSendAnswer;
+                                    if (result !== undefined && result.answerSend !== undefined) {
+                                        answerGive = result.answerSend?.find((answer) => answer.id == propo.id);
+                                        for (let i = 0; i < result.answerGood.length; i++) {
+                                            const answer = result.answerGood[i];
+                                            if (answer == propo.id) {
+                                                isGood = result.answerGood.includes(propo.id) && result.answerSend.find((ans) => ans.id == answer) !== undefined
+                                                isGoodNotGiven = result.answerGood.includes(propo.id) && result.answerSend.find((ans) => ans.id == answer) == undefined
+                                            }
+                                        }
+                                    }
+
+                                    return (
+                                        <motion.div dataAnswer={propo.id} whileHover={{ scale: '1.05', transition: { duration: 800 } }} className={`propal_button ${isGood ? 'good' : isGoodNotGiven ? 'goodNotGiven' : answerGive !== undefined ? answerGive.isBad ? 'bad' : '' : ''}`} onClick={(e) => { selectAnswer(e, propo.id) }}>
+                                            {propo.text}
+                                        </motion.div>
+                                    )
+                                })}
+                            </div>
+                        }
                     </motion.div>
 
                 </div>
                 <div className="flex flex-col gap-4">
                     <div className="players h-full">
-                        <div className="card items-start p-4 justify-start h-full gap-4 min-w-[350px] overflow-y-auto">
+                        <div className="card items-start p-4 justify-start max-h-[340px] min-h-[340px] gap-4 min-w-[350px] overflow-y-auto">
                             {playersListScore.map((player, i) => {
+
+                                let isBad = undefined;
+                                if (globalValues.current?.resultAnswersPlayers !== undefined) {
+                                    const playerFind = globalValues.current?.resultAnswersPlayers?.list?.find((pl) => pl.id == player.userId)
+                                    if (playerFind) {
+                                        isBad = playerFind.isBad
+                                    }
+                                }
+
                                 return (
                                     <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
                                         {player?.isLeader &&
@@ -221,7 +363,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                                                 <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
                                             </div>
                                         }
-                                        <PenguinCard className="w-full h-[82px]" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: 'var(--container_background)' } }} />
+                                        <PenguinCard className="w-full h-[82px] transition-all" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' } }} />
                                     </div>
                                 )
 
@@ -229,7 +371,7 @@ const QuizzQuestionShow = ({ auth, ziggy, globalValues, modifyValues, emit }) =>
                         </div>
                     </div>
                     <div className="card gap-2 gap-2 p-4">
-                        <h2 className='text-[20px] font-semibold'>Chat</h2>
+                        <h2 className='text-[20px] font-semibold select-none'>Chat</h2>
                         <div className="messages w-full" style={{ height: '250px', overflowY: 'auto' }}>
                             {globalValues.current.messages.map((message) => {
                                 return (

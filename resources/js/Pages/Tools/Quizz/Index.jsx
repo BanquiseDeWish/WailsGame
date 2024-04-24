@@ -21,8 +21,8 @@ const QuizzMaster = () => {
                         </div>
                         <p className="text-[16px] font-extralight">
                             QuizzMaster vous permet de vous tester sur votre culture générale ou encore sur de nombreux thèmes !<br />
-                            Le principe est simple : vous répondez à 30 questions variées pendant 15 secondes chacune. Ça peut être une simple question, une question audio ou encore une image ou des images. Le but, avoir le meilleur score pour prouver à vos amis que vous avez un BIG BRAIN.<br />
-                            Le calcul des scores se fait en fonction du temps restant : plus vous répondez vite et correctement, plus vous gagnez de points, au contraire, si vous répondez plus lentement et faux, plus vous perdez des points.
+                            Le principe est simple : vous répondez jusqu'à 50 questions variées pendant 15 secondes chacune. Ça peut être une simple question, une question audio ou encore une image ou des images. Le but, avoir le meilleur score pour prouver à vos amis que vous avez un BIG BRAIN.<br />
+                            Plus vous répondez vite, plus vous gagnerez ou perdrez de points. Cependant, à contrario, plus vous prenez votre temps pour répondre moins vous gagnerez ou perdrez de points.
                         </p>
                         <div className="separator my-4 w-full" style={{ background: 'var(--container_background)' }} />
                         <div className="flex w-full gap-4">
