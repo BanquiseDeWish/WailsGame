@@ -80,6 +80,7 @@ export default class VIPGames {
         this.modifyValue('current_player', data.current_player ? data.current_player : {id: -1, name: '?????????'});
         this.modifyValue('avatar', data.current_player ? data.current_player.id : 0);
         this.modifyValue('roll_players', data.roll_players);
+        this.modifyValue('available_tickets', data.available_tickets);
         let rollPlayCount = [];
         data.roll_playCount.forEach((playCount) => {
             rollPlayCount.push({id: playCount, name: playCount});

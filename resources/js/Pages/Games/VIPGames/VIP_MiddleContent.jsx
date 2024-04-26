@@ -29,7 +29,7 @@ export default function VIP_MiddleContent() {
                         </div>
 
                         <div id="wheels" className='transition-back absolute my-hidden'>
-                            <div className='flex flex-col justify-center items-center gap-2 le-tchat'>
+                            <div className='flex flex-col justify-center items-center gap-6 le-tchat'>
                                 <span>Joueurs</span>
                                 <Slot
                                     id={'wheel_slot_1'}
@@ -47,7 +47,7 @@ export default function VIP_MiddleContent() {
                                 />
                             </div>
 
-                            <div className='flex flex-col justify-center items-center gap-2 le-tchat'>
+                            <div className='flex flex-col justify-center items-center gap-6 le-tchat'>
                                 <span>Nombre de Choix</span>
                                 <Slot
                                     id={'wheel_slot_2'}

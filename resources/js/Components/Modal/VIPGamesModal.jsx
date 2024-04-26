@@ -80,6 +80,7 @@ export default class VIPGamesModal extends BaseModal {
                     onChange={this.handleChange}
                     min={50}
                     max={150}
+                    step={10}
                     id="number_of_tickets"
                 />
                 <InputRange

@@ -196,7 +196,7 @@ export default function VipGame() {
                 <img src={VipGamesLogo} width={540} alt="Logo VipGames"/>
 
                 <div className='flex flex-col gap-[8px]'>
-                    <div className='flex w-full justify-center items-center h-[680px] gap-[24px] flex-shrink-0'>
+                    <div className='flex w-full justify-center items-center h-[720px] gap-[24px] flex-shrink-0'>
 
                         {/* Left Menu ( For Weils Cam and Chat) */}
                         <LeftContent />
