@@ -98,6 +98,7 @@ Route::prefix('games')->name('games.')->middleware(['auth_twitch'])->group(funct
         }
         Route::get('/form', [QuizzMasterController::class, 'form'])->name('form');
         Route::post('/form/send_question', [QuizzMasterController::class, 'send_question'])->name('form.submit');
+        Route::post('/report_submit', [QuizzMasterController::class, 'report_submit'])->name('report_submit');
     });
 });
 

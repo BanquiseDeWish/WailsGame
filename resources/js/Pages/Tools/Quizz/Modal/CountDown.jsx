@@ -89,9 +89,6 @@ export default class CountDown extends BaseModal {
                     #modal {
                         background: none !important;
                     }
-                    #modal input {
-                        background: none !important;
-                    }
                     :root {
                         --rw_popup_background: #233E67;
                         --rw-list-option-color: #fff;

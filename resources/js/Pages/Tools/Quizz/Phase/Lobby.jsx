@@ -19,7 +19,7 @@ import { InputRange } from '@/Components/Forms/InputRange';
 import ConfirmMaxQuestions from '../Modal/ConfirmMaxQuestions';
 import HowToPlay from '../Modal/HowToPlay';
 
-export default function QuizzLobby({ auth, globalValues, modifyValues, settings, emit }) {
+export default function QuizzLobby({ auth, globalValues, modifyValues, settings, report, emit }) {
 
     const [maxQuestions, setMaxQuestions] = useState(globalValues.current.maximumQuestions)
     const [timeGame, setTimeGame] = useState(-1)
@@ -67,7 +67,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                         </div>
                         <div className="flex items-center gap-3">
                             <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
-                            <h3 className='text-[14px] font-bold'>{playersCount < 10 || playersCount > 1 ? `0${playersCount}` : playersCount}/30</h3>
+                            <h3 className='text-[14px] font-bold'>{playersCount < 10 && playersCount > 0 ? `0${playersCount}` : playersCount}/30</h3>
                         </div>
                         <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[400px] pr-4 pb-4 mb-4">
                             {Array.from(Array(30)).map((s, i) => {
@@ -127,7 +127,8 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                     else
                                         globalValues.current.themes[i].state = !state
                                     setState(!state)
-                                    emit("quizz_update_themes_state", { gameId: globalValues.current.gameId, themes: globalValues.current.themes })
+
+                                    emit("quizz_update_themes_state", { gameId: globalValues.current.gameId, category_key: s.key, theme_key: globalValues.current.themes[i].subcategories[subIndex].key, new_state: !state })
                                 }
 
 
@@ -139,7 +140,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                             for (let ik = 0; ik < globalValues.current.themes[i].subcategories.length; ik++) {
                                                 globalValues.current.themes[i].subcategories[ik].state = !state;
                                             }
-                                            emit("quizz_update_themes_state", { gameId: globalValues.current.gameId, themes: globalValues.current.themes })
+                                            emit("quizz_update_themes_state", { gameId: globalValues.current.gameId, category_key: s.key, theme_key: '*', new_state: !state })
                                         } catch (err) {
                                             console.log(err)
                                         }
@@ -169,7 +170,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                                                     setState(sc.state)
                                                                 }, [globalValues.current.themes])
 
-                                                                if (sc.type == "theme") {
+                                                                if (sc.type == "theme" && sc.questionsLength !== undefined) {
                                                                     return (
                                                                         <div className="flex flex-col items-start justify-start hover:bg-[rgba(0,0,0,0.2)] transition-all rounded-[0.275rem] px-2 mx-2 py-2" onClick={() => { onChangeTheme(state, setState, i2) }}>
                                                                             <InputSwitch classNameContainer={"max-h-[28px]"} key={i2} state={state} label={
@@ -206,7 +207,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                                         </Disclosure.Button>
                                                         <Disclosure.Panel className="py-2 text-sm rounded-b-[4px] flex flex-col gap-0 bg-[#334b75] ">
                                                             {s?.subcategories?.map((sc, i2) => {
-                                                                if (sc.type == "theme") {
+                                                                if (sc.type == "theme" && sc.questionsLength !== undefined) {
                                                                     return (
                                                                         <div className="flex gap-2 hover:bg-[rgba(0,0,0,0.2)] transition-all rounded-[0.275rem] px-2 mx-2 py-2">
                                                                             <img src={(sc?.state ? TickValidIcon : TickNotValidIcon)} style={{ width: '24px', height: '24px' }} alt="" />
@@ -230,6 +231,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
 
                         })}
                     </div>
+                    <BlueButton  onClick={() => { report.set(true) }}>Signaler un problème</BlueButton>
                 </div>
             </div>
             <HowToPlay isOpen={isOpenHTP} setIsOpen={setIsOpenHTP} />
