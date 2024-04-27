@@ -18,19 +18,22 @@ import CountDown from '../Modal/CountDown';
 import { InputRange } from '@/Components/Forms/InputRange';
 import ConfirmMaxQuestions from '../Modal/ConfirmMaxQuestions';
 import HowToPlay from '../Modal/HowToPlay';
+import Eye from '@/Components/Icons/Eye';
+import EyeHide from '@/Components/Icons/EyeHide';
 
 export default function QuizzLobby({ auth, globalValues, modifyValues, settings, report, emit }) {
 
     const [maxQuestions, setMaxQuestions] = useState(globalValues.current.maximumQuestions)
     const [timeGame, setTimeGame] = useState(-1)
     const [isOpenHTP, setIsOpenHTP] = useState(false)
+    const [gameIdHidden, setGameIdHidden] = useState(true)
     const copyLink = () => {
         copyToClipboard(globalValues.current.gameId);
         toast.success("ID de la partie copié avec succès !")
     }
 
     const launchGame = () => {
-        if(!globalValues.current.isLeader) return;
+        if (!globalValues.current.isLeader) return;
         emit('quizz_launch_game', { gameId: globalValues.current.gameId })
     }
 
@@ -49,6 +52,10 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
         setTimeGame(timeGame)
     }, [globalValues.current.maximumQuestions])
 
+    const handleChangeGIHidden = () => {
+        setGameIdHidden(!gameIdHidden)
+    }
+
     return (
         <div className="quizz_lobby flex-1">
             <div className="flex justify-center gap-4 my-8">
@@ -61,9 +68,14 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                             <span>Ce jeu est en version Bêta. Il se peut que lors de votre partie, vous rencontriez des problèmes de performances ou de gameplay.<br />Si c'est le cas, merci de vous rendre sur le serveur discord et de signaler le problème concerné</span>
                         </div>
                         <h3 className='text-[24px] font-bold'>Code de la room</h3>
-                        <div className="flex gap-4 w-full">
-                            <input type="text" className='flex-1' name="gameId" defaultValue={globalValues.current.gameId} disabled />
-                            <BlueButton onClick={copyLink}>Copier l'ID de la room</BlueButton>
+                        <div className="flex gap-4 w-full items-center">
+                            <div className="relative w-full">
+                                <input type="text" className='w-full' name="gameId" value={gameIdHidden ? "************************************" : globalValues.current.gameId} disabled />
+                                <div className="absolute select-none top-0 bottom-0 mx-0 my-auto right-4 h-full" onClick={handleChangeGIHidden}>
+                                    {gameIdHidden ? <Eye width={32} height={"100%"} /> :<EyeHide width={32} height={"100%"} /> }
+                                </div>
+                            </div>
+                            <BlueButton onClick={copyLink}>Copier</BlueButton>
                         </div>
                         <div className="flex items-center gap-3">
                             <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
@@ -231,7 +243,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
 
                         })}
                     </div>
-                    <BlueButton  onClick={() => { report.set(true) }}>Signaler un problème</BlueButton>
+                    <BlueButton onClick={() => { report.set(true) }}>Signaler un problème</BlueButton>
                 </div>
             </div>
             <HowToPlay isOpen={isOpenHTP} setIsOpen={setIsOpenHTP} />

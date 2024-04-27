@@ -135,13 +135,11 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                     {globalValues.current.questionsFinal.map((question, index) => {
 
                         const pa = question.proposal.find((pro) => pro.isAnswer)
-                        const paPicture = question?.pictures?.find((pro) => pro.isAnswer)
-                        const isBad = yourAnswers?.answers[index]?.data?.[0]?.isBad
-
+                        const isBad = yourAnswers.answers.find((answer) => answer.id == question.asset).data?.[0]?.isBad
                         const pictures = question?.pictures;
 
                         return (
-                            <div key={question.asset} className="question_item card px-6 py-4 text-left justify-between flex-row w-full" style={{ background: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' }}>
+                            <div key={question.asset} className="question_item card gap-[64px] px-6 py-4 text-left justify-between flex-row w-full" style={{ background: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' }}>
                                 <div className="flex flex-col select-none">
                                     <span className='font-bold text-[20px]'>{question.sentence}</span>
                                     {question.type !== "picture_multiple" ?
@@ -174,14 +172,14 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                                             <ReplayIcon width={48} height={48} />
                                         </div>
                                     }
-                                    <span><img width={48} src={!isBad ? TickValidIcon : TimesValidIcon} /></span>
+                                    <span><img style={{ minWidth: '48px', minHeight: '48px', maxWidth: '48px', maxHeight: '48px' }} src={!isBad ? TickValidIcon : TimesValidIcon} /></span>
                                 </div>
                             </div>
                         )
                     })}
                 </div>
                 <div className="flex justify-end w-full">
-                    <BlueButton href={route('games.quizz.form')} target="_blank">Proposer une nouvelle question</BlueButton>
+                    <a class="simple_button button_blue" target="_blank" href={route('games.quizz.form')}>Proposer une nouvelle question</a>
                 </div>
             </div>
             <style>
