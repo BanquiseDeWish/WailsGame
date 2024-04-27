@@ -17,8 +17,9 @@ export default class BDWSocket {
         this.socket = io(URL, {
             auth: {
                 token: env.socketServerToken,
-                ...this.authData 
+                ...this.authData
             },
+            perMessageDeflate: {threshold: 0},
             query: {
                 game: this.game,
                 extra: JSON.stringify(this.extra),

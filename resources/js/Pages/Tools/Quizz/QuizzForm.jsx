@@ -64,73 +64,49 @@ const QuizzForm = () => {
 
     function handleSubmit(e) {
         setSending(true)
-        toast.loading('Veuillez patienter...')
-        router.post(route('games.quizz.form.submit'), values, {
-            forceFormData: true,
-            onSuccess: (props) => {
-                setErrors(undefined)
-                setValues(values => ({
-                    ...values,
-                    ['sentence']: '',
-                    ['type']: 'text',
-                    ['themeSelect']: themes[0]?.id,
-                    ['dropzone_file']: null,
-                    proposal: [
-                        {
-                            text: '',
-                            isAnswer: true,
-                        },
-                        {
-                            text: '',
-                            isAnswer: false,
-                        },
-                        {
-                            text: '',
-                            isAnswer: false,
-                        },
-                    ]
-                }))
-                toast.success('Question envoyée avec succès !')
-            },
-            onError: (err) => {
-                toast.error('Des erreurs se sont produites lors de l\'envoie')
-                setErrors(err)
-            },
-            onFinish: () => {
-                setSending(false)
-            }
+        const submitForm = () => {
+            return new Promise((resolve, reject) => {
+                router.post(route('games.quizz.form.submit'), values, {
+                    forceFormData: true,
+                    onSuccess: (props) => {
+                        setErrors(undefined)
+                        setValues(values => ({
+                            ...values,
+                            ['sentence']: '',
+                            ['type']: 'text',
+                            ['themeSelect']: themes[0]?.id,
+                            ['dropzone_file']: null,
+                            proposal: [
+                                {
+                                    text: '',
+                                    isAnswer: true,
+                                },
+                                {
+                                    text: '',
+                                    isAnswer: false,
+                                },
+                                {
+                                    text: '',
+                                    isAnswer: false,
+                                },
+                            ]
+                        }))
+                        toast.success('Question envoyée avec succès !')
+                    },
+                    onError: (err) => {
+                        toast.error('Des erreurs se sont produites lors de l\'envoie')
+                        setErrors(err)
+                    },
+                    onFinish: () => {
+                        setSending(false)
+                        resolve()
+                    }
+                })
+            })
+        }
+        toast.promise(submitForm, {
+            loading: 'Veuillez patienter..'
         })
-        /*axios.post(route('games.quizz.form.submit'), values, { headers: {"Content-Type": "multipart/form-data" }})
-            .then((response) => {
-                setSending(false)
-                setErrors(response.data.errors)
-                if (response.data.errors.length < 1) {
-                    console.log('reset value !')
-                    setValues(values => ({
-                        ...values,
-                        ['sentence']: '',
-                        ['type']: 'text',
-                        ['themeSelect']: themes[0]?.id,
-                        proposal: [
-                            {
-                                text: '',
-                                isAnswer: true,
-                            },
-                            {
-                                text: '',
-                                isAnswer: false,
-                            },
-                            {
-                                text: '',
-                                isAnswer: false,
-                            },
-                        ]
-                    }))
-                    return toast.success('Question envoyée avec succès !')
-                } else {
-                    return toast.error('Des erreurs se sont produites lors de l\'envoie')
-                }
-            })*/
     }
 
     useEffect(() => {

@@ -15,6 +15,7 @@ import QuoteUpIcon from '../../../../assets/icons/quote-up.svg'
 import QuoteDownIcon from '../../../../assets/icons/quote-down.svg'
 import QuizzResult from './Phase/QuizzResult';
 import Settings from './Modal/Settings';
+import Report from './Modal/Report';
 
 let socket = null;
 const DEV = false;
@@ -22,12 +23,14 @@ const DEV = false;
 export default function Quizz(props) {
 
     const [isOpenSettings, setIsOpenSettings] = useState(false)
+    const [isOpenReport, setIsOpenReport] = useState(false)
     const [settingsValues, setSettingsValues] = useState({
         volumeState: localStorage.getItem('volume') !== undefined ? parseInt(localStorage.getItem('volume')) : 5,
         chatState: localStorage.getItem('chatState') !== undefined ? localStorage.getItem('chatState') !== "false" : false,
     })
     const [, forceUpdate] = useReducer((x) => x + 1, 0)
-    const globalValues = useRef({
+
+    const defaultValues = {
         init: false,
         socket: null,
         phaseId: 0,
@@ -38,6 +41,7 @@ export default function Quizz(props) {
         maximumQuestions: 30,
         data: undefined,
         messages: [],
+        questionsFinal: [],
         alreadyPlaySoundQuestion: false,
         isLeader: false,
         answerCurrent: [],
@@ -47,7 +51,9 @@ export default function Quizz(props) {
         resultAnswersPlayers: undefined,
         themes: [],
         players: []
-    });
+    }
+
+    const globalValues = useRef(defaultValues);
 
     const errorMessagesFilter = [
         "themes_enable_not_superior_max_questions",
@@ -71,8 +77,12 @@ export default function Quizz(props) {
     }
 
     const changeSetting = (key, val) => {
-        if(key == "chatState")
+        console.log(key, val)
+        if(key == "chatState") {
             setSettingsValues({ ...settingsValues, chatState: val })
+            localStorage.setItem(key, val)
+            return;
+        }
 
         if(key == "volume")
             setSettingsValues({ ...settingsValues, volumeState: parseInt(val) })
@@ -92,8 +102,10 @@ export default function Quizz(props) {
                     }
                 }
 
-                function onDisconnect() {
+                function onDisconnect(reason, details) {
+                    globalValues.current = defaultValues;
                     toast.error('Déconnecté du serveur')
+                    console.log("Reason", reason, details)
                 }
 
                 globalValues.current.socket.on('connect', onConnect);
@@ -112,7 +124,6 @@ export default function Quizz(props) {
                 })
 
                 globalValues.current.socket.on('quizz_sendThemesState', (args) => {
-                    console.log('update themes', args.list)
                     modifyValues('themes', args.list)
                 })
 
@@ -176,6 +187,14 @@ export default function Quizz(props) {
                     toast.info(`${player.username} a rejoint la partie !`)
                 })
 
+                globalValues.current.socket.on('quizz_reset_questions_final', (questions) => {
+                    modifyValues('questionsFinal', [])
+                })
+
+                globalValues.current.socket.on('quizz_receive_questions_final', (questions) => {
+                    modifyValues('questionsFinal', questions)
+                })
+
                 globalValues.current.socket.on('errorMessage', (args) => {
                     modifyValues('lastError', (args.message !== "reset_error" ? args : undefined))
                     const checkFilter = errorMessagesFilter.find(msg => msg == args.message)
@@ -184,13 +203,16 @@ export default function Quizz(props) {
                 })
 
                 globalValues.current.socket.on('error', (data) => {
+                    console.error('Error', data)
                 });
 
                 globalValues.current.socket.on("connect_error", (err) => {
+                    console.error('Error', err)
                     if(!globalValues.current.connectionError) {
                         toast.error(`Connexion au serveur échoué`);
                         modifyValues('connectionError', true)
                     }
+                    globalValues.current = defaultValues;
                 });
 
                 modifyValues('init', true);
@@ -209,10 +231,11 @@ export default function Quizz(props) {
             <MainLayout showOverflow={true} className={"flex flex-col items-center mb-12 pb-12 gap-8"}>
                 <Head title="QuizzMaster" />
                 <Settings fsv={changeSetting} sv={settingsValues} isOpen={isOpenSettings} setIsOpen={setIsOpenSettings} />
+                <Report gameId={globalValues.current.gameId} isOpen={isOpenReport} setIsOpen={setIsOpenReport} />
                 {globalValues.current.phaseId == -1 && <></>}
-                {globalValues.current.phaseId == 0 && <QuizzLobby settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
+                {globalValues.current.phaseId == 0 && <QuizzLobby report={{ state: isOpenReport, set: setIsOpenReport }} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
                 {globalValues.current.phaseId == 1 || globalValues.current.phaseId == 2 ? <QuizzQuestionShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} /> : <></>}
-                {globalValues.current.phaseId == 3 && <QuizzResult settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
+                {globalValues.current.phaseId == 3 && <QuizzResult report={{ state: isOpenReport, set: setIsOpenReport }} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
             </MainLayout>
             <style>{`
                 :root {

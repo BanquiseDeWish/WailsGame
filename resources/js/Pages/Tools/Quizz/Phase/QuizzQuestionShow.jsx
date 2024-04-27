@@ -133,7 +133,7 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
     }, [globalValues.current.phaseId])
 
     const replaySound = () => {
-        if(globalValues.current.questionCurrent.type !== "sound") return toast.error('Aucun son ne peut être joué dans une question de ce type.')
+        if (globalValues.current.questionCurrent.type !== "sound") return toast.error('Aucun son ne peut être joué dans une question de ce type.')
         if (audioPlaying !== null) {
             audioPlaying.pause()
             audioPlaying.currentTime = 0
@@ -221,10 +221,10 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                         <div className="idQuestion flex flex-col justify-end absolute top-3 right-3 text-right text-[12px] select-none">
                             <div onClick={copyIdQuestion}><b>ID:</b> {questionCurrent.asset}<br /></div>
                             <div>
-                            <b>Catégorie:</b> {questionCurrent.category}<br />
+                                <b>Catégorie:</b> {questionCurrent.category}<br />
                             </div>
                             <div>
-                            <b>Thème:</b> {questionCurrent.theme}
+                                <b>Thème:</b> {questionCurrent.theme}
                             </div>
 
                             <div className="flex flex-col items-end mt-10 gap-2">
@@ -313,7 +313,7 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                         </div>
                         {/*Propal*/}
                         {questionCurrent.type !== 'picture_multiple' &&
-                            <div className="propal w-fit grid grid-cols-3 gap-4">
+                            <div className="propal w-fit flex justify-center flex-wrap gap-4">
                                 {questionCurrent.proposal.map((propo) => {
 
                                     let isBad = undefined;
@@ -333,7 +333,7 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                                     }
 
                                     return (
-                                        <motion.div dataAnswer={propo.id} whileHover={{ scale: '1.05', transition: { duration: 800 } }} className={`propal_button ${isGood ? 'good' : isGoodNotGiven ? 'goodNotGiven' : answerGive !== undefined ? answerGive.isBad ? 'bad' : '' : ''}`} onClick={(e) => { selectAnswer(e, propo.id) }}>
+                                        <motion.div style={{ flex: '1 0 calc(33.33% - 20px)', maxWidth: 'calc(33.33% - 20px)', boxSizing: 'border-box' }} dataAnswer={propo.id} whileHover={{ scale: '1.05', transition: { duration: 800 } }} className={`propal_button ${isGood ? 'good' : isGoodNotGiven ? 'goodNotGiven' : answerGive !== undefined ? answerGive.isBad ? 'bad' : '' : ''}`} onClick={(e) => { selectAnswer(e, propo.id) }}>
                                             {propo.text}
                                         </motion.div>
                                     )

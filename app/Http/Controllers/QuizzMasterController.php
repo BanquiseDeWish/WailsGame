@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\QMQuestionsCommunity;
+use App\Models\QMReports;
 use App\Models\QuizzMasterHistory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -175,6 +176,32 @@ class QuizzMasterController extends Controller
         $this->discordmsg($msg, env('DISCORD_WEBHOOK_QUIZZMASTER'));
 
         return redirect(route('games.quizz.form'))->withErrors($validator);
+    }
+
+    public function report_submit(Request $request) {
+        $user = $request->session()->get('twitch');
+        $validator = Validator::make($request->all(), [
+            'question_id' => 'required|uuid',
+            'type' => [
+                'required',
+                Rule::in(['question', 'answer']),
+            ],
+            'description' => 'required|max:600'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect(route('games.quizz.party', ['gameId' => $request->input('gameId')]))->withErrors($validator);
+        }
+
+        QMReports::insert([
+            'user_id' => $user->id,
+            'question_id' => $request->input('question_id'),
+            'type' => $request->input('type'),
+            'description' => $request->input('description'),
+            'created_at' => now()
+        ]);
+
+        return redirect(route('games.quizz.party', ['gameId' => $request->input('gameId')]))->withErrors($validator);
     }
 
     public function discordmsg($msg, $webhook) {
