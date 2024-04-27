@@ -175,7 +175,7 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
         }
 
         return (
-            <div className="flex w-full gap-4 mt-8">
+            <div className="flex items-center w-full h-full gap-4 mt-8">
                 <div className="quizz_question_show relative flex flex-1 flex-col items-center gap-6 card" style={{ paddingTop: '5.5rem', minHeight: '740px', maxHeight: '740px' }}>
                     <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
                         <img src={QuizzLogo} style={{ width: '20%' }} />
