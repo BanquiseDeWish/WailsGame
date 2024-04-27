@@ -135,7 +135,7 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                     {globalValues.current.questionsFinal.map((question, index) => {
 
                         const pa = question.proposal.find((pro) => pro.isAnswer)
-                        const isBad = yourAnswers.answers.find((answer) => answer.id == question.asset).data?.[0]?.isBad
+                        const isBad = yourAnswers.answers.find((answer) => answer.id == question.asset)?.data?.[0]?.isBad
                         const pictures = question?.pictures;
 
                         return (
