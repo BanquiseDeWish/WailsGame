@@ -5,7 +5,7 @@ import TwitchButton from "./Buttons/TwitchButton";
 import '../../../css/navbar.css'
 import LinkSidebar from '@/Components/Navigation/Sidebar/LinkSidebar';
 import ProfileSidebar from './Sidebar/ProfileSidebar';
-
+import env from '../../../../env.json'
 import TwitchSVG from '@/Components/Icons/IconTwitch';
 
 import AppLogo from '@/Components/AppLogo';
@@ -41,21 +41,24 @@ export default function Navbar() {
                     <div className={`link ${window.location.href.startsWith(route('predigivre.halloffame', { filter: 'today' })) ? "active" : ""}`}>
                         <Link href={route('predigivre.halloffame', { filter: 'today' })}>Prédi Givrées</Link>
                     </div>
-                    <div className={`link relative ${window.location.href.startsWith(route('games.quizz.index'))}`}>
-                        <Link href={route('games.quizz.index')}>QuizzMaster</Link>
-                        <span class="absolute top-0 right-0 bg-red-100 text-red-800 text-[10px] font-medium me-2 px-1 py-0.5 rounded dark:bg-red-900 dark:text-white">Nouveau !</span>
-                    </div>
+                    {env.quizzmaster_state &&
+                        <div className={`link relative ${window.location.href.startsWith(route('games.quizz.index'))}`}>
+                            <Link href={route('games.quizz.index')}>QuizzMaster</Link>
+                            <span class="absolute top-0 right-0 bg-red-100 text-red-800 text-[10px] font-medium me-2 px-1 py-0.5 rounded dark:bg-red-900 dark:text-white">Nouveau !</span>
+                        </div>
+                    }
+
                     <DropdownNav labelDropdown={"Outils"}
-                            menu={[
-                                {
-                                    label: "KartChance",
-                                    url: route('kartchance.index')
-                                },
-                                {
-                                    label: "Tierlist",
-                                    url: route('tierlist.index')
-                                }
-                            ]} />
+                        menu={[
+                            {
+                                label: "KartChance",
+                                url: route('kartchance.index')
+                            },
+                            {
+                                label: "Tierlist",
+                                url: route('tierlist.index')
+                            }
+                        ]} />
 
                     {props.auth.twitch ? (
                         <>
@@ -70,8 +73,8 @@ export default function Navbar() {
                             <ProfileDropdown />
                         </>
                     ) : (
-                            <TwitchButton />
-                        )}
+                        <TwitchButton />
+                    )}
                 </div>
             </div>
         </>
