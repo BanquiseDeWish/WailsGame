@@ -9,5 +9,5 @@ class QuizzMasterHistory extends Model
 {
     use HasFactory;
 
-    protected $table = "quizzmaster_history";
+    protected $table = "qm_history";
 }
