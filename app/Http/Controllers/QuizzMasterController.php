@@ -230,7 +230,7 @@ class QuizzMasterController extends Controller
         QuizzMasterHistory::insert([
             "uuid" => $idParty,
             "user_leader_id" => $playerLeader,
-            "data_party" => $dataParty,
+            "data_party" => json_encode($dataParty,JSON_UNESCAPED_UNICODE),
             "created_at" => now()
         ]);
     }
