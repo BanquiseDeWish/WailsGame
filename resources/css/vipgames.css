@@ -11,6 +11,12 @@
     border: 1px solid #5395e063;
 }
 
+.sub_container {
+    background: var(--container_background);
+    border: 1px solid #5395e063;
+    border-radius: 8px;
+}
+
 body {
     background-image: url('../assets/img/vipgames/vipgames_background.png') !important;
     /*background: var(--web_background) !important;*/
@@ -539,9 +545,8 @@ input,
     border-bottom-right-radius: 8px;
 }
 
-#winning_menu {
-    
-}
+
+
 
 /*.snow_cap_player::after {
     content: '';
@@ -618,3 +623,19 @@ input,
     top: -25px;
     z-index: 200;
 }*/
+
+.victory_icon_animation {
+    animation: zoom_unzoom 2s ease-in-out infinite;
+}
+
+@keyframes zoom_unzoom {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

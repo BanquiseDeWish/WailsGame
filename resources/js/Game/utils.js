@@ -26,6 +26,13 @@ async function copyToClipboard(textToCopy) {
     }
 }
 
+function formatTime(time) {
+    let minutes = Math.floor(time / 60);
+    let seconds = Math.floor(time % 60);
+
+    return `${minutes} mins ${seconds < 10 ? '0' : ''}${seconds} sec`;
+}
+
 export {
-    waitUntil, copyToClipboard
+    waitUntil, copyToClipboard, formatTime
 };

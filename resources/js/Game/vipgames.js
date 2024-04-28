@@ -214,9 +214,8 @@ export default class VIPGames {
 
             case 'end_game':
                 if(!this.gameStart) return;
+                this.modifyValue('game_stats', data.stats);
                 this.modifyValue('game_end', true);
-                console.log("Fin de la partie");
-                console.log(data.stats);
                 break;
         }
 

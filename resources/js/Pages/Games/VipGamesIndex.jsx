@@ -4,20 +4,20 @@ import React, { useState, useEffect } from 'react';
 import HOFTable from '@/Components/Content/HOF/HOFTable';
 
 import MainLayout from '@/Layouts/MainLayout';
-import VictoryLogo from '../../../assets/games/vipgames_victory.svg'
+import VictoryLogo from '@assets/games/vipgames_victory.svg'
 
 import Penguin from '@/Components/User/Penguin';
 import PenguinCard from '@/Components/User/PenguinCard';
 
 import StatContainer from '@/Components/Content/Containers/StatContainer';
-import HourGlass from '../../../assets/icons/stats/hourglass.svg';
-import TicketMany from '../../../assets/icons/stats/many_tickets.svg';
-import TicketColor from '../../../assets/icons/stats/tickets_color.svg';
-import Clover from '../../../assets/icons/stats/clover.svg';
-import Star from '../../../assets/icons/stats/star.svg';
-import Users from '../../../assets/icons/stats/users.svg';
+import HourGlass from '@assets/icons/stats/hourglass.svg';
+import TicketMany from '@assets/icons/stats/many_tickets.svg';
+import TicketColor from '@assets/icons/stats/tickets_color.svg';
+import Clover from '@assets/icons/stats/clover.svg';
+import Star from '@assets/icons/stats/star.svg';
+import Users from '@assets/icons/stats/users.svg';
 
-import Crown from '../../../assets/icons/crown.svg';
+import Crown from '@assets/icons/crown.svg';
 
 export default function VipGamesIndex() {
 
