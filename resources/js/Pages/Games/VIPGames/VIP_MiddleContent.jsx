@@ -54,7 +54,7 @@ export default function VIP_MiddleContent() {
 
                     <div className='sub_container p-6 flex flex-col h-[280px] w-full relative overflow-hidden gap-6 justify-between'>
                         <span className='text-lg'>Bonus le plus utilisé</span>
-                        <span className='text-6xl font-light'>{mostUseBonus ?? 'Aucun'}</span>
+                        <span className='text-4xl font-light'>{mostUseBonus ?? 'Aucun'}</span>
                         <img className="absolute right-0 bottom-0 translate-x-8 translate-y-8" src={Star} width={156} alt={'Bonus le plus utilisé'} />
                     </div>
 
