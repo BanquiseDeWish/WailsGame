@@ -221,7 +221,7 @@ class QuizzMasterController extends Controller
         }
     }
 
-    /*public function registerHistory(Request $request) {
+    public function registerHistory(Request $request) {
         $inputs = $request->all();
         $idParty = $inputs['id_party'];
         $playerLeader = $inputs['player_leader'];
@@ -230,8 +230,8 @@ class QuizzMasterController extends Controller
         QuizzMasterHistory::insert([
             "uuid" => $idParty,
             "user_leader_id" => $playerLeader,
-            "data_party" => $dataParty
+            "data_party" => $dataParty,
+            "created_at" => now()
         ]);
-    }*/
-
+    }
 }

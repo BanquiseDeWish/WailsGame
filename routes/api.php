@@ -28,7 +28,7 @@ Route::middleware('api_check')->group(function() {
 
     Route::post('/game/vipgame/register', [VIPGameController::class, 'registerGame'])->name('game.vipgame.register');
 
-    //Route::post('/quizzmaster/register', [QuizzMasterController::class, 'registerHistory'])->name('game.quizzmaster.register');
+    Route::post('/quizzmaster/register', [QuizzMasterController::class, 'registerHistory'])->name('game.quizzmaster.register');
 });
 
 Route::get('/user/{twitch_id}/icon', [UserController::class, 'getUserIcon'])->name('user.icon');
