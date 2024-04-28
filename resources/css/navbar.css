@@ -1,3 +1,7 @@
+:root {
+    --sidebar_background: rgba(24, 40, 71, 1.0);
+}
+
 .navbar {
     position: relative;
 }
@@ -8,7 +12,7 @@
     width: 80%;
     z-index: 100;
     top: 0;
-    background-color: var(--container_background);
+    background-color: var(--sidebar_background);
 
     display: flex;
     flex-direction: column;
@@ -30,7 +34,7 @@
     flex-direction: column;
 }
 .navbar aside.sidebar .menu .link:hover {
-    background-color: #282C36;
+    background-color: var(--container_background);
 }
 .navbar aside.sidebar .menu .link {
     padding: 4px 6px;
@@ -76,16 +80,16 @@
 .sidebar-category {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 4px;
 }
 
 .sidebar-category a {
     color: white;
     font-size: 0.875rem;
-    padding: 4px 6px;
+    padding: 10px 8px;
     border-radius: 4px;
 }
 
 .sidebar-category a:hover {
-    background-color: var(--light_background);
+    background-color: var(--container_background);
 }
