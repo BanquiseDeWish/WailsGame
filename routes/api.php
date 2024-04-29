@@ -32,5 +32,6 @@ Route::middleware('api_check')->group(function() {
 });
 
 Route::get('/user/{twitch_id}/icon', [UserController::class, 'getUserIcon'])->name('user.icon');
-Route::post('user/all/points/vipgames', [UserController::class, 'getUserListVIPGamesPoints'])->name('user.all.points.vipgames');
+Route::get('/user/all/points/vipgames', [UserController::class, 'getUserListVIPGamesPoints'])->name('user.all.points.vipgames');
+Route::get('/user/{twitch_id}/points/vipgames', [UserController::class, 'getUserVIPGamesPoints'])->name('user.points.vipgames');
 

@@ -68,11 +68,11 @@ export default function VIP_RightContent() {
 
                     {/* Penguin and Points List */}
                     <div className='le-tchat container flex-grow relative snow_cap_points'>
-                        <div id='penguin' className='flex justify-center items-center w-full h-full absolute'>
+                        <div id='penguin' className='flex justify-center items-center w-full h-full absolute my-hidden'>
                             Coming Soon
                         </div>
 
-                        <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden my-hidden'>
+                        <div id='player_points' className='flex flex-col w-full h-full absolute p-[32px] gap-[16px] overflow-hidden'>
                             <div className='flex justify-center items-center w-full le-tchat'>
                                 Les Joueurs & leurs points
                             </div>

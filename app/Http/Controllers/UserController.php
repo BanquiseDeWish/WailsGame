@@ -14,51 +14,68 @@ use App\Models\Stream;
 
 class UserController extends Controller
 {
-    
+
     public function getUserIcon(Request $request, $twitch_id)
     {
-        if (Storage::disk('public')->exists('/penguins/'.$twitch_id .'.png'))
-            $img =  Storage::disk('public')->get('/penguins/'.$twitch_id.'.png');
+        if (Storage::disk('public')->exists('/penguins/' . $twitch_id . '.png'))
+            $img = Storage::disk('public')->get('/penguins/' . $twitch_id . '.png');
         else
             $img = Storage::disk('public')->get('/penguins/default.png');
-        return response($img)->header('Content-type','image/png');
+        return response($img)->header('Content-type', 'image/png');
     }
 
-    public function getUserVIPGamesPoints(Request $request, $twitch_id) {
+    public function getUserVIPGamesPoints(Request $request, $twitch_id)
+    {
         # points without bonus
-        $points = DB::table('vipgames_points')
-                        ->select(DB::raw('user_id, count(user_id) as points'))
-                        ->where('user_id', $twitch_id)
-                        ->groupBy('user_id')
-                        ->get();
-        return response()->json($points);
+        $userPoint = DB::table('vipgames_points')
+            ->select(DB::raw('user_id, count(user_id) as points'))
+            ->where('user_id', $twitch_id)
+            ->groupBy('user_id')
+            ->get();
+
+        if(count($userPoint) == 0)
+            return response()->json(['user_id' => $twitch_id, 'points' => 0, 'bonus' => false]);
+
+        $userPoint = $userPoint[0];
+        $lastVipGame = VipGame::orderBy('created_at', 'desc')->first();
+        if ($lastVipGame == null)
+            return response()->json($userPoint);
+        $streamCount = Stream::where('started_at', '>', $lastVipGame->created_at)->count();
+        if ($userPoint->points == $streamCount) {
+            $userPoint->points = $userPoint->points + 2;
+            $userPoint->bonus = true;
+        } else {
+            $userPoint->bonus = false;
+        }
+
+        return response()->json($userPoint);
     }
 
-    public function getUserListVIPGamesPoints(Request $request) {
+    public function getUserListVIPGamesPoints(Request $request)
+    {
         $input = $request->all();
-        if(!isset($input['users']))
+        if (!isset($input['users']))
             return response()->json(['error' => 'users must be set'], 400);
 
         $users = $input['users'];
-        if(!is_array($users))
+        if (!is_array($users))
             return response()->json(['error' => 'users must be an array'], 400);
 
         $userPoints = DB::table('vipgames_points')
-                        ->select(DB::raw('user_id, count(user_id) as points'))
-                        ->whereIn('user_id', $users)
-                        ->groupBy('user_id')
-                        ->get();
+            ->select(DB::raw('user_id, count(user_id) as points'))
+            ->whereIn('user_id', $users)
+            ->groupBy('user_id')
+            ->get();
 
         $lastVipGame = VipGame::orderBy('created_at', 'desc')->first();
-        if($lastVipGame == null)
+        if ($lastVipGame == null)
             return response()->json($userPoints);
-        $streamCount = Stream::where('started_at', '>', $lastVipGame->created_at )->count();
+        $streamCount = Stream::where('started_at', '>', $lastVipGame->created_at)->count();
         foreach ($userPoints as $point) {
-            if($point->points == $streamCount) {
+            if ($point->points == $streamCount) {
                 $point->points = $point->points + 2;
                 $point->bonus = true;
-            }
-            else {
+            } else {
                 $point->bonus = false;
             }
         }
@@ -66,15 +83,16 @@ class UserController extends Controller
         return response()->json($userPoints);
     }
 
-    public function registerUsersVipGamesPoints(Request $request) {
+    public function registerUsersVipGamesPoints(Request $request)
+    {
         $input = $request->all();
-        if(!isset($input['users']))
+        if (!isset($input['users']))
             return response()->json(['error' => 'users must be set'], 400);
-        if(!isset($input['stream_id']))
+        if (!isset($input['stream_id']))
             return response()->json(['error' => 'stream_id must be set'], 400);
 
         $users = $input['users'];
-        if(!is_array($users))
+        if (!is_array($users))
             return response()->json(['error' => 'users must be an array'], 400);
 
         $streamId = $input['stream_id'];
@@ -86,7 +104,7 @@ class UserController extends Controller
                 'stream_id' => $streamId,
             ];
         }
-        if(count($dataToInsert) > 0) {
+        if (count($dataToInsert) > 0) {
             DB::table('vipgames_points')->insert($dataToInsert);
         }
         return response()->json(['success' => true]);
