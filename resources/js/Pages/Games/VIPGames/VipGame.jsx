@@ -42,7 +42,7 @@ export default function VipGame() {
         roll_players: [],
         roll_playCount: [],
         game_start: false,
-        game_end: true,
+        game_end: false,
         game: null,
         choosen_playCount: undefined,
         choosen_player: undefined,
@@ -55,7 +55,7 @@ export default function VipGame() {
 
         round: 0,
         available_tickets: 100,
-        game_stats: FakeStats,
+        game_stats: undefined,
 
         skull_update: 0,
     });
