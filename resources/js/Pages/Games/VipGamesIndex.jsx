@@ -4,23 +4,21 @@ import React, { useState, useEffect } from 'react';
 import HOFTable from '@/Components/Content/HOF/HOFTable';
 
 import MainLayout from '@/Layouts/MainLayout';
-import VictoryLogo from '../../../assets/games/vipgames_victory.svg'
+import VictoryLogo from '@assets/games/vipgames_victory.svg'
 
 import Penguin from '@/Components/User/Penguin';
 import PenguinCard from '@/Components/User/PenguinCard';
 
 import StatContainer from '@/Components/Content/Containers/StatContainer';
-import HourGlass from '../../../assets/icons/stats/hourglass.svg';
-import TicketMany from '../../../assets/icons/stats/many_tickets.svg';
-import TicketColor from '../../../assets/icons/stats/tickets_color.svg';
-import Clover from '../../../assets/icons/stats/clover.svg';
-import Star from '../../../assets/icons/stats/star.svg';
-import Users from '../../../assets/icons/stats/users.svg';
+import HourGlass from '@assets/icons/stats/hourglass.svg';
+import TicketMany from '@assets/icons/stats/many_tickets.svg';
+import TicketColor from '@assets/icons/stats/tickets_color.svg';
+import Clover from '@assets/icons/stats/clover.svg';
+import Star from '@assets/icons/stats/star.svg';
+import Users from '@assets/icons/stats/users.svg';
 
-//import Lottie from "lottie-react";
-//import standingPenguin from "../../../assets/cosmetics/animations/penguin_standing_2.json";
+import Crown from '@assets/icons/crown.svg';
 
-import Crown from '../../../assets/icons/crown.svg';
 
 export default function VipGamesIndex() {
 
@@ -40,7 +38,7 @@ export default function VipGamesIndex() {
                 />
 
                 <div className='flex flex-col h-full gap-[16px]'>
-                    <div className='flex bg-[#18212E] items-center rounded-[8px] justify-around p-[16px]'>
+                    <div className='flex container_background items-center rounded-[8px] justify-around p-[16px]'>
                         <div className='flex flex-col gap-[16px]'>
                             <h1 className='title'>Gagnant en titre</h1>
                             <PenguinCard
@@ -87,8 +85,20 @@ export default function VipGamesIndex() {
                         />
                         <StatContainer
                             iconUrl={Clover}
-                            statName={"Le Joueur avec le plus de tentatives"}
-                            statData={props.stats.player_with_most_attempt.stat_value}
+                            statName={"Les Joueurs avec le plus de tentatives"}
+                            statData={
+                            <>
+                                <div className='flex flex-col justify-center items-center'>
+                                    {props.stats.players_with_most_attempt.stat_value.map((player, index) => {
+                                        return (
+                                            <span key={index}>
+                                                {player.username} ({player.totalAttempt})
+                                            </span>
+                                        )})
+                                    }
+                                </div>
+                            </>
+                            }
                         />
                     </div>
                 </div>

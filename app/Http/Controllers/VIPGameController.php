@@ -46,9 +46,9 @@ class VIPGameController extends Controller
         foreach ($ranking as $index => $rank) {
             $user = User::where('twitch_id', '=', $rank->user_id)->first();
             if ($user == null)
-                $rank->userName = "N/A";
+                $rank->user_name = "N/A";
             else
-                $rank->userName = $user->twitch_username;
+                $rank->user_name = $user->twitch_username;
         }
 
         return $ranking;
@@ -71,6 +71,12 @@ class VIPGameController extends Controller
 
         self::calcStats();
         return response()->json(['success' => 'VIPGame registered'], 200);
+    }
+
+    public static function calcStatsView(Request $request)
+    {
+        self::calcStats();
+        return response()->json(['success' => 'Stats calculated'], 200);
     }
 
     private static function calcStats()
@@ -115,12 +121,25 @@ class VIPGameController extends Controller
             }
         }
 
+        $players_with_most_attempt = [];
+
+        for ($i = 0; $i < 3; $i++) {
+            $maxIndex = array_search(max($players), $players);
+            $maxAttempt = $players[$maxIndex];
+            unset($players[$maxIndex]);
+        
+            $players_with_most_attempt[] = [
+                'id' => $maxIndex,
+                'totalAttempt' => $maxAttempt
+            ];
+        }
+
         $stats = [
             'average_game_time' => array_sum($gameTime) / $vipgames_with_gametime_stats,
             'most_ticket_played' => array_search(max($tickets), $tickets),
             'total_attempt' => $ticketsAttempt,
             'average_player' => intval(array_sum($playersAverage) / $vipgames_with_players_stats),
-            'player_with_most_attempt' => array_search(max($players), $players),
+            'players_with_most_attempt' => json_encode($players_with_most_attempt),
             'most_bonus_used' => array_search(max($all_bonus), $all_bonus),
         ];
 
@@ -128,7 +147,7 @@ class VIPGameController extends Controller
         GameStat::updateStat('vipgames', 'most_ticket_played', $stats['most_ticket_played']);
         GameStat::updateStat('vipgames', 'total_attempt', $stats['total_attempt']);
         GameStat::updateStat('vipgames', 'average_player', $stats['average_player']);
-        GameStat::updateStat('vipgames', 'player_with_most_attempt', $stats['player_with_most_attempt']);
+        GameStat::updateStat('vipgames', 'players_with_most_attempt', $stats['players_with_most_attempt']);
         GameStat::updateStat('vipgames', 'most_bonus_used', $stats['most_bonus_used']);
     }
 
@@ -142,10 +161,13 @@ class VIPGameController extends Controller
 
         $stats['most_ticket_played']->stat_value = $stats['most_ticket_played']->stat_value + 1;
 
-        $user = User::where('twitch_id', '=', $stats['player_with_most_attempt']->stat_value)->first();
-        if ($user != null)
-            $stats['player_with_most_attempt']->stat_value = $user->twitch_username;
-
+        $players_with_most_attempt = json_decode($stats['players_with_most_attempt']->stat_value, true);
+        foreach($players_with_most_attempt as $k => $player) {
+            $user = User::where('twitch_id', '=', $player['id'])->first();
+            if ($user != null)
+                $players_with_most_attempt[$k]['username'] = $user->twitch_username;
+        }
+        $stats['players_with_most_attempt']->stat_value = $players_with_most_attempt;
         $stats['average_game_time']->stat_value = sprintf('%d mins %d sec', $stats['average_game_time']->stat_value / 60 % 60, $stats['average_game_time']->stat_value % 60);
 
         return $stats;

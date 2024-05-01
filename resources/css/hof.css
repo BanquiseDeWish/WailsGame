@@ -18,46 +18,6 @@
     width: 232px;
 }
 
-.hof .podium .display_points {
-    position: relative;
-    background: var(--container_background);
-    border-radius: 8px 8px 0px 0px;
-    padding: 4px 8px 0px 8px;
-}
-.hof .podium .display_points::before {
-    position: absolute;
-    content: '';
-    width: 20px;
-    height: 20px;
-    background: transparent;
-    left: -20px;
-    bottom: 0;
-    border-bottom-right-radius: 8px;
-    box-shadow: 0px 10px 0px 0px var(--container_background);
-}
-.hof .podium .display_points::after {
-    position: absolute;
-    content: '';
-    width: 20px;
-    height: 20px;
-    background: transparent;
-    right: -20px;
-    bottom: 0;
-    border-bottom-left-radius: 8px;
-    box-shadow: 0px 10px 0 0 var(--container_background);
-}
-.hof .podium .display_points {
-    position: relative;
-    background: var(--container_background);
-    border-radius: 8px 8px 0px 0px;
-    padding: 4px 8px 0px 8px;
-}
-.hof .podium .pos.two .display_points::before {
-    background-color: #888;
-}
-.hof .podium .pos.two .display_points::after {
-    background-color: #888;
-}
 .hof .penguinCard {
     padding: 12px;
     width: 100%;
@@ -75,6 +35,7 @@
     width: 100%;
     height: 100%;
     overflow-y: overlay;
+    padding-right: 8px;
 }
 
 .hof .entry {
@@ -91,7 +52,7 @@
 
 .hof .entry:hover,
 .hof .entry:hover .penguinCard {
-    background: #2C3344;
+    background: var(--container_background);
 }
 
 .hof .entry .penguinCard {

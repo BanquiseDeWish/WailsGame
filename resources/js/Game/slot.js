@@ -65,7 +65,6 @@ export default class Slot {
             let img = cachedImage.cloneNode(true);
             img.loading = 'lazy';
             contentDiv.appendChild(img);
-
         }
 
         let username = document.createElement('div');

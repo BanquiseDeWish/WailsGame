@@ -1,5 +1,6 @@
 import { usePage } from '@inertiajs/react';
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
+import YellowButton from '@/Components/Navigation/Buttons/YellowButton';
 import { useEffect, useState, useRef } from "react";
 import SlotJS from '../../../Game/slot';
 import { waitUntil } from "../../../Game/utils";
@@ -20,7 +21,6 @@ export default function Slot({ id, type, winner, spin, onClick, onSpinEnd, link,
     async function onNewData(data) {
         if(values.slot != undefined) {
             await waitUntil(() => !values.slot.isSpinning);
-            console.log("new data: ", data);
             values.slot.setData(data);
         }
     }

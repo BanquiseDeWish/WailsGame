@@ -8,13 +8,16 @@ import SettingsMenu from './SubPage/SettingsMenu';
 import GamePhaseHunt from './SubPage/GamePhaseHunt';
 import GamePhaseDrawPkmn from './SubPage/GamePhaseDrawPkmn';
 import GamePhaseDrawMap from './SubPage/GamePhaseDrawMap';
+import IndexMenu from './SubPage/IndexMenu';
 
-import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
+import SavannahIcon from '@assets/icons/shinywars/savannah-svgrepo-com.svg';
+import PolarIcon from '@assets/icons/shinywars/iceberg-svgrepo-com.svg';
+import CanyonIcon from '@assets/icons/shinywars/desert-svgrepo-com.svg';
+import CoastalIcon from '@assets/icons/shinywars/beach-svgrepo-com.svg';
 
 import { toast } from 'sonner'
 
 import { ShinyWarsProvider } from './ShinyWarsContext';
-import { randomId } from '@/Game/random';
 
 let socket = null;
 const DEV = false;
@@ -132,6 +135,7 @@ export default function ShinyWars() {
             ]
         } : null,
         drawpkm_player_choose: null,
+        players_map: {}
     });
 
     const getPlayer = (id) => {
@@ -139,19 +143,12 @@ export default function ShinyWars() {
     }
 
     const modifyValues = (key, value) => {
-        if (key === 'player_list') {
-            console.log('player_list', value);
-        }
         if (key === 'spin_nb_1' || key === 'spin_nb_2') {
             globalValues.current[key] = globalValues.current[key] + 1;
         } else {
             globalValues.current[key] = value;
         }
         forceUpdate();
-    }
-
-    const createGame = () => {
-        socket.emit('create_party');
     }
 
     const props = usePage().props;
@@ -178,11 +175,25 @@ export default function ShinyWars() {
             socket.on('update_game_data', (data) => {
                 if(data.maps) {
                     let maps = [];
-                        data.maps.forEach((map) => {
-                            map.subMaps.forEach((subMap) => {
-                                maps.push(subMap);
-                            });
+                    data.maps.forEach((map) => {
+                        map.subMaps.forEach((subMap) => {
+                            switch (subMap.id) {
+                                case 'polar_zone':
+                                    subMap.icon = PolarIcon;
+                                    break;
+                                case 'savanna_zone':
+                                    subMap.icon = SavannahIcon;
+                                    break;
+                                case 'canyon_zone':
+                                    subMap.icon = CanyonIcon;
+                                    break;
+                                case 'coastal_zone':
+                                    subMap.icon = CoastalIcon;
+                                    break;
+                            }
+                            maps.push(subMap);
                         });
+                    });
                     modifyValues('map_list', maps);
                 }
                 if(data.gameId) {
@@ -191,8 +202,31 @@ export default function ShinyWars() {
                         modifyValues('gameId', data.gameId);
                     }
                 }
-                if(data.players)
+                if(data.players) {
                     modifyValues('players_list', data.players);
+                    let p_maps = { };
+                    data.players.forEach((player) => {
+                        if(player.map != undefined && player.map != null) {
+                            let map = globalValues.current?.map_list.find(m => m.id == player.map.id);
+                            switch (map.id) {
+                                case 'polar_zone':
+                                    map.icon = PolarIcon;
+                                    break;
+                                case 'savanna_zone':
+                                    map.icon = SavannahIcon;
+                                    break;
+                                case 'canyon_zone':
+                                    map.icon = CanyonIcon;
+                                    break;
+                                case 'coastal_zone':
+                                    map.icon = CoastalIcon;
+                                    break;
+                            }
+                            p_maps[player.id] = map;
+                        }
+                    });
+                    modifyValues('players_map', p_maps);
+                }
                 if(data.phaseId)
                     modifyValues('phaseId', data.phaseId);
                 if(data.end_map_choice)
@@ -204,7 +238,7 @@ export default function ShinyWars() {
                 if(data.drawPkmPhase) {
                     if(data.drawPkmPhase.pokemon_types)
                         modifyValues('pokemon_types', data.drawPkmPhase.pokemon_types);
-                    if(data.drawPkmPhase.current_player) 
+                    if(data.drawPkmPhase.current_player)
                         modifyValues('drawpkm_player_turn', globalValues.current.players_list.find(p => p.id == data.drawPkmPhase.current_player));
                 }
                     
@@ -244,6 +278,8 @@ export default function ShinyWars() {
                 types[data.index].available = false;
                 modifyValues('pokemon_types', types);
                 let players = [...globalValues.current.players_list];
+                let p = players.find(p => p.id == data.playerId);
+                if(p.pokemons === undefined) p.pokemons = [];
                 players.find(p => p.id == data.playerId)?.pokemons.push(data.pokemon);
                 modifyValues('players_list', players);
             });
@@ -273,22 +309,16 @@ export default function ShinyWars() {
                 <MainLayout showOverflow={true} className={"flex flex-col justify-center items-center gap-16"}>
 
                     <Head title="Shiny Wars" />
-                    {globalValues.current.phaseId == -1 && (
-                        <>
-                            <GreenButton className={"button button_green outline-none"} onClick={() => { createGame() }}>
-                                Créer une Game
-                            </GreenButton>
-                        </>
-                    )}
+                    {globalValues.current.phaseId == -1 && <IndexMenu globalValues={globalValues} socket={globalValues.current.socket} />}
                     {globalValues.current.phaseId == 0 && <SettingsMenu globalValues={globalValues} socket={globalValues.current.socket} />}
                     {globalValues.current.phaseId == 1 && <GamePhaseDrawMap globalValues={globalValues} socket={globalValues.current.socket} />}
                     {globalValues.current.phaseId == 2 && <GamePhaseHunt globalValues={globalValues} socket={globalValues.current.socket} />}
                     {globalValues.current.phaseId == 3 && <GamePhaseDrawPkmn globalValues={globalValues} socket={globalValues.current.socket} />}
 
-                    <img className='z-0 absolute scale-x-[-1] left-[-80px] bottom-[-40px] rotate-[10deg]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${361}/${'shiny'}.png`} alt="" />
-                    <img className='z-0 absolute scale-x-[-1] left-[160px] bottom-[-70px]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${184}/${'shiny'}.png`} alt="" />
-                    <img className='z-0 absolute right-[220px] bottom-[-40px]' width={300} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${570}/${'shiny'}.png`} alt="" />
-                    <img className='z-0 absolute right-[-120px] bottom-[-80px] rotate-[-10deg]' width={480} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${376}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute scale-x-[-1] left-[-80px] bottom-[-50px] rotate-[10deg]' width={256} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${361}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute scale-x-[-1] left-[120px] bottom-[-60px]' width={256} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${184}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute right-[180px] bottom-[-40px]' width={256} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${570}/${'shiny'}.png`} alt="" />
+                    <img className='z-0 absolute right-[-90px] bottom-[-60px] rotate-[-10deg]' width={360} src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${376}/${'shiny'}.png`} alt="" />
                 </MainLayout>
                 <style>{`
                 :root {

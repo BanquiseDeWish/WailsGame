@@ -1,12 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-    --container_background: #18212E;
+    --container_background: rgba(61.34, 105.63, 173.19, 0.25);
     --content_background: #121A25;
     --light_background: #2C3344;
-    --web_background: linear-gradient(254deg, #09101A 0%, #050A11 100%);
+    --web_background: linear-gradient(254deg, #18273D 0%, #070A1E 100%);
     --input_text_color: #fff;
-    --input_placeholder_color: #8C8C8C;
+    --input_placeholder_color: #57779D;
+    --dropdown_background: linear-gradient(254deg, #334c72 0%, #1d375f 100%);
+    --dropdown_link_hover_background: rgba(61.34, 105.63, 173.19, 0.40);
+    --scrollbar_thumb_color: linear-gradient(180deg, #92ADD9, #6380ad);
+    --light_text: #abbad6;
 }
 
 body {
@@ -77,27 +81,22 @@ body {
 
 .button_twitch {
     background: linear-gradient(90deg, #8B5ABB 0%, #362565 100%) !important;
-    outline: 5px solid rgba(133, 90, 187, 0.20);
 }
 
 .button_green {
     background: linear-gradient(90deg, #5ABB81 0%, #356568 100%) !important;
-    outline: 5px solid rgba(87, 141, 144, 0.20);
 }
 
 .button_yellow {
-    outline: 5px solid rgba(169, 153, 72, 0.20);
     background: linear-gradient(99deg, #BBB15A 0%, #684A35 100%) !important;
 }
 
 .button_blue {
     background: linear-gradient(90deg, #5A98BB 0%, #354368 100%) !important;
-    outline: 5px solid rgba(90, 152, 187, 0.20);
 }
 
 .button_red {
     background: linear-gradient(99deg, #BB775A 0%, #683535 100%) !important;
-    outline: 5px solid rgba(144, 97, 87, 0.20);
 }
 
 .konami {
@@ -154,7 +153,7 @@ body {
     animation: headShake 1s infinite;
 }
 
-input {
+input[type="text"], select, textarea {
     display: flex !important;
     padding: 16px !important;
     align-items: center !important;
@@ -165,18 +164,24 @@ input {
     color: white !important;
     border: none !important;
 }
-
-#modal input {
-    background: var(--light_background) !important;
+select option {
+    margin: 40px;
+    background: var(--content_background);
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
 }
 
-input:focus {
+input::placeholder {
+    color: var(--light_text) !important;
+}
+
+input[type="text"]:focus {
     border: none !important;
     box-shadow: none !important;
     outline-offset: 0px !important;
 }
 
-label:has(+ input) {
+label:has(+ input), label:has(+ select), label:has(+ div), label:has(+ textarea) {
     color: #FFF;
     font-family: Poppins;
     font-size: 16px;
@@ -186,6 +191,22 @@ label:has(+ input) {
 }
 
 div:has(label + input) {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+div:has(label + div) {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+div:has(label + select) {
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -208,7 +229,7 @@ div:has(label + input) {
     width: 70%;
     height: 2px;
     display: flex;
-    background-color: var(--light_background);
+    background-color: var(--container_background);
 }
 
 .dropdown {
@@ -239,7 +260,7 @@ div:has(label + input) {
     font-size: 0.875rem;
 }
 .dropdown .menu .link:hover {
-    background-color: var(--light_background);
+    background-color: var(--dropdown_link_hover_background);
 }
 .simple_button {
     display: flex;
@@ -295,11 +316,11 @@ div:has(label + input) {
         width: 10px;
     }
     ::-webkit-scrollbar-track {
-        background-color: #121A25;
+        background-color: var(--container_background);
         border-radius: 50px;
     }
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #1956B1, #0A316B);
+        background: var(--scrollbar_thumb_color);
         border-radius: 50px;
     }
 }
@@ -324,7 +345,7 @@ div:has(label + input) {
     line-height: normal;
     border: 2px solid transparent;
     border-radius: 8px;
-    transition: border-color 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 .navbar .link.active a {
     border-color: #698ACB;
@@ -399,7 +420,6 @@ div:has(label + input) {
     justify-content: center;
     align-items: center;
     padding: 50px;
-    background-color: var(--container_background);
     width: 100%;
 }
 .footer .title {

@@ -73,13 +73,14 @@ export default class VIPGamesModal extends BaseModal {
             <>
             <img src={CrownPenguin} className='absolute top-[-180px] right-[30px] modal_child_img' width={150} alt="" />
             <img src={TopHatPenguin} className='absolute top-[-180px] left-[30px] modal_child_img' width={150} alt="" />
-            <form onSubmit={this.handleSubmit} className='flex flex-col gap-4 items-center justify-center w-[560px]'>
+            <form onSubmit={this.handleSubmit} className='flex flex-col gap-6 items-center justify-center w-[560px]'>
                 <InputRange
                     label="Nombre Total de Ticket"
                     value={this.state.number_of_tickets}
                     onChange={this.handleChange}
                     min={50}
                     max={150}
+                    step={10}
                     id="number_of_tickets"
                 />
                 <InputRange

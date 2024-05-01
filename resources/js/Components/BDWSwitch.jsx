@@ -9,7 +9,7 @@ export default function BDWSwitch({ bool, setBool }) {
         <Switch
             checked={bool}
             onChange={handleClick}
-            style={{ background: bool ? '#8B5ABB' : 'var(--light_background)' }}
+            style={{ background: bool ? '#8B5ABB' : 'var(--container_background)' }}
             className={` relative inline-flex h-[28px] w-[54px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
         >
             <span className="sr-only"></span>

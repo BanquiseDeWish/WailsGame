@@ -1,0 +1,321 @@
+{
+    "bonus": [
+        {
+            "bonus": "CHANCE",
+            "player": 532538904
+        },
+        {
+            "bonus": "CHANGEMENT",
+            "player": 187324731
+        },
+        {
+            "bonus": "MINIVISION",
+            "player": 738674090
+        },
+        {
+            "bonus": "VISION",
+            "player": 544825542
+        },
+        {
+            "bonus": "PRIO",
+            "player": 532538904
+        },
+        {
+            "bonus": "PRIO",
+            "player": 494959888
+        },
+        {
+            "bonus": "CHANCE",
+            "player": 494959888
+        },
+        {
+            "bonus": "CHANGEMENT",
+            "player": 775266632
+        },
+        {
+            "bonus": "MINIVISION",
+            "player": 145085937
+        },
+        {
+            "bonus": "VISION",
+            "player": 836772148
+        },
+        {
+            "bonus": "PRIO",
+            "player": 187324731
+        },
+        {
+            "bonus": "PRIO",
+            "player": 277153261
+        },
+        {
+            "bonus": "PRIO",
+            "player": 532538904
+        },
+        {
+            "bonus": "CHANCE",
+            "player": 912320641
+        },
+        {
+            "bonus": "CHANGEMENT",
+            "player": 934531026
+        },
+        {
+            "bonus": "MINIVISION",
+            "player": 277153261
+        },
+        {
+            "bonus": "VISION",
+            "player": 532538904
+        }
+    ],
+    "endGame": "2024-04-28T15:48:21.191Z",
+    "players": [
+        {
+            "id": 934531026,
+            "name": "PAW_lucasmrc3",
+            "points": 47,
+            "usePoints": 3,
+            "totalAttempt": 0
+        },
+        {
+            "id": 104995704,
+            "name": "hasu027",
+            "points": 50,
+            "usePoints": 0,
+            "totalAttempt": 0
+        },
+        {
+            "id": 900295830,
+            "name": "MX_PAW_scovilain",
+            "points": 50,
+            "usePoints": 0,
+            "totalAttempt": 0
+        },
+        {
+            "id": 544825542,
+            "name": "PAW_Kito",
+            "points": 47,
+            "usePoints": 3,
+            "totalAttempt": 0
+        },
+        {
+            "id": 738674090,
+            "name": "PAW_Ileau",
+            "points": 49,
+            "usePoints": 1,
+            "totalAttempt": 0
+        },
+        {
+            "id": 277153261,
+            "name": "MidnightChillz",
+            "points": 47,
+            "usePoints": 3,
+            "totalAttempt": 1
+        },
+        {
+            "id": 145085937,
+            "name": "PAW_DUSTINLEREUF",
+            "points": 52,
+            "usePoints": 1,
+            "totalAttempt": 1
+        },
+        {
+            "id": 775266632,
+            "name": "Paw_FrostyLeReuf",
+            "points": 47,
+            "usePoints": 3,
+            "totalAttempt": 1
+        },
+        {
+            "id": 494959888,
+            "name": "Sxx_",
+            "points": 45,
+            "usePoints": 8,
+            "totalAttempt": 1
+        },
+        {
+            "id": 912320641,
+            "name": "kalisto2918",
+            "points": 44,
+            "usePoints": 6,
+            "totalAttempt": 3
+        },
+        {
+            "id": 187324731,
+            "name": "ShunshineDev62",
+            "points": 48,
+            "usePoints": 5,
+            "totalAttempt": 3
+        },
+        {
+            "id": 532538904,
+            "name": "NiixooZ",
+            "points": 37,
+            "usePoints": 13,
+            "totalAttempt": 4
+        },
+        {
+            "id": 836772148,
+            "name": "PAW_Asuma",
+            "points": 47,
+            "usePoints": 3,
+            "totalAttempt": 5
+        }
+    ],
+    "tickets": [
+        {
+            "player": 145085937,
+            "ticket": 65
+        },
+        {
+            "player": 187324731,
+            "ticket": 98
+        },
+        {
+            "player": 187324731,
+            "ticket": 59
+        },
+        {
+            "bonus": "MINIVISION",
+            "player": 738674090,
+            "ticket": 15
+        },
+        {
+            "player": 532538904,
+            "ticket": 92
+        },
+        {
+            "bonus": "VISION",
+            "player": 544825542,
+            "ticket": 41
+        },
+        {
+            "bonus": "VISION",
+            "player": 544825542,
+            "ticket": 74
+        },
+        {
+            "bonus": "VISION",
+            "player": 544825542,
+            "ticket": 28
+        },
+        {
+            "player": 775266632,
+            "ticket": 2
+        },
+        {
+            "player": 836772148,
+            "ticket": 29
+        },
+        {
+            "player": 836772148,
+            "ticket": 19
+        },
+        {
+            "player": 836772148,
+            "ticket": 25
+        },
+        {
+            "player": 836772148,
+            "ticket": 47
+        },
+        {
+            "player": 532538904,
+            "ticket": 97
+        },
+        {
+            "player": 494959888,
+            "ticket": 84
+        },
+        {
+            "bonus": "MINIVISION",
+            "player": 145085937,
+            "ticket": 90
+        },
+        {
+            "bonus": "VISION",
+            "player": 836772148,
+            "ticket": 42
+        },
+        {
+            "bonus": "VISION",
+            "player": 836772148,
+            "ticket": 6
+        },
+        {
+            "bonus": "VISION",
+            "player": 836772148,
+            "ticket": 51
+        },
+        {
+            "player": 836772148,
+            "ticket": 63
+        },
+        {
+            "bonus": "MINIVISION",
+            "player": 277153261,
+            "ticket": 4
+        },
+        {
+            "bonus": "VISION",
+            "player": 532538904,
+            "ticket": 13
+        },
+        {
+            "bonus": "VISION",
+            "player": 532538904,
+            "ticket": 17
+        },
+        {
+            "bonus": "VISION",
+            "player": 532538904,
+            "ticket": 34
+        },
+        {
+            "player": 187324731,
+            "ticket": 78
+        },
+        {
+            "player": 277153261,
+            "ticket": 86
+        },
+        {
+            "player": 532538904,
+            "ticket": 61
+        },
+        {
+            "player": 532538904,
+            "ticket": 88
+        },
+        {
+            "player": 912320641,
+            "ticket": 0
+        },
+        {
+            "player": 912320641,
+            "ticket": 10
+        },
+        {
+            "player": 912320641,
+            "ticket": 20
+        }
+    ],
+    "gameTime": 150.263,
+    "startGame": "2024-04-28T15:45:50.928Z",
+    "dead_tickets": [
+        63
+    ],
+    "totalAttempt": 19,
+    "bonus_tickets": [
+        84,
+        75,
+        35,
+        98,
+        65
+    ],
+    "winning_tickets": [
+        20
+    ],
+    "number_of_tickets": 100
+}

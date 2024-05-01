@@ -1,7 +1,7 @@
 :root {
     --modal_transition: 0.4s;
     --modal_background_transition: 0.2s;
-    --modal_background: var(--container_background);
+    --modal_background: linear-gradient(254deg, #1F304A 0%, #0D1B30 100%);
 }
 
 .modal_container {

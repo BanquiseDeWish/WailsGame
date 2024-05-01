@@ -65,6 +65,8 @@ export default function ProfileAppearance(props) {
     let tabCategoryCurrent = tabs.find((tab) => tab.key == tabCategory);
 
     useEffect(() => {
+        console.log(cosmeticsActive, props.activeCosmetics);
+        if(!cosmeticsActive) return;
         let cosmeticsCurrentPre = [];
         cosmeticsActive.forEach((cosmetic) => {
             if(cosmetic.type == "card" && cosmetic.sub_type == "colorIcon") {

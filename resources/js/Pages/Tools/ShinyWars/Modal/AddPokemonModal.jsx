@@ -28,7 +28,7 @@ export default class AddPokemonModal extends BaseModal {
 
     componentDidMount() {
         if(this.state.pokemon) {
-            this.onPokemonChange(this.state.pokemon, this.state.pokemon.formRegion);
+            this.onPokemonChange(this.state.pokemon, this.state.pokemon.form);
         }
     }
 
@@ -64,15 +64,15 @@ export default class AddPokemonModal extends BaseModal {
         this.setState({ lastPokemon: value });
         axios.get(`https://tyradex.tech/api/v1/pokemon/${value.id}`)
             .then(response => {
-                let forms = [{ id: 'shiny', formRegion: 'regular', label: response.data.name.fr }];
+                let forms = [{ id: 'shiny', form: 'regular', label: response.data.name.fr }];
                 if (response.data.formes && response.data.formes.length > 0) {
                     response.data.formes.forEach(form => {
-                        forms.push({ id: "shiny_" + form.region, formRegion: form.region, label: form.name.fr });
+                        forms.push({ id: "shiny_" + form.region, form: form.region, label: form.name.fr });
                     });
                 }
                 this.setState({ formData: forms });
                 if(mountForm !== undefined)
-                    this.setState({ pokemonForm: forms.find(form => form.formRegion == mountForm) });
+                    this.setState({ pokemonForm: forms.find(form => form.form == mountForm) });
                 else
                     this.setState({ pokemonForm: forms[0] });
             })
@@ -114,7 +114,7 @@ export default class AddPokemonModal extends BaseModal {
                                     this.props.socket.emit('update_pokemon', {
                                         index: this.props.index,
                                         pokemonId: this.state.lastPokemon.id,
-                                        formRegion: this.state.pokemonForm.formRegion
+                                        form: this.state.pokemonForm.form
                                     })
                                     setTimeout(() => {
                                         this.closeModal();

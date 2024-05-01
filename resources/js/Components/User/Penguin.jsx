@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import axios from 'axios';
 
-export default function Penguin({ className, size, noRequest, data, user_id }) {
+export default function Penguin({ className, size, noRequest, data, user_id, ...props }) {
 
     const [cosmetics, setCosmetics] = useState(data == undefined ? {} : data)
 
     useEffect(() => {
         if (noRequest == undefined || !noRequest) {
-            axios.get(route('user.penguin_data', { twitch_id: user_id }))
+            axios.get(route('user.penguin_data', { twitch_id: user_id ?? 0 }))
                 .then((resp) => {
                     let cosmeticsData = {};
                     let cosmeticsPreData = resp.data.filter((cosm) => cosm.type !== "card")
@@ -43,8 +43,9 @@ export default function Penguin({ className, size, noRequest, data, user_id }) {
         <svg
             className={className}
             width={size?.width !== undefined ? size.width : "64"}
-            height={size?.width !== undefined ? size.width * (4 / 3) : "112"}
-            viewBox="0 0 518 688" fill="none" xmlns="http://www.w3.org/2000/svg"
+            height={size?.width !== undefined ? size.width*(4/3) : "112"}
+            viewBox="0 0 504 688" fill="none" xmlns="http://www.w3.org/2000/svg"
+            {...props}
         >
             <g id="penguin">
                 <path id="tail" d="M139.765 561.556C152.025 579.947 179.145 586.445 191.265 605.056C188.893 609.799 180.115 617.418 174.921 618.944C171.301 620.075 167.887 621.408 164.421 622.944C146.142 630.671 126 635.769 106.112 635.799C105.327 635.803 104.543 635.806 103.734 635.809C102.088 635.814 100.442 635.817 98.7956 635.817C96.3053 635.819 93.8154 635.837 91.3251 635.856C83.1918 635.884 75.6661 635.673 67.7333 633.631C71.0466 626.254 77.9856 621.423 84.3583 616.756C85.0535 616.24 85.7486 615.723 86.4648 615.19C90.7336 612.035 95.0763 609.026 99.4833 606.069C114.056 596.036 129.227 575.527 139.765 561.556Z" fill="#2C384F" />

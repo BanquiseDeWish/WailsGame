@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CosmeticController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\QuizzMasterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VIPGameController;
 use Illuminate\Support\Facades\Route;
@@ -27,12 +28,14 @@ Route::middleware('api_check')->group(function() {
     Route::post('/user/all/points/vipgames/register', [UserController::class, 'registerUsersVipGamesPoints'])->name('user.all.points.vipgames.register');
 
     Route::post('/game/vipgame/register', [VIPGameController::class, 'registerGame'])->name('game.vipgame.register');
+
+    Route::post('/quizzmaster/register', [QuizzMasterController::class, 'registerHistory'])->name('game.quizzmaster.register');
 });
 
 Route::get('/user/{twitch_id}/icon', [UserController::class, 'getUserIcon'])->name('user.icon');
 Route::get('/user/{twitch_id}/penguin_data', [CosmeticController::class, 'getUserActiveCosmetics'])->name('user.penguin_data');
-Route::get('/user/{twitch_id}/penguin_data', [CosmeticController::class, 'getUserActiveCosmetics'])->name('user.penguin_data');
-Route::post('user/all/points/vipgames', [UserController::class, 'getUserListVIPGamesPoints'])->name('user.all.points.vipgames');
+Route::get('/user/{twitch_id}/points/vipgames', [UserController::class, 'getUserVIPGamesPoints'])->name('user.points.vipgames');
+Route::get('/user/all/points/vipgames', [UserController::class, 'getUserListVIPGamesPoints'])->name('user.all.points.vipgames');
 
 Route::post('/cosmetics/get', [CosmeticController::class, 'getCosmetics'])->name('cosmetics.get');
 

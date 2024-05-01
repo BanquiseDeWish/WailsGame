@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: var(--light_background);
+    background-color: var(--container_background);
     border-radius: 8px;
 }
 .penguinCard .avatar {

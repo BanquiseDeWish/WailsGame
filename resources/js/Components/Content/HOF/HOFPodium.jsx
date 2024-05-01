@@ -6,9 +6,9 @@ export default function HoFPodium({ data, style }) {
      * Example data:
      * data = {
      *  topIcon: string,
-     *  userInfo: {
+     *  user_info: {
      *      user_id: int,
-     *      userName: string,
+     *      user_name: string,
      *      points: int
      *  },
      *  labelPoints: {
@@ -29,14 +29,14 @@ export default function HoFPodium({ data, style }) {
                 }
                 <Penguin
                     size={{  width: data?.penguinWidth ? data?.penguinWidth : 84 }}
-                    user_id={data?.userInfo?.user_id}
+                    user_id={data?.user_info?.user_id}
                 />
 
                 <div className="flex w-full flex-col items-center">
                     <PenguinCard
                         data={{
-                            userID: data?.userInfo?.user_id,
-                            username: data?.userInfo?.userName,
+                            user_id: data?.user_info?.user_id,
+                            username: data?.user_info?.user_name,
                             background_type: "color",
                             background_data: {
                                 color: "transparent",
@@ -45,9 +45,9 @@ export default function HoFPodium({ data, style }) {
                     />
 
                     <div className="display_points flex items-center justify-center gap-[4px]">
-                        <span className="text-white text-[18px] font-[500] leading-[normal]">{data?.userInfo?.points == undefined ? "N/A" : data?.userInfo?.points}</span>
-                        <div className="text-[#9799A7] text-[14px] font-[500] leading-[normal]">
-                            {data?.labelPoints !== undefined ? data?.userInfo?.points !== undefined ? data?.userInfo?.points > 1 ? data?.labelPoints?.plural : data?.labelPoints?.singular : "" : ""}
+                        <span className="text-white text-[18px] font-[500] leading-[normal]">{data?.points == undefined ? "N/A" : data?.points}</span>
+                        <div className="text-[14px] font-[500] leading-[normal]">
+                            {data?.labelPoints !== undefined ? data?.points !== undefined ? data?.points > 1 ? data?.labelPoints?.plural : data?.labelPoints?.singular : "" : ""}
                         </div>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VIPGameController;
 use App\Http\Controllers\OverlayController;
+use App\Http\Controllers\QuizzMasterController;
 use App\Http\Controllers\TierlistController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -89,5 +90,20 @@ Route::prefix('tierlist')->name('tierlist.')->middleware(['auth_twitch'])->group
     Route::post('/share', [TierlistController::class, 'share'])->name('share');
     Route::post('/delete', [TierlistController::class, 'delete'])->name('delete');
 });
+
+Route::prefix('games')->name('games.')->middleware(['auth_twitch'])->group(function() {
+    Route::prefix('quizz')->name('quizz.')->group(function() {
+        if(env('QUIZZMASTER_STATE') == "true") {
+            Route::get('/', [QuizzMasterController::class, 'index'])->name('index');
+            Route::get('/party/{gameId}', [QuizzMasterController::class, 'party'])->name('party');
+        }
+        Route::get('/form', [QuizzMasterController::class, 'form'])->name('form');
+        Route::post('/form/send_question', [QuizzMasterController::class, 'send_question'])->name('form.submit');
+        Route::post('/report_submit', [QuizzMasterController::class, 'report_submit'])->name('report_submit');
+    });
+});
+
+
+Route::get('/dev/calc_stats', [VIPGameController::class, 'calcStatsView'])->middleware(['is_weils'])->name('dev.calc_stats');
 
 require __DIR__.'/auth.php';

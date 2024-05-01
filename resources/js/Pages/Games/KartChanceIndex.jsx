@@ -125,7 +125,7 @@ export default function KartChanceIndex(props) {
                                 <div className="flex flex-wrap gap-6 overflow-y-auto items-center justify-center" style={{ height: 'fit-content' }}>
                                     {players.map((val, index) => {
                                         return (
-                                            <div key={index} className="player" style={{ height: 'fit-content' }}>
+                                            <div key={index} className="player container_background" style={{ height: 'fit-content' }}>
                                                 <div className='reRandomAll' onClick={() => { reRandomAll(val.uid) }}><RefreshIcon width={18} height={18} /></div>
                                                 <div className='delete' onClick={() => { removePlayer(val.uid) }}><BinIcon width={18} height={18}/></div>
                                                 <PenguinCard data={{ username: val.uname }} />

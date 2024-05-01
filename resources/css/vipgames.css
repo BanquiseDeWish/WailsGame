@@ -1,16 +1,25 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-    --container-background: #09101A;
+    --vip_container_background: rgba(24, 40, 71, 0.95);
+    --slot-item-background: #1e3b64 !important;
 }
 
 .container {
-    background: var(--container-background) !important;
+    background: var(--vip_container_background) !important;
     backdrop-filter: blur(5px);
+    border: 1px solid #5395e063;
+}
+
+.sub_container {
+    background: var(--container_background);
+    border: 1px solid #5395e063;
+    border-radius: 8px;
 }
 
 body {
     background-image: url('../assets/img/vipgames/vipgames_background.png') !important;
+    /*background: var(--web_background) !important;*/
     background-size: cover !important;
     background-position: center !important;
 }
@@ -20,7 +29,7 @@ body::after {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.4);
+    /*background: rgba(0,0,0,0.4);*/
     top: 0;
     left: 0;
 
@@ -31,16 +40,15 @@ body::after {
 }
 
 :root {
-    --background: #0e1014;
-    --ticket: linear-gradient(99deg, #ffc700 0%, #905510 100%);
-    --ticket_miss: linear-gradient(99deg, #d9170b 0%, #761111 100%);
+    --background: var(--web_background);
+    --ticket: linear-gradient(99deg, #ffbb00 0%, #9e5807 100%);
+    --ticket_miss: linear-gradient(99deg, #b3120a 0%, #5f0d0d 100%);
     --ticket_bonus: linear-gradient(99deg, #10a3f5 0%, #0b308e 100%);
     --ticket_win: linear-gradient(99deg, #02f41a 0%, #0d6b05 100%);
     --ticket_dead: linear-gradient(99deg, #313233 0%, #05050E 100%);
 }
 
 html {
-    background: var(--background);
     color: #fff;
     font-family: "Poppins";
     font-size: 24px;
@@ -173,14 +181,14 @@ input,
     background: var(--ticket);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
-    border: 2px solid #c88e08;
+    border: 0px solid #c88e08;
     transition: 0.2s;
     font-family: Poppins;
     font-weight: bold;
     font-size: 20px;
 }
 
-.ticket:hover:not(.ticket_miss),
+.ticket:hover:not(.ticket_miss):not(.ticket_bonus):not(.ticket_dead):not(.ticket_win),
 .button:hover {
     scale: 1.25;
     transition: 0.2s;
@@ -189,19 +197,21 @@ input,
 
 .ticket_miss {
     background: var(--ticket_miss);
-    border-color: #a9140e;
-    color: #f44;
+    border-color: rgb(194, 48, 48);
+    color: rgb(231, 55, 55);
     animation: tilt-shaking 0.4s linear;
 }
 
 .ticket_bonus {
     background: var(--ticket_bonus);
-    border-color: #0e6bc3;
+    border-color: #1578d4;
+    color: #91c4f5;
 }
 
 .ticket_dead {
     background: var(--ticket_dead);
     border-color: #474849;
+    color: #474849;
 }
 
 .ticket_win {
@@ -226,17 +236,7 @@ input,
     overflow: hidden;
     border-radius: 8px;
     position: relative;
-}
-
-#game_news::after {
-    content: '';
-    position: absolute;
-    width: 120px;
-    height: 80px;
-    background: linear-gradient(270deg, #020C11 0%, rgba(2, 12, 17, 0.00) 100%);
-    z-index: 100;
-    right: 0;
-    transition: all 2.0s ease-out;
+    mask: linear-gradient(90deg, white 0%, white 80%, transparent 100%);
 }
 
 .game_news_item {
@@ -451,12 +451,13 @@ input,
 
 .player_points_item {
     border-radius: 8px;
-    background-color: #18212E;
+    background-color: var(--container_background);
     padding: 12px 16px;
     width: 100%;
     display: flex;
     justify-content: space-between;
     gap: 16px;
+    border: 1px solid #5395e048;
 }
 
 .player_points_item .points {
@@ -477,7 +478,7 @@ input,
 }
 
 .player_points_item .points_txt {
-    color: #9799A7;
+    color: #abbcd8;
     font-family: Poppins;
     font-size: 0.875rem;
     font-style: normal;
@@ -513,15 +514,16 @@ input,
     font-weight: 700;
     line-height: normal;
     background: linear-gradient(99deg, #10A3F5 0%, #0B308E 100%);
-    padding: 12px 64px;
+    padding: 6px 0px;
+    min-width: 320px;
     display: flex;
     justify-content: center;
     align-items: center;
     width: fit-content;
     border-radius: 8px 8px 0 0;
     position: absolute;
-    top: -45px;
-    left: 8;
+    top: -33px;
+    left: calc(50% - 160px);
 }
 
 .points_bin {
@@ -534,7 +536,7 @@ input,
     top: 0;
     right: 0;
     visibility: hidden;
-    background: linear-gradient(90deg, #121A25 0%, #a01b1b 100%);
+    background: linear-gradient(90deg, transparent 0%, #a01b1b 40%, #a01b1b 100%);
 }
 
 .player_points_item:hover .points_bin {
@@ -543,9 +545,8 @@ input,
     border-bottom-right-radius: 8px;
 }
 
-#winning_menu {
-    
-}
+
+
 
 /*.snow_cap_player::after {
     content: '';
@@ -622,3 +623,19 @@ input,
     top: -25px;
     z-index: 200;
 }*/
+
+.victory_icon_animation {
+    animation: zoom_unzoom 2s ease-in-out infinite;
+}
+
+@keyframes zoom_unzoom {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

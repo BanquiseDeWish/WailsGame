@@ -1,5 +1,9 @@
 import BaseModal from '@/Components/Modal/BaseModal';
 import EggImg from '@assets/img/tools/shinywars/egg.png';
+import GameSound from '@/Game/audio';
+
+import wooshIn from '@assets/sounds/shinywars/woosh_in.mp3';
+import wooshOut from '@assets/sounds/shinywars/woosh_out.mp3';
 
 import '@css/modal.css';
 
@@ -9,12 +13,24 @@ export default class PokemonDrawModal extends BaseModal {
 
         this.state = {
             ...this.state,
-            pokemon: props.pokemon
+            data: props.data
         };
-        this.state.openModal = props.openModal;
+        this.state.onBackgroundClick = () => {};
     }
 
     componentDidMount() { }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.data?.pokemon !== this.props.data?.pokemon) {
+            this.setState((prevState) => ({ ...prevState, data: {pokemon: this.props.data?.pokemon }}));
+            this.openModal();
+            GameSound.playSound(wooshIn, 0.3);
+            setTimeout(() => {
+                this.closeModal();
+                GameSound.playSound(wooshOut, 0.05);
+            }, 5000);
+        }
+    }
 
     getButton() {
         return undefined;
@@ -26,15 +42,15 @@ export default class PokemonDrawModal extends BaseModal {
                 <div className='flex flex-col gap-[32px] items-center justify-center w-[800px] px-[32px]'>
                     <img
                         width={360}
-                        src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${this.state.pokemon?.id}/${'shiny_' + this.state.pokemon?.form}.png`}
+                        src={`https://raw.githubusercontent.com/Yarkis01/TyraDex/images/sprites/${this.state.data?.pokemon?.id}/${this.state.data?.pokemon.form == 'regular' ? 'shiny' : 'shiny_' + this.state.data?.pokemon?.form}.png`}
                         alt=""
                         onError={(e) => { e.target.onerror = null; e.target.src = EggImg }}
                     />
                     <div className='flex flex-col items-center justify-center gap-2'>
-                        <span className='font-semibold text-2xl'>{this.state.pokemon?.name}</span>
+                        <span className='font-semibold text-2xl'>{this.state.data?.pokemon?.name}</span>
                         <div className='flex flex-row gap-[16px]'>
                             {
-                                this.state.pokemon?.types.map((type, index) => {
+                                this.state.data?.pokemon?.types.map((type, index) => {
                                     return (
                                         <img
                                             src={type.image}

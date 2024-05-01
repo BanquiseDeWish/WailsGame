@@ -123,10 +123,10 @@ class PrediGivreesController extends Controller
         foreach ($prediGivreData as  $k => $pgd) {
             $user = User::where('twitch_id', '=', $pgd->user_id)->first();
             $pcUser = PenguinCard::getCardFromTWID($pgd->user_id);
-            if ($user == null) $pgd->userName = "N/A";
+            if ($user == null) $pgd->user_name = "N/A";
             else {
                 $pgd->user_id = $user->twitch_id;
-                $pgd->userName = $user->twitch_username;
+                $pgd->user_name = $user->twitch_username;
             }
 
             if ($pcUser !== null) $pgd->pcUser = $pcUser;

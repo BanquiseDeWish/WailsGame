@@ -5,7 +5,7 @@
 .kartChance .player {
     padding-top: 18px !important;
     position: relative;
-    background-color: #121A25 !important;
+    background-color: var(--container_background) !important;
     border-radius: 8px !important;
     padding: 12px 24px;
 }
@@ -26,7 +26,7 @@
     right: 6px;
 }
 .kartChance .player .reRandomAll:hover, .kartChance .player .delete:hover {
-    background-color: #020C11 !important;
+    background-color: var(--container_background) !important;
 }
 .kartChance .simple_button {
     width: 100%;

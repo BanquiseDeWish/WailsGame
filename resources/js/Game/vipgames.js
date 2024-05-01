@@ -67,8 +67,11 @@ export default class VIPGames {
                 if (data.bonus_tickets.includes(i)) {
                     tickets.push(this.getTicket(i, "ticket ticket_bonus animate__flip", null))
                 }
-                else if (i == data.winning_ticket) {
+                else if (data.winning_tickets.includes(i)) {
                     tickets.push(this.getTicket(i, "ticket ticket_win animate__flip", null))
+                }
+                else if (data.dead_tickets.includes(i)) {
+                    tickets.push(this.getTicket(i, "ticket ticket_dead animate__flip", null))
                 }
                 else {
                     tickets.push(this.getTicket(i, "ticket ticket_miss", null))
@@ -80,6 +83,7 @@ export default class VIPGames {
         this.modifyValue('current_player', data.current_player ? data.current_player : {id: -1, name: '?????????'});
         this.modifyValue('avatar', data.current_player ? data.current_player.id : 0);
         this.modifyValue('roll_players', data.roll_players);
+        this.modifyValue('available_tickets', data.available_tickets);
         let rollPlayCount = [];
         data.roll_playCount.forEach((playCount) => {
             rollPlayCount.push({id: playCount, name: playCount});
@@ -213,9 +217,8 @@ export default class VIPGames {
 
             case 'end_game':
                 if(!this.gameStart) return;
+                this.modifyValue('game_stats', data.stats);
                 this.modifyValue('game_end', true);
-                console.log("Fin de la partie");
-                console.log(data.stats);
                 break;
         }
 

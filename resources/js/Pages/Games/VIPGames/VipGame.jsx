@@ -27,6 +27,8 @@ import MiddleContent from './VIP_MiddleContent';
 import RightContent from './VIP_RightContent';
 import PopupContent from './VIP_PopupContent';
 
+import FakeStats from '@assets/dev/fake/fake_vipgames_stats.json';
+
 export default function VipGame() {
     const props = usePage().props;
     const [values, setValues] = useState({
@@ -53,6 +55,7 @@ export default function VipGame() {
 
         round: 0,
         available_tickets: 100,
+        game_stats: undefined,
 
         skull_update: 0,
     });
@@ -193,10 +196,10 @@ export default function VipGame() {
             }
 
             <div id="game_menu">
-                <img src={VipGamesLogo} width={540} alt="Logo VipGames" style={{filter: 'drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.99))'}}/>
+                <img src={VipGamesLogo} width={540} alt="Logo VipGames"/>
 
                 <div className='flex flex-col gap-[8px]'>
-                    <div className='flex w-full justify-center items-center h-[680px] gap-[24px] flex-shrink-0'>
+                    <div className='flex w-full justify-center items-center h-[720px] gap-[24px] flex-shrink-0'>
 
                         {/* Left Menu ( For Weils Cam and Chat) */}
                         <LeftContent />
@@ -241,6 +244,7 @@ export default function VipGame() {
                                     </BlueButton>
                             }
                         </div>
+                        { !values.game_end && (
                         <div className='absolute top-0 right-0 flex flex-row gap-[8px] justify-end'>
                             <div className='container w-[200px] flex-col p-[16px]'>
                                 <span>Numéros Restant</span>
@@ -251,6 +255,8 @@ export default function VipGame() {
                                 <span>{values.round ? values.round : '-'}</span>
                             </div>
                         </div>
+                        )}
+
                     </div>
                 </div>
             </div>

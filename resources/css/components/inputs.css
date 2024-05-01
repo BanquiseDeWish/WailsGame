@@ -1,0 +1,75 @@
+
+:root {
+    --range_color_1: rgb(50, 91, 151);
+    --range_color: linear-gradient(90deg, #92ADD9, #466086);
+}
+
+input[type="range"] {
+    /* removing default appearance */
+    -webkit-appearance: none;
+    appearance: none;
+    /* creating a custom design */
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    /*  slider progress trick  */
+    overflow: hidden;
+    border-radius: 16px;
+    background-color: var(--container_background);
+}
+
+/* Track: webkit browsers */
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 15px;
+    background: var(--container_background);
+    border-radius: 16px;
+}
+
+/* Track: Mozilla Firefox */
+input[type="range"]::-moz-range-track {
+    height: 15px;
+    background: var(--container_background);
+    border-radius: 16px;
+}
+
+/* Thumb: webkit */
+input[type="range"]::-webkit-slider-thumb {
+    /* removing default appearance */
+    -webkit-appearance: none;
+    appearance: none;
+    /* creating a custom design */
+    height: 15px;
+    width: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 2px solid var(--range_color_1);
+    /*  slider progress trick  */
+    box-shadow: -807px 0 0 800px var(--range_color_1);
+}
+
+
+/* Thumb: Firefox */
+input[type="range"]::-moz-range-thumb {
+    height: 15px;
+    width: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid var(--range_color_1);
+    /*  slider progress trick  */
+    box-shadow: -807px 0 0 800px var(--range_color_1);
+}
+
+/* Thumb: webkit */
+input[type="range"]:focus::-webkit-slider-thumb {
+    box-shadow: -807px 0 0 800px var(--range_color_1);
+}
+
+/* Thumb: Firefox */
+input[type="range"]:focus::-moz-range-thumb {
+    box-shadow: -807px 0 0 800px var(--range_color_1);
+}
+
+.range {
+    display: flex;
+    align-items: center;
+}

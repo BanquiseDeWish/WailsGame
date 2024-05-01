@@ -9,7 +9,8 @@ export default class BaseModal extends React.Component {
         super(props);
         this.state = {
             openModal: false,
-            totallyClose: true
+            totallyClose: true,
+            onBackgroundClick: this.closeModal
         };
     }
 
@@ -45,7 +46,7 @@ export default class BaseModal extends React.Component {
                 >
                     <div
                         id='modal_background'
-                        onClick={this.closeModal}
+                        onClick={this.state.onBackgroundClick}
                         className={`${this.state.openModal ? 'active' : 'inactive'}`}
                     >
                     </div>

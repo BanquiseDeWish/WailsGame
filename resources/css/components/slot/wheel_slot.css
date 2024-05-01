@@ -49,6 +49,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    border: 1px solid #5395e02d;
 }
 
 .wheel-slot .slot_item.number {
@@ -60,11 +61,12 @@
     line-height: normal;
 }
 
-.wheel-slot .slot_item.player img {
+.wheel-slot .slot_item.player .item_content img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
 }
+
 
 .wheel-slot .slot_item.player .item_content {
     display: flex;

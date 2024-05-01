@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'api_check' => \App\Http\Middleware\ApiToken::class,
         'auth_twitch' => \App\Http\Middleware\AuthTwitch::class,
         'is_weils' => \App\Http\Middleware\IsWeils::class,
+        'admin' => \App\Http\Middleware\Admin::class,
     ];
 }
