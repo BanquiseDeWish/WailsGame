@@ -4,9 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\HasPermissions;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class User extends Model
 {
+
+    use HasFactory;
+    use HasRoles;
+    use HasPermissions;
 
     protected $table = 'users';
 
@@ -59,6 +66,4 @@ class User extends Model
         }
         return $user;
     }
-
-    use HasFactory;
 }
