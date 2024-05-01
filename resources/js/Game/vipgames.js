@@ -67,8 +67,11 @@ export default class VIPGames {
                 if (data.bonus_tickets.includes(i)) {
                     tickets.push(this.getTicket(i, "ticket ticket_bonus animate__flip", null))
                 }
-                else if (i == data.winning_ticket) {
+                else if (data.winning_tickets.includes(i)) {
                     tickets.push(this.getTicket(i, "ticket ticket_win animate__flip", null))
+                }
+                else if (data.dead_tickets.includes(i)) {
+                    tickets.push(this.getTicket(i, "ticket ticket_dead animate__flip", null))
                 }
                 else {
                     tickets.push(this.getTicket(i, "ticket ticket_miss", null))

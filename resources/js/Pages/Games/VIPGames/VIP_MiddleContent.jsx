@@ -36,29 +36,27 @@ export default function VIP_MiddleContent() {
     return (
         <>
         { values.game_end ? (
-            <div className='flex flex-col h-full w-[980px] relative container p-6 gap-12'>
+            <div className='flex flex-col justify-between h-full w-[980px] relative container p-6'>
                 <span className='text-3xl font-bold'>RÉCAPITULATIF</span>
 
-                <div className='grid grid-cols-2 gap-6 w-full h-full'>
-                <div className='sub_container p-6 flex flex-col h-[280px] w-full relative overflow-hidden gap-6 justify-between'>
+                <div className='grid grid-cols-2 grid-rows-[repeat(4,_minmax(132px,_132px))] gap-6 w-full'>
+                    <div className='sub_container p-6 flex flex-col h-full w-full relative overflow-hidden gap-2 justify-between'>
+                        <span className='text-lg'>Numéro Gagnant</span>
+                        <span className='ticket ticket_win absolute right-0 top-0 bottom-0 m-auto scale-150 -rotate-12'>{values.game_stats?.winning_tickets[0]}</span>
+                    </div>
+
+                    <div className='sub_container p-6 flex flex-col h-full w-full relative overflow-hidden gap-2 justify-between'>
+                        <span className='text-lg'>Numéro Explosif</span>
+                        <span className='ticket ticket_dead absolute right-0 top-0 bottom-0 m-auto scale-150 -rotate-12'>{values.game_stats?.dead_tickets[0]}</span>
+                    </div>
+
+                    <div className='sub_container p-6 flex flex-col h-full w-full relative overflow-hidden gap-2 justify-between'>
                         <span className='text-lg'>Durée du VIPGames</span>
                         <span className='text-4xl font-light'>{formatTime(gameDuration)}</span>
                         <img className="absolute right-0 bottom-0 translate-x-8 translate-y-8" src={HourGlass} width={156} alt={'Durée du VIPGames'} />
                     </div>
 
-                    <div className='sub_container p-6 flex flex-col h-[280px] w-full relative overflow-hidden gap-6 justify-between'>
-                        <span className='text-lg'>Nombre de ticket retourné</span>
-                        <span className='text-6xl font-light'>{values.game_stats?.tickets?.length}</span>
-                        <img className="absolute right-0 bottom-0 translate-x-8 translate-y-8" src={TicketColor} width={156} alt={'Nombre de ticket retourné'} />
-                    </div>
-
-                    <div className='sub_container p-6 flex flex-col h-[280px] w-full relative overflow-hidden gap-6 justify-between'>
-                        <span className='text-lg'>Bonus le plus utilisé</span>
-                        <span className='text-4xl font-light'>{mostUseBonus ?? 'Aucun'}</span>
-                        <img className="absolute right-0 bottom-0 translate-x-8 translate-y-8" src={Star} width={156} alt={'Bonus le plus utilisé'} />
-                    </div>
-
-                    <div className='sub_container p-6 flex flex-col h-[280px] w-full relative overflow-hidden gap-2 justify-between'>
+                    <div className='row-span-3 sub_container p-6 flex flex-col w-full relative overflow-hidden gap-2 justify-between'>
                         <span className='text-lg'>Les Participants + Tentatives</span>
                         <div className='flex flex-grow w-3/4 flex-col gap-[8px] overflow-y-scroll pr-2'>
                             {values.game_stats?.players?.sort((a, b) => b.totalAttempt - a.totalAttempt).map((player, index) => (
@@ -69,6 +67,18 @@ export default function VIP_MiddleContent() {
                             ))}
                         </div>
                         <img className="absolute right-0 bottom-0 translate-x-8 translate-y-8" src={Users} width={156} alt={'Les Participants'} />
+                    </div>
+
+                    <div className='sub_container p-6 flex flex-col h-full w-full relative overflow-hidden gap-2 justify-between'>
+                        <span className='text-lg'>Nombre de ticket retourné</span>
+                        <span className='text-6xl font-light'>{values.game_stats?.tickets?.length}</span>
+                        <img className="absolute right-0 bottom-0 translate-x-8 translate-y-8" src={TicketColor} width={156} alt={'Nombre de ticket retourné'} />
+                    </div>
+
+                    <div className='sub_container p-6 flex flex-col h-full w-full relative overflow-hidden gap-2 justify-between'>
+                        <span className='text-lg'>Bonus le plus utilisé</span>
+                        <span className='text-4xl font-light'>{mostUseBonus ?? 'Aucun'}</span>
+                        <img className="absolute right-0 bottom-0 translate-x-8 translate-y-8" src={Star} width={156} alt={'Bonus le plus utilisé'} />
                     </div>
                 </div>
             </div>
