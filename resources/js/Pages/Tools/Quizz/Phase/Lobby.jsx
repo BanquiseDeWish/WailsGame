@@ -20,13 +20,30 @@ import ConfirmMaxQuestions from '../Modal/ConfirmMaxQuestions';
 import HowToPlay from '../Modal/HowToPlay';
 import Eye from '@/Components/Icons/Eye';
 import EyeHide from '@/Components/Icons/EyeHide';
+import GameMode from '../Modal/GameMode';
+
+const gameModes = [
+    {
+        key: 'classic',
+        name: 'Classique',
+        description: 'Répondez à une série de questions sur différement thèmes !'
+    },
+    {
+        key: 'little_bac',
+        name: 'Petit bac',
+        description: 'Trouvez des mots en rapport avec le thème depuis la première lettre proposée'
+    }
+]
 
 export default function QuizzLobby({ auth, globalValues, modifyValues, settings, report, emit }) {
 
     const [maxQuestions, setMaxQuestions] = useState(globalValues.current.maximumQuestions)
     const [timeGame, setTimeGame] = useState(-1)
     const [isOpenHTP, setIsOpenHTP] = useState(false)
+    const [isOpenGameMode, setIsOpenGameMode] = useState(false)
     const [gameIdHidden, setGameIdHidden] = useState(true)
+    const [selectedGameMode, setSelectedGameMode] = useState(gameModes[0].key)
+
     const copyLink = () => {
         copyToClipboard(globalValues.current.gameId);
         toast.success("ID de la partie copié avec succès !")
@@ -72,7 +89,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                             <div className="relative w-full">
                                 <input type="text" className='w-full' name="gameId" value={gameIdHidden ? "************************************" : globalValues.current.gameId} disabled />
                                 <div className="absolute select-none top-0 bottom-0 mx-0 my-auto right-4 h-full" onClick={handleChangeGIHidden}>
-                                    {gameIdHidden ? <Eye width={32} height={"100%"} /> :<EyeHide width={32} height={"100%"} /> }
+                                    {gameIdHidden ? <Eye width={32} height={"100%"} /> : <EyeHide width={32} height={"100%"} />}
                                 </div>
                             </div>
                             <BlueButton onClick={copyLink}>Copier</BlueButton>
@@ -114,7 +131,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                         </BlueButton>
                     </div>
                 </div>
-                <div className="flex flex-col gap-4 min-w-[350px]">
+                <div className="flex flex-col gap-4 min-w-[400px]">
                     <div className="card p-4">
                         <div className="flex flex-col items-center gap-3 w-full">
                             <InputRange
@@ -243,9 +260,17 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
 
                         })}
                     </div>
+                    <div className="card flex-row justify-between p-4 justify-start items-start">
+                        <div className="flex flex-col">
+                            <span>Mode de jeu</span>
+                            <h2 className='text-3xl font-bold text-gray-400'>CLASSIQUE</h2>
+                        </div>
+                        <BlueButton onClick={() => { setIsOpenGameMode(true) }}>Changer</BlueButton>
+                    </div>
                     <BlueButton onClick={() => { report.set(true) }}>Signaler un problème</BlueButton>
                 </div>
             </div>
+            <GameMode isOpen={isOpenGameMode} setIsOpen={setIsOpenGameMode} gamemodes={gameModes} gmSelect={{ val: selectedGameMode, set: setSelectedGameMode }} />
             <HowToPlay isOpen={isOpenHTP} setIsOpen={setIsOpenHTP} />
             <ConfirmMaxQuestions data={{ lastError: globalValues.current.lastError }} launchGame={launchGame} emit={emit} />
             <CountDown data={{ launching: globalValues.current.launchingGame, timer: globalValues.current.timerCurrent }} />
