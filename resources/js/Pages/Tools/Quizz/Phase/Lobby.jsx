@@ -26,12 +26,12 @@ const gameModes = [
     {
         key: 'classic',
         name: 'Classique',
-        description: 'Répondez à une série de questions sur différement thèmes !'
+        description: 'Répondez à une série de questions sur différement thèmes'
     },
     {
-        key: 'little_bac',
+        key: 'scattergories',
         name: 'Petit bac',
-        description: 'Trouvez des mots en rapport avec le thème depuis la première lettre proposée'
+        description: 'Trouvez des mots en rapport avec la première lettre et le thème proposée'
     }
 ]
 
@@ -43,6 +43,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
     const [isOpenGameMode, setIsOpenGameMode] = useState(false)
     const [gameIdHidden, setGameIdHidden] = useState(true)
     const [selectedGameMode, setSelectedGameMode] = useState(gameModes[0].key)
+    const [gameModeParty, setGameModeParty] = useState(gameModes[0])
 
     const copyLink = () => {
         copyToClipboard(globalValues.current.gameId);
@@ -69,9 +70,20 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
         setTimeGame(timeGame)
     }, [globalValues.current.maximumQuestions])
 
+    useEffect(() => {
+        const gameMode = gameModes.find(game => game.key == globalValues.current.gameMode)
+        if(gameMode == undefined) return;
+        setGameModeParty(gameMode)
+    }, [globalValues.current.gameMode])
+
     const handleChangeGIHidden = () => {
         setGameIdHidden(!gameIdHidden)
     }
+
+    useEffect(() => {
+        if(!globalValues.current.isLeader) return;
+        emit("quizz_update_gamemode", selectedGameMode)
+    }, [selectedGameMode])
 
     return (
         <div className="quizz_lobby flex-1 items-center ">
@@ -126,9 +138,11 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                 Comment jouer ?
                             </BlueButton>
                         </div>
-                        <BlueButton onClick={launchGame}>
-                            Lancer la partie
-                        </BlueButton>
+                        {globalValues.current.isLeader &&
+                            <BlueButton onClick={launchGame}>
+                                Lancer la partie
+                            </BlueButton>
+                        }
                     </div>
                 </div>
                 <div className="flex flex-col gap-4 min-w-[400px]">
@@ -263,14 +277,15 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                     <div className="card flex-row justify-between p-4 justify-start items-start">
                         <div className="flex flex-col">
                             <span>Mode de jeu</span>
-                            <h2 className='text-3xl font-bold text-gray-400'>CLASSIQUE</h2>
+                            <h2 className='text-3xl font-bold text-gray-400 uppercase'>{gameModeParty?.name}</h2>
                         </div>
-                        <BlueButton onClick={() => { setIsOpenGameMode(true) }}>Changer</BlueButton>
+                        {globalValues.current.isLeader && <BlueButton onClick={() => { setIsOpenGameMode(true) }}>Changer</BlueButton>}
+
                     </div>
                     <BlueButton onClick={() => { report.set(true) }}>Signaler un problème</BlueButton>
                 </div>
             </div>
-            <GameMode isOpen={isOpenGameMode} setIsOpen={setIsOpenGameMode} gamemodes={gameModes} gmSelect={{ val: selectedGameMode, set: setSelectedGameMode }} />
+            {globalValues.current.isLeader && <GameMode isOpen={isOpenGameMode} setIsOpen={setIsOpenGameMode} gamemodes={gameModes} gmSelect={{ val: selectedGameMode, set: setSelectedGameMode }} />}
             <HowToPlay isOpen={isOpenHTP} setIsOpen={setIsOpenHTP} />
             <ConfirmMaxQuestions data={{ lastError: globalValues.current.lastError }} launchGame={launchGame} emit={emit} />
             <CountDown data={{ launching: globalValues.current.launchingGame, timer: globalValues.current.timerCurrent }} />
