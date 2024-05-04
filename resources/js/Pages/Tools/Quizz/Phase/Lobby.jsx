@@ -164,13 +164,12 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
 
                             if (globalValues.current.isLeader) {
 
-                                const onChangeTheme = (state, setState, subIndex) => {
+                                const onChangeTheme = (state, subIndex) => {
                                     if (subIndex !== undefined)
                                         globalValues.current.themes[i].subcategories[subIndex].state = !state
                                     else
                                         globalValues.current.themes[i].state = !state
-                                    setState(!state)
-
+                                    //setState(!state)
                                     emit("quizz_update_themes_state", { gameId: globalValues.current.gameId, category_key: s.key, theme_key: globalValues.current.themes[i].subcategories[subIndex].key, new_state: !state })
                                 }
 
@@ -207,21 +206,24 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                                         </Disclosure.Button>
                                                         <Disclosure.Panel className="flex flex-col gap-0 py-2 text-sm rounded-b-[4px] bg-[#334b75]">
                                                             {s?.subcategories?.map((sc, i2) => {
-                                                                const [state, setState] = useState(sc?.state)
+                                                                console.log(sc)
+                                                                /*const [state, setState] = useState(sc?.state)
 
                                                                 useEffect(() => {
                                                                     setState(sc.state)
-                                                                }, [globalValues.current.themes])
+                                                                }, [globalValues.current.themes])*/
 
-                                                                if (sc.type == "theme" && sc.questionsLength !== undefined) {
+                                                                if (globalValues.current.gameMode == "classic" && sc.questionsLength == undefined) return;
+
+                                                                if (sc.type == "theme") {
                                                                     return (
-                                                                        <div className="flex flex-col items-start justify-start hover:bg-[rgba(0,0,0,0.2)] transition-all rounded-[0.275rem] px-2 mx-2 py-2" onClick={() => { onChangeTheme(state, setState, i2) }}>
-                                                                            <InputSwitch classNameContainer={"max-h-[28px]"} key={i2} state={state} label={
+                                                                        <div className="flex flex-col items-start justify-start hover:bg-[rgba(0,0,0,0.2)] transition-all rounded-[0.275rem] px-2 mx-2 py-2" onClick={() => { onChangeTheme(state, i2) }}>
+                                                                            <InputSwitch classNameContainer={"max-h-[28px]"} key={i2} state={sc.state} label={
                                                                                 <div className='flex flex-col select-none'>
                                                                                     <span>{sc.dname}</span>
                                                                                     <span className='text-[12px] font-extralight'>{sc.questionsLength} Questions</span>
                                                                                 </div>
-                                                                            } onChange={() => { onChangeTheme(state, setState, i2) }} />
+                                                                            } onChange={() => { onChangeTheme(sc.state, i2) }} />
                                                                         </div>
                                                                     )
                                                                 }

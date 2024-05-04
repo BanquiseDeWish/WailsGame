@@ -54,10 +54,10 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
             console.log(answers)
             emit('quizz_send_answer_player', answers)
         }else if(phaseId == 1) {
-            document.querySelectorAll('input.answer_input').forEach((node) => {
+            /*document.querySelectorAll('input.answer_input').forEach((node) => {
                 node.value = ""
             })
-            setAnswers([])
+            setAnswers([])*/
         }
     }, [gvc?.phaseId])
 
