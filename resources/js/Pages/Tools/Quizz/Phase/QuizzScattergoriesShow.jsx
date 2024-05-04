@@ -13,7 +13,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
     const [messageChat, setMessageChat] = useState("")
     const gvc = globalValues.current;
     const playersListScore = gvc.players;
-    const countAnswersAttemp = 6;
+    const countAnswersAttemp = gvc?.questionCurrent?.themes?.length || 0;
     const [answers, setAnswers] = useState(Array.from(Array(countAnswersAttemp)))
 
     const timerCurrent = gvc.timerCurrent;
@@ -42,7 +42,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
     useEffect(() => {
         if (globalValues.current.phaseId == 1.5) {
             if (!isAnimatingNewQuestion) setIsAnimatingNewQuestion(true)
-        } else if (globalValues.current.phaseId == 1) {
+        } else if (globalValues.current.phaseId == 1 || globalValues.current.phaseId == 2) {
             if (isAnimatingNewQuestion) setIsAnimatingNewQuestion(false)
         }
     }, [globalValues.current.timerCurrent])
@@ -62,8 +62,8 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
     }, [gvc?.phaseId])
 
     useEffect(() => {
-        console.log(answers)
-    }, [answers])
+        console.log(gvc?.questionCurrent)
+    }, [gvc?.questionCurrent])
 
     const handleChangeAnswer = (e) => {
         const val = e.target.value;
@@ -127,15 +127,15 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                                         },
                                     }} />
                             </div>
-                            <span className="">Theme Master</span>
-                            <span className="font-bold text-[32px]">Current Letter</span>
-                            <span>Petit Bac - X/XX</span>
+                            <span className="text-[32px]">Lettre <b>{gvc?.questionCurrent?.letter}</b></span>
+                            <span className="">Thème: <b>{gvc?.questionCurrent?.themeMaster?.dname}</b></span>
+                            <span>Petit Bac - {(gvc?.data?.questionCursor) + 1}/{gvc?.data?.maxQuestions}</span>
                         </div>
                         <div className="flex flex-col items-center justify-start overflow-y-auto gap-4 px-8  w-full h-full py-9" style={{ boxShadow: 'inset 0 5px 5px -5px rgba(0, 0, 0, 0.5)', borderRadius: '53% 46% 10% 10% / 5% 5% 0% 0%', background: 'rgba(0, 0, 0, 0.30)' }}>
                             {Array.from(Array(countAnswersAttemp)).map((val, i) => {
                                 return (
                                     <div key={i} className="input-group w-full">
-                                        <label htmlFor="subtheme">Subtheme {i}</label>
+                                        <label htmlFor="subtheme">{gvc?.questionCurrent?.themes?.[i]?.dname}</label>
                                         <input className="answer_input w-full" type="text" name={i} onChange={handleChangeAnswer} />
                                     </div>
                                 )

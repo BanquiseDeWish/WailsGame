@@ -72,7 +72,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
 
     useEffect(() => {
         const gameMode = gameModes.find(game => game.key == globalValues.current.gameMode)
-        if(gameMode == undefined) return;
+        if (gameMode == undefined) return;
         setGameModeParty(gameMode)
     }, [globalValues.current.gameMode])
 
@@ -81,7 +81,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
     }
 
     useEffect(() => {
-        if(!globalValues.current.isLeader) return;
+        if (!globalValues.current.isLeader) return;
         emit("quizz_update_gamemode", selectedGameMode)
     }, [selectedGameMode])
 
@@ -146,19 +146,21 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                     </div>
                 </div>
                 <div className="flex flex-col gap-4 min-w-[400px]">
-                    <div className="card p-4">
-                        <div className="flex flex-col items-center gap-3 w-full">
-                            <InputRange
-                                label="Nombres de questions"
-                                value={globalValues.current.maximumQuestions}
-                                onChange={questionsMaxChange}
-                                min={3}
-                                max={50}
-                                id="questions_max"
-                            />
-                            <span><b>Temps de jeu:</b> {timeGame} minutes </span>
+                    {globalValues.current?.gameMode == "classic" &&
+                        <div className="card p-4">
+                            <div className="flex flex-col items-center gap-3 w-full">
+                                <InputRange
+                                    label="Nombres de questions"
+                                    value={globalValues.current.maximumQuestions}
+                                    onChange={questionsMaxChange}
+                                    min={3}
+                                    max={50}
+                                    id="questions_max"
+                                />
+                                <span><b>Temps de jeu:</b> {timeGame} minutes </span>
+                            </div>
                         </div>
-                    </div>
+                    }
                     <div className="card p-4 flex-1 w-full" style={{ justifyContent: 'flex-start', gap: '16px', alignItems: 'flex-start', overflow: 'auto', flex: '1 1 0' }}>
                         {globalValues.current.themes.map((s, i) => {
 
@@ -206,12 +208,6 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                                         </Disclosure.Button>
                                                         <Disclosure.Panel className="flex flex-col gap-0 py-2 text-sm rounded-b-[4px] bg-[#334b75]">
                                                             {s?.subcategories?.map((sc, i2) => {
-                                                                console.log(sc)
-                                                                /*const [state, setState] = useState(sc?.state)
-
-                                                                useEffect(() => {
-                                                                    setState(sc.state)
-                                                                }, [globalValues.current.themes])*/
 
                                                                 if (globalValues.current.gameMode == "classic" && sc.questionsLength == undefined) return;
 
@@ -252,7 +248,10 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                                         </Disclosure.Button>
                                                         <Disclosure.Panel className="py-2 text-sm rounded-b-[4px] flex flex-col gap-0 bg-[#334b75] ">
                                                             {s?.subcategories?.map((sc, i2) => {
-                                                                if (sc.type == "theme" && sc.questionsLength !== undefined) {
+
+                                                                if (globalValues.current.gameMode == "classic" && sc.questionsLength == undefined) return;
+
+                                                                if (sc.type == "theme") {
                                                                     return (
                                                                         <div className="flex gap-2 hover:bg-[rgba(0,0,0,0.2)] transition-all rounded-[0.275rem] px-2 mx-2 py-2">
                                                                             <img src={(sc?.state ? TickValidIcon : TickNotValidIcon)} style={{ width: '24px', height: '24px' }} alt="" />
