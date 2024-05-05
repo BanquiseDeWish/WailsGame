@@ -6,6 +6,8 @@ import MessageObject from "../Object/MessageObject";
 import { useEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { motion } from 'framer-motion'
+import RedButton from "@/Components/Navigation/Buttons/RedButton";
+import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
 
 export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globalValues, modifyValues, emit }) {
 
@@ -20,6 +22,8 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
     const percentageTimer = () => {
         return (timerCurrent / 45 * 100)
     }
+
+    console.log(gvc)
 
     const sendChatMessage = (event) => {
         if (event.key === 'Enter') {
@@ -49,11 +53,11 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
 
     useEffect(() => {
         const phaseId = gvc?.phaseId;
-        if(phaseId == 1.5) {
+        if (phaseId == 1.5) {
             //Send answers to server
             console.log(answers)
             emit('quizz_send_answer_player', answers)
-        }else if(phaseId == 1) {
+        } else if (phaseId == 1) {
             /*document.querySelectorAll('input.answer_input').forEach((node) => {
                 node.value = ""
             })
@@ -69,12 +73,12 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
         const val = e.target.value;
         const name = e.target.name;
         const answer = answers.find((ans) => ans.id == parseInt(name));
-        if(!answer) {
+        if (!answer) {
             setAnswers([
                 ...answers,
-                {id: parseInt(name), val: val}
+                { id: parseInt(name), val: val }
             ]);
-        }else{
+        } else {
             const answersCopy = [...answers]
             let answer = answersCopy.find((ans) => ans.id == parseInt(name));
             answer.val = val;
@@ -103,7 +107,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                         initial={{ x: 0, opacity: 1 }}
                         animate={isAnimatingNewQuestion ? { x: '-100%', opacity: 0 } : { x: '0%', opacity: 1 }}
                         transition={{ duration: 0.4 }} className='flex justify-center items-center flex-col gap-4 h-full'>
-                        <div className="flex flex-col items-center gap-1 px-4 pt-12 py-4">
+                        <div className="flex flex-col w-full items-center gap-1 px-4 pt-12 py-4">
                             <div style={{ position: 'absolute', top: '20px', left: '20px', width: 90, height: 90 }}>
                                 <CircularProgressbar strokeWidth={10} value={percentageTimer()} text={`${gvc?.timerCurrent}`}
                                     styles={{
@@ -129,18 +133,42 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                             </div>
                             <span className="text-[32px]">Lettre <b>{gvc?.questionCurrent?.letter}</b></span>
                             <span className="">Thème: <b>{gvc?.questionCurrent?.themeMaster?.dname}</b></span>
-                            <span>Petit Bac - {(gvc?.data?.questionCursor) + 1}/{gvc?.data?.maxQuestions}</span>
+                            <span>Petit Bac - Manche {(gvc?.data?.questionCursor) + 1}/{gvc?.data?.maxQuestions}</span>
+                            {gvc.phaseId == 2 && <span>Validation des réponses <br /> de <b>{gvc?.scattergoriesDataValidator?.playerData?.username}</b></span>}
                         </div>
-                        <div className="flex flex-col items-center justify-start overflow-y-auto gap-4 px-8  w-full h-full py-9" style={{ boxShadow: 'inset 0 5px 5px -5px rgba(0, 0, 0, 0.5)', borderRadius: '53% 46% 10% 10% / 5% 5% 0% 0%', background: 'rgba(0, 0, 0, 0.30)' }}>
-                            {Array.from(Array(countAnswersAttemp)).map((val, i) => {
-                                return (
-                                    <div key={i} className="input-group w-full">
-                                        <label htmlFor="subtheme">{gvc?.questionCurrent?.themes?.[i]?.dname}</label>
-                                        <input className="answer_input w-full" type="text" name={i} onChange={handleChangeAnswer} />
-                                    </div>
-                                )
-                            })}
-                        </div>
+                        {gvc.phaseId == 1 || gvc.phaseId == 1.5 &&
+
+                            <div className="flex flex-col items-center justify-start overflow-y-auto gap-4 px-8  w-full h-full py-9" style={{ boxShadow: 'inset 0 5px 5px -5px rgba(0, 0, 0, 0.5)', borderRadius: '53% 46% 10% 10% / 5% 5% 0% 0%', background: 'rgba(0, 0, 0, 0.30)' }}>
+                                {Array.from(Array(countAnswersAttemp)).map((val, i) => {
+                                    return (
+                                        <div key={i} className="input-group w-full">
+                                            <label htmlFor="subtheme">{gvc?.questionCurrent?.themes?.[i]?.dname}</label>
+                                            <input className="answer_input w-full" type="text" name={i} onChange={handleChangeAnswer} />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        }
+                        {gvc.phaseId == 2 &&
+                            <div className="flex flex-col items-center justify-start overflow-y-auto gap-4 px-8  w-full h-full py-9" style={{ boxShadow: 'inset 0 5px 5px -5px rgba(0, 0, 0, 0.5)', borderRadius: '53% 46% 10% 10% / 5% 5% 0% 0%', background: 'rgba(0, 0, 0, 0.30)' }}>
+                                {Array.from(Array(countAnswersAttemp)).map((val, i) => {
+                                    return (
+                                        <div key={i} className="flex w-full gap-2 items-end">
+                                            <div  className="flex flex-col gap-2 flex-1">
+                                                <span>{gvc?.scattergoriesDataValidator?.roundData?.themes?.[i]?.dname}</span>
+                                                <div className="card w-full p-4 justify-start items-start">
+                                                    {gvc?.scattergoriesDataValidator?.playerData?.answers?.[0]?.data?.[i]?.val}
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-1">
+                                                <GreenButton>Ui</GreenButton>
+                                                <RedButton>Non</RedButton>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        }
                     </motion.div>
 
                 </div>

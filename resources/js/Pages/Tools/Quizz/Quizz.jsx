@@ -54,7 +54,8 @@ export default function Quizz(props) {
         resultAnswersPlayers: undefined,
         gameMode: 'classic',
         themes: [],
-        players: []
+        players: [],
+        scattergoriesDataValidator: undefined
     }
 
     const globalValues = useRef(defaultValues);
@@ -202,6 +203,11 @@ export default function Quizz(props) {
 
                 globalValues.current.socket.on('quizz_receive_questions_final', (questions) => {
                     modifyValues('questionsFinal', questions)
+                })
+
+                globalValues.current.socket.on('quizz_scattergories_validator_new_data', (args) => {
+                    console.log("Scattergories Validator", args)
+                    modifyValues('scattergoriesDataValidator', args)
                 })
 
                 globalValues.current.socket.on('errorMessage', (args) => {

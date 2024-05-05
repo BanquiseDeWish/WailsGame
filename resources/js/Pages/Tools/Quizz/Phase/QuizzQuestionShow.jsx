@@ -314,7 +314,7 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                         {/*Propal*/}
                         {questionCurrent.type !== 'picture_multiple' &&
                             <div className="propal w-fit flex justify-center flex-wrap gap-4">
-                                {questionCurrent.proposal.map((propo) => {
+                                {questionCurrent?.proposal?.map((propo) => {
 
                                     let isBad = undefined;
                                     let isGood = undefined;
