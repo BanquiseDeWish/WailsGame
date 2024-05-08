@@ -74,10 +74,10 @@ export default function Quizz(props) {
         forceUpdate();
     }
 
-    const emit = (event, args) => {
+    const emit = (event, args, callback = (response) => {}) => {
         if (globalValues.current.socket !== null) {
             const socket = globalValues.current.socket;
-            socket.emit(event, args)
+            socket.emit(event, args, callback)
         }
     }
 
@@ -133,6 +133,9 @@ export default function Quizz(props) {
 
                 globalValues.current.socket.on('quizz_update_phaseid', (args) => {
                     const gm = globalValues.current.gameMode
+                    if(args.phaseId == 0) {
+                        modifyValues('launchingGame', false)
+                    }
                     if(args.phaseId == 1) {
                         modifyValues('timerCurrent', (gm == "classic" ? 15 : 45))
                     }
@@ -206,12 +209,19 @@ export default function Quizz(props) {
                 })
 
                 globalValues.current.socket.on('quizz_scattergories_validator_new_data', (args) => {
-                    console.log("Scattergories Validator", args)
+                    modifyValues('scattergoriesDataValidator', args)
+                })
+
+                globalValues.current.socket.on('quizz_scattergories_validator_update_data', (args) => {
                     modifyValues('scattergoriesDataValidator', args)
                 })
 
                 globalValues.current.socket.on('errorMessage', (args) => {
                     modifyValues('lastError', (args.message !== "reset_error" ? args : undefined))
+                    if(args.message == 'too_many_players') {
+                        document.location.href = route('games.quizz.index');
+                        return;
+                    }
                     const checkFilter = errorMessagesFilter.find(msg => msg == args.message)
                     if(checkFilter) return;
                     toast.error(args.message)
@@ -246,9 +256,9 @@ export default function Quizz(props) {
         case 'classic':
             componentGame = <QuizzQuestionShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />
             break;
-        case 'scattergories':
+        /*case 'scattergories':
             componentGame = <QuizzScattegoriesShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />
-            break;
+            break;*/
     }
 
     return (

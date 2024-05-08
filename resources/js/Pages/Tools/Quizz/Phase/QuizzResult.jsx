@@ -47,7 +47,7 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
     }
 
     useEffect(() => {
-        if(globalValues.current.phaseId == 0) {
+        if (globalValues.current.phaseId == 0) {
             //Force stop audio
             if (audioPlaying !== null) {
                 audioPlaying.pause()
@@ -56,6 +56,7 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
         }
     }, [globalValues.current.phaseId])
 
+    console.log(globalValues.current)
     playersListScore.sort(compareScores);
 
     const firstPlayer = playersListScore[0];
@@ -69,7 +70,7 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                     className='confetti_index'
                     width={window.innerWidth}
                     height={window.innerHeight}
-                    />
+                />
             }
             <div className="flex flex-col w-fit h-full justify-center gap-4">
                 <div className="card items-start p-4 justify-start flex-1 gap-4 min-w-[450px] overflow-y-auto">
@@ -131,56 +132,99 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                 }
 
                 <h2 className='text-[24px] font-ligth'>Récap. des questions</h2>
-                <div className="flex flex-1 flex-col gap-4 w-full overflow-y-auto pr-4">
-                    {globalValues.current.questionsFinal.map((question, index) => {
+                {globalValues.current.gameMode == "classic" &&
+                    <>
+                        <div className="flex flex-1 flex-col gap-4 w-full overflow-y-auto pr-4">
+                            {globalValues.current.questionsFinal.map((question, index) => {
 
-                        const pa = question.proposal.find((pro) => pro.isAnswer)
-                        const isBad = yourAnswers.answers.find((answer) => answer.id == question.asset)?.data?.[0]?.isBad
-                        const pictures = question?.pictures;
+                                const pa = question.proposal.find((pro) => pro.isAnswer)
+                                const isBad = yourAnswers.answers.find((answer) => answer.id == question.asset)?.data?.[0]?.isBad
+                                const pictures = question?.pictures;
 
-                        return (
-                            <div key={question.asset} className="question_item card gap-[64px] px-6 py-4 text-left justify-between flex-row w-full" style={{ background: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' }}>
-                                <div className="flex flex-col select-none">
-                                    <span className='font-bold text-[20px]'>{question.sentence}</span>
-                                    {question.type !== "picture_multiple" ?
-                                        <span>{pa.text}</span>
-                                        :
-                                        <div className="flex">
-                                            {pictures?.map((picture) => {
-                                                return (
-                                                    <img width={64} className={!picture.isAnswer && "grayscale"} src={picture?.url} alt="" />
-                                                )
-                                            })}
+                                return (
+                                    <div key={question.asset} className="question_item card gap-[64px] px-6 py-4 text-left justify-between flex-row w-full" style={{ background: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' }}>
+                                        <div className="flex flex-col select-none">
+                                            <span className='font-bold text-[20px]'>{question.sentence}</span>
+                                            {question.type !== "picture_multiple" ?
+                                                <span>{pa.text}</span>
+                                                :
+                                                <div className="flex">
+                                                    {pictures?.map((picture) => {
+                                                        return (
+                                                            <img width={64} className={!picture.isAnswer && "grayscale"} src={picture?.url} alt="" />
+                                                        )
+                                                    })}
+                                                </div>
+                                            }
+                                            <span onClick={() => {
+                                                copyToClipboard(question.asset); toast.success('ID de la question copiée');
+                                            }} className='text-[12px] mt-2'><b>ID:</b> {question.asset}</span>
                                         </div>
-                                    }
-                                    <span onClick={() => {
-                                        copyToClipboard(question.asset); toast.success('ID de la question copiée');
-                                    }} className='text-[12px] mt-2'><b>ID:</b> {question.asset}</span>
-                                </div>
-                                <div className="flex select-none">
-                                    <div className="warn" title='Signaler cette question' onClick={() => {
-                                        report.set(true);
-                                        setTimeout(() => {
-                                            document.querySelector('.modal_qm_report #question_id').value = question.asset
-                                            document.querySelector('.modal_qm_report #description').focus()
-                                        }, 100)
-                                    }}>
-                                        <Warn width={48} height={48} />
+                                        <div className="flex select-none">
+                                            <div className="warn" title='Signaler cette question' onClick={() => {
+                                                report.set(true);
+                                                setTimeout(() => {
+                                                    document.querySelector('.modal_qm_report #question_id').value = question.asset
+                                                    document.querySelector('.modal_qm_report #description').focus()
+                                                }, 100)
+                                            }}>
+                                                <Warn width={48} height={48} />
+                                            </div>
+                                            {question.type == "sound" &&
+                                                <div className="replay" onClick={() => { replaySound(question?.sound_url) }}>
+                                                    <ReplayIcon width={48} height={48} />
+                                                </div>
+                                            }
+                                            <span><img style={{ minWidth: '48px', minHeight: '48px', maxWidth: '48px', maxHeight: '48px' }} src={!isBad ? TickValidIcon : TimesValidIcon} /></span>
+                                        </div>
                                     </div>
-                                    {question.type == "sound" &&
-                                        <div className="replay" onClick={() => { replaySound(question?.sound_url) }}>
-                                            <ReplayIcon width={48} height={48} />
+                                )
+                            })}
+                        </div>
+
+                        <div className="flex justify-end w-full">
+                            <a class="simple_button button_blue" target="_blank" href={route('games.quizz.form')}>Proposer une nouvelle question</a>
+                        </div>
+                    </>
+                }
+                {globalValues.current.gameMode == "scattergories" &&
+                    <>
+                        <div className="flex flex-1 flex-col gap-4 w-full overflow-y-auto pr-4">
+                            {globalValues.current.questionsFinal.map((question, index) => {
+                                const answersTheme = yourAnswers.answers.find((answer) => answer.id == question.id)
+
+                                return (
+                                    <div key={question.id} className="question_item card gap-[64px] px-6 py-4 text-left justify-between flex-row w-full">
+                                        <div className="flex flex-col select-none flex-1 gap-4">
+                                            <span className='font-bold text-[20px]'>Lettre {question.letter} - {question.themeMaster.dname}</span>
+                                            <div className="grid grid-cols-3 gap-2 w-full">
+                                                {answersTheme.data.map((answer, idx) => {
+                                                    const question = globalValues.current.questionsFinal.find((question) => question.id == answersTheme.id)
+                                                    let subtheme = "N/A";
+                                                    if(question) {
+                                                        subtheme = question.themeMaster.subcategories[answer.id]?.dname;
+                                                    }
+                                                    const isBad = answer.isBad;
+                                                    return (
+                                                        <div key={idx} className="card flex-row p-4 w-full justify-between items-center" style={{ background: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' }}>
+                                                            <div className="flex flex-col">
+                                                                <span className='font-bold text-[20px]'>{subtheme}</span>
+                                                                <span>{answer.val}</span>
+                                                            </div>
+                                                            <div className="flex select-none">
+                                                                <span><img style={{ minWidth: '48px', minHeight: '48px', maxWidth: '48px', maxHeight: '48px' }} src={!isBad ? TickValidIcon : TimesValidIcon} /></span>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
                                         </div>
-                                    }
-                                    <span><img style={{ minWidth: '48px', minHeight: '48px', maxWidth: '48px', maxHeight: '48px' }} src={!isBad ? TickValidIcon : TimesValidIcon} /></span>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
-                <div className="flex justify-end w-full">
-                    <a class="simple_button button_blue" target="_blank" href={route('games.quizz.form')}>Proposer une nouvelle question</a>
-                </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </>
+                }
             </div>
             <style>
                 {`

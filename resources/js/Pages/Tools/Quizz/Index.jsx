@@ -5,10 +5,18 @@ import axios from "axios"
 import { useState, useEffect } from "react"
 import QuizzLogo from '../../../../assets/img/QuizzMasterLogo.webp'
 import { v4 as uuidv4 } from 'uuid'
+import { validate as isValidUUID } from 'uuid';
+import { toast } from "sonner"
 const QuizzMaster = () => {
 
     const [uuidParty, setUUIDParty] = useState(uuidv4())
     const [idParty, setIdParty] = useState("")
+
+    const goToParty = () => {
+        const idPartyFinal = (idParty == "" ? uuidParty : idParty)
+        if(!isValidUUID(idPartyFinal)) return toast.error('Format de code de partie, non valide.')
+        document.location.href = route('games.quizz.party', { gameId: idParty == "" ? uuidParty : idParty })
+    }
 
     return (
         <>
@@ -29,7 +37,7 @@ const QuizzMaster = () => {
                             <div className="flex-1 w-full">
                                 <input type="text" className="w-full" placeholder="ID de la partie" value={idParty} onChange={(e) => { setIdParty(e.target.value) }} id="" />
                             </div>
-                            <BlueButton href={route('games.quizz.party', { gameId: idParty == "" ? uuidParty : idParty })}>
+                            <BlueButton onClick={goToParty}>
                                 {idParty == "" ? "Créer une nouvelle partie" : "Rejoindre la partie"}
                             </BlueButton>
                         </div>

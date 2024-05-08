@@ -23,7 +23,7 @@
     border-radius: inherit;
     background-color: var(--container_background);
     z-index: -2;
-    transform: rotate(0.54deg);
+    transform: rotate(0.94deg);
 }
 .sg_gamemode::after {
     content: '';
@@ -35,5 +35,5 @@
     border-radius: inherit;
     background-color: var(--container_background);
     z-index: -2;
-    transform: rotate(-0.54deg);
+    transform: rotate(-0.94deg);
 }
