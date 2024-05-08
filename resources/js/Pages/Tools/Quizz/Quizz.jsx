@@ -256,9 +256,9 @@ export default function Quizz(props) {
         case 'classic':
             componentGame = <QuizzQuestionShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />
             break;
-        /*case 'scattergories':
+        case 'scattergories':
             componentGame = <QuizzScattegoriesShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />
-            break;*/
+            break;
     }
 
     return (
