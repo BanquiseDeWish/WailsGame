@@ -34,11 +34,11 @@ class Cosmetic extends Model
     public static function getCosmeticsActiveUser($twitch_id) {
         $activePenguin = User::getActivePenguin($twitch_id);
         if($activePenguin == null)
-            return response()->json([]);
+            return [];
 
         $cosmeticsId = DB::table('users__penguin')->where('id', $activePenguin)->first();
         if($cosmeticsId == null)
-            return response()->json([]);
+            return [];
 
         $cosmeticsId = explode(',', $cosmeticsId->active_cosmetics);
         $cosmetics = DB::table('cosmetic')->whereIn('id', $cosmeticsId)->get();

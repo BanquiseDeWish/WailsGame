@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import axios from "axios";
 export default function ProfileAppearance(props) {
 
-
     const twitch = props.auth.twitch;
     const tabs = [
         {
