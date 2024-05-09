@@ -6,10 +6,10 @@ export default function AdminSidebar() {
         {
             name: 'QuizzMaster',
             links: [
-                {
+                /*{
                     dname: 'Historique des parties',
                     href: route('admin.qm.history')
-                },
+                },*/
                 {
                     dname: 'Questions proposées',
                     href: '#'
