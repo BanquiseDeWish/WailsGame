@@ -28,11 +28,11 @@ const gameModes = [
         name: 'Classique',
         description: 'Répondez à une série de questions sur différement thèmes'
     },
-    /*{
+    {
         key: 'scattergories',
         name: 'Petit bac',
         description: 'Trouvez des mots en rapport avec la première lettre et le thème proposée'
-    }*/
+    }
 ]
 
 export default function QuizzLobby({ auth, globalValues, modifyValues, settings, report, emit }) {
