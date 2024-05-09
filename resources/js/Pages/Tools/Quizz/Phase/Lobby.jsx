@@ -26,13 +26,13 @@ const gameModes = [
     {
         key: 'classic',
         name: 'Classique',
-        description: 'Répondez à une série de questions sur différement thèmes !'
+        description: 'Répondez à une série de questions sur différement thèmes'
     },
-    {
-        key: 'little_bac',
+    /*{
+        key: 'scattergories',
         name: 'Petit bac',
-        description: 'Trouvez des mots en rapport avec le thème depuis la première lettre proposée'
-    }
+        description: 'Trouvez des mots en rapport avec la première lettre et le thème proposée'
+    }*/
 ]
 
 export default function QuizzLobby({ auth, globalValues, modifyValues, settings, report, emit }) {
@@ -43,6 +43,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
     const [isOpenGameMode, setIsOpenGameMode] = useState(false)
     const [gameIdHidden, setGameIdHidden] = useState(true)
     const [selectedGameMode, setSelectedGameMode] = useState(gameModes[0].key)
+    const [gameModeParty, setGameModeParty] = useState(gameModes[0])
 
     const copyLink = () => {
         copyToClipboard(globalValues.current.gameId);
@@ -69,9 +70,20 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
         setTimeGame(timeGame)
     }, [globalValues.current.maximumQuestions])
 
+    useEffect(() => {
+        const gameMode = gameModes.find(game => game.key == globalValues.current.gameMode)
+        if (gameMode == undefined) return;
+        setGameModeParty(gameMode)
+    }, [globalValues.current.gameMode])
+
     const handleChangeGIHidden = () => {
         setGameIdHidden(!gameIdHidden)
     }
+
+    useEffect(() => {
+        if (!globalValues.current.isLeader) return;
+        emit("quizz_update_gamemode", selectedGameMode)
+    }, [selectedGameMode])
 
     return (
         <div className="quizz_lobby flex-1 items-center ">
@@ -96,7 +108,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                         </div>
                         <div className="flex items-center gap-3">
                             <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
-                            <h3 className='text-[14px] font-bold'>{playersCount < 10 && playersCount > 0 ? `0${playersCount}` : playersCount}/30</h3>
+                            <h3 className='text-[14px] font-bold'>{playersCount < 10 && playersCount > 0 ? `0${playersCount}` : playersCount}/10</h3>
                         </div>
                         <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[400px] pr-4 pb-4 mb-4">
                             {Array.from(Array(30)).map((s, i) => {
@@ -126,37 +138,40 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                 Comment jouer ?
                             </BlueButton>
                         </div>
-                        <BlueButton onClick={launchGame}>
-                            Lancer la partie
-                        </BlueButton>
+                        {globalValues.current.isLeader &&
+                            <BlueButton onClick={launchGame}>
+                                Lancer la partie
+                            </BlueButton>
+                        }
                     </div>
                 </div>
                 <div className="flex flex-col gap-4 min-w-[400px]">
-                    <div className="card p-4">
-                        <div className="flex flex-col items-center gap-3 w-full">
-                            <InputRange
-                                label="Nombres de questions"
-                                value={globalValues.current.maximumQuestions}
-                                onChange={questionsMaxChange}
-                                min={3}
-                                max={50}
-                                id="questions_max"
-                            />
-                            <span><b>Temps de jeu:</b> {timeGame} minutes </span>
+                    {globalValues.current?.gameMode == "classic" &&
+                        <div className="card p-4">
+                            <div className="flex flex-col items-center gap-3 w-full">
+                                <InputRange
+                                    label="Nombres de questions"
+                                    value={globalValues.current.maximumQuestions}
+                                    onChange={questionsMaxChange}
+                                    min={3}
+                                    max={50}
+                                    id="questions_max"
+                                />
+                                <span><b>Temps de jeu:</b> {timeGame} minutes </span>
+                            </div>
                         </div>
-                    </div>
+                    }
                     <div className="card p-4 flex-1 w-full" style={{ justifyContent: 'flex-start', gap: '16px', alignItems: 'flex-start', overflow: 'auto', flex: '1 1 0' }}>
                         {globalValues.current.themes.map((s, i) => {
 
                             if (globalValues.current.isLeader) {
 
-                                const onChangeTheme = (state, setState, subIndex) => {
+                                const onChangeTheme = (state, subIndex) => {
                                     if (subIndex !== undefined)
                                         globalValues.current.themes[i].subcategories[subIndex].state = !state
                                     else
                                         globalValues.current.themes[i].state = !state
-                                    setState(!state)
-
+                                    //setState(!state)
                                     emit("quizz_update_themes_state", { gameId: globalValues.current.gameId, category_key: s.key, theme_key: globalValues.current.themes[i].subcategories[subIndex].key, new_state: !state })
                                 }
 
@@ -193,21 +208,18 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                                         </Disclosure.Button>
                                                         <Disclosure.Panel className="flex flex-col gap-0 py-2 text-sm rounded-b-[4px] bg-[#334b75]">
                                                             {s?.subcategories?.map((sc, i2) => {
-                                                                const [state, setState] = useState(sc?.state)
 
-                                                                useEffect(() => {
-                                                                    setState(sc.state)
-                                                                }, [globalValues.current.themes])
+                                                                if (globalValues.current.gameMode == "classic" && sc.questionsLength == undefined) return;
 
-                                                                if (sc.type == "theme" && sc.questionsLength !== undefined) {
+                                                                if (sc.type == "theme") {
                                                                     return (
-                                                                        <div className="flex flex-col items-start justify-start hover:bg-[rgba(0,0,0,0.2)] transition-all rounded-[0.275rem] px-2 mx-2 py-2" onClick={() => { onChangeTheme(state, setState, i2) }}>
-                                                                            <InputSwitch classNameContainer={"max-h-[28px]"} key={i2} state={state} label={
+                                                                        <div className="flex flex-col items-start justify-start hover:bg-[rgba(0,0,0,0.2)] transition-all rounded-[0.275rem] px-2 mx-2 py-2" onClick={() => { onChangeTheme(state, i2) }}>
+                                                                            <InputSwitch classNameContainer={"max-h-[28px]"} key={i2} state={sc.state} label={
                                                                                 <div className='flex flex-col select-none'>
                                                                                     <span>{sc.dname}</span>
                                                                                     <span className='text-[12px] font-extralight'>{sc.questionsLength} Questions</span>
                                                                                 </div>
-                                                                            } onChange={() => { onChangeTheme(state, setState, i2) }} />
+                                                                            } onChange={() => { onChangeTheme(sc.state, i2) }} />
                                                                         </div>
                                                                     )
                                                                 }
@@ -236,7 +248,10 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                                         </Disclosure.Button>
                                                         <Disclosure.Panel className="py-2 text-sm rounded-b-[4px] flex flex-col gap-0 bg-[#334b75] ">
                                                             {s?.subcategories?.map((sc, i2) => {
-                                                                if (sc.type == "theme" && sc.questionsLength !== undefined) {
+
+                                                                if (globalValues.current.gameMode == "classic" && sc.questionsLength == undefined) return;
+
+                                                                if (sc.type == "theme") {
                                                                     return (
                                                                         <div className="flex gap-2 hover:bg-[rgba(0,0,0,0.2)] transition-all rounded-[0.275rem] px-2 mx-2 py-2">
                                                                             <img src={(sc?.state ? TickValidIcon : TickNotValidIcon)} style={{ width: '24px', height: '24px' }} alt="" />
@@ -263,14 +278,15 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                     <div className="card flex-row justify-between p-4 justify-start items-start">
                         <div className="flex flex-col">
                             <span>Mode de jeu</span>
-                            <h2 className='text-3xl font-bold text-gray-400'>CLASSIQUE</h2>
+                            <h2 className='text-3xl font-bold text-gray-400 uppercase'>{gameModeParty?.name}</h2>
                         </div>
-                        <BlueButton onClick={() => { setIsOpenGameMode(true) }}>Changer</BlueButton>
+                        {globalValues.current.isLeader && <BlueButton onClick={() => { setIsOpenGameMode(true) }}>Changer</BlueButton>}
+
                     </div>
                     <BlueButton onClick={() => { report.set(true) }}>Signaler un problème</BlueButton>
                 </div>
             </div>
-            <GameMode isOpen={isOpenGameMode} setIsOpen={setIsOpenGameMode} gamemodes={gameModes} gmSelect={{ val: selectedGameMode, set: setSelectedGameMode }} />
+            {globalValues.current.isLeader && <GameMode isOpen={isOpenGameMode} setIsOpen={setIsOpenGameMode} gamemodes={gameModes} gmSelect={{ val: selectedGameMode, set: setSelectedGameMode }} />}
             <HowToPlay isOpen={isOpenHTP} setIsOpen={setIsOpenHTP} />
             <ConfirmMaxQuestions data={{ lastError: globalValues.current.lastError }} launchGame={launchGame} emit={emit} />
             <CountDown data={{ launching: globalValues.current.launchingGame, timer: globalValues.current.timerCurrent }} />

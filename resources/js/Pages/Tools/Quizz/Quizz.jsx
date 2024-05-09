@@ -16,6 +16,9 @@ import QuoteDownIcon from '../../../../assets/icons/quote-down.svg'
 import QuizzResult from './Phase/QuizzResult';
 import Settings from './Modal/Settings';
 import Report from './Modal/Report';
+import QuizzScattegoriesShow from './Phase/QuizzScattergoriesShow';
+
+import '../../../../css/quizz.css';
 
 let socket = null;
 const DEV = false;
@@ -49,8 +52,10 @@ export default function Quizz(props) {
         timerCurrent: 8,
         resultSendAnswer: undefined,
         resultAnswersPlayers: undefined,
+        gameMode: 'classic',
         themes: [],
-        players: []
+        players: [],
+        scattergoriesDataValidator: undefined
     }
 
     const globalValues = useRef(defaultValues);
@@ -69,15 +74,14 @@ export default function Quizz(props) {
         forceUpdate();
     }
 
-    const emit = (event, args) => {
+    const emit = (event, args, callback = (response) => {}) => {
         if (globalValues.current.socket !== null) {
             const socket = globalValues.current.socket;
-            socket.emit(event, args)
+            socket.emit(event, args, callback)
         }
     }
 
     const changeSetting = (key, val) => {
-        console.log(key, val)
         if(key == "chatState") {
             setSettingsValues({ ...settingsValues, chatState: val })
             localStorage.setItem(key, val)
@@ -128,8 +132,12 @@ export default function Quizz(props) {
                 })
 
                 globalValues.current.socket.on('quizz_update_phaseid', (args) => {
+                    const gm = globalValues.current.gameMode
+                    if(args.phaseId == 0) {
+                        modifyValues('launchingGame', false)
+                    }
                     if(args.phaseId == 1) {
-                        modifyValues('timerCurrent', 15)
+                        modifyValues('timerCurrent', (gm == "classic" ? 15 : 45))
                     }
                     if(args.phaseId == 2) modifyValues('timerCurrent', 6)
                     if(args.phaseId == 3) {
@@ -164,6 +172,11 @@ export default function Quizz(props) {
 
                 globalValues.current.socket.on('quizz_reset_other_data', (args) => {
                     modifyValues('launchingGame', false)
+                    console.log(globalValues.current)
+                })
+
+                globalValues.current.socket.on('quizz_update_gamemode', (gameMode) => {
+                    modifyValues('gameMode', gameMode)
                 })
 
                 globalValues.current.socket.on('quizz_new_chat_message', (args) => {
@@ -195,8 +208,20 @@ export default function Quizz(props) {
                     modifyValues('questionsFinal', questions)
                 })
 
+                globalValues.current.socket.on('quizz_scattergories_validator_new_data', (args) => {
+                    modifyValues('scattergoriesDataValidator', args)
+                })
+
+                globalValues.current.socket.on('quizz_scattergories_validator_update_data', (args) => {
+                    modifyValues('scattergoriesDataValidator', args)
+                })
+
                 globalValues.current.socket.on('errorMessage', (args) => {
                     modifyValues('lastError', (args.message !== "reset_error" ? args : undefined))
+                    if(args.message == 'too_many_players') {
+                        document.location.href = route('games.quizz.index');
+                        return;
+                    }
                     const checkFilter = errorMessagesFilter.find(msg => msg == args.message)
                     if(checkFilter) return;
                     toast.error(args.message)
@@ -226,6 +251,16 @@ export default function Quizz(props) {
 
     }, []);
 
+    let componentGame = undefined;
+    switch(globalValues.current.gameMode) {
+        case 'classic':
+            componentGame = <QuizzQuestionShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />
+            break;
+        case 'scattergories':
+            componentGame = <QuizzScattegoriesShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />
+            break;
+    }
+
     return (
         <>
             <MainLayout showOverflow={true} className={"flex flex-col items-center mb-12 pb-12 gap-8"}>
@@ -234,7 +269,7 @@ export default function Quizz(props) {
                 <Report gameId={globalValues.current.gameId} isOpen={isOpenReport} setIsOpen={setIsOpenReport} />
                 {globalValues.current.phaseId == -1 && <></>}
                 {globalValues.current.phaseId == 0 && <QuizzLobby report={{ state: isOpenReport, set: setIsOpenReport }} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
-                {globalValues.current.phaseId == 1 || globalValues.current.phaseId == 2 ? <QuizzQuestionShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} /> : <></>}
+                {globalValues.current.phaseId == 1 || globalValues.current.phaseId == 1.5 || globalValues.current.phaseId == 2 ? componentGame : <></>}
                 {globalValues.current.phaseId == 3 && <QuizzResult report={{ state: isOpenReport, set: setIsOpenReport }} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
             </MainLayout>
             <style>{`
