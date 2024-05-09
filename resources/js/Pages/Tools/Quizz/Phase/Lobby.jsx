@@ -111,7 +111,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                             <h3 className='text-[14px] font-bold'>{playersCount < 10 && playersCount > 0 ? `0${playersCount}` : playersCount}/10</h3>
                         </div>
                         <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[400px] pr-4 pb-4 mb-4">
-                            {Array.from(Array(30)).map((s, i) => {
+                            {Array.from(Array(10)).map((s, i) => {
 
                                 const player = globalValues.current.players[i];
 
