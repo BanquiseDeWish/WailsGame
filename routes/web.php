@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AppareanceController;
+use App\Http\Controllers\User\AppareanceController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\KartChanceController;
 use App\Http\Controllers\PrediGivreesController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\VIPGameController;
 use App\Http\Controllers\OverlayController;
 use App\Http\Controllers\QuizzMasterController;

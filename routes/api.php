@@ -3,7 +3,7 @@
 use App\Http\Controllers\CosmeticController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\QuizzMasterController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\VIPGameController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TwitchController;

@@ -44,7 +44,7 @@ class CosmeticController extends Controller
             return response()->json([]);
 
         $cosmeticsId = explode(',', $cosmeticsId->active_cosmetics);
-        $cosmetics = DB::table('cosmetic')->whereIn('id', $cosmeticsId)->get();
+        $cosmetics = DB::table('cosmetics')->whereIn('id', $cosmeticsId)->get();
         return response()->json($cosmetics);
     }
 }
