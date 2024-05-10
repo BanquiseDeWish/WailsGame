@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PenguinCard;
+use App\Models\User\UserCard;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\PredigivrePoints;
@@ -122,7 +122,7 @@ class PrediGivreesController extends Controller
 
         foreach ($prediGivreData as  $k => $pgd) {
             $user = User::where('twitch_id', '=', $pgd->user_id)->first();
-            $pcUser = PenguinCard::getCardFromTWID($pgd->user_id);
+            $pcUser = UserCard::getCardFromTWID($pgd->user_id);
             if ($user == null) $pgd->user_name = "N/A";
             else {
                 $pgd->user_id = $user->twitch_id;

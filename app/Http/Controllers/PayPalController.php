@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Omnipay\Omnipay;
 use Omnipay\Common\ItemBag;
 use App\Models\Payments;
-use App\Models\UsersCosmetics;
+use App\Models\User\UserCosmetics;
 
 class PayPalController extends Controller
 {
@@ -115,7 +115,7 @@ class PayPalController extends Controller
                         foreach($cosmetics as $cosm) {
                             $item = Cosmetic::where('id', $cosm)->first();
                             if($item !== null) {
-                                $uc = new UsersCosmetics;
+                                $uc = new UserCosmetics;
                                 $uc->user_id = $user->id;
                                 $uc->cosmetic_id = $item->id;
                                 $uc->payment_id = $transaction->id;

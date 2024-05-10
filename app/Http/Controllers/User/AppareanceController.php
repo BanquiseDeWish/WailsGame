@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\Cosmetic;
-use App\Models\PenguinCard;
+use App\Models\User\UserCard;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Inertia\Inertia;
@@ -13,7 +14,7 @@ class AppareanceController extends Controller
 
     public function index(Request $request) {
         $twitch_id = $request->session()->get('twitch')->id;
-        $penguinCard = PenguinCard::getCardFromTWID($twitch_id);
+        $penguinCard = UserCard::getCardFromTWID($twitch_id);
         $activeCosmetics = Cosmetic::getCosmeticsActiveUser($twitch_id);
         return Inertia::render('Profile/Appearance', [
             'penguinCard' => $penguinCard,
@@ -45,7 +46,7 @@ class AppareanceController extends Controller
             switch ($type) {
                 //Load Model PenguinCad
                 case 'card':
-                    $model = new PenguinCard();
+                    $model = new UserCard();
                     break;
                 default:
                     break;

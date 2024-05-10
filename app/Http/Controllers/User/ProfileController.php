@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use App\Models\PenguinCard;
+use App\Http\Controllers\Controller;
+use App\Models\User\UserCard;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,7 +18,7 @@ class ProfileController extends Controller
     }
 
     public function appearance(Request $request) {
-        $penguinCard = PenguinCard::getCardFromTWID($request->session()->get('twitch')->id);
+        $penguinCard = UserCard::getCardFromTWID($request->session()->get('twitch')->id);
         return Inertia::render('Profile/Appearance', [
             'penguinCard' => $penguinCard
         ]);
