@@ -9,6 +9,7 @@ use App\Models\QuizzMasterHistory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class QuizzMasterController extends Controller
 {
@@ -39,11 +40,87 @@ class QuizzMasterController extends Controller
             }
         }
         $playersDistinct = QuizzMasterHistory::distinct('user_leader_id')->count();
+        $averagePartiesByWeek = QuizzMasterHistory::selectRaw('WEEK(created_at) as semaine, COUNT(*) as nombre_occurrences')
+                                                    ->groupBy('semaine')
+                                                    ->get();
+        $totalPartiesByWeek = 0;
+        $dayPartiesByWeek = 0;
+        foreach ($averagePartiesByWeek as $resultat) {
+            $totalPartiesByWeek += $resultat->nombre_occurrences;
+            $dayPartiesByWeek++;
+        }
+        if ($dayPartiesByWeek > 0) {
+            $averagePartiesByWeek = $totalPartiesByWeek / $dayPartiesByWeek;
+        } else {
+            $averagePartiesByWeek = 0; // Pour éviter une division par zéro
+        }
+        $averagePartiesByWeek = (int) $averagePartiesByWeek;
+
+        $averagePartiesByDay = QuizzMasterHistory::selectRaw('DAYOFWEEK(created_at) as jour_semaine, COUNT(*) as nombre_occurrences')
+                                            ->whereRaw('created_at >= CURDATE() - INTERVAL 7 DAY')
+                                            ->groupBy('jour_semaine')
+                                            ->get();
+        $totalPartiesByDay = 0;
+        $dayPartiesByDay = 0;
+
+        foreach ($averagePartiesByDay as $resultat) {
+            $totalPartiesByDay += $resultat->nombre_occurrences;
+            $dayPartiesByDay++;
+        }
+
+        if ($dayPartiesByDay > 0) {
+            $averagePartiesByDay = $totalPartiesByDay / $dayPartiesByDay;
+        } else {
+            $averagePartiesByDay = 0; // Pour éviter une division par zéro
+        }
+        $averagePartiesByDay = (int) $averagePartiesByDay;
+
+        $totalQuestions = 0;
+        $elementsQuestions = 0;
+        foreach ($history as $resultat) {
+            $dataParty = $resultat->data_party;
+            if (isset($dataParty->questionsPayload)) {
+                $totalQuestions += count($dataParty->questionsPayload);
+                $elementsQuestions++;
+            }
+        }
+        if ($elementsQuestions > 0) {
+            $averageQuestions = $totalQuestions / $elementsQuestions;
+        } else {
+            $averageQuestions = 0;
+        }
+        $averageQuestions = (int) $averageQuestions;
+
+        $totalPlayers = 0;
+        $elementsPlayers = 0;
+        foreach ($history as $resultat) {
+            $dataParty = $resultat->data_party;
+            if (isset($dataParty->players)) {
+                $totalPlayers += count($dataParty->players);
+                $elementsPlayers++;
+            }
+        }
+        if ($elementsPlayers > 0) {
+            $averagePlayers = $totalPlayers / $elementsPlayers;
+        } else {
+            $averagePlayers = 0;
+        }
+        $averagePlayers = (int) $averagePlayers;
+
         $playerMostPlaying = QuizzMasterHistory::groupBy('user_leader_id')
             ->select('user_leader_id', QuizzMasterHistory::raw('count(*) as nombreOccurrences'))
             ->orderBy('nombreOccurrences', 'desc')
             ->first();
+
         $playerMostPlaying = User::select('twitch_username', 'twitch_id')->where('twitch_id', '=', $playerMostPlaying->user_leader_id)->first();
-        return Inertia::render('Tools/Quizz/Admin/Stats', ['history' => $history, 'stats' => ['playerMostPlaying' => $playerMostPlaying->twitch_username, 'questionsLength' => $questionsLength, 'playersDistinct' => $playersDistinct]]);
+
+
+        $playerMostPlayingUsername = "N/A";
+
+        if($playerMostPlaying !== null) {
+            $playerMostPlayingUsername = $playerMostPlaying->twitch_username;
+        }
+
+        return Inertia::render('Tools/Quizz/Admin/Stats', ['history' => $history, 'stats' => ['averagePlayers' => $averagePlayers, 'averageQuestions' => $averageQuestions, 'averagePartiesByWeek' => $averagePartiesByWeek, 'averagePartiesByDay' => $averagePartiesByDay, 'playerMostPlaying' => $playerMostPlayingUsername, 'questionsLength' => $questionsLength, 'playersDistinct' => $playersDistinct]]);
     }
 }

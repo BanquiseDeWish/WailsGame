@@ -19,7 +19,7 @@ export default function Stats(props) {
                     <div className="container flex-grow basis-[300px] flex-shrink relative flex-col p-[32px] pt-[48px] gap-[32px] font-bold">
                         <div className="flex flex-col gap-[16px] justify-center items-center">
                             <div className="text-center text-[32px]">
-                                {props.history.length + " parties"}
+                                {props.history.length} Parties
                             </div>
                             <div className="text-[#adb7c9] font-light">
                                 Nombre de parties jouées
@@ -31,7 +31,7 @@ export default function Stats(props) {
                     <div className="container flex-grow basis-[300px] flex-shrink relative flex-col p-[32px] pt-[48px] gap-[32px] font-bold">
                         <div className="flex flex-col gap-[16px] justify-center items-center">
                             <div className="text-center text-[32px]">
-                                {props.stats.playersDistinct + " leaders"}
+                                {props.stats.playersDistinct} Leaders
                             </div>
                             <div className="text-[#adb7c9] font-light">
                                 Nombre de leaders différents
@@ -43,7 +43,7 @@ export default function Stats(props) {
                     <div className="container flex-grow basis-[300px] flex-shrink relative flex-col p-[32px] pt-[48px] gap-[32px] font-bold">
                         <div className="flex flex-col gap-[16px] justify-center items-center">
                             <div className="text-center text-[32px]">
-                                {props.stats.questionsLength + " questions"}
+                                {props.stats.questionsLength} Questions
                             </div>
                             <div className="text-[#adb7c9] font-light text-center">
                                 Estimation du nombre de questions répondues
@@ -59,6 +59,54 @@ export default function Stats(props) {
                             </div>
                             <div className="text-[#adb7c9] font-light text-center">
                                 Joueur/Joueuse ayant le plus joué(e) en étant leader
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="h-fit w-fit">
+                    <div className="container flex-grow basis-[300px] flex-shrink relative flex-col p-[32px] pt-[48px] gap-[32px] font-bold">
+                        <div className="flex flex-col gap-[16px] justify-center items-center">
+                            <div className="text-center text-[32px]">
+                                {props.stats.averagePartiesByDay} Parties
+                            </div>
+                            <div className="text-[#adb7c9] font-light text-center">
+                                Parties en moyenne sur 7 derniers jours
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="h-fit w-fit">
+                    <div className="container flex-grow basis-[300px] flex-shrink relative flex-col p-[32px] pt-[48px] gap-[32px] font-bold">
+                        <div className="flex flex-col gap-[16px] justify-center items-center">
+                            <div className="text-center text-[32px]">
+                                {props.stats.averagePartiesByWeek} Parties
+                            </div>
+                            <div className="text-[#adb7c9] font-light text-center">
+                                Parties en moyenne sur 1 semaine
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="h-fit w-fit">
+                    <div className="container flex-grow basis-[300px] flex-shrink relative flex-col p-[32px] pt-[48px] gap-[32px] font-bold">
+                        <div className="flex flex-col gap-[16px] justify-center items-center">
+                            <div className="text-center text-[32px]">
+                                {props.stats.averageQuestions} Questions
+                            </div>
+                            <div className="text-[#adb7c9] font-light text-center">
+                                Moyenne du nombre de questions par parties jouées
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="h-fit w-fit">
+                    <div className="container flex-grow basis-[300px] flex-shrink relative flex-col p-[32px] pt-[48px] gap-[32px] font-bold">
+                        <div className="flex flex-col gap-[16px] justify-center items-center">
+                            <div className="text-center text-[32px]">
+                                {props.stats.averagePlayers} Joueur(s)
+                            </div>
+                            <div className="text-[#adb7c9] font-light text-center">
+                                Moyenne du nombre de joueur(s) par parties jouées
                             </div>
                         </div>
                     </div>
