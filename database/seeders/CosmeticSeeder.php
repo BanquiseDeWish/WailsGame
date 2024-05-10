@@ -6,7 +6,7 @@ use App\Models\Cosmetic;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class cosmetic_seed extends Seeder
+class CosmeticSeeder extends Seeder
 {
     /**
      * Run the database seeds.
