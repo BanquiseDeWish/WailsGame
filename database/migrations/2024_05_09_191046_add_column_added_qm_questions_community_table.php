@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('qm_questions_community', function (Blueprint $table) {
-            $table->string('uuid')->nullable();
+            $table->boolean('added')->nullable();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('qm_questions_community', function (Blueprint $table) {
-            $table->dropColumn('uuid');
+        Schema::table('game_stats', function (Blueprint $table) {
+            $table->dropColumn('added');
         });
     }
 };

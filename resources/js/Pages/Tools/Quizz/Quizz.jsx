@@ -217,6 +217,7 @@ export default function Quizz(props) {
                 })
 
                 globalValues.current.socket.on('errorMessage', (args) => {
+                    console.log("Error Custom Message:", args)
                     modifyValues('lastError', (args.message !== "reset_error" ? args : undefined))
                     if(args.message == 'too_many_players') {
                         document.location.href = route('games.quizz.index');
