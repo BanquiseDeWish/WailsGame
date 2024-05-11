@@ -13,7 +13,7 @@ class CosmeticSeeder extends Seeder
      */
     public function run(): void
     {
-        $Cosmetics = [
+        $cosmetics = [
             [
                 'type' => 'card',
                 'sub_type' => 'colorIcon',
@@ -177,6 +177,13 @@ class CosmeticSeeder extends Seeder
                 </svg>
                 ',
                 'position' => '{ x: 0, y: 0 }'
+            ],
+            [
+                'type' => 'penguin',
+                'sub_type' => 'hat',
+                'name' => 'Haut-de-Forme',
+                'style' => '',
+                'position' => '{ x: 0, y: 0, rotate: 0 }'
             ]
         ];
 
@@ -184,19 +191,19 @@ class CosmeticSeeder extends Seeder
          * Add Cosmetic Items
          *
          */
-        foreach ($Cosmetics as $Cosmetic) {
-            $newCosmeticItem = Cosmetic::where('type', $Cosmetic['type'])->where('sub_type',  $Cosmetic['sub_type'])->where('name',  $Cosmetic['name'])->first();
+        foreach ($cosmetics as $cosmetic) {
+            $newCosmeticItem = Cosmetic::where('type', $cosmetic['type'])->where('sub_type',  $cosmetic['sub_type'])->where('name',  $cosmetic['name'])->first();
 
             $style = null;
             $position = null;
-            if(isset($Cosmetic['style'])) $style = $Cosmetic['style'];
-            if(isset($Cosmetic['position'])) $position = $Cosmetic['position'];
+            if(isset($cosmetic['style'])) $style = $cosmetic['style'];
+            if(isset($cosmetic['position'])) $position = $cosmetic['position'];
 
             if ($newCosmeticItem === null) {
                 $newCosmeticItem = Cosmetic::create([
-                    'type'   => $Cosmetic['type'],
-                    'sub_type'  => $Cosmetic['sub_type'],
-                    'name'   => $Cosmetic['name'],
+                    'type'   => $cosmetic['type'],
+                    'sub_type'  => $cosmetic['sub_type'],
+                    'name'   => $cosmetic['name'],
                     'style'   => $style,
                     'position'   => $position,
                 ]);

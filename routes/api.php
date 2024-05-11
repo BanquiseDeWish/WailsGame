@@ -33,7 +33,8 @@ Route::middleware('api_check')->group(function() {
 });
 
 Route::get('/user/{twitch_id}/icon', [UserController::class, 'getUserIcon'])->name('user.icon');
-Route::get('/user/{twitch_id}/penguin_data', [CosmeticController::class, 'getUserActiveCosmetics'])->name('user.penguin_data');
+Route::get('/user/{twitch_id}/cosmetics/all', [CosmeticController::class, 'getUserCosmetics'])->name('user.cosmetics.all');
+Route::get('/user/{twitch_id}/cosmetics/active', [CosmeticController::class, 'getUserActiveCosmetics'])->name('user.user.cosmetics.active');
 Route::get('/user/{twitch_id}/points/vipgames', [UserController::class, 'getUserVIPGamesPoints'])->name('user.points.vipgames');
 Route::get('/user/all/points/vipgames', [UserController::class, 'getUserListVIPGamesPoints'])->name('user.all.points.vipgames');
 

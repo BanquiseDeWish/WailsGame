@@ -1,22 +1,100 @@
 import { usePage } from '@inertiajs/react';
+import '../../../css/penguinCard.css'
+import PAWBadge from '../../../assets/img/paw.webp'
+import PenguinBlank from '../../../assets/img/penguin_blank.svg'
+import 'react-tooltip/dist/react-tooltip.css'
 
-import '../../../css/vipgames.css';
 
-export default function UserCard({userId=0, userName="Unkown Username", ...otherProps}) {
+export default function UserCard({ data, className, skeleton = false, colorIcon, blankIcon }) {
 
+    /**
+     * Example data:
+     * data = {
+     *  username: string,
+     *  slogan: string,
+     *  points: int,
+     *  labelPoints: {
+     *     singular: string,
+     *     plural: string
+     *  },
+     *  stylePoints: string,
+     *  background_type: string,
+     *  background_data: {
+     *     color: string,
+     *  },
+     *  iconSize: int
+     * }
+     */
 
-    console.log(userId)
     const props = usePage().props;
-    const avatar = props.ziggy.url + '/api/user/' + userId + '/icon';
 
-    return (
-        <div className='flex flex-row rounded-[8px] w-[300px] h-fit p-[16px] flex-shrink-0 gap-[8px] container_background' {...otherProps}>
-            <img src={avatar} alt="" className='rounded-full h-[40px] w-[40px] container_background' width={40}/>
-            <div className='flex flex-col gap-[0px] w-full overflow-hidden'>
-                <div className='item_username'>{userName}</div>
-                <div className='item_subtext'>Un Pingouin Content de Jouer</div>
+    let isPAW = false;
+
+    let username = data?.username == undefined ? "N/A" : data?.username
+    if (username.toUpperCase().startsWith('PAW_')) {
+        //isPAW = true;
+        //username = username.slice(4, username.length)
+    }
+    let stylePoints = data?.stylePoints !== undefined ? data.stylePoints : "default";
+    let labelPoints = data?.labelPoints !== undefined ? data?.points !== undefined ? data?.points > 1 ? data?.labelPoints?.plural : data?.labelPoints?.singular : "" : "";
+
+
+    if (skeleton) {
+        return (
+            <div className={`penguinCard p-[16px] ${className}`} style={{ background: data?.background_type == "color" ? data?.background_data.color : "", ...style }}>
+                <img
+                    src={route('user.icon', { twitch_id: data?.id == undefined ? 0 : data?.id })}
+                    width={data?.iconSize == undefined ? 40 : data?.iconSize}
+                    alt="AvatarDefault"
+                    className='rounded-full'
+                />
+
+                <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
+                    <div className="data flex flex-col flex-grow overflow-hidden gap-1">
+                        <div className="username select-none truncate bg-[#121A25] text-[#121A25] rounded-md">SKELETON</div>
+                        <div className="description select-none truncate bg-[#121A25] text-[#121A25] rounded-md">SKELETON</div>
+                    </div>
+                </div>
             </div>
-        </div>
-    );
+        )
+    } else {
+        return (
+            <div className={`penguinCard p-[16px] ${className}`} style={{ background: data?.background_type == "color" ? data?.background_data.color : "" }}>
+                {blankIcon == undefined || !blankIcon ? <img
+                    src={route('user.icon', { twitch_id: data?.userID == undefined ? 0 : data?.userID })}
+                    width={data?.iconSize == undefined ? 40 : data?.iconSize}
+                    alt="AvatarDefault"
+                    className='rounded-full'
+                />
+                    :
+                    <div className='colorIcon' style={{ overflow: 'hidden', borderRadius: '100%', width: "40px", height: "40px", background: blankIcon == undefined || !blankIcon ? "" : colorIcon }}>
+                        <img
+                            src={PenguinBlank}
+                            width={data?.iconSize == undefined ? 40 : data?.iconSize}
+                            alt="AvatarDefault"
+                            className='rounded-full relative top-[6px] left-[-2px]'
+                        />
+                    </div>
+                }
 
+                <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
+                    <div className="data flex flex-col flex-grow overflow-hidden">
+                        <div className="username select-none truncate">{username}</div>
+                        <div className="description select-none truncate">{data?.slogan == undefined ? "Un pingouin voyageur" : data?.slogan}</div>
+                    </div>
+                    {data?.points !== undefined && stylePoints == "default" &&
+                        <div className="points">
+                            <span className='points_data text-[18px] font-[500]  leading-[normal]'>{data?.points}</span>
+                            <span className="label_points text-[#9799A7] text-[14px] font-[500] leading-[normal]">{labelPoints}</span>
+                        </div>
+                    }
+                    {data?.points !== undefined && stylePoints == "circle" &&
+                        <div className="play_count_text">
+                            <span className='text-[18px] font-[500]  leading-[normal]'>{data?.points}</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        )
+    }
 }
