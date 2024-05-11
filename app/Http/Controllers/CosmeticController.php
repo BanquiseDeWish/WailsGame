@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class CosmeticController extends Controller
 {
     public function getCosmetics(Request $request) {
-        $inputs = $request->all();
+        $inputs = $request->query();
         if(!isset($inputs['type']))
             return response()->json(["error" => "No type provided", "inputs" => $inputs]);
         $typeCosmetic = $inputs['type'];

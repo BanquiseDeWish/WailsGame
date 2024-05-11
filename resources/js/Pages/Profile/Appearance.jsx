@@ -3,13 +3,14 @@ import MainLayout from "@/Layouts/MainLayout";
 import '@css/page/profile/appearance/appareance.css'
 import UserPenguin from "@/Components/User/UserPenguin";
 import { useEffect } from "react";
+import axios from "axios";
 
 export default function ProfileAppearance(props) {
 
     const twitch = props.auth.twitch;
 
     useEffect(() => {
-        
+        axios.get(route('cosmetics.get'))
     }, []);
 
     return (

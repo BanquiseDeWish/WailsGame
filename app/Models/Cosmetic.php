@@ -10,7 +10,7 @@ class Cosmetic extends Model
 {
     use HasFactory;
 
-    protected $table = "cosmetic";
+    protected $table = "cosmetics";
 
     public $timestamps = false;
 
