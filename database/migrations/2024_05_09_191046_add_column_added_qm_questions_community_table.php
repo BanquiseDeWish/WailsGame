@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('game_stats', function (Blueprint $table) {
+        Schema::table('qm_questions_community', function (Blueprint $table) {
             $table->dropColumn('added');
         });
     }
