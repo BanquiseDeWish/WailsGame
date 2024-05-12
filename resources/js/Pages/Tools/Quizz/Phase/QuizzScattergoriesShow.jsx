@@ -8,6 +8,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import { motion } from 'framer-motion'
 import RedButton from "@/Components/Navigation/Buttons/RedButton";
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
+import PlayersList from "@/Components/Games/QuizzMaster/PlayersList";
 
 export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globalValues, modifyValues, emit }) {
 
@@ -130,7 +131,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                             animate={isAnimatingNewQuestion ? { x: 0, opacity: 1 } : { x: '-100%', opacity: 0 }}
                             transition={{ duration: 0.4 }} className="loading w-full h-full absolute top-0 flex items-center">
                             <h2 className='italic font-bold text-[36px] text-center w-full select-none'>
-                                Manche suivante !
+                                {((gvc?.data?.questionCursor) + 1) == (gvc?.data?.maxQuestions) ? "Passons aux réponses !" : "Manche suivante !"}
                             </h2>
                         </motion.div>
                     }
@@ -222,30 +223,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                 </div>
             </div>
             <div className="players gap-6 h-full min-w-[350px] flex flex-col">
-                <div className="card items-start p-4 justify-start max-h-[340px] min-h-[340px] gap-4 min-w-[350px] overflow-y-auto">
-                    {playersListScore.map((player, i) => {
-
-                        let isBad = undefined;
-                        if (globalValues.current?.resultAnswersPlayers !== undefined) {
-                            const playerFind = globalValues.current?.resultAnswersPlayers?.list?.find((pl) => pl.id == player.userId)
-                            if (playerFind) {
-                                isBad = playerFind.isBad
-                            }
-                        }
-
-                        return (
-                            <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
-                                {player?.isLeader &&
-                                    <div className="badgeLeader">
-                                        <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
-                                    </div>
-                                }
-                                <PenguinCard className="w-full h-[82px] transition-all" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' } }} />
-                            </div>
-                        )
-
-                    })}
-                </div>
+                <PlayersList globalValues={globalValues} playersListScore={playersListScore} />
                 <div className="card flex-1 gap-2 p-4">
                     <h2 className='text-[20px] font-semibold select-none'>Chat</h2>
                     <div className="messages w-full" style={{ height: '250px', overflowY: 'auto' }}>

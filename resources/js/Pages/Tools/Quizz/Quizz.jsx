@@ -294,7 +294,7 @@ export default function Quizz(props) {
                     border-radius: 12px;
                     position: absolute;
                     top: 12px;
-                    left: 18px;
+                    left: 88px;
                     z-index: 99999;
                     transform: rotate(-20deg);
                 }
