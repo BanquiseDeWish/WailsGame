@@ -35,6 +35,7 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
     const selectAnswer = (e, propoId) => {
         let answers = globalValues.current.answerCurrent;
         if (globalValues.current.answerCurrent.length > 0 && globalValues.current.questionCurrent.typeAnswer == "simple") {
+            if(answers[0] == propoId) return;
             answers = [];
             if(globalValues.current.questionCurrent.type == 'picture_multiple') {
                 document.querySelectorAll('.quizz_question_show .picture_proposal').forEach((node) => {
