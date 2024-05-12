@@ -26,12 +26,18 @@ const gameModes = [
     {
         key: 'classic',
         name: 'Classique',
-        description: 'Répondez à une série de questions sur différement thèmes'
+        description: 'Répondez à une série de questions sur différement thèmes',
+        labelElements: "questions",
+        minElements: 3,
+        maxElements: 50
     },
     {
         key: 'scattergories',
         name: 'Petit bac',
-        description: 'Trouvez des mots en rapport avec la première lettre et le thème proposée'
+        description: 'Trouvez des mots en rapport avec la première lettre et le thème proposée',
+        labelElements: "manches",
+        minElements: 2,
+        maxElements: 20
     }
 ]
 
@@ -66,7 +72,12 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
 
     useEffect(() => {
         const max = globalValues.current.maximumQuestions
-        const timeGame = Math.floor((20 * max) / 60)
+        let timeGame = 0;
+        if(globalValues.current.gameMode == "classic") {
+            timeGame = Math.floor((20 * max) / 60)
+        }else if(globalValues.current.gameMode == "scattergories") {
+            timeGame = Math.floor((47 * max) / 60)
+        }
         setTimeGame(timeGame)
     }, [globalValues.current.maximumQuestions])
 
@@ -84,6 +95,8 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
         if (!globalValues.current.isLeader) return;
         emit("quizz_update_gamemode", selectedGameMode)
     }, [selectedGameMode])
+
+    const gameModeCurrent = gameModes.find(game => game.key == globalValues.current.gameMode)
 
     return (
         <div className="quizz_lobby flex-1 items-center ">
@@ -110,7 +123,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                             <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
                             <h3 className='text-[14px] font-bold'>{playersCount < 10 && playersCount > 0 ? `0${playersCount}` : playersCount}/10</h3>
                         </div>
-                        <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[400px] pr-4 pb-4 mb-4">
+                        <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[300px] overflow-y-auto pr-4 pb-4 mb-4">
                             {Array.from(Array(10)).map((s, i) => {
 
                                 const player = globalValues.current.players[i];
@@ -146,21 +159,19 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                     </div>
                 </div>
                 <div className="flex flex-col gap-4 min-w-[400px]">
-                    {globalValues.current?.gameMode == "classic" &&
-                        <div className="card p-4">
+                <div className="card p-4">
                             <div className="flex flex-col items-center gap-3 w-full">
                                 <InputRange
-                                    label="Nombres de questions"
+                                    label={`Nombres de ${gameModeCurrent?.labelElements}`}
                                     value={globalValues.current.maximumQuestions}
                                     onChange={questionsMaxChange}
-                                    min={3}
-                                    max={50}
+                                    min={gameModeCurrent?.minElements}
+                                    max={gameModeCurrent?.maxElements}
                                     id="questions_max"
                                 />
                                 <span><b>Temps de jeu:</b> {timeGame} minutes </span>
                             </div>
                         </div>
-                    }
                     <div className="card p-4 flex-1 w-full" style={{ justifyContent: 'flex-start', gap: '16px', alignItems: 'flex-start', overflow: 'auto', flex: '1 1 0' }}>
                         {globalValues.current.themes.map((s, i) => {
 
@@ -217,7 +228,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                                                             <InputSwitch classNameContainer={"max-h-[28px]"} key={i2} state={sc.state} label={
                                                                                 <div className='flex flex-col select-none'>
                                                                                     <span>{sc.dname}</span>
-                                                                                    <span className='text-[12px] font-extralight'>{sc.questionsLength} Questions</span>
+                                                                                    {globalValues.current.gameMode == "classic" && <span className='text-[12px] font-extralight'>{sc.questionsLength} Questions</span>}
                                                                                 </div>
                                                                             } onChange={() => { onChangeTheme(sc.state, i2) }} />
                                                                         </div>
@@ -258,7 +269,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
 
                                                                             <div className='flex flex-col select-none'>
                                                                                 <span>{sc.dname}</span>
-                                                                                <span className='text-[12px] font-extralight'>{sc.questionsLength} Questions</span>
+                                                                                {globalValues.current.gameMode == "classic" && <span className='text-[12px] font-extralight'>{sc.questionsLength} Questions</span>}
                                                                             </div>
                                                                         </div>
                                                                     )
