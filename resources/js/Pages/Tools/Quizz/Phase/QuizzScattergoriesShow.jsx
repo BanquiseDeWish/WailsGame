@@ -110,7 +110,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
         sdd_playerAnswers = sdd.playerData?.answers;
         if(sdd_playerAnswers !== undefined) {
             const answerData = sdd_playerAnswers.find((ans) => ans.id == gvc?.scattergoriesDataValidator?.roundData?.id);
-            for (let i = 0; i < answerData.data?.length; i++) {
+            for (let i = 0; i < answerData?.data?.length; i++) {
                 if(answerData.data[i].isBad == undefined) {
                     answerData.data[i].isBad = true;
                 }
@@ -188,7 +188,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                                     let isBad = false;
                                     console.log('Before crash', sdd_playerAnswers)
                                     if(sdd_playerAnswers !== undefined) {
-                                        const answer = sdd_playerAnswers.find((ans) => ans.id == gvc?.scattergoriesDataValidator?.roundData?.id)?.data.find((ans) => ans.id == i)
+                                        const answer = sdd_playerAnswers.find((ans) => ans.id == gvc?.scattergoriesDataValidator?.roundData?.id)?.data?.find((ans) => ans.id == i)
                                         isBad = answer?.isBad;
                                         return (
                                             <div key={i} className="flex w-full gap-2 items-end">
