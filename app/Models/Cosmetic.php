@@ -41,7 +41,7 @@ class Cosmetic extends Model
             return [];
 
         $cosmeticsId = explode(',', $cosmeticsId->active_cosmetics);
-        $cosmetics = DB::table('cosmetic')->whereIn('id', $cosmeticsId)->get();
+        $cosmetics = Cosmetic::whereIn('id', $cosmeticsId)->get();
 
         return $cosmetics;
     }

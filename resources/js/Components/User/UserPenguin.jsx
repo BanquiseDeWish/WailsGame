@@ -9,7 +9,7 @@ export default function UserPenguin({ className, size, noRequest, data, user_id,
 
     const [cosmetics, setCosmetics] = useState(data == undefined ? {} : data)
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (noRequest == undefined || !noRequest) {
             axios.get(route('user.penguin_data', { twitch_id: user_id ?? 0 }))
                 .then((resp) => {
@@ -40,7 +40,7 @@ export default function UserPenguin({ className, size, noRequest, data, user_id,
             console.log(w, h);
         });
         setCosmetics(cosmeticsData);
-    }, [cosmetics])
+    }, [cosmetics])*/
 
     return (
         <svg

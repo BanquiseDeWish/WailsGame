@@ -40,3 +40,6 @@ Route::get('/user/all/points/vipgames', [UserController::class, 'getUserListVIPG
 
 Route::get('/cosmetics/get', [CosmeticController::class, 'getCosmetics'])->name('cosmetics.get');
 
+Route::middleware('auth_twitch')->group(function() {
+    Route::post('/user/update/cosmetics/', [UserController::class, 'updateUserCosmetics'])->name('user.cosmetics.update');
+});
