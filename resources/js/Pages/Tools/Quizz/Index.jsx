@@ -70,7 +70,7 @@ const QuizzMaster = () => {
                         </BlueButton>
                     </div>
                     <div className="card justify-start items-start p-4 h-fit min-w-[350px] max-w-[560px]">
-                        <h2 className="text-[28px] font-bold">DevLog</h2>
+                        <h2 className="text-[28px] font-bold">Patch Notes</h2>
                         {update !== undefined &&
                             <div className="updateItem w-full mt-4">
                                 <h2 className="text-[20px] font-semibold">Version {update?.key}</h2>
