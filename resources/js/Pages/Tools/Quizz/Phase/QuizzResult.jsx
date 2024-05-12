@@ -56,7 +56,6 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
         }
     }, [globalValues.current.phaseId])
 
-    console.log(globalValues.current)
     playersListScore.sort(compareScores);
 
     const firstPlayer = playersListScore[0];
@@ -197,8 +196,8 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                                         <div className="flex flex-col select-none flex-1 gap-4">
                                             <span className='font-bold text-[20px]'>Lettre {question.letter} - {question.themeMaster.dname}</span>
                                             <div className="grid grid-cols-3 gap-2 w-full">
-                                                {answersTheme.data.map((answer, idx) => {
-                                                    const question = globalValues.current.questionsFinal.find((question) => question.id == answersTheme.id)
+                                                {answersTheme?.data?.map((answer, idx) => {
+                                                    const question = globalValues.current.questionsFinal?.find((question) => question.id == answersTheme.id)
                                                     let subtheme = "N/A";
                                                     if(question) {
                                                         subtheme = question.themeMaster.subcategories[answer.id]?.dname;
