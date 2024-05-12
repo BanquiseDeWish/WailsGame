@@ -131,7 +131,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                                 return (
                                     <div className={`player ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`}>
                                         {player?.isLeader &&
-                                            <div className="badgeLeader">
+                                            <div className="badgeLeader lobby">
                                                 <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
                                             </div>
                                         }

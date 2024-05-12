@@ -298,6 +298,9 @@ export default function Quizz(props) {
                     z-index: 99999;
                     transform: rotate(-20deg);
                 }
+                .badgeLeader.lobby {
+                    left: 18px !important;
+                }
                 .quizz_question_show .propal_button {
                     background: #324b68;
                     padding: 12px 16px;
