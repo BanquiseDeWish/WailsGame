@@ -192,7 +192,6 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                         <div className="flex flex-1 flex-col gap-4 w-full overflow-y-auto pr-4">
                             {globalValues.current.questionsFinal.map((question, index) => {
                                 const answersTheme = yourAnswers.answers.find((answer) => answer.id == question.id)
-
                                 return (
                                     <div key={question.id} className="question_item card gap-[64px] px-6 py-4 text-left justify-between flex-row w-full">
                                         <div className="flex flex-col select-none flex-1 gap-4">

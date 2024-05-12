@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import RefreshIcon from '@/Components/Icons/RefreshIcon';
 import CogIcon from '@/Components/Icons/Cog';
 import ReplayIcon from '@/Components/Icons/Replay';
+import PlayersList from '@/Components/Games/QuizzMaster/PlayersList';
 const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValues, emit }) => {
 
     const [messageChat, setMessageChat] = useState("")
@@ -32,8 +33,20 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
     }
 
     const selectAnswer = (e, propoId) => {
-        const answers = globalValues.current.answerCurrent;
-        if (globalValues.current.answerCurrent.length > 0 && globalValues.current.questionCurrent.typeAnswer == "simple") return;
+        let answers = globalValues.current.answerCurrent;
+        if (globalValues.current.answerCurrent.length > 0 && globalValues.current.questionCurrent.typeAnswer == "simple") {
+            if(answers[0] == propoId) return;
+            answers = [];
+            if(globalValues.current.questionCurrent.type == 'picture_multiple') {
+                document.querySelectorAll('.quizz_question_show .picture_proposal').forEach((node) => {
+                    node.classList.remove('focused')
+                })
+            }else{
+                document.querySelectorAll('.quizz_question_show .propal_button').forEach((node) => {
+                    node.classList.remove('focused')
+                })
+            }
+        }
         e.currentTarget.classList.add('focused')
         new GameSound('quizz_aw_send').playSound(getVolumeAudio(), false)
         answers.push(propoId);
@@ -74,8 +87,7 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
     useEffect(() => {
         const result = globalValues.current.resultSendAnswer;
         if (result !== undefined) {
-            const volume =
-                new GameSound(result.isBad || result.answerSend.length == 0 ? 'quizz_aw_bad' : 'quizz_aw_good').playSound(getVolumeAudio(), false)
+            const volume = new GameSound(result.isBad || result.answerSend.length == 0 ? 'quizz_aw_bad' : 'quizz_aw_good').playSound(getVolumeAudio(), false)
         }
     }, [globalValues.current.resultSendAnswer])
 
@@ -90,7 +102,9 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                         urlSound = questionCurrent?.sound_url
                     }
                     if (audioPlaying == null) {
-                        setAudioPlaying(Audio.playSound(urlSound, getVolumeAudio(), false))
+                        const percentVolume = questionCurrent?.volume ?? 1
+                        const volumeCalcul = getVolumeAudio() * percentVolume;
+                        setAudioPlaying(Audio.playSound(urlSound, volumeCalcul, false))
                     }
                 }
             }, 1000)
@@ -124,10 +138,12 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
         const phaseId = globalValues.current.phaseId;
         const questionCurrent = globalValues.current.questionCurrent;
         if (phaseId == 2) {
+            const percentVolume = questionCurrent?.volume ?? 1
+            const volumeCalcul = getVolumeAudio() * percentVolume;
             if (questionCurrent?.type == "picture" && questionCurrent?.sound_reveal_url !== undefined) {
-                Audio.playSound(questionCurrent?.sound_reveal_url, getVolumeAudio(), false)
+                Audio.playSound(questionCurrent?.sound_reveal_url, volumeCalcul, false)
             } else if (questionCurrent?.type == "sound" && questionCurrent?.sound_reveal_url !== undefined) {
-                Audio.playSound(questionCurrent?.sound_reveal_url, getVolumeAudio(), false)
+                Audio.playSound(questionCurrent?.sound_reveal_url, volumeCalcul, false)
             }
         }
     }, [globalValues.current.phaseId])
@@ -135,6 +151,9 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
     const replaySound = () => {
         if (globalValues.current.questionCurrent.type !== "sound") return toast.error('Aucun son ne peut être joué dans une question de ce type.')
         if (audioPlaying !== null) {
+            const percentVolume = globalValues.current.questionCurrent?.volume ?? 1
+            const volumeCalcul = getVolumeAudio() * percentVolume;
+            audioPlaying.volume = volumeCalcul;
             audioPlaying.pause()
             audioPlaying.currentTime = 0
             audioPlaying.play()
@@ -152,7 +171,9 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
 
     useEffect(() => {
         if (audioPlaying !== null) {
-            audioPlaying.volume = (audioVolume) / 10
+            const percentVolume = globalValues.current.questionCurrent?.volume ?? 1
+            const volumeCalcul = getVolumeAudio() * percentVolume;
+            audioPlaying.volume = (volumeCalcul) / 10
         }
     }, [audioVolume])
 
@@ -344,32 +365,7 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
 
                 </div>
                 <div className="flex flex-col gap-4">
-                    <div className="players h-full">
-                        <div className="card items-start p-4 justify-start max-h-[340px] min-h-[340px] gap-4 min-w-[350px] overflow-y-auto">
-                            {playersListScore.map((player, i) => {
-
-                                let isBad = undefined;
-                                if (globalValues.current?.resultAnswersPlayers !== undefined) {
-                                    const playerFind = globalValues.current?.resultAnswersPlayers?.list?.find((pl) => pl.id == player.userId)
-                                    if (playerFind) {
-                                        isBad = playerFind.isBad
-                                    }
-                                }
-
-                                return (
-                                    <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
-                                        {player?.isLeader &&
-                                            <div className="badgeLeader">
-                                                <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
-                                            </div>
-                                        }
-                                        <PenguinCard className="w-full h-[82px] transition-all" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' } }} />
-                                    </div>
-                                )
-
-                            })}
-                        </div>
-                    </div>
+                    <PlayersList globalValues={globalValues} playersListScore={playersListScore} />
                     <div className="card gap-2 gap-2 p-4">
                         <h2 className='text-[20px] font-semibold select-none'>Chat</h2>
                         <div className="messages w-full" style={{ height: '250px', overflowY: 'auto' }}>

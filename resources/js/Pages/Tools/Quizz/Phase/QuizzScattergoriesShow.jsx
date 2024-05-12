@@ -8,6 +8,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import { motion } from 'framer-motion'
 import RedButton from "@/Components/Navigation/Buttons/RedButton";
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
+import PlayersList from "@/Components/Games/QuizzMaster/PlayersList";
 
 export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globalValues, modifyValues, emit }) {
 
@@ -54,14 +55,12 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
         const phaseId = gvc?.phaseId;
         if (phaseId == 1.5) {
             //Send answers to server
-
-            console.log('Send answers..')
             emit('quizz_send_answer_player', answers)
         } else if (phaseId == 1) {
-            /*document.querySelectorAll('input.answer_input').forEach((node) => {
+            document.querySelectorAll('input.answer_input').forEach((node) => {
                 node.value = ""
             })
-            setAnswers([])*/
+            setAnswers([])
         }
     }, [gvc?.phaseId])
 
@@ -94,7 +93,8 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
     const handleChangeAnswerState = (idAnswer, bool) => {
         if(!globalValues.current.isLeader) return;
         const sdd = gvc?.scattergoriesDataValidator;
-        const answer = sdd.playerData.answers[0].data.find((ans) => ans.id == idAnswer);
+        const answerData = sdd_playerAnswers.find((ans) => ans.id == gvc?.scattergoriesDataValidator?.roundData?.id);
+        const answer = answerData?.data.find((ans) => ans.id == idAnswer);
         if(!answer) return;
         answer.isBad = bool;
         emit('quizz_scattergories_validator_update_data', sdd)
@@ -108,9 +108,12 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
     const sdd = gvc?.scattergoriesDataValidator;
     if (sdd) {
         sdd_playerAnswers = sdd.playerData?.answers;
-        for (let i = 0; i < sdd_playerAnswers?.[0]?.data?.length; i++) {
-            if(sdd_playerAnswers[0].data[i].isBad == undefined) {
-                sdd_playerAnswers[0].data[i].isBad = true;
+        if(sdd_playerAnswers !== undefined) {
+            const answerData = sdd_playerAnswers.find((ans) => ans.id == gvc?.scattergoriesDataValidator?.roundData?.id);
+            for (let i = 0; i < answerData.data?.length; i++) {
+                if(answerData.data[i].isBad == undefined) {
+                    answerData.data[i].isBad = true;
+                }
             }
         }
     }
@@ -128,7 +131,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                             animate={isAnimatingNewQuestion ? { x: 0, opacity: 1 } : { x: '-100%', opacity: 0 }}
                             transition={{ duration: 0.4 }} className="loading w-full h-full absolute top-0 flex items-center">
                             <h2 className='italic font-bold text-[36px] text-center w-full select-none'>
-                                Manche suivante !
+                                {((gvc?.data?.questionCursor) + 1) == (gvc?.data?.maxQuestions) ? "Passons aux réponses !" : "Manche suivante !"}
                             </h2>
                         </motion.div>
                     }
@@ -162,9 +165,10 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                                         }} />
                                 </div>
                             }
-                            <span className="text-[32px]">Lettre <b>{gvc?.questionCurrent?.letter}</b></span>
+                            {gvc.phaseId == 1 || gvc.phaseId == 1.5 ? <span className="text-[32px]">Lettre <b>{gvc?.questionCurrent?.letter}</b></span> : <></>}
+                            {gvc.phaseId == 2 && <span className="text-[32px]">Lettre <b>{gvc?.scattergoriesDataValidator?.roundData?.letter}</b></span>}
                             <span className="">Thème: <b>{gvc?.questionCurrent?.themeMaster?.dname}</b></span>
-                            <span>Petit Bac - Manche {(gvc?.data?.questionCursor) + 1}/{gvc?.data?.maxQuestions}</span>
+                            {gvc.phaseId == 1 || gvc.phaseId == 1.5 ? <span>Petit Bac - Manche {(gvc?.data?.questionCursor) + 1}/{gvc?.data?.maxQuestions}</span> : <></>}
                             {gvc.phaseId == 2 && <span>Validation des réponses <br /> de <b>{gvc?.scattergoriesDataValidator?.playerData?.username}</b></span>}
                         </div>
                         {gvc.phaseId !== 2 ?
@@ -182,28 +186,32 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                             <div className="flex flex-col items-center justify-start overflow-y-auto gap-4 px-8  w-full h-full py-9" style={{ boxShadow: 'inset 0 5px 5px -5px rgba(0, 0, 0, 0.5)', borderRadius: '53% 46% 10% 10% / 5% 5% 0% 0%', background: 'rgba(0, 0, 0, 0.30)' }}>
                                 {Array.from(Array(gvc?.scattergoriesDataValidator?.roundData?.themes?.length)).map((val, i) => {
                                     let isBad = false;
-                                    const answer = sdd_playerAnswers?.[0]?.data.find((ans) => ans.id == i)
-                                    isBad = answer?.isBad;
-                                    return (
-                                        <div key={i} className="flex w-full gap-2 items-end">
-                                            <div className="flex flex-col gap-2 flex-1">
-                                                <span>{gvc?.scattergoriesDataValidator?.roundData?.themes?.[i]?.dname}</span>
-                                                <div className="card w-full p-4 justify-start items-start">
-                                                    {answer?.val == undefined ? "Sans réponse" : answer?.val}
-                                                </div>
-                                            </div>
-                                            <div className="flex gap-1">
-                                                <div className="inline-flex rounded-lg ">
-                                                    <div onClick={() => { handleChangeAnswerState(answer?.id, false) }} className={`select-none py-3 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10  ${!isBad ? "bg-green-500 text-gray-800" : "bg-[#121A25] text-white"}  shadow-sm`}>
-                                                        Correcte
-                                                    </div>
-                                                    <div onClick={() => { handleChangeAnswerState(answer?.id, true) }} className={`select-none  py-3 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10  ${isBad ? "bg-red-500 text-gray-800" : "bg-[#121A25] text-white"}  shadow-sm`}>
-                                                        Incorrecte
+                                    console.log('Before crash', sdd_playerAnswers)
+                                    if(sdd_playerAnswers !== undefined) {
+                                        const answer = sdd_playerAnswers.find((ans) => ans.id == gvc?.scattergoriesDataValidator?.roundData?.id)?.data.find((ans) => ans.id == i)
+                                        isBad = answer?.isBad;
+                                        return (
+                                            <div key={i} className="flex w-full gap-2 items-end">
+                                                <div className="flex flex-col gap-2 flex-1">
+                                                    <span>{gvc?.scattergoriesDataValidator?.roundData?.themes?.[i]?.dname}</span>
+                                                    <div className="card w-full p-4 justify-start items-start">
+                                                        {answer?.val == undefined ? "Sans réponse" : answer?.val}
                                                     </div>
                                                 </div>
+                                                <div className="flex gap-1">
+                                                    <div className="inline-flex rounded-lg ">
+                                                        <div onClick={() => { handleChangeAnswerState(answer?.id, false) }} className={`select-none py-3 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10  ${!isBad ? "bg-green-500 text-gray-800" : "bg-[#121A25] text-white"}  shadow-sm`}>
+                                                            Correcte
+                                                        </div>
+                                                        <div onClick={() => { handleChangeAnswerState(answer?.id, true) }} className={`select-none  py-3 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10  ${isBad ? "bg-red-500 text-gray-800" : "bg-[#121A25] text-white"}  shadow-sm`}>
+                                                            Incorrecte
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )
+                                        )
+                                    }
+
                                 })}
                                 <div className="flex justify-center w-full">
                                     <GreenButton onClick={nextDataValidator}>Suivant</GreenButton>
@@ -215,30 +223,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                 </div>
             </div>
             <div className="players gap-6 h-full min-w-[350px] flex flex-col">
-                <div className="card items-start p-4 justify-start max-h-[340px] min-h-[340px] gap-4 min-w-[350px] overflow-y-auto">
-                    {playersListScore.map((player, i) => {
-
-                        let isBad = undefined;
-                        if (globalValues.current?.resultAnswersPlayers !== undefined) {
-                            const playerFind = globalValues.current?.resultAnswersPlayers?.list?.find((pl) => pl.id == player.userId)
-                            if (playerFind) {
-                                isBad = playerFind.isBad
-                            }
-                        }
-
-                        return (
-                            <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
-                                {player?.isLeader &&
-                                    <div className="badgeLeader">
-                                        <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
-                                    </div>
-                                }
-                                <PenguinCard className="w-full h-[82px] transition-all" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' } }} />
-                            </div>
-                        )
-
-                    })}
-                </div>
+                <PlayersList globalValues={globalValues} playersListScore={playersListScore} />
                 <div className="card flex-1 gap-2 p-4">
                     <h2 className='text-[20px] font-semibold select-none'>Chat</h2>
                     <div className="messages w-full" style={{ height: '250px', overflowY: 'auto' }}>
