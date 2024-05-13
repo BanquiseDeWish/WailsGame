@@ -5,9 +5,13 @@ import axios from 'axios';
 const viewBoxWidth = 700;
 const viewBoxHeight = 950;
 
-export default function UserPenguin({ className, size, noRequest, data, user_id, ...props }) {
+export default function UserPenguin({ className, propsCosmetics, twitchId, width = 256, ...props }) {
 
-    const [cosmetics, setCosmetics] = useState(data == undefined ? {} : data)
+    const [cosmetics, setCosmetics] = useState(propsCosmetics);
+
+    useEffect(() => {
+        setCosmetics(propsCosmetics);
+    }, [propsCosmetics]);
 
     /*useEffect(() => {
         if (noRequest == undefined || !noRequest) {
@@ -45,10 +49,12 @@ export default function UserPenguin({ className, size, noRequest, data, user_id,
     return (
         <svg
             className={className}
-            width={size?.width !== undefined ? size.width : "256"}
+            width={width}
             viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`} fill="none" xmlns="http://www.w3.org/2000/svg"
             {...props}
         >
+
+
             <svg id="penguin">
                 <g id="penguin_body" transform={`translate(${viewBoxWidth/2 - 300},${viewBoxHeight-700})`}>
                     <path id="tail" d="M139.765 561.556C152.025 579.947 179.145 586.445 191.265 605.056C188.893 609.799 180.115 617.418 174.921 618.944C171.301 620.075 167.887 621.408 164.421 622.944C146.142 630.671 126 635.769 106.112 635.799C105.327 635.803 104.543 635.806 103.734 635.809C102.088 635.814 100.442 635.817 98.7956 635.817C96.3053 635.819 93.8154 635.837 91.3251 635.856C83.1918 635.884 75.6661 635.673 67.7333 633.631C71.0466 626.254 77.9856 621.423 84.3583 616.756C85.0535 616.24 85.7486 615.723 86.4648 615.19C90.7336 612.035 95.0763 609.026 99.4833 606.069C114.056 596.036 129.227 575.527 139.765 561.556Z" fill="#2C384F" />
@@ -70,7 +76,6 @@ export default function UserPenguin({ className, size, noRequest, data, user_id,
                         <path id="Vector_6" d="M407.818 139.672C405.537 149.619 404.26 156.192 409.671 165.131C419.386 182.348 435.555 213.392 434.505 237.892C429.784 224.725 423.633 210.336 414.734 198.631C414.117 197.817 413.501 197.002 412.866 196.162C397.11 176.958 372.572 169.235 348.734 166.631C310.514 163.554 268.637 179.989 239.761 204.291C199.009 241.96 178.497 352.857 178.546 404.506C178.546 405.569 178.547 406.632 178.547 407.727C178.568 425.443 179.109 442.981 180.734 460.631C180.835 461.787 180.937 462.944 181.042 464.135C185.006 507.981 196.472 554.167 231.546 584.006C240.233 591.396 264.5 601.5 274 603C271.815 610.404 258.696 629.675 248 632.6C235.358 636.057 191.066 623.514 178.734 616.631C147.867 599.403 135.058 590.131 125.322 557.372C121.276 543.662 118.53 529.894 116.25 515.793C115.912 513.725 115.561 511.66 115.193 509.598C95.6744 399.129 134.96 274.196 181.421 172.506C183.813 167.255 186.188 161.996 188.597 156.752C192.996 147.148 196.614 137.474 199.817 127.411C235.756 14.5 432.738 31 407.818 139.672Z" fill="#3E526B" />
                         <path id="Vector_7" d="M341.5 622.501C313.513 630.221 274.809 632.521 246 633C246 621.856 252.697 607.012 259.5 598.6C300.504 608.597 350.083 605.513 391 596.07C384.267 602.439 370.5 614.501 341.5 622.501Z" fill="#546B88" />
                         <g id="head">
-                            {cosmetics.hat}
                             <path id="head_2" d="M385.03 16.8538C389.139 19.5553 392.978 22.4588 396.734 25.6312C397.557 26.3208 398.381 27.0105 399.23 27.721C408.479 35.7311 408.56 37.1194 414 48C417.25 54.5 414 97 412.734 115.631C412.632 116.509 412.53 117.387 412.425 118.291C411.397 125.504 407.5 138 399.5 140C356.894 150.651 190.417 160.5 208 105.5C222.94 58.766 234.606 36.4945 279.734 12.6312C289.433 7.77589 299.22 4.98755 309.734 2.63116C310.338 2.45536 310.942 2.27956 311.565 2.09844C336.25 -3.21991 363.91 3.94969 385.03 16.8538Z" fill="#3E526B" />
                             <path id="Vector_8" d="M385.031 16.8538C398.765 27.5562 402.349 27.3531 410.734 41.6312C415.924 50.3528 384.829 49.8918 382.441 47.3578C378.172 42.9466 373.634 32.6312 363.234 26.6312C337.234 11.6312 324.265 4.58609 291.765 7.58602C307.265 2.39209 344.765 -10.4438 385.031 16.8538Z" fill="#546B88" />
                             <g id="beak">
@@ -105,6 +110,23 @@ export default function UserPenguin({ className, size, noRequest, data, user_id,
                 </g>
             </svg>
 
+            {
+                cosmetics.map((cosmetic, _) => {
+                    let x = cosmetic?.data?.x ?? 0;
+                    let y = cosmetic?.data?.y ?? 0;
+                    let scale = cosmetic?.data?.scale ?? 1;
+                    let rotation = cosmetic?.data?.rotation ?? 0;
+                    let pivotX = x + cosmetic?.data?.width*scale/2;
+                    let pivotY = y + cosmetic?.data?.height*scale/2;
+
+                    return (
+                        <svg>
+                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})`}
+                                dangerouslySetInnerHTML={{__html: cosmetic.style}}/>
+                        </svg>
+                    );
+                })
+            }
         </svg>
 
     )

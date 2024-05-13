@@ -6,11 +6,14 @@ import { useEffect, useState } from "react";
 import { toast } from 'sonner';
 import axios from "axios";
 
+
 export default function ProfileAppearance(props) {
 
     const [activeTab, setActiveTab] = useState('hat');
     const [cosmetics, setCosmetics] = useState(undefined);
+    const [activeCosmetics, setActiveCosmetics] = useState(props.activeCosmetics);
     const twitch = props.auth.twitch;
+
     const tabs = [
         {
             name: 'Pingouin',
@@ -37,8 +40,11 @@ export default function ProfileAppearance(props) {
                 {
                     name: 'Fond d\'Icone',
                     key: 'colorIcon'
+                },
+                {
+                    name: 'Slogan',
+                    key: 'slogan'
                 }
-
             ]
         }
     ]
@@ -70,6 +76,7 @@ export default function ProfileAppearance(props) {
                     } else {
                         cosmetic.owned = false;
                     }
+
                 });
                 // Order by owned
                 res.sort((a, b) => {
@@ -154,7 +161,7 @@ export default function ProfileAppearance(props) {
                 </div>
 
                 <div className="container xl:col-span-2 col-span-2">
-                    <UserPenguin className={'scale-x-[-1]'} />
+                    <UserPenguin propsCosmetics={activeCosmetics} className={'scale-x-[-1]'} />
                 </div>
             </div>
         </MainLayout>

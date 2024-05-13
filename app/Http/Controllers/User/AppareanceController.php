@@ -16,6 +16,9 @@ class AppareanceController extends Controller
         $twitch_id = $request->session()->get('twitch')->id;
         $penguinCard = UserCard::getCardFromTWID($twitch_id);
         $activeCosmetics = Cosmetic::getCosmeticsActiveUser($twitch_id);
+        foreach($activeCosmetics as $cosmetic) {
+            $cosmetic->data = json_decode($cosmetic->data, true);
+        }
         return Inertia::render('Profile/Appearance', [
             'penguinCard' => $penguinCard,
             'activeCosmetics' => $activeCosmetics

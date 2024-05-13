@@ -57,7 +57,7 @@ Route::get('/vip_games', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth_twitch', 'is_weils'])->name('vip_games');
 
-Route::prefix('profile')->name('profile.')->group(function() {
+Route::prefix('profile')->name('profile.')->middleware(['auth_twitch'])->group(function() {
     Route::get('/', [ProfileController::class, 'index'])->name('index');
     Route::get('/appearance', [AppareanceController::class, 'index'])->name('appearance');
 });
