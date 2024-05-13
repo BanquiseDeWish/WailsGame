@@ -2,11 +2,10 @@ import { usePage } from '@inertiajs/react';
 import '../../../css/penguinCard.css'
 import PAWBadge from '../../../assets/img/paw.webp'
 import 'react-tooltip/dist/react-tooltip.css'
-import UserPenguin from "@/Components/User/UserPenguin";
 import UserIcon from './UserIcon';
 
 
-export default function UserCard({ className, propsCosmetics, twitchId, data, skeleton = false }) {
+export default function UserCard({ className, propsCosmetics, twitchId, data, skeleton = false, style = {} }) {
 
     /**
      * Example data:

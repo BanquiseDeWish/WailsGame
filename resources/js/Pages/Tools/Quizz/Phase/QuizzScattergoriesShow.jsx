@@ -1,4 +1,4 @@
-import PenguinCard from "@/Components/User/PenguinCard";
+import UserCard from "@/Components/User/UserCard";
 
 import QuizzLogo from '../../../../../assets/img/QuizzMasterLogo.webp'
 import crown from '../../../../../assets/icons/crown.svg'

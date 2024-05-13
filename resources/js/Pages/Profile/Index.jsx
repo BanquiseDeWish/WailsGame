@@ -1,7 +1,7 @@
 import MainLayout from "@/Layouts/MainLayout";
 import { Head } from "@inertiajs/react";
 
-import Penguin from "../../Components/User/Penguin";
+import UserPenguin from "../../Components/User/UserPenguin";
 
 export default function ProfileIndex(props) {
 
@@ -9,8 +9,8 @@ export default function ProfileIndex(props) {
         <MainLayout>
             <Head title="Profil" />
             <div className="info flex justify-center items-center w-full h-full">
-                <Penguin
-                    size={{ width: 300 }}
+                <UserPenguin
+                    width={300}
                     user_id={props.auth?.twitch?.id}
                 />
             </div>

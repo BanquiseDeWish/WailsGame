@@ -1,7 +1,7 @@
 import { useValues } from './VIPGamesContext';
 
 import VictoryLogo from '@assets/games/vipgames_victory.svg'
-import Penguin from '@/Components/User/Penguin';
+import UserPenguin from '@/Components/User/UserPenguin';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -35,9 +35,9 @@ export default function VIP_RightContent() {
                         </div>
                     </div>
 
-                    <Penguin
+                    <UserPenguin
                         userId={winner?.id}
-                        size={{width: 240}}
+                        width={240}
                         className='drop-shadow-2xl scale-x-[-1]'
                     />
 

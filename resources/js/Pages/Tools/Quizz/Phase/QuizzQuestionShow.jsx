@@ -2,7 +2,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { toast } from 'sonner';
 import crown from '../../../../../assets/icons/crown.svg'
-import PenguinCard from '@/Components/User/PenguinCard';
+import UserCard from '@/Components/User/UserCard';
 import { motion } from 'framer-motion'
 import MusicIcon from '../../../../../assets/icons/music.svg'
 import QuizzLogo from '../../../../../assets/img/QuizzMasterLogo.webp'

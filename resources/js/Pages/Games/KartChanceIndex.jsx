@@ -6,7 +6,7 @@ import GreenButton from '@/Components/Navigation/Buttons/GreenButton';
 import crypto from 'node:crypto'
 let socket = null;
 import { toast } from 'sonner'
-import PenguinCard from '@/Components/User/PenguinCard';
+import UserCard from '@/Components/User/UserCard';
 import '../../../css/kartChance.css'
 import KCBuild from '@/Components/KCBuild';
 import BinIcon from '@/Components/Icons/BinIcon';
@@ -128,7 +128,7 @@ export default function KartChanceIndex(props) {
                                             <div key={index} className="player container_background" style={{ height: 'fit-content' }}>
                                                 <div className='reRandomAll' onClick={() => { reRandomAll(val.uid) }}><RefreshIcon width={18} height={18} /></div>
                                                 <div className='delete' onClick={() => { removePlayer(val.uid) }}><BinIcon width={18} height={18}/></div>
-                                                <PenguinCard data={{ username: val.uname }} />
+                                                <UserCard data={{ username: val.uname }} />
                                                 <KCBuild reRandomElement={reRandomElement} uid={val.uid} character={val?.build?.character} vehicle={val?.build?.vehicle} glider={val?.build?.glider} tire={val?.build?.tire} />
                                             </div>
                                         )

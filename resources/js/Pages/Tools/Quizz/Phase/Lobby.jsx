@@ -1,6 +1,6 @@
 import BlueButton from '@/Components/Navigation/Buttons/BlueButton';
 import SimpleButton from '@/Components/Navigation/Buttons/SimpleButton';
-import PenguinCard from '@/Components/User/PenguinCard';
+import UserCard from '@/Components/User/UserCard';
 import { Head, usePage, router } from '@inertiajs/react';
 import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { copyToClipboard } from '@/Game/utils';
@@ -130,12 +130,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
 
                                 return (
                                     <div className={`player ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`}>
-                                        {player?.isLeader &&
-                                            <div className="badgeLeader lobby">
-                                                <img src={crown} style={{ width: '24px', height: '24px' }} alt="" />
-                                            </div>
-                                        }
-                                        <PenguinCard className="min-w-[250px] max-w-[250px] h-[82px]" skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), background_type: "color", background_data: { color: 'var(--container_background)' } }} />
+                                        <UserCard className="min-w-[250px] max-w-[250px] h-[82px]" skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), background_type: "color", background_data: { color: 'var(--container_background)' } }} />
                                     </div>
                                 )
 

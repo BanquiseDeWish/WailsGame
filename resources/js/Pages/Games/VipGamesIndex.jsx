@@ -6,8 +6,8 @@ import HOFTable from '@/Components/Content/HOF/HOFTable';
 import MainLayout from '@/Layouts/MainLayout';
 import VictoryLogo from '@assets/games/vipgames_victory.svg'
 
-import Penguin from '@/Components/User/Penguin';
-import PenguinCard from '@/Components/User/PenguinCard';
+import UserPenguin from '@/Components/User/UserPenguin';
+import UserCard from '@/Components/User/UserCard';
 
 import StatContainer from '@/Components/Content/Containers/StatContainer';
 import HourGlass from '@assets/icons/stats/hourglass.svg';
@@ -41,7 +41,7 @@ export default function VipGamesIndex() {
                     <div className='flex container_background items-center rounded-[8px] justify-around p-[16px]'>
                         <div className='flex flex-col gap-[16px]'>
                             <h1 className='title'>Gagnant en titre</h1>
-                            <PenguinCard
+                            <UserCard
                                 data={{ 
                                     username: props.lastWinner?.twitch_username,
                                     background_type: "color",
@@ -51,8 +51,8 @@ export default function VipGamesIndex() {
                                 }}
                             />
                         </div>
-                        <Penguin
-                            size={{width: 120}}
+                        <UserPenguin
+                            width={120}
                             user_id={props.lastWinner?.twitch_id}
                         />
                     </div>

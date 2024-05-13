@@ -1,5 +1,5 @@
-import Penguin from "../../User/Penguin";
-import PenguinCard from "../../User/PenguinCard";
+import UserPenguin from "../../User/UserPenguin";
+import UserCard from "../../User/UserCard";
 
 export default function HoFPodium({ data, style }) {
     /**
@@ -27,13 +27,13 @@ export default function HoFPodium({ data, style }) {
                         <img src={data?.topIcon} alt="Position Icon" />
                     </div>)
                 }
-                <Penguin
-                    size={{  width: data?.penguinWidth ? data?.penguinWidth : 84 }}
+                <UserPenguin
+                    width={data?.penguinWidth ? data?.penguinWidth : 84 }
                     user_id={data?.user_info?.user_id}
                 />
 
                 <div className="flex w-full flex-col items-center">
-                    <PenguinCard
+                    <UserCard
                         data={{
                             user_id: data?.user_info?.user_id,
                             username: data?.user_info?.user_name,

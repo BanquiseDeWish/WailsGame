@@ -1,5 +1,5 @@
 import '../../../css/profile.css'
-import Penguin from './Penguin'
+import UserPenguin from './UserPenguin'
 import Podium from './Podium'
 
 export default function PodiumPenguin({ data, penguinData, noRequest }) {
@@ -7,7 +7,7 @@ export default function PodiumPenguin({ data, penguinData, noRequest }) {
     return (
         <>
             <div className="podium">
-                <Penguin noRequest={noRequest} data={penguinData} className="penguin" size={{ width: "172", height: "234" }} user_id={data?.userID} />
+                <UserPenguin noRequest={noRequest} data={penguinData} className="penguin" width={172} user_id={data?.userID} />
                 <Podium />
             </div>
         </>
