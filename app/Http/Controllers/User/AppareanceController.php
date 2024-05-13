@@ -16,7 +16,7 @@ class AppareanceController extends Controller
     public function index(Request $request) {
         $twitch_id = $request->session()->get('twitch')->id;
         $penguinCard = UserCard::getCardFromTWID($twitch_id);
-        $activeCosmetics = Cosmetic::getCosmeticsActiveUser($twitch_id);
+        $activeCosmetics = Cosmetic::getUserActiveCosmetics($twitch_id);
         foreach($activeCosmetics as $cosmetic) {
             $cosmetic->data = json_decode($cosmetic->data, true);
         }
@@ -36,9 +36,9 @@ class AppareanceController extends Controller
         if($user == null)
             return response()->json(['error' => 'User not found']);
 
-        $cosmetics = Cosmetic::whereIn('id', $inputs['cosmetics'])->get();
+        $cosmetics = DB::table('users__cosmetics')->join('cosmetics', 'users__cosmetics.cosmetic_id', '=', 'cosmetics.id')->whereIn('cosmetics.id', $inputs['cosmetics'])->get();
         if($cosmetics->count() != count($inputs['cosmetics']))
-            return response()->json(['error' => 'Some cosmetics do not exist']);
+            return response()->json(['error' => 'Some cosmetics do not exist or are not available for you']);
 
         $penguinActiveCosmetics = [];
         $cardActiveCosmetics = [];
@@ -51,8 +51,8 @@ class AppareanceController extends Controller
             }
         }
 
-        DB::table('users__card')->where('user_id', $user->id)->update(['active_cosmetics' => implode(',', $cardActiveCosmetics)]);
-        DB::table('users__penguin')->where('user_id', $user->id)->update(['active_cosmetics' => implode(',', $penguinActiveCosmetics)]);
+        DB::table('users__card')->updateOrInsert(['user_id' => $user->id], ['active_cosmetics' => implode(',', $cardActiveCosmetics)]);
+        DB::table('users__penguin')->updateOrInsert(['user_id' => $user->id], ['active_cosmetics' => implode(',', $penguinActiveCosmetics)]);
 
         return response()->json(['success' => 'Cosmetics saved']);
     }

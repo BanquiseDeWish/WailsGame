@@ -31,18 +31,28 @@ class Cosmetic extends Model
         return Cosmetic::where('type', $type)->where('sub_type', $subType)->get();
     }
 
-    public static function getCosmeticsActiveUser($twitch_id) {
+    public static function getUserActiveCosmetics($twitch_id)
+    {
+        $user = User::where('twitch_id', $twitch_id)->first();
+        if ($user == null)
+            return [];
+
         $activePenguin = User::getActivePenguin($twitch_id);
-        if($activePenguin == null)
+        if ($activePenguin == null)
             return [];
 
-        $cosmeticsId = DB::table('users__penguin')->where('id', $activePenguin)->first();
-        if($cosmeticsId == null)
+        $penguinCosmeticsId = DB::table('users__penguin')->where('id', $activePenguin)->first();
+        $cardCosmeticsId = DB::table('users__card')->where('user_id', $user->id)->first();
+        if ($penguinCosmeticsId == null && $cardCosmeticsId == null)
             return [];
 
-        $cosmeticsId = explode(',', $cosmeticsId->active_cosmetics);
-        $cosmetics = Cosmetic::whereIn('id', $cosmeticsId)->get();
+        $mergedCosmeticsId = [];
+        if ($penguinCosmeticsId != null)
+            $mergedCosmeticsId = array_merge($mergedCosmeticsId, explode(',', $penguinCosmeticsId->active_cosmetics));
+        if ($cardCosmeticsId != null)
+            $mergedCosmeticsId = array_merge($mergedCosmeticsId, explode(',', $cardCosmeticsId->active_cosmetics));
 
+        $cosmetics = DB::table('cosmetics')->whereIn('id', $mergedCosmeticsId)->get();
         return $cosmetics;
     }
 }

@@ -54,9 +54,29 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
             {...props}
         >
 
+            {
+                cosmetics.map((cosmetic, _) => {
+                    if (!cosmetic || cosmetic.type != 'penguin' || cosmetic?.data?.position != 'back') return;
+                    if (!['hat', 'backpack', 'accessory'].includes(cosmetic.sub_type)) return;
+                    let x = cosmetic?.data?.x ?? 0;
+                    let y = cosmetic?.data?.y ?? 0;
+                    let scale = cosmetic?.data?.scale ?? 1;
+                    let rotation = cosmetic?.data?.rotation ?? 0;
+                    let pivotX = x + cosmetic?.data?.width * scale / 2;
+                    let pivotY = y + cosmetic?.data?.height * scale / 2;
+
+                    return (
+                        <svg key={cosmetic?.name}>
+                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})`}
+                                dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
+                        </svg>
+                    );
+                })
+            }
+
 
             <svg id="penguin">
-                <g id="penguin_body" transform={`translate(${viewBoxWidth/2 - 300},${viewBoxHeight-700})`}>
+                <g id="penguin_body" transform={`translate(${viewBoxWidth / 2 - 300},${viewBoxHeight - 700})`}>
                     <path id="tail" d="M139.765 561.556C152.025 579.947 179.145 586.445 191.265 605.056C188.893 609.799 180.115 617.418 174.921 618.944C171.301 620.075 167.887 621.408 164.421 622.944C146.142 630.671 126 635.769 106.112 635.799C105.327 635.803 104.543 635.806 103.734 635.809C102.088 635.814 100.442 635.817 98.7956 635.817C96.3053 635.819 93.8154 635.837 91.3251 635.856C83.1918 635.884 75.6661 635.673 67.7333 633.631C71.0466 626.254 77.9856 621.423 84.3583 616.756C85.0535 616.24 85.7486 615.723 86.4648 615.19C90.7336 612.035 95.0763 609.026 99.4833 606.069C114.056 596.036 129.227 575.527 139.765 561.556Z" fill="#2C384F" />
                     <g id="left_arm">
                         <path id="top_left_arm" d="M393.107 165.596C387.204 167.252 384.299 185.176 383.511 195.122C380.879 232.188 392.373 320.835 430.404 346.875C443.117 355.579 496.865 319.759 490.204 301.846C489.254 299.29 488.32 296.729 487.391 294.166C477.387 266.742 464.354 240.372 449.251 215.408C448.673 214.448 448.095 213.489 447.5 212.5C414.881 159.424 399.703 163.746 393.107 165.596Z" fill="#2C384F" />
@@ -112,17 +132,19 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
 
             {
                 cosmetics.map((cosmetic, _) => {
+                    if (!cosmetic || cosmetic.type != 'penguin' || cosmetic?.data?.position != "front") return;
+                    if (!['hat', 'backpack', 'accessory'].includes(cosmetic.sub_type)) return;
                     let x = cosmetic?.data?.x ?? 0;
                     let y = cosmetic?.data?.y ?? 0;
                     let scale = cosmetic?.data?.scale ?? 1;
                     let rotation = cosmetic?.data?.rotation ?? 0;
-                    let pivotX = x + cosmetic?.data?.width*scale/2;
-                    let pivotY = y + cosmetic?.data?.height*scale/2;
+                    let pivotX = x + cosmetic?.data?.width * scale / 2;
+                    let pivotY = y + cosmetic?.data?.height * scale / 2;
 
                     return (
                         <svg key={cosmetic?.name}>
                             <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})`}
-                                dangerouslySetInnerHTML={{__html: cosmetic.style}}/>
+                                dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
                         </svg>
                     );
                 })

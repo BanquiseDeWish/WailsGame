@@ -1,11 +1,12 @@
 import { usePage } from '@inertiajs/react';
 import '../../../css/penguinCard.css'
 import PAWBadge from '../../../assets/img/paw.webp'
-import PenguinBlank from '../../../assets/img/penguin_blank.svg'
 import 'react-tooltip/dist/react-tooltip.css'
+import UserPenguin from "@/Components/User/UserPenguin";
+import UserIcon from './UserIcon';
 
 
-export default function UserCard({ data, className, skeleton = false, colorIcon, blankIcon }) {
+export default function UserCard({ className, propsCosmetics, twitchId, data, skeleton = false }) {
 
     /**
      * Example data:
@@ -42,12 +43,7 @@ export default function UserCard({ data, className, skeleton = false, colorIcon,
     if (skeleton) {
         return (
             <div className={`penguinCard p-[16px] ${className}`} style={{ background: data?.background_type == "color" ? data?.background_data.color : "", ...style }}>
-                <img
-                    src={route('user.icon', { twitch_id: data?.id == undefined ? 0 : data?.id })}
-                    width={data?.iconSize == undefined ? 40 : data?.iconSize}
-                    alt="AvatarDefault"
-                    className='rounded-full'
-                />
+                <span className={`w-[${data?.iconSize ?? 48}px] h-[${data?.iconSize ?? 48}px] rounded-full`} />
 
                 <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
                     <div className="data flex flex-col flex-grow overflow-hidden gap-1">
@@ -57,25 +53,33 @@ export default function UserCard({ data, className, skeleton = false, colorIcon,
                 </div>
             </div>
         )
-    } else {
+    }
+    else if (propsCosmetics) {
+        let background = propsCosmetics.find(cosmetic => cosmetic.sub_type == "card_background")?.style;
+        let slogan = propsCosmetics.find(cosmetic => cosmetic.sub_type == "slogan")?.name ?? "Un pingouin voyageur";
+
+        return (
+            <div className={`penguinCard p-[16px] ${className}`} style={{background: background}}>
+                <UserIcon propsCosmetics={propsCosmetics} width={48} />
+
+                <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
+                    <div className="data flex flex-col flex-grow overflow-hidden">
+                        <div className="username select-none truncate">{username}</div>
+                        <div className="description select-none truncate">{slogan}</div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    else {
         return (
             <div className={`penguinCard p-[16px] ${className}`} style={{ background: data?.background_type == "color" ? data?.background_data.color : "" }}>
-                {blankIcon == undefined || !blankIcon ? <img
+                <img
                     src={route('user.icon', { twitch_id: data?.userID == undefined ? 0 : data?.userID })}
-                    width={data?.iconSize == undefined ? 40 : data?.iconSize}
+                    width={data?.iconSize ?? 48}
                     alt="AvatarDefault"
                     className='rounded-full'
                 />
-                    :
-                    <div className='colorIcon' style={{ overflow: 'hidden', borderRadius: '100%', width: "40px", height: "40px", background: blankIcon == undefined || !blankIcon ? "" : colorIcon }}>
-                        <img
-                            src={PenguinBlank}
-                            width={data?.iconSize == undefined ? 40 : data?.iconSize}
-                            alt="AvatarDefault"
-                            className='rounded-full relative top-[6px] left-[-2px]'
-                        />
-                    </div>
-                }
 
                 <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
                     <div className="data flex flex-col flex-grow overflow-hidden">
