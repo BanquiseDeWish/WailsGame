@@ -28,6 +28,9 @@ export default {
                 40: '.40',
             },
         },
+        colors: {
+            container: 'var(--container_background)'
+        }
     },
 
     plugins: [
