@@ -120,7 +120,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                     let pivotY = y + cosmetic?.data?.height*scale/2;
 
                     return (
-                        <svg>
+                        <svg key={cosmetic?.name}>
                             <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})`}
                                 dangerouslySetInnerHTML={{__html: cosmetic.style}}/>
                         </svg>

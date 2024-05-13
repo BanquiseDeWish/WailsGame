@@ -4,10 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cosmetic;
+use App\Models\User;
 use App\Models\User\UserCard;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class AppareanceController extends Controller
 {
@@ -25,55 +26,35 @@ class AppareanceController extends Controller
         ]);
     }
 
-    public function getCosmetics(Request $request) {
-        $inputs = $request->all();
-        $typeCosmetic = $inputs['type'];
-        $subTypeCosmetic = $inputs['sub_type'];
-        $cosmetics = Cosmetic::where('type', $typeCosmetic)->where('sub_type', $subTypeCosmetic)->get();
-        return response()->json($cosmetics);
-    }
-
     public function save(Request $request) {
         $inputs = $request->all();
+    
+        if(!isset($inputs['cosmetics']))
+            return response()->json(["error" => "No cosmetics provided"]);
+        $twitch_id = $request->session()->get('twitch')->id;
+        $user = User::where('twitch_id', $twitch_id)->first();
+        if($user == null)
+            return response()->json(['error' => 'User not found']);
 
+        $cosmetics = Cosmetic::whereIn('id', $inputs['cosmetics'])->get();
+        if($cosmetics->count() != count($inputs['cosmetics']))
+            return response()->json(['error' => 'Some cosmetics do not exist']);
 
-        foreach ($inputs as $cosmetic) {
-            $id = $cosmetic['id'];
-            $type = $cosmetic['type'];
-            $subType = $cosmetic['sub_type'];
-            $userId = $request->session()->get('twitch')->id;
-
-            $model = null;
-
-            //Check Type
-            switch ($type) {
-                //Load Model PenguinCad
-                case 'card':
-                    $model = new UserCard();
-                    break;
-                default:
-                    break;
+        $penguinActiveCosmetics = [];
+        $cardActiveCosmetics = [];
+        foreach($cosmetics as $cosmetic) {
+            if($cosmetic->type == 'penguin') {
+                array_push($penguinActiveCosmetics, $cosmetic->id);
             }
-
-            //check if user exists
-            $userCosm = $model->where('user_id', $userId)->first();
-            if($userCosm !== null) {
-                //Update cosm
-                if($subType == "colorIcon")
-                    $userCosm->update([
-                        'bubble_color' => $id
-                    ]);
-            }else{
-                //Inset cosm
-                $model->create([
-                    'user_id' => $userId
-                ]);
+            else {
+                array_push($cardActiveCosmetics, $cosmetic->id);
             }
         }
 
-        /**/
+        DB::table('users__card')->where('user_id', $user->id)->update(['active_cosmetics' => implode(',', $cardActiveCosmetics)]);
+        DB::table('users__penguin')->where('user_id', $user->id)->update(['active_cosmetics' => implode(',', $penguinActiveCosmetics)]);
 
-        return response()->json($inputs);
+        return response()->json(['success' => 'Cosmetics saved']);
     }
 
 }

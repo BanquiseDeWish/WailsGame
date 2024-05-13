@@ -110,24 +110,4 @@ class UserController extends Controller
         }
         return response()->json(['success' => true]);
     }
-
-    public function updateUserCosmetics(Request $request) {
-        $input = $request->all();
-
-        if(!isset($input['twitch_id']))
-            return response()->json(['error' => 'twitch_id must be set']);
-
-        if(!isset($input['cosmetics']))
-            return response()->json(['error' => 'cosmetics must be set']);
-
-        $twitchId = $input['twitch_id'];
-        $cosmetics = $input['cosmetics'];
-
-        $user = User::where('twitch_id', $twitchId)->first();
-        if($user == null) {
-            return response()->json(['error' => 'User not found']);
-        }
-
-        
-    }
 }

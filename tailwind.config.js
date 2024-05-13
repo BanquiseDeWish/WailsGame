@@ -29,7 +29,8 @@ export default {
             },
         },
         colors: {
-            container: 'var(--container_background)'
+            container: 'var(--container_background)',
+            light_container: 'var(--light_container)'
         }
     },
 

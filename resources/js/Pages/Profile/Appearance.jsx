@@ -5,6 +5,8 @@ import UserPenguin from "@/Components/User/UserPenguin";
 import { useEffect, useState } from "react";
 import { toast } from 'sonner';
 import axios from "axios";
+import CosmeticCard from "@/Pages/Profile/Appearance/CosmeticCard";
+import BlueButton from "@/Components/Navigation/Buttons/BlueButton";
 
 
 export default function ProfileAppearance(props) {
@@ -85,12 +87,33 @@ export default function ProfileAppearance(props) {
                 setCosmetics(res);
 
             }).catch(error => {
-                toast.error('Une erreur est survenue lors de la récupération des cosmétiques');
+                toast.error('Une erreur est survenue lors de la récupération des cosmétiques', {position: 'bottom-left'});
                 console.error(error);
             });
 
         }).catch(error => {
-            toast.error('Une erreur est survenue lors de la récupération des cosmétiques de l\'utilisateur');
+            toast.error('Une erreur est survenue lors de la récupération des cosmétiques de l\'utilisateur', {position: 'bottom-left'});
+            console.error(error);
+        });
+    }
+
+    function selectCosmetic(cosmetic) {
+        if(!cosmetic.owned)
+            return toast.error('Vous ne possédez pas ce cosmétique', {position: 'bottom-left'});
+
+        let newCosmetics = [...activeCosmetics];
+        newCosmetics = newCosmetics.filter(aCosmetic => aCosmetic.sub_type !== cosmetic.sub_type);
+        newCosmetics.push(cosmetic);
+        setActiveCosmetics(newCosmetics);
+    }
+
+    function saveCosmetics() {
+        axios.post(route('user.cosmetics.update'), {cosmetics: [activeCosmetics.map(cosmetic => cosmetic.id)]})
+        .then(response => {
+            if(response.data.success)
+                toast.success('Sauvegarde effectuée avec succès', {position: 'bottom-left'});
+        }).catch(error => {
+            toast.error('Une erreur est survenue lors de la sauvegarde des cosmétiques');
             console.error(error);
         });
     }
@@ -138,21 +161,21 @@ export default function ProfileAppearance(props) {
                                 case 'backpack':
                                 case 'accessory':
                                     return (
-                                        <div key={cosmetic.name} className="bg-container rounded-md p-4 flex flex-col w-[200px] h-[200px] gap-4 justify-center items-center">
+                                        <CosmeticCard key={cosmetic.name} onClick={() => {selectCosmetic(cosmetic)}}>
                                             <div className={`flex justify-center items-end overflow-hidden w-[128px] h-[128px] ${!cosmetic.owned && 'filter grayscale'}`}
                                                 dangerouslySetInnerHTML={{ __html: cosmetic.style }}
                                             />
                                             <span>{cosmetic.name}</span>
-                                        </div>
+                                        </CosmeticCard>
                                     )
                                 case 'colorIcon':
                                     return (
-                                        <div key={cosmetic.name} className="bg-container rounded-md p-4 flex flex-col w-[200px] h-[200px] gap-4 justify-center items-center">
+                                        <CosmeticCard key={cosmetic.name} onClick={() => {selectCosmetic(cosmetic)}}>
                                             <div className={`flex justify-center items-end overflow-hidden w-[128px] h-[128px] rounded-full ${!cosmetic.owned && 'filter grayscale'}`}
                                                 style={{ background: cosmetic.style }}
                                             />
                                             <span>{cosmetic.name}</span>
-                                        </div>
+                                        </CosmeticCard>
                                     )
                             }
                         })
@@ -160,8 +183,11 @@ export default function ProfileAppearance(props) {
                     </div>
                 </div>
 
-                <div className="container xl:col-span-2 col-span-2">
-                    <UserPenguin propsCosmetics={activeCosmetics} className={'scale-x-[-1]'} />
+                <div className="container xl:col-span-2 col-span-2 flex-col gap-8 p-6">
+                    <div className="flex flex-col h-full justify-center items-center">
+                        <UserPenguin propsCosmetics={activeCosmetics} className={'scale-x-[-1]'} />
+                    </div>
+                    <BlueButton className="w-full" onClick={saveCosmetics}>Sauvegarder</BlueButton>
                 </div>
             </div>
         </MainLayout>

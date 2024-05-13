@@ -7,6 +7,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\VIPGameController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TwitchController;
+use App\Http\Controllers\User\AppareanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +40,3 @@ Route::get('/user/{twitch_id}/points/vipgames', [UserController::class, 'getUser
 Route::get('/user/all/points/vipgames', [UserController::class, 'getUserListVIPGamesPoints'])->name('user.all.points.vipgames');
 
 Route::get('/cosmetics/get', [CosmeticController::class, 'getCosmetics'])->name('cosmetics.get');
-
-Route::middleware('auth_twitch')->group(function() {
-    Route::post('/user/update/cosmetics/', [UserController::class, 'updateUserCosmetics'])->name('user.cosmetics.update');
-});

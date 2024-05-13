@@ -106,4 +106,8 @@ Route::prefix('games')->name('games.')->middleware(['auth_twitch'])->group(funct
 
 Route::get('/dev/calc_stats', [VIPGameController::class, 'calcStatsView'])->middleware(['is_weils'])->name('dev.calc_stats');
 
+Route::middleware('auth_twitch')->group(function() {
+    Route::post('/user/update/cosmetics/', [AppareanceController::class, 'save'])->name('user.cosmetics.update');
+});
+
 require __DIR__.'/auth.php';
