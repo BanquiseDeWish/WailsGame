@@ -1,11 +1,24 @@
+import { useEffect, useState } from 'react';
 import { usePage } from '@inertiajs/react';
-import '../../../css/penguinCard.css'
+import '@css/userCard.css'
 import PAWBadge from '../../../assets/img/paw.webp'
 import 'react-tooltip/dist/react-tooltip.css'
 import UserIcon from './UserIcon';
+import { toast } from 'sonner';
 
 
-export default function UserCard({ className, propsCosmetics, twitchId, data, skeleton = false, style = {} }) {
+export default function UserCard({ className='', propsCosmetics, twitchId, data, skeleton = false, style = {} }) {
+
+    const [cosmetics, setCosmetics] = useState(propsCosmetics);
+
+    useEffect(() => {
+        if(skeleton) return;
+        if(!propsCosmetics && twitchId)
+            getUserCosmetics();
+        else
+            setCosmetics(propsCosmetics);
+        
+    }, [propsCosmetics, skeleton, twitchId]);
 
     /**
      * Example data:
@@ -26,7 +39,16 @@ export default function UserCard({ className, propsCosmetics, twitchId, data, sk
      * }
      */
 
-    const props = usePage().props;
+    function getUserCosmetics() {
+        axios.get(route('user.cosmetics.active', {twitch_id: twitchId ?? 0})).then((res) => {
+            if(res.data == null || res.data == undefined) return;
+            if(res.data.error) return;
+            setCosmetics(res.data);
+        }).catch((err) => {
+            toast.error('Une erreur est survenue lors de la récupération des cosmétiques.');
+            console.log(err);
+        });
+    }
 
     let isPAW = false;
 
@@ -41,7 +63,7 @@ export default function UserCard({ className, propsCosmetics, twitchId, data, sk
 
     if (skeleton) {
         return (
-            <div className={`penguinCard p-[16px] ${className}`} style={{ background: data?.background_type == "color" ? data?.background_data.color : "", ...style }}>
+            <div className={`userCard p-[16px] ${className}`} style={{ background: data?.background_style ?? "", ...style }}>
                 <span className={`w-[${data?.iconSize ?? 48}px] h-[${data?.iconSize ?? 48}px] rounded-full`} />
 
                 <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
@@ -53,37 +75,18 @@ export default function UserCard({ className, propsCosmetics, twitchId, data, sk
             </div>
         )
     }
-    else if (propsCosmetics) {
-        let background = propsCosmetics.find(cosmetic => cosmetic.sub_type == "card_background")?.style;
-        let slogan = propsCosmetics.find(cosmetic => cosmetic.sub_type == "slogan")?.name ?? "Un pingouin voyageur";
+    else {
+        let background = cosmetics?.find(cosmetic => cosmetic.sub_type == "card_background")?.style;
+        let slogan = cosmetics?.find(cosmetic => cosmetic.sub_type == "slogan")?.name ?? "Un pingouin voyageur";
 
         return (
-            <div className={`penguinCard p-[16px] ${className}`} style={{background: background}}>
-                <UserIcon propsCosmetics={propsCosmetics} width={48} />
+            <div className={`userCard p-[16px] ${className}`} style={{background: data?.background_style ?? background, ...style}}>
+                <UserIcon className="flex-shrink-0" propsCosmetics={cosmetics} width={data?.iconSize ?? 48}/>
 
                 <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
                     <div className="data flex flex-col flex-grow overflow-hidden">
                         <div className="username select-none truncate">{username}</div>
                         <div className="description select-none truncate">{slogan}</div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-    else {
-        return (
-            <div className={`penguinCard p-[16px] ${className}`} style={{ background: data?.background_type == "color" ? data?.background_data.color : "" }}>
-                <img
-                    src={route('user.icon', { twitch_id: data?.userID == undefined ? 0 : data?.userID })}
-                    width={data?.iconSize ?? 48}
-                    alt="AvatarDefault"
-                    className='rounded-full'
-                />
-
-                <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
-                    <div className="data flex flex-col flex-grow overflow-hidden">
-                        <div className="username select-none truncate">{username}</div>
-                        <div className="description select-none truncate">{data?.slogan == undefined ? "Un pingouin voyageur" : data?.slogan}</div>
                     </div>
                     {data?.points !== undefined && stylePoints == "default" &&
                         <div className="points">

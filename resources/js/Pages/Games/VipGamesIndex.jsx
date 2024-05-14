@@ -42,6 +42,7 @@ export default function VipGamesIndex() {
                         <div className='flex flex-col gap-[16px]'>
                             <h1 className='title'>Gagnant en titre</h1>
                             <UserCard
+                                twitchId={props.lastWinner?.twitch_id}
                                 data={{ 
                                     username: props.lastWinner?.twitch_username,
                                     background_type: "color",
@@ -53,7 +54,7 @@ export default function VipGamesIndex() {
                         </div>
                         <UserPenguin
                             width={120}
-                            user_id={props.lastWinner?.twitch_id}
+                            twitchId={props.lastWinner?.twitch_id}
                         />
                     </div>
 

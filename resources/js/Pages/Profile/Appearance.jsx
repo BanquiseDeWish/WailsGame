@@ -20,6 +20,10 @@ export default function ProfileAppearance(props) {
     const [activeCosmetics, setActiveCosmetics] = useState(props.activeCosmetics);
     const twitch = props.auth.twitch;
 
+    useEffect(() => {
+        console.log('UPDATE ACTIVE COSMETICS');
+    }, [activeCosmetics]);
+
     const tabs = [
         {
             name: 'Pingouin',

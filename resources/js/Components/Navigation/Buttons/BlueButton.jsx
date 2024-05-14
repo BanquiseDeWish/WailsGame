@@ -1,6 +1,7 @@
 import SimpleButton from './SimpleButton';
 
 export default function BlueButton({children, routeName, className, disabled=false, ...otherProps }) {
+    
     return (
         <>
             <SimpleButton

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import parse from 'html-react-parser';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const viewBoxWidth = 700;
 const viewBoxHeight = 950;
@@ -10,41 +11,23 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
     const [cosmetics, setCosmetics] = useState(propsCosmetics);
 
     useEffect(() => {
-        setCosmetics(propsCosmetics);
-    }, [propsCosmetics]);
+        if(!propsCosmetics && twitchId)
+            getUserCosmetics();
+        else
+            setCosmetics(propsCosmetics);
+    }, [propsCosmetics, twitchId]);
 
-    /*useEffect(() => {
-        if (noRequest == undefined || !noRequest) {
-            axios.get(route('user.penguin_data', { twitch_id: user_id ?? 0 }))
-                .then((resp) => {
-                    let cosmeticsData = {};
-                    let cosmeticsPreData = resp.data.filter((cosm) => cosm.type !== "card")
-                    cosmeticsPreData.forEach((cosmetic) => {
-                        cosmeticsData[cosmetic.sub_type] = parse(cosmetic.style.replace(/\n/g, "").trim());
-                        let w = cosmeticsData[cosmetic.sub_type].props.width;
-                        let h = cosmeticsData[cosmetic.sub_type].props.height;
-                        console.log(w, h);
-                    });
-                    setCosmetics(cosmeticsData);
-                })
-                .catch((err) => {
-                    console.log(err)
-                });
-        }
-    }, []);
-
-    useEffect(() => {
-        let cosmeticsData = {};
-        if (cosmetics?.length == undefined) return;
-        let cosmeticsPreData = cosmetics.filter((cosm) => cosm.type !== "card")
-        cosmeticsPreData.forEach((cosmetic) => {
-            cosmeticsData[cosmetic.sub_type] = parse(cosmetic.style.replace(/\n/g, "").trim());
-            let w = cosmeticsData[cosmetic.sub_type].props.width;
-            let h = cosmeticsData[cosmetic.sub_type].props.height;
-            console.log(w, h);
+    function getUserCosmetics() {
+        axios.get(route('user.cosmetics.active', {twitch_id: twitchId ?? 0})).then((res) => {
+            if(res.data == null || res.data == undefined) return;
+            if(res.data.error) return;
+            res.data.filter((cosmetic) => cosmetic.type == 'penguin');
+            setCosmetics(res.data);
+        }).catch((err) => {
+            toast.error('Une erreur est survenue lors de la récupération des cosmétiques.');
+            console.log(err);
         });
-        setCosmetics(cosmeticsData);
-    }, [cosmetics])*/
+    }
 
     return (
         <svg

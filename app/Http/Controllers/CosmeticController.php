@@ -86,6 +86,9 @@ class CosmeticController extends Controller
             $mergedCosmeticsId = array_merge($mergedCosmeticsId, explode(',', $cardCosmeticsId->active_cosmetics));
 
         $cosmetics = DB::table('cosmetics')->whereIn('id', $mergedCosmeticsId)->get();
+        foreach ($cosmetics as $cosmetic) {
+            $cosmetic->data = json_decode($cosmetic->data, true);
+        }
         return response()->json($cosmetics);
     }
 }

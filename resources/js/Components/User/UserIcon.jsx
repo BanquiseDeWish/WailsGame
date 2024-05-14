@@ -1,14 +1,14 @@
 import UserPenguin from "@/Components/User/UserPenguin";
 
-export default function UserIcon({propsCosmetics, width = 48}) {
+export default function UserIcon({propsCosmetics, twitchId, width = 48, className, ...props}) {
     
-    let background = propsCosmetics.find(cosmetic => cosmetic.sub_type == "icon_background")?.style;
+    let background = propsCosmetics?.find(cosmetic => cosmetic.sub_type == "icon_background")?.style;
 
     return (
-        <div className={`rounded-full bg-container overflow-hidden flex items-start justify-center`}
-            style={{background: background, width: width, height: width}}
+        <div className={`${className} relative rounded-full overflow-hidden flex items-start justify-center}`}
+            style={{background: background ?? 'linear-gradient(99deg, #10A3F5 0%, #0B308E 100%)', width: width, height: width}}
         >
-            <UserPenguin className="flex-shrink-0" propsCosmetics={propsCosmetics} width={width*1.1} />
+            <UserPenguin className="absolute flex-shrink-0 -top-1/3 -left-1/4" propsCosmetics={propsCosmetics} twitchId={twitchId} width={width*1.45} />
         </div>
     )
 }

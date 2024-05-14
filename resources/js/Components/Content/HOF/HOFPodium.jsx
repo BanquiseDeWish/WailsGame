@@ -2,6 +2,7 @@ import UserPenguin from "../../User/UserPenguin";
 import UserCard from "../../User/UserCard";
 
 export default function HoFPodium({ data, style }) {
+
     /**
      * Example data:
      * data = {
@@ -29,18 +30,16 @@ export default function HoFPodium({ data, style }) {
                 }
                 <UserPenguin
                     width={data?.penguinWidth ? data?.penguinWidth : 84 }
-                    user_id={data?.user_info?.user_id}
+                    twitchId={data?.user_info?.user_id}
                 />
 
                 <div className="flex w-full flex-col items-center">
                     <UserCard
+                        twitchId={data?.user_info?.user_id}
                         data={{
                             user_id: data?.user_info?.user_id,
                             username: data?.user_info?.user_name,
-                            background_type: "color",
-                            background_data: {
-                                color: "transparent",
-                            },
+                            background_style: "transparent",
                         }}
                     />
 

@@ -84,7 +84,7 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                             <div className="flex w-full items-center gap-4">
                                 <h2 className='text-[38px] font-semibold min-w-[70px] text-center'>{displayPosition}</h2>
                                 <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
-                                    <UserCard className="w-full h-[82px]" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_type: "color", background_data: { color: 'var(--container_background)' } }} />
+                                    <UserCard twitchId={player?.userId} className="w-full h-[82px]" style={{ backgroundColor: 'var(--container_background) !important;' }} skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_style: "var(--container_background)"}} />
                                 </div>
                             </div>
                         )

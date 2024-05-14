@@ -1,33 +1,33 @@
-.penguinCard {
+.userCard {
     display: flex;
     align-items: center;
     gap: 8px;
     background-color: var(--container_background);
     border-radius: 8px;
 }
-.penguinCard .avatar {
+.userCard .avatar {
     display: flex;
     align-items: center;
 }
-.penguinCard .avatar img {
+.userCard .avatar img {
     border-radius: 250px;
 }
-.penguinCard .data {
+.userCard .data {
     color: white;
 }
-.penguinCard .data .username {
+.userCard .data .username {
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
 }
-.penguinCard .data .description {
+.userCard .data .description {
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
 }
-.penguinCard .play_count_text {
+.userCard .play_count_text {
     color: #FFF;
     font-family: Poppins;
     font-size: 20px;

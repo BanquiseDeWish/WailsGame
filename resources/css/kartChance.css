@@ -1,4 +1,4 @@
-.kartChance .penguinCard {
+.kartChance .userCard {
     padding: 0;
     background: transparent !important;
 }
@@ -37,13 +37,13 @@
     text-overflow: ellipsis;
     max-width: 8.5rem;
 }
-.kartChance .penguinCard .data .username {
+.kartChance .userCard .data .username {
     width: 115px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.kartChance .penguinCard img {
+.kartChance .userCard img {
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;

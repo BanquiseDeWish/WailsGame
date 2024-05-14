@@ -127,10 +127,9 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                             {Array.from(Array(20)).map((s, i) => {
 
                                 const player = globalValues.current.players[i];
-
                                 return (
                                     <div className={`player ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`}>
-                                        <UserCard className="min-w-[250px] max-w-[250px] h-[82px]" skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), background_type: "color", background_data: { color: 'var(--container_background)' } }} />
+                                        <UserCard twitchId={player?.userId} className="min-w-[250px] max-w-[250px] h-[82px]" skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), background_type: "color", background_data: { color: 'var(--container_background)' } }} />
                                     </div>
                                 )
 

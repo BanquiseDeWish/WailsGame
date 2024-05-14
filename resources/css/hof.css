@@ -18,15 +18,15 @@
     width: 232px;
 }
 
-.hof .penguinCard {
+.hof .userCard {
     padding: 12px;
     width: 100%;
     overflow: hidden;
 }
-.hof .penguinCard .username  {
+.hof .userCard .username  {
     font-size: 14px;
 }
-.hof .penguinCard .description {
+.hof .userCard .description {
     font-size: 12px;
 }
 
@@ -46,16 +46,16 @@
     align-items: center;
 }
 
-.hof .entry .penguinCard {
+.hof .entry .userCard {
     background-color: transparent;
 }
 
 .hof .entry:hover,
-.hof .entry:hover .penguinCard {
+.hof .entry:hover .userCard {
     background: var(--container_background);
 }
 
-.hof .entry .penguinCard {
+.hof .entry .userCard {
     flex-grow: 1;
     flex: 1;
     padding: 8px 12px;
@@ -71,7 +71,7 @@
     height: 64px;
 }
 
-.hof .entry .penguinCard .points {
+.hof .entry .userCard .points {
     color: white;
     display: flex;
     justify-content: center;

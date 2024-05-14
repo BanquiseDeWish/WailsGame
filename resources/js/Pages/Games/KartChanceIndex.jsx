@@ -128,7 +128,7 @@ export default function KartChanceIndex(props) {
                                             <div key={index} className="player container_background" style={{ height: 'fit-content' }}>
                                                 <div className='reRandomAll' onClick={() => { reRandomAll(val.uid) }}><RefreshIcon width={18} height={18} /></div>
                                                 <div className='delete' onClick={() => { removePlayer(val.uid) }}><BinIcon width={18} height={18}/></div>
-                                                <UserCard data={{ username: val.uname }} />
+                                                <UserCard twitchId={val.uid} data={{ username: val.uname }} />
                                                 <KCBuild reRandomElement={reRandomElement} uid={val.uid} character={val?.build?.character} vehicle={val?.build?.vehicle} glider={val?.build?.glider} tire={val?.build?.tire} />
                                             </div>
                                         )
