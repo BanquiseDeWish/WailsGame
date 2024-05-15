@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cosmetic;
 use App\Models\User;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
 class CosmeticController extends Controller
@@ -27,6 +28,9 @@ class CosmeticController extends Controller
         return response()->json($cosmetics);
     }
 
+    /**
+     * Get all cosmetics a user has
+     */
     public function getUserCosmetics(Request $request, $twitch_id)
     {
 
@@ -64,6 +68,9 @@ class CosmeticController extends Controller
         return response()->json($cosmetics);
     }
 
+    /**
+     * Get the active cosmetics for a user
+     */
     public static function getUserActiveCosmetics($twitch_id)
     {
         $user = User::where('twitch_id', $twitch_id)->first();
@@ -90,5 +97,40 @@ class CosmeticController extends Controller
             $cosmetic->data = json_decode($cosmetic->data, true);
         }
         return response()->json($cosmetics);
+    }
+
+    /**
+     * Get the active cosmetics for a list of users
+     */
+    public static function getUsersActiveCosmetics(Request $request)
+    {
+        $inputs = $request->query();
+        if(!isset($inputs['twitch_ids']))
+            return response()->json(['error' => 'No twitch_ids provided']);
+
+        $users = $inputs['twitch_ids'];
+
+        if (!is_array($users))
+            return response()->json(['error' => 'twitch_ids must be an array'], 400);
+        if(count($users) == 0)
+            return response()->json(['error' => 'No twitch_ids provided']);
+        $usersCosmeticsId = DB::table('users')
+            ->leftJoin('users__penguin', 'users.active_penguin', '=', 'users__penguin.id')
+            ->leftJoin('users__card', 'users.id', '=', 'users__card.user_id')
+            ->whereIn('users.twitch_id', $users)
+            ->select('users.twitch_id', DB::raw("CONCAT(COALESCE(users__penguin.active_cosmetics, ''), ',', COALESCE(users__card.active_cosmetics, '')) AS cosmetics"))->get();
+        
+        $usersCosmeticIds = [];
+        $cosmeticIds = [];
+        foreach ($usersCosmeticsId as $userCosmeticsId) {
+            $usersCosmeticIds[$userCosmeticsId->twitch_id] = array_filter(explode(',', $userCosmeticsId->cosmetics));
+            $cosmeticIds = array_merge($cosmeticIds, explode(',', $userCosmeticsId->cosmetics));
+        }
+        array_filter(array_unique($cosmeticIds));
+        $cosmetics = DB::table('cosmetics')->whereIn('id', $cosmeticIds)->get();
+        foreach ($cosmetics as $cosmetic) {
+            $cosmetic->data = json_decode($cosmetic->data, true);
+        }
+        return response()->json(["cosmetics" => $cosmetics, "users" => $usersCosmeticIds]);
     }
 }

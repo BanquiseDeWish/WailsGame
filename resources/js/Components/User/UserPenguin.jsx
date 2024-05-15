@@ -15,6 +15,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
             getUserCosmetics();
         else
             setCosmetics(propsCosmetics);
+        
     }, [propsCosmetics, twitchId]);
 
     function getUserCosmetics() {
