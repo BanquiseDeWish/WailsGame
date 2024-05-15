@@ -11,6 +11,22 @@ export default class BDWSocket {
         this.authData = authData;
 
         this.init();
+
+        const observeUrlChange = () => {
+            let oldHref = document.location.href;
+            const body = document.querySelector("body");
+            const observer = new MutationObserver(mutations => {
+              if (oldHref !== document.location.href) {
+                oldHref = document.location.href;
+                if(this.socket !== null || this.socket !== undefined) {
+                    this.socket.disconnect();
+                }
+              }
+            });
+            observer.observe(body, { childList: true, subtree: true });
+        };
+
+        observeUrlChange();
     }
 
     init() {
