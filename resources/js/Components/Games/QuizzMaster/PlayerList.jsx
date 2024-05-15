@@ -36,14 +36,13 @@ export default class PlayerList extends UserCardBatch {
                 <UserCard
                     propsCosmetics={cosmetics}
                     className="w-full h-[82px] transition-all"
-                    style={{ backgroundColor: 'var(--container_background) !important;' }}
                     key={index}
                     data={
                         {
                             username: (player !== undefined ? `${player?.username}` : ' - '),
                             points: player.score,
                             stylePoints: 'default',
-                            background_style: { color: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' }
+                            background_style: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)'
                         }
                     }
                 />
