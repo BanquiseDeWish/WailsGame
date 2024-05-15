@@ -109,7 +109,6 @@ export default function Quizz(props) {
                 function onDisconnect(reason, details) {
                     globalValues.current = defaultValues;
                     toast.error('Déconnecté du serveur')
-                    console.log("Reason", reason, details)
                 }
 
                 globalValues.current.socket.on('connect', onConnect);
