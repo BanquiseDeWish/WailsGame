@@ -56,7 +56,7 @@ export default class UserCardBatch extends React.Component {
     }
 
     render(children) {
-    
+
         return(
             <div className={this.props.className ?? ''}>
                 {children}

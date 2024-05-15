@@ -8,7 +8,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import { motion } from 'framer-motion'
 import RedButton from "@/Components/Navigation/Buttons/RedButton";
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
-import PlayersList from "@/Components/Games/QuizzMaster/PlayersList";
+import PlayerList from '@/Components/Games/QuizzMaster/PlayerList';
 
 export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globalValues, modifyValues, emit }) {
 
@@ -223,7 +223,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                 </div>
             </div>
             <div className="players gap-6 h-full min-w-[350px] flex flex-col">
-                <PlayersList globalValues={globalValues} playersListScore={playersListScore} />
+                <PlayerList className="card items-start p-4 justify-start max-h-[340px] min-h-[340px] gap-4 min-w-[400px] overflow-y-auto" users_ids={playersListScore.map((player) => {return player.userId})} playersListScore={playersListScore} resultAnswersPlayers={globalValues.current.resultAnswersPlayers} />
                 <div className="card flex-1 gap-2 p-4">
                     <h2 className='text-[20px] font-semibold select-none'>Chat</h2>
                     <div className="messages w-full" style={{ height: '250px', overflowY: 'auto' }}>

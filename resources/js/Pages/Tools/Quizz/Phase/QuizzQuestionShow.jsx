@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import RefreshIcon from '@/Components/Icons/RefreshIcon';
 import CogIcon from '@/Components/Icons/Cog';
 import ReplayIcon from '@/Components/Icons/Replay';
-import PlayersList from '@/Components/Games/QuizzMaster/PlayersList';
+import PlayerList from '@/Components/Games/QuizzMaster/PlayerList';
 const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValues, emit }) => {
 
     const [messageChat, setMessageChat] = useState("")
@@ -365,8 +365,8 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
 
                 </div>
                 <div className="flex flex-col gap-4">
-                    <PlayersList globalValues={globalValues} playersListScore={playersListScore} />
-                    <div className="card gap-2 gap-2 p-4">
+                    <PlayerList className="card items-start p-4 justify-start max-h-[340px] min-h-[340px] gap-4 min-w-[400px] overflow-y-auto" users_ids={playersListScore.map((player) => {return player.userId})} playersListScore={playersListScore} resultAnswersPlayers={globalValues.current.resultAnswersPlayers} />
+                    <div className="card gap-2 p-4">
                         <h2 className='text-[20px] font-semibold select-none'>Chat</h2>
                         <div className="messages w-full" style={{ height: '250px', overflowY: 'auto' }}>
                             {globalValues.current.messages.map((message) => {
