@@ -8,16 +8,13 @@ export default class UserCardBatch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            users_ids: this.props.users_ids ?? [],
-            className: this.props.className ?? '',
-            cosmetics_data: undefined,
+            cosmetics_data: {cosmetics: [], users: {}}
         }
     }
 
     getUserCosmetics() {
-
         let ids = [];
-        this.state.users_ids.forEach((id) => {
+        this.props.users_ids.forEach((id) => {
             if(this.state?.cosmetics_data == undefined || this.state?.cosmetics_data.users[id] == undefined) {
                 ids.push(id);
             }
@@ -25,7 +22,16 @@ export default class UserCardBatch extends React.Component {
         axios.get(route('users.cosmetics.active', {twitch_ids: ids.length != 0 ? ids : [0]})).then((res) => {
             if(res.data == null || res.data == undefined) return;
             if(res.data.error) return;
-            this.setState((prevState) => ({...prevState, cosmetics_data: res.data}));
+            let cosmetics_data = this.state.cosmetics_data;
+            res.data.cosmetics.forEach((cosmetic) => {
+                if(!cosmetics_data.cosmetics.includes(cosmetic)) {
+                    cosmetics_data.cosmetics.push(cosmetic);
+                }
+            });
+            Object.entries(res.data.users).forEach((entry) => {
+                cosmetics_data.users[entry[0]] = entry[1];
+            });
+            this.setState((prevState) => ({...prevState, cosmetics_data: cosmetics_data}));
         }).catch((err) => {
             toast.error('Une erreur est survenue lors de la récupération des cosmétiques.');
             console.log(err);
@@ -38,7 +44,7 @@ export default class UserCardBatch extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.state.users_ids !== prevState.users_ids) {
+        if(this.props.users_ids.toString() != prevProps.users_ids.toString()) {
             this.getUserCosmetics();
         }
     }
@@ -52,10 +58,10 @@ export default class UserCardBatch extends React.Component {
     render(children) {
     
         return(
-            <div className={this.state.className}>
+            <div className={this.props.className ?? ''}>
                 {children}
 
-                {this.state.users_ids.map((id, index) => {
+                {this.props?.users_ids.map((id, index) => {
                     let cosmetics = this.state?.cosmetics_data?.cosmetics?.filter((cosmetic) => {
                         return this.state?.cosmetics_data?.users[id]?.includes(cosmetic.id.toString())
                     });

@@ -21,6 +21,7 @@ import HowToPlay from '../Modal/HowToPlay';
 import Eye from '@/Components/Icons/Eye';
 import EyeHide from '@/Components/Icons/EyeHide';
 import GameMode from '../Modal/GameMode';
+import WaitingList from '../Object/WaitingList';
 
 const gameModes = [
     {
@@ -50,6 +51,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
     const [gameIdHidden, setGameIdHidden] = useState(true)
     const [selectedGameMode, setSelectedGameMode] = useState(gameModes[0].key)
     const [gameModeParty, setGameModeParty] = useState(gameModes[0])
+    const [players, setPlayers] = useState(globalValues.current.players);
 
     const copyLink = () => {
         copyToClipboard(globalValues.current.gameId);
@@ -96,6 +98,10 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
         emit("quizz_update_gamemode", selectedGameMode)
     }, [selectedGameMode])
 
+    useEffect(() => {
+        setPlayers(globalValues.current.players);
+    }, [globalValues.current.players])
+
     const gameModeCurrent = gameModes.find(game => game.key == globalValues.current.gameMode)
 
     return (
@@ -123,18 +129,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                             <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
                             <h3 className='text-[14px] font-bold'>{playersCount < 10 && playersCount > 0 ? `0${playersCount}` : playersCount}/20</h3>
                         </div>
-                        <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[300px] overflow-y-auto pr-4 pb-4 mb-4">
-                            {Array.from(Array(20)).map((s, i) => {
-
-                                const player = globalValues.current.players[i];
-                                return (
-                                    <div className={`player ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`}>
-                                        <UserCard twitchId={player?.userId} className="min-w-[250px] max-w-[250px] h-[82px]" skeleton={player == undefined} key={i} data={{ username: (player !== undefined ? `${player?.username}` : ' - '), background_type: "color", background_data: { color: 'var(--container_background)' } }} />
-                                    </div>
-                                )
-
-                            })}
-                        </div>
+                        <WaitingList className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[300px] pr-4 pb-4 mb-4" users_ids={players.map((p) => {return p.userId})} data={{ players: players }} />
                     </div>
                     <div className="flex w-full justify-between px-2 py-2" style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
                         <div className="flex gap-2">
@@ -280,7 +275,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
 
                         })}
                     </div>
-                    <div className="card flex-row justify-between p-4 justify-start items-start">
+                    <div className="card flex-row justify-between p-4 items-start">
                         <div className="flex flex-col">
                             <span>Mode de jeu</span>
                             <h2 className='text-3xl font-bold text-gray-400 uppercase'>{gameModeParty?.name}</h2>
