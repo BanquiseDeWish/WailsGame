@@ -9,7 +9,8 @@ export default class UserCardBatch extends React.Component {
         super(props);
         this.state = {
             users_ids: this.props.users_ids ?? [],
-            users_cosmetics: this.props.users_cosmetics ?? [],
+            className: this.props.className ?? '',
+            cosmetics_data: undefined,
         }
     }
 
@@ -17,15 +18,14 @@ export default class UserCardBatch extends React.Component {
 
         let ids = [];
         this.state.users_ids.forEach((id) => {
-            if(this.state.users_cosmetics[id] == undefined) {
+            if(this.state?.cosmetics_data == undefined || this.state?.cosmetics_data.users[id] == undefined) {
                 ids.push(id);
             }
         });
-
         axios.get(route('users.cosmetics.active', {twitch_ids: ids.length != 0 ? ids : [0]})).then((res) => {
             if(res.data == null || res.data == undefined) return;
             if(res.data.error) return;
-            this.setState((prevState) => ({...prevState, users_cosmetics: res.data}));
+            this.setState((prevState) => ({...prevState, cosmetics_data: res.data}));
         }).catch((err) => {
             toast.error('Une erreur est survenue lors de la récupération des cosmétiques.');
             console.log(err);
@@ -43,7 +43,7 @@ export default class UserCardBatch extends React.Component {
         }
     }
 
-    getItem(cosmetics) {
+    getItem(index, cosmetics) {
         return (
             <UserCard propsCosmetics={cosmetics}/>
         )
@@ -55,9 +55,14 @@ export default class UserCardBatch extends React.Component {
             <div className={this.state.className}>
                 {children}
 
-                {this.state.users_ids.map((id) => {
-                    let cosmetics = this.state.users_cosmetics[id];
-                    return this.getItem(cosmetics);
+                {this.state.users_ids.map((id, index) => {
+                    let cosmetics = this.state?.cosmetics_data?.cosmetics?.filter((cosmetic) => {
+                        return this.state?.cosmetics_data?.users[id]?.includes(cosmetic.id.toString())
+                    });
+                    let item = this.getItem(index, cosmetics);
+                    if(item) {
+                        return item;
+                    }
                 })}
             </div>
         );

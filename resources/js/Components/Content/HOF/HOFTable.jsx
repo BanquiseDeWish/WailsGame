@@ -6,6 +6,7 @@ import Third from "../../../../assets/img/hof/third.svg"
 import '../../../../css/hof.css'
 
 import HOFPodium from "./HOFPodium";
+import RankingEntries from "./RankingEntries";
 
 export default function HOFTable({ load, logoPos, filter, logo, data, labelPoints, className }) {
 
@@ -84,26 +85,10 @@ export default function HOFTable({ load, logoPos, filter, logo, data, labelPoint
                     </div>
                     <div className="hidden xl:block separator"></div>
                     <div className="ttable hidden xl:flex">
-                        {data?.map((val, index) => {
-
-                            const position = (index + 1);
-
-                            if (position > 3) {
-                                return (
-                                    <HOFEntry key={index} position={position} data={val} labelPoints={labelPoints} />
-                                )
-                            }
-                        })}
+                        <RankingEntries users_ids={data.map((val, _) => {return val.user_id})} data={data} labelPoints={labelPoints} type="pc" />
                     </div>
                     <div className="ttable flex xl:hidden">
-                        {data?.map((val, index) => {
-
-                            const position = (index + 1);
-
-                            return (
-                                <HOFEntry key={index} position={position} data={val} labelPoints={labelPoints} />
-                            )
-                        })}
+                        <RankingEntries users_ids={data.map((val, _) => {return val.user_id})} data={data} labelPoints={labelPoints} type="mobile" />
                     </div>
                 </>
             }
