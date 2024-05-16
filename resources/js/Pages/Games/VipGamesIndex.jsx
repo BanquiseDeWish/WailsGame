@@ -19,10 +19,13 @@ import Users from '@assets/icons/stats/users.svg';
 
 import Crown from '@assets/icons/crown.svg';
 
+import { useValues } from '@/AppContext';
+
 
 export default function VipGamesIndex() {
 
     const props = usePage().props;
+    const setUsersIds = useValues().setUsersIds;
 
     return (
         <MainLayout showOverflow={true}>
@@ -42,17 +45,15 @@ export default function VipGamesIndex() {
                         <div className='flex flex-col gap-[16px]'>
                             <h1 className='title'>Gagnant en titre</h1>
                             <UserCard
+                                className='w-[280px]'
                                 twitchId={props.lastWinner?.twitch_id}
                                 data={{ 
-                                    username: props.lastWinner?.twitch_username,
-                                    background_type: "color",
-                                    background_data: {
-                                        color: "transparent",
-                                    },
+                                    username: props.lastWinner?.twitch_username
                                 }}
                             />
                         </div>
                         <UserPenguin
+                            className={"scale-x-[-1]"}
                             width={120}
                             twitchId={props.lastWinner?.twitch_id}
                         />

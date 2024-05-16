@@ -7,8 +7,17 @@ import '../../../../css/hof.css'
 
 import HOFPodium from "./HOFPodium";
 import RankingEntries from "./RankingEntries";
+import HoFEntry from "./HOFEntry";
+import { useValues } from '@/AppContext';
+import { useEffect } from "react";
 
 export default function HOFTable({ load, logoPos, filter, logo, data, labelPoints, className }) {
+
+    const setUsersIds = useValues().setUsersIds;
+    
+    useEffect(() => {
+        setUsersIds(data?.map((player) => player.user_id));
+    }, []);
 
     const pos1 = data?.find((_, index) => index == 0)
     const pos2 = data?.find((_, index) => index == 1)
@@ -85,10 +94,35 @@ export default function HOFTable({ load, logoPos, filter, logo, data, labelPoint
                     </div>
                     <div className="hidden xl:block separator"></div>
                     <div className="ttable hidden xl:flex">
-                        <RankingEntries users_ids={data.map((val, _) => {return val.user_id})} data={data} labelPoints={labelPoints} type="pc" />
+                        {data.map((val, index) => {
+
+                            let position = index + 1
+                            if (position <= 3) return;
+
+                            return (
+                                <HoFEntry
+                                    key={index}
+                                    position={position}
+                                    data={val}
+                                    labelPoints={labelPoints}
+                                />
+                            )
+                        })}
                     </div>
                     <div className="ttable flex xl:hidden">
-                        <RankingEntries users_ids={data.map((val, _) => {return val.user_id})} data={data} labelPoints={labelPoints} type="mobile" />
+                        {data.map((val, index) => {
+
+                            let position = index + 1
+
+                            return (
+                                <HoFEntry
+                                    key={index}
+                                    position={position}
+                                    data={val}
+                                    labelPoints={labelPoints}
+                                />
+                            )
+                        })}
                     </div>
                 </>
             }

@@ -1,24 +1,10 @@
 import { useEffect, useState } from 'react';
-import { usePage } from '@inertiajs/react';
 import '@css/userCard.css'
 import PAWBadge from '../../../assets/img/paw.webp'
 import 'react-tooltip/dist/react-tooltip.css'
 import UserIcon from './UserIcon';
-import { toast } from 'sonner';
 
-
-export default function UserCard({ className='', propsCosmetics, twitchId, data, skeleton = false, style = {} }) {
-
-    const [cosmetics, setCosmetics] = useState(propsCosmetics);
-
-    useEffect(() => {
-        if(skeleton) return;
-        if(!propsCosmetics && twitchId)
-            getUserCosmetics();
-        else
-            setCosmetics(propsCosmetics);
-        
-    }, [propsCosmetics, skeleton, twitchId]);
+import { useValues } from '@/AppContext';
 
     /**
      * Example data:
@@ -38,17 +24,24 @@ export default function UserCard({ className='', propsCosmetics, twitchId, data,
      *  iconSize: int
      * }
      */
+export default function UserCard({ className='', propsCosmetics, twitchId, data, skeleton = false, style = {} }) {
 
-    function getUserCosmetics() {
-        axios.get(route('user.cosmetics.active', {twitch_id: twitchId ?? 0})).then((res) => {
-            if(res.data == null || res.data == undefined) return;
-            if(res.data.error) return;
-            setCosmetics(res.data);
-        }).catch((err) => {
-            toast.error('Une erreur est survenue lors de la récupération des cosmétiques.');
-            console.log(err);
-        });
-    }
+    const values = useValues();
+    const [cosmetics, setCosmetics] = useState(propsCosmetics ?? values.getCosmetics(twitchId));
+
+    useEffect(() => {
+        if(skeleton) return;
+        if(!propsCosmetics && twitchId)
+            setCosmetics(values.getCosmetics(twitchId));
+        else
+            setCosmetics(propsCosmetics);
+        
+    }, [propsCosmetics, skeleton, twitchId]);
+
+    useEffect(() => {
+        if(twitchId)
+            setCosmetics(values.getCosmetics(twitchId));
+    }, [values.cosmeticsData])
 
     let isPAW = false;
 

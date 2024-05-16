@@ -1,34 +1,28 @@
 import { useEffect, useState } from 'react';
-import parse from 'html-react-parser';
-import axios from 'axios';
-import { toast } from 'sonner';
+
+import { useValues } from '@/AppContext';
 
 const viewBoxWidth = 700;
 const viewBoxHeight = 950;
 
 export default function UserPenguin({ className, propsCosmetics, twitchId, width = 256, ...props }) {
 
-    const [cosmetics, setCosmetics] = useState(propsCosmetics);
+    const values = useValues();
+    const [cosmetics, setCosmetics] = useState(propsCosmetics ?? values.getCosmetics(twitchId));
 
     useEffect(() => {
         if(!propsCosmetics && twitchId)
-            getUserCosmetics();
+            setCosmetics(values.getCosmetics(twitchId));
         else
             setCosmetics(propsCosmetics);
         
     }, [propsCosmetics, twitchId]);
 
-    function getUserCosmetics() {
-        axios.get(route('user.cosmetics.active', {twitch_id: twitchId ?? 0})).then((res) => {
-            if(res.data == null || res.data == undefined) return;
-            if(res.data.error) return;
-            res.data.filter((cosmetic) => cosmetic.type == 'penguin');
-            setCosmetics(res.data);
-        }).catch((err) => {
-            toast.error('Une erreur est survenue lors de la récupération des cosmétiques.');
-            console.log(err);
-        });
-    }
+    useEffect(() => {
+        if(twitchId)
+            setCosmetics(values.getCosmetics(twitchId));
+    }, [values.cosmeticsData])
+
 
     return (
         <svg

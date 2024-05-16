@@ -162,6 +162,7 @@ export default class VIPGames {
             case 'new_player':
                 if(!this.gameStart) {
                     this.modifyValue('waiting_users', this.getUserCard(data.player))
+                    this.modifyValue('addPlayer', data.player);
                 }
                 this.modifyValue('roll_players', data.roll_players);
                 this.modifyValue('player_point', data.player);

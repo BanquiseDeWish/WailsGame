@@ -53,7 +53,6 @@ export default function PrediGivreeIndex(props) {
 
     useEffect(() => {
         const nfilter = listFilter.find(ft => ft.key.startsWith(filter.key == undefined ? filter : filter?.key))
-        console.log(nfilter)
         if(nfilter == null) return;
         if(nfilter.type == 'query')
             setFilter(nfilter)

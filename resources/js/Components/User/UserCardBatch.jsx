@@ -12,9 +12,9 @@ export default class UserCardBatch extends React.Component {
         }
     }
 
-    getUserCosmetics() {
+    /*getUserCosmetics() {
         let ids = [];
-        this.props.users_ids.forEach((id) => {
+        this.props.users_ids?.forEach((id) => {
             if(this.state?.cosmetics_data == undefined || this.state?.cosmetics_data.users[id] == undefined) {
                 ids.push(id);
             }
@@ -44,10 +44,10 @@ export default class UserCardBatch extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.users_ids.toString() != prevProps.users_ids.toString()) {
+        if(this.props.users_ids?.toString() != prevProps.users_ids?.toString()) {
             this.getUserCosmetics();
         }
-    }
+    }*/
 
     getItem(index, cosmetics) {
         return (
@@ -61,7 +61,7 @@ export default class UserCardBatch extends React.Component {
             <div className={this.props.className ?? ''}>
                 {children}
 
-                {this.props?.users_ids.map((id, index) => {
+                {this.props?.users_ids?.map((id, index) => {
                     let cosmetics = this.state?.cosmetics_data?.cosmetics?.filter((cosmetic) => {
                         return this.state?.cosmetics_data?.users[id]?.includes(cosmetic.id.toString())
                     });
