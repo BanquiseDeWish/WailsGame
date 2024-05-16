@@ -7,8 +7,7 @@ import HourGlass from '@assets/icons/stats/hourglass.svg';
 import Star from '@assets/icons/stats/star.svg';
 import Users from '@assets/icons/stats/users.svg';
 import TicketColor from '@assets/icons/stats/tickets_color.svg';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { formatTime } from '@/Game/utils';
 

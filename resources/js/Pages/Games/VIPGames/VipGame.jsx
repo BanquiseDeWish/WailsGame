@@ -16,8 +16,6 @@ import BlueButton from '@/Components/Navigation/Buttons/BlueButton';
 import { randomId } from '../../../Game/random';
 import { waitUntil } from '../../../Game/utils';
 
-import BinIcon from '@/Components/Icons/BinIcon';
-
 import Confetti from 'react-confetti'
 import RedButton from '@/Components/Navigation/Buttons/RedButton';
 
@@ -49,7 +47,6 @@ export default function VipGame() {
         spin_1: 0,
         spin_2: 0,
         players: [],
-        players_points: [],
         player_point: undefined,
         remove_player: undefined,
 
@@ -126,26 +123,9 @@ export default function VipGame() {
     }, []);
 
     useEffect(() => {
-        let points = [];
+        let players = values.players;
         values.players.sort((a, b) => (a.points <= b.points) ? 1 : -1);
-        values.players.forEach(player => {
-            points.push(
-                <div key={randomId()} className='player_points_item relative'>
-                    <div className='flex justify-center items-center gap-[16px] w-full'>
-                        <img className='w-[32px] h-[32px] rounded-full' src={props.ziggy.url + '/api/user/' + player.id + '/icon'} alt="" width={32} />
-                        <div className='username_points'>{player.name}</div>
-                    </div>
-                    <div className='points'>
-                        <div className='points_number'>{player.points}</div>
-                        <div className='points_txt'>pts</div>
-                    </div>
-                    <div className='points_bin' onClick={() => { values.game.removePlayer(player.id) }}>
-                        <BinIcon width={32} height={32} />
-                    </div>
-                </div>
-            )
-        });
-        modifyValue('players_points', points);
+        modifyValue('players', players);
     }, [values.players])
 
     useEffect(() => {

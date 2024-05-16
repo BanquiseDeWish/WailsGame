@@ -1,15 +1,20 @@
+import { usePage } from '@inertiajs/react';
 import { useValues } from './VIPGamesContext';
-
 import VictoryLogo from '@assets/games/vipgames_victory.svg'
 import UserPenguin from '@/Components/User/UserPenguin';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
+import BinIcon from '@/Components/Icons/BinIcon';
+import PlayersPointList from './Object/PlayersPointList';
+
 export default function VIP_RightContent() {
 
+    const props = usePage().props;
     const values = useValues().values;
     const modifyValue = useValues().modifyValue;
     const [winner, setWinner] = useState(undefined)
+    console.log(values.players);
 
     useEffect(() => {
         setWinner(values.game_stats?.players?.find(p => p.id == values.game_stats?.tickets?.find(t => t.ticket == values.game_stats?.winning_tickets[0]).player));
@@ -76,8 +81,31 @@ export default function VIP_RightContent() {
                             <div className='flex justify-center items-center w-full le-tchat'>
                                 Les Joueurs & leurs points
                             </div>
+                            <PlayersPointList
+                                className="flex flex-grow w-full flex-col gap-[8px] overflow-y-scroll pr-2"
+                                users_ids={values.players.map(player => player.id)}
+                                players={values.players}  
+                            />
                             <div className='flex flex-grow w-full flex-col gap-[8px] overflow-y-scroll pr-2'>
-                                {values.players_points}
+                                {
+                                    values.players.map((player) => {
+                                        return (
+                                            <div key={randomId()} className='player_points_item relative'>
+                                            <div className='flex justify-center items-center gap-[16px] w-full'>
+                                                <img className='w-[32px] h-[32px] rounded-full' src={props.ziggy.url + '/api/user/' + player.id + '/icon'} alt="" width={32} />
+                                                <div className='username_points'>{player.name}</div>
+                                            </div>
+                                            <div className='points'>
+                                                <div className='points_number'>{player.points}</div>
+                                                <div className='points_txt'>pts</div>
+                                            </div>
+                                            <div className='points_bin' onClick={() => { values.game.removePlayer(player.id) }}>
+                                                <BinIcon width={32} height={32} />
+                                            </div>
+                                        </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                     </div>
