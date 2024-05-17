@@ -19,13 +19,9 @@ import Users from '@assets/icons/stats/users.svg';
 
 import Crown from '@assets/icons/crown.svg';
 
-import { useValues } from '@/AppContext';
-
-
 export default function VipGamesIndex() {
 
     const props = usePage().props;
-    const setUsersIds = useValues().setUsersIds;
 
     return (
         <MainLayout showOverflow={true}>

@@ -33,6 +33,16 @@ function formatTime(time) {
     return `${minutes} mins ${seconds < 10 ? '0' : ''}${seconds} sec`;
 }
 
+function debounce(func, delay) {
+    let timeout;
+    return (...args) => {
+        if (timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            func(...args);
+        }, delay);
+    };
+}
+
 export {
-    waitUntil, copyToClipboard, formatTime
+    waitUntil, copyToClipboard, formatTime, debounce
 };

@@ -1,23 +1,24 @@
 import { createContext, useContext } from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { debounce } from './Game/utils';
 
+const DEBOUNCE_DELAY = 200;
 const AppContext = createContext(null);
 
 export function AppContextProvider({ children }) {
 
     const [cosmeticsData, setCosmeticsData] = useState({cosmetics: [], users: {}});
-    const [usersIds, setUsersIds] = useState([]);
+    let usersIdsQueue = useRef([]);
+    const debouncedGetUserCosmetics = useRef(debounce((ids) => {
+        getUserCosmetics(ids);
+        usersIdsQueue.current = [];
+    }, DEBOUNCE_DELAY));
 
-    function getUserCosmetics() {
-        let ids = [];
-        usersIds.forEach((id) => {
-            if(cosmeticsData == undefined || cosmeticsData.users[id] == undefined) {
-                ids.push(id);
-            }
-        });
-        axios.get(route('users.cosmetics.active', {twitch_ids: ids.length != 0 ? ids : [0]})).then((res) => {
-            if(res.data == null || res.data == undefined) return;
-            if(res.data.error) return;
+    function getUserCosmetics(ids) {
+        if(ids.length == 0) return;
+        axios.post(route('users.cosmetics.active', {twitch_ids: ids.length != 0 ? ids : [0]})).then((res) => {
+            if(res.data == null || res.data == undefined || res.data.error) return;
+
             let newCosmeticsData = {
                 cosmetics: [...cosmeticsData.cosmetics],
                 users: { ...cosmeticsData.users }
@@ -38,7 +39,12 @@ export function AppContextProvider({ children }) {
     }
 
     function getCosmetics(twitch_id) {
-        if(cosmeticsData == undefined || cosmeticsData.users[twitch_id] == undefined) {
+        if(!twitch_id || cosmeticsData == undefined) return null;
+        else if(cosmeticsData.users[twitch_id] == undefined) {
+            if(!usersIdsQueue.current.includes(twitch_id)) {
+                usersIdsQueue.current = [...usersIdsQueue.current, twitch_id];
+                debouncedGetUserCosmetics.current(usersIdsQueue.current);
+            }
             return null;
         }
         let cosmetics = cosmeticsData.cosmetics?.filter((cosmetic) => {
@@ -48,13 +54,15 @@ export function AppContextProvider({ children }) {
     }
 
     useEffect(() => {
-        getUserCosmetics();
-    }, [usersIds]);
+        if(usersIdsQueue.current.length > 0) {
+            debouncedGetUserCosmetics.current(usersIdsQueue.current);
+            usersIdsQueue.current = [];
+        }
+    }, []);
 
     return (
         <AppContext.Provider value={{
             cosmeticsData: cosmeticsData,
-            setUsersIds: setUsersIds,
             getCosmetics: getCosmetics
         }}>
             {children}

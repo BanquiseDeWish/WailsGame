@@ -6,12 +6,11 @@ import { waitUntil } from './utils';
 
 
 export default class VIPGames {
-    constructor(modifyValue, getTicket, getNewsItem, getUserCard) {
+    constructor(modifyValue, getTicket, getNewsItem) {
         this.socket = new BDWSocket('vipgames');
         this.modifyValue = modifyValue;
         this.getTicket = getTicket;
         this.getNewsItem = getNewsItem;
-        this.getUserCard = getUserCard;
         this.setupGame();
         this.missSound = new GameSound('miss');
         this.missSecret = new GameSound('miss_secret');
@@ -31,6 +30,7 @@ export default class VIPGames {
     }
 
     removePlayer(userId) {
+        console.log('remove_player', userId);
         this.socket.emit('remove_player', userId);
     }
 
@@ -160,10 +160,6 @@ export default class VIPGames {
                 break;
 
             case 'new_player':
-                if(!this.gameStart) {
-                    this.modifyValue('waiting_users', this.getUserCard(data.player))
-                    this.modifyValue('addPlayer', data.player);
-                }
                 this.modifyValue('roll_players', data.roll_players);
                 this.modifyValue('player_point', data.player);
                 this.player_list.push(data.player);

@@ -28,7 +28,7 @@ export default function Quizz(props) {
     const [isOpenSettings, setIsOpenSettings] = useState(false)
     const [isOpenReport, setIsOpenReport] = useState(false)
     const [settingsValues, setSettingsValues] = useState({
-        volumeState: localStorage.getItem('volume') !== undefined ? parseInt(localStorage.getItem('volume')) : 5,
+        volumeState: localStorage.getItem('volume') != undefined ? parseInt(localStorage.getItem('volume')) : 5,
         chatState: localStorage.getItem('chatState') !== undefined ? localStorage.getItem('chatState') !== "false" : false,
     })
     const [, forceUpdate] = useReducer((x) => x + 1, 0)

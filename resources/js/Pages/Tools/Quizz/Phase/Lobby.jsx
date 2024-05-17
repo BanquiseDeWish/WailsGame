@@ -21,7 +21,6 @@ import HowToPlay from '../Modal/HowToPlay';
 import Eye from '@/Components/Icons/Eye';
 import EyeHide from '@/Components/Icons/EyeHide';
 import GameMode from '../Modal/GameMode';
-import WaitingList from '../Object/WaitingList';
 
 const gameModes = [
     {
@@ -75,9 +74,9 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
     useEffect(() => {
         const max = globalValues.current.maximumQuestions
         let timeGame = 0;
-        if(globalValues.current.gameMode == "classic") {
+        if (globalValues.current.gameMode == "classic") {
             timeGame = Math.floor((20 * max) / 60)
-        }else if(globalValues.current.gameMode == "scattergories") {
+        } else if (globalValues.current.gameMode == "scattergories") {
             timeGame = Math.floor((47 * max) / 60)
         }
         setTimeGame(timeGame)
@@ -129,7 +128,20 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                             <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
                             <h3 className='text-[14px] font-bold'>{playersCount < 10 && playersCount > 0 ? `0${playersCount}` : playersCount}/20</h3>
                         </div>
-                        <WaitingList className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[300px] pr-4 pb-4 mb-4" users_ids={players.map((p) => {return p.userId})} data={{ players: players }} />
+                        <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[300px] pr-4 pb-4 mb-4">
+                            {
+                                players.map((player, i) => {
+                                    return (
+                                        <UserCard
+                                            className={`h-[82px] ${player?.isConnected ?? 'opacity-40'}`}
+                                            twitchId={player.userId}
+                                            key={i}
+                                            data={{ username: (player !== undefined ? `${player?.username}` : ' - ') }}
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
                     <div className="flex w-full justify-between px-2 py-2" style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
                         <div className="flex gap-2">
@@ -148,19 +160,19 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                     </div>
                 </div>
                 <div className="flex flex-col gap-4 min-w-[400px]">
-                <div className="card p-4">
-                            <div className="flex flex-col items-center gap-3 w-full">
-                                <InputRange
-                                    label={`Nombres de ${gameModeCurrent?.labelElements}`}
-                                    value={globalValues.current.maximumQuestions}
-                                    onChange={questionsMaxChange}
-                                    min={gameModeCurrent?.minElements}
-                                    max={gameModeCurrent?.maxElements}
-                                    id="questions_max"
-                                />
-                                <span><b>Temps de jeu:</b> {timeGame} minutes </span>
-                            </div>
+                    <div className="card p-4">
+                        <div className="flex flex-col items-center gap-3 w-full">
+                            <InputRange
+                                label={`Nombres de ${gameModeCurrent?.labelElements}`}
+                                value={globalValues.current.maximumQuestions}
+                                onChange={questionsMaxChange}
+                                min={gameModeCurrent?.minElements}
+                                max={gameModeCurrent?.maxElements}
+                                id="questions_max"
+                            />
+                            <span><b>Temps de jeu:</b> {timeGame} minutes </span>
                         </div>
+                    </div>
                     <div className="card p-4 flex-1 w-full" style={{ justifyContent: 'flex-start', gap: '16px', alignItems: 'flex-start', overflow: 'auto', flex: '1 1 0' }}>
                         {globalValues.current.themes.map((s, i) => {
 

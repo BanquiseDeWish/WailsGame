@@ -24,24 +24,24 @@ import { useValues } from '@/AppContext';
      *  iconSize: int
      * }
      */
-export default function UserCard({ className='', propsCosmetics, twitchId, data, skeleton = false, style = {} }) {
+export default function UserCard({ className='', propsCosmetics, twitchId, data, skeleton = false, components = [], style = {} }) {
 
     const values = useValues();
     const [cosmetics, setCosmetics] = useState(propsCosmetics ?? values.getCosmetics(twitchId));
 
     useEffect(() => {
         if(skeleton) return;
-        if(!propsCosmetics && twitchId)
-            setCosmetics(values.getCosmetics(twitchId));
-        else
-            setCosmetics(propsCosmetics);
+        setCosmetics(propsCosmetics);
         
-    }, [propsCosmetics, skeleton, twitchId]);
+    }, [propsCosmetics, skeleton]);
 
     useEffect(() => {
-        if(twitchId)
-            setCosmetics(values.getCosmetics(twitchId));
-    }, [values.cosmeticsData])
+        if(twitchId) {
+            let cosmetics = values.getCosmetics(twitchId);
+            if(cosmetics)
+                setCosmetics(cosmetics);
+        }
+    }, [twitchId, values, values.cosmeticsData, skeleton])
 
     let isPAW = false;
 
@@ -93,6 +93,8 @@ export default function UserCard({ className='', propsCosmetics, twitchId, data,
                         </div>
                     }
                 </div>
+
+                {...components}
             </div>
         )
     }

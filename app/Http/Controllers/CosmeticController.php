@@ -104,7 +104,7 @@ class CosmeticController extends Controller
      */
     public static function getUsersActiveCosmetics(Request $request)
     {
-        $inputs = $request->query();
+        $inputs = $request->all();
         if(!isset($inputs['twitch_ids']))
             return response()->json(['error' => 'No twitch_ids provided']);
 

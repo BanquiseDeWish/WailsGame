@@ -38,6 +38,6 @@ Route::get('/user/{twitch_id}/cosmetics/all', [CosmeticController::class, 'getUs
 Route::get('/user/{twitch_id}/cosmetics/active', [CosmeticController::class, 'getUserActiveCosmetics'])->name('user.cosmetics.active');
 Route::get('/user/{twitch_id}/points/vipgames', [UserController::class, 'getUserVIPGamesPoints'])->name('user.points.vipgames');
 Route::get('/user/all/points/vipgames', [UserController::class, 'getUserListVIPGamesPoints'])->name('user.all.points.vipgames');
-Route::get('/users/cosmetics/active', [CosmeticController::class, 'getUsersActiveCosmetics'])->name('users.cosmetics.active');
+Route::post('/users/cosmetics/active', [CosmeticController::class, 'getUsersActiveCosmetics'])->name('users.cosmetics.active');
 
 Route::get('/cosmetics/get', [CosmeticController::class, 'getCosmetics'])->name('cosmetics.get');

@@ -10,6 +10,8 @@ import TicketColor from '@assets/icons/stats/tickets_color.svg';
 import { useEffect, useState } from 'react';
 
 import { formatTime } from '@/Game/utils';
+import UserCard from '@/Components/User/UserCard';
+import { randomId } from '@/Game/random';
 
 export default function VIP_MiddleContent() {
 
@@ -90,11 +92,17 @@ export default function VIP_MiddleContent() {
                         {values.news_list}
                     </div>
 
-                    <div className='flex-1 flex-shrink-0 w-full'>
+                    <div className='flex-1 flex-shrink-0 w-full overflow-hidden'>
                         <div className='container p-[16px] max-h-full h-full flex-shrink-0 w-full snow_cap_center'>
                             <div id='user-list-container' className='w-full overflow-hidden'>
-                                <div id='user-list' className='w-full max-h-full flex flex-row flex-wrap gap-[8px] overflow-auto'>
-                                    {values.waiting_users}
+                                <div id='user-list' className='w-full max-h-full grid grid-cols-3 gap-[8px] overflow-y-auto pr-[8px]'>
+                                    {
+                                        !values.game_start && values.players.map((player, _) => {
+                                            return (
+                                                <UserCard data={{ username: player.name }} twitchId={player.id} key={randomId()}/>
+                                            )
+                                        })
+                                    }
                                 </div>
                             </div>
 

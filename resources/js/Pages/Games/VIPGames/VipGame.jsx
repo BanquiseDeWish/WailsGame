@@ -86,23 +86,23 @@ export default function VipGame() {
     function switchGame() {
         let wheels = document.getElementById('wheels');
         let tickets = document.getElementById('tickets_pack');
-        let penguin = document.getElementById('penguin');
+        let penguin = document.getElementById('right_menu_penguin');
         let player_points = document.getElementById('player_points');
         //temporary
-        player_points.classList.remove('my-hidden');
-        penguin.classList.add('my-hidden');
+        //player_points.classList.remove('my-hidden');
+        //penguin.classList.add('my-hidden');
 
         if (wheels.classList.contains('my-hidden')) {
             wheels.classList.remove('my-hidden');
-            //player_points.classList.remove('my-hidden');
-            //penguin.classList.add('my-hidden');
+            player_points.classList.remove('my-hidden');
+            penguin.classList.add('my-hidden');
             tickets.classList.add('my-hidden');
         }
         else {
             wheels.classList.add('my-hidden');
-            //player_points.classList.add('my-hidden');
+            player_points.classList.add('my-hidden');
             tickets.classList.remove('my-hidden');
-            //penguin.classList.remove('my-hidden');
+            penguin.classList.remove('my-hidden');
         }
     }
 
@@ -114,12 +114,8 @@ export default function VipGame() {
         return (<GameNewsItem key={randomId()} userId={player.id} userName={player.name} subText={subText} />);
     }
 
-    function getUserCard(player) {
-        return (<UserCard  key={randomId()} userId={player.id} userName={player.name} />);
-    }
-
     useEffect(() => {
-        modifyValue('game', new VIPGames(modifyValue, getTicket, getNewsItem, getUserCard));
+        modifyValue('game', new VIPGames(modifyValue, getTicket, getNewsItem));
     }, []);
 
     useEffect(() => {

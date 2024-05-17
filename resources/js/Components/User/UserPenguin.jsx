@@ -21,7 +21,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
     useEffect(() => {
         if(twitchId)
             setCosmetics(values.getCosmetics(twitchId));
-    }, [values.cosmeticsData])
+    }, [twitchId, values, values.cosmeticsData])
 
 
     return (
