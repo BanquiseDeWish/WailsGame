@@ -79,7 +79,7 @@ export default function UserCard({ className='', propsCosmetics, twitchId, data,
                 <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
                     <div className="data flex flex-col flex-grow overflow-hidden">
                         <div className="username select-none truncate">{username}</div>
-                        {(data?.drawSlogan == undefined || data?.drawSlogan) && <div className="description select-none truncate">{slogan}</div>}
+                        {(data?.drawSlogan == undefined || data?.drawSlogan) && <div className="description select-none truncate">{data.customSlogan ?? slogan}</div>}
                     </div>
                     {data?.points !== undefined && stylePoints == "default" &&
                         <div className="points">

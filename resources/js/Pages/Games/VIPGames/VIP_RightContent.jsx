@@ -56,6 +56,7 @@ export default function VIP_RightContent() {
                 <div className='flex flex-col gap-[24px] h-full w-[440px]'>
                     {/* Current Player */}
                     <UserCard 
+                        twitchId={values.current_player.id}
                         className='relative h-[80px] w-full p-[16px] current_player container'
                         data={{
                             username: values.current_player.name,
