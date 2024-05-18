@@ -76,7 +76,7 @@ export default function VIP_RightContent() {
                         <div id='right_menu_penguin' className='flex justify-center items-center w-full h-full absolute my-hidden'>
                             <UserPenguin
                                 twitchId={values.current_player.id}
-                                width={340}
+                                width={320}
                                 className='drop-shadow-2xl scale-x-[-1]'
                             />
                         </div>

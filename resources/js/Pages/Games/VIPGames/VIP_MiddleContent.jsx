@@ -13,6 +13,8 @@ import { formatTime } from '@/Game/utils';
 import UserCard from '@/Components/User/UserCard';
 import { randomId } from '@/Game/random';
 
+import UserIcon from '@assets/img/vipgames/user_icon.png';
+
 export default function VIP_MiddleContent() {
 
     const props = usePage().props;
@@ -120,7 +122,7 @@ export default function VIP_MiddleContent() {
                                         data={values.roll_players}
                                         winner={values.choosen_player}
                                         spin={values.spin_1}
-                                        link={props.ziggy.url + '/api/user/{id}/icon'}
+                                        link={UserIcon}
                                         onSpinEnd={() => {
                                             modifyValue('current_player', values.game.getPlayer(values.choosen_player));
                                             modifyValue('avatar', values.choosen_player);

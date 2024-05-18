@@ -11,17 +11,18 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
     const [cosmetics, setCosmetics] = useState(propsCosmetics ?? values.getCosmetics(twitchId));
 
     useEffect(() => {
-        if(!propsCosmetics && twitchId)
-            setCosmetics(values.getCosmetics(twitchId));
-        else
-            setCosmetics(propsCosmetics);
+        setCosmetics(propsCosmetics);
         
-    }, [propsCosmetics, twitchId]);
+    }, [propsCosmetics]);
+
 
     useEffect(() => {
-        if(twitchId)
-            setCosmetics(values.getCosmetics(twitchId));
-    }, [twitchId, values, values.cosmeticsData])
+        if(twitchId) {
+            let cosmetics = values.getCosmetics(twitchId);
+            if(cosmetics)
+                setCosmetics(cosmetics);
+        }
+    }, [twitchId, values.update])
 
 
     return (
@@ -109,7 +110,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
             </svg>
 
             {
-                cosmetics?.map((cosmetic, _) => {
+                cosmetics?.map((cosmetic, index) => {
                     if (!cosmetic || cosmetic.type != 'penguin' || cosmetic?.data?.position != "front") return;
                     if (!['hat', 'backpack', 'accessory'].includes(cosmetic.sub_type)) return;
                     let x = cosmetic?.data?.x ?? 0;
@@ -120,7 +121,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                     let pivotY = y + cosmetic?.data?.height * scale / 2;
 
                     return (
-                        <svg key={cosmetic?.name}>
+                        <svg key={`${twitchId}_${cosmetic?.name}_${index}`}>
                             <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})`}
                                 dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
                         </svg>
