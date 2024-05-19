@@ -48,7 +48,11 @@ class CosmeticController extends Controller
             return response()->json(['error' => 'User not found']);
 
         // Get the cosmetics for the user
-        $cosmetics = DB::table('users__cosmetics')->join('cosmetics', 'users__cosmetics.cosmetic_id', '=', 'cosmetics.id')->select('cosmetics.*')->where('users__cosmetics.user_id', $user->id);
+        $cosmetics = DB::table('users__cosmetics')
+                        ->rightJoin('cosmetics', 'users__cosmetics.cosmetic_id', '=', 'cosmetics.id')
+                        ->select('cosmetics.*')
+                        ->where('users__cosmetics.user_id', $user->id)
+                        ->orWhere('cosmetics.free', 1)->distinct();
         if ($type != null)
             $cosmetics = $cosmetics->where('cosmetics.type', $type);
         if ($subType != null)
