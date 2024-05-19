@@ -1,8 +1,6 @@
 import { usePage } from '@inertiajs/react';
 import { useValues } from './VIPGamesContext';
 
-import Slot from '@/Components/Games/VIPGames/Slot';
-
 import HourGlass from '@assets/icons/stats/hourglass.svg';
 import Star from '@assets/icons/stats/star.svg';
 import Users from '@assets/icons/stats/users.svg';
@@ -14,6 +12,7 @@ import UserCard from '@/Components/User/UserCard';
 import { randomId } from '@/Game/random';
 
 import UserIcon from '@assets/img/vipgames/user_icon.png';
+import SlotComponent from '@/Components/Games/VIPGames/Slot';
 
 export default function VIP_MiddleContent() {
 
@@ -115,9 +114,9 @@ export default function VIP_MiddleContent() {
                             <div id="wheels" className='transition-back absolute my-hidden'>
                                 <div className='flex flex-col justify-center items-center gap-6 le-tchat'>
                                     <span>Joueurs</span>
-                                    <Slot
+                                    <SlotComponent
                                         id={'wheel_slot_1'}
-                                        type={'with_icon'}
+                                        type={'card'}
                                         onClick={() => { values.game.askRandomPlayer() }}
                                         data={values.roll_players}
                                         winner={values.choosen_player}
@@ -133,7 +132,7 @@ export default function VIP_MiddleContent() {
 
                                 <div className='flex flex-col justify-center items-center gap-6 le-tchat'>
                                     <span>Nombre de Choix</span>
-                                    <Slot
+                                    <SlotComponent
                                         id={'wheel_slot_2'}
                                         type={'text'}
                                         onClick={() => { values.game.askRandomPlayCount() }}
