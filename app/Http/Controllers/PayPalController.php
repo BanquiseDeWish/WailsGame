@@ -10,12 +10,15 @@ use Omnipay\Omnipay;
 use Omnipay\Common\ItemBag;
 use App\Models\Payments;
 use App\Models\User\UserCosmetics;
+use App\Models\User;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class PayPalController extends Controller
 {
 
     private $gateway;
-    private $testMode = false;
+    private $testMode = true;
 
     public function __construct()
     {
@@ -27,7 +30,21 @@ class PayPalController extends Controller
 
     public function start(Request $request) {
         try {
-            $cart = [1];
+            $user = User::select('twitch_id', 'id')->where('twitch_id', '=', $request->session()->get('twitch')->id)->first();
+            $cart = $request->input('articles');
+            foreach($cart as $articleId) {
+                $article = Articles::where('id', $articleId)->first();
+                $cosmeticsCheck = json_decode($article->cosmetics, true);
+                foreach($cosmeticsCheck as $cosmetic) {
+                    $itemExist = DB::table('users__cosmetics')->where('user_id', $user->id)->where('cosmetic_id', $cosmetic)->first();
+
+                    if($itemExist !== null){
+                        return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "Vous possédez déjà cet article."));
+                    }
+                }
+            }
+
+
             $price = 0;
             $items = new ItemBag();
 
@@ -52,7 +69,6 @@ class PayPalController extends Controller
                 'returnUrl' => route('paypal.success'),
                 'cancelUrl' => route('paypal.error'),
             ])->setItems($items)->send();
-            $user = $request->session()->get('twitch');
             $dataRes = $response->getData();
 
             $payment = new Payments;
@@ -67,13 +83,12 @@ class PayPalController extends Controller
             $payment->save();
 
             if ($response->isRedirect()) {
-                return $response->redirect();
+                return Inertia::location($dataRes['links'][1]);
             } else {
-                return redirect()->route('/')->with("status", $this->toastResponse('error', $response->getMessage()));
+                return redirect()->route('shop.index')->with("status", $this->toastResponse('error', $response->getMessage()));
             }
         } catch(Exception $e) {
-            dd($e);
-            return redirect()->route('/')->with("status", $this->toastResponse('error', "Une erreur interne est survenue :'("));
+            return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "Une erreur interne est survenue :'("));
         }
     }
 
@@ -92,7 +107,7 @@ class PayPalController extends Controller
             {
                 // The customer has successfully paid.
                 $arr_body = $response->getData();
-                $user = $request->session()->get('twitch');
+                $user = User::select('twitch_id', 'id')->where('twitch_id', '=', $request->session()->get('twitch')->id)->first();
                 // Insert transaction data into the database
                 $payment = new Payments;
                 $transaction = $payment->where('payment_id', $arr_body['id'])->first();
@@ -125,18 +140,18 @@ class PayPalController extends Controller
                     }
                 }
 
-                return redirect()->route('/')->with('status', $this->toastResponse('success', 'Achat terminé!'));
+                return redirect()->route('shop.index')->with('shop_redirect_success', true)->with('status', $this->toastResponse('success', 'Achat terminé!'));
             } else {
-                return redirect()->route('/')->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
+                return redirect()->route('shop.index')->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
             }
         } else {
-            return redirect()->route('/')->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
+            return redirect()->route('shop.index')->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
         }
     }
 
     public function error(Request $request)
     {
-        return redirect()->route('/')->with("status", $this->toastResponse('error', 'Transaction annulée'));
+        return redirect()->route('shop.index')->with("status", $this->toastResponse('error', 'Transaction annulée'));
     }
 
 }

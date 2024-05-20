@@ -16,7 +16,7 @@ use Inertia\Inertia;
 */
 
 Route::prefix('paypal')->name('paypal.')->middleware(['web', 'auth_twitch'])->group(function() {
-    Route::get('/start', [PayPalController::class, 'start'])->name('start');
+    Route::post('/start', [PayPalController::class, 'start'])->name('start');
     Route::get('/success', [PayPalController::class, 'success'])->name('success');
     Route::get('/error', [PayPalController::class, 'error'])->name('error');
 });

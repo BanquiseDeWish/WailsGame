@@ -10,6 +10,7 @@ use App\Http\Controllers\VIPGameController;
 use App\Http\Controllers\OverlayController;
 use App\Http\Controllers\QuizzMasterController;
 use App\Http\Controllers\TierlistController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -108,6 +109,13 @@ Route::get('/dev/calc_stats', [VIPGameController::class, 'calcStatsView'])->midd
 
 Route::middleware('auth_twitch')->group(function() {
     Route::post('/user/update/cosmetics/', [AppareanceController::class, 'save'])->name('user.cosmetics.update');
+});
+
+
+Route::prefix('shop')->name('shop.')->middleware(['auth_twitch'])->group(function() {
+    Route::get('/', [ShopController::class, 'index'])->name('index');
+    Route::get('/articles/{tab_id}', [ShopController::class, 'articles'])->name('articles');
+    Route::post('/cart', [ShopController::class, 'cart'])->name('cart');
 });
 
 require __DIR__.'/auth.php';

@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
             'mode' => env('APP_ENV'),
             'weils_id' => env('TWITCH_WEILS_UID'),
             'flash' => [
+                'shop_redirect_success' => fn () => $request->session()->get('shop_redirect_success'),
                 'message' => fn () => $request->session()->get('status')
             ],
             'ziggy' => fn () => [
