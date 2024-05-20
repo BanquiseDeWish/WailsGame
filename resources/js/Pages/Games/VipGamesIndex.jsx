@@ -41,7 +41,7 @@ export default function VipGamesIndex() {
                         <div className='flex flex-col gap-[16px]'>
                             <h1 className='title'>Gagnant en titre</h1>
                             <UserCard
-                                className='w-[280px]'
+                                className='w-[320px]'
                                 twitchId={props.lastWinner?.twitch_id}
                                 data={{ 
                                     username: props.lastWinner?.twitch_username
