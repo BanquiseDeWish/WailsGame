@@ -175,9 +175,9 @@ export default function ProfileAppearance(props) {
                     }
                 </div>
 
-                <div className="container justify-start items-start xl:col-span-5 col-span-3 p-8 select-none overflow-y-auto">
+                <div className="container justify-start items-start xl:col-span-5 col-span-3 p-8 select-none overflow-hidden">
                     {!cosmetics && <div className="flex justify-center items-center w-full h-full"><div className="loader-spinner"></div></div>}
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex flex-wrap gap-4 h-full overflow-y-auto">
                         {cosmetics && activeTab == 'slogan' &&
                             <CosmeticCard height={128} key={'no_cosmetic'} onClick={() => { selectCosmetic(undefined) }}>
                                 <span className="flex items-center justify-center text-center h-full w-full">Un Pingouin Voyageur</span>
