@@ -105,35 +105,35 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
 
     return (
         <div className="quizz_lobby flex-1 items-center ">
-            <div className="flex justify-center gap-4 my-8">
-                <div className="card relative p-0" style={{ alignItems: 'flex-start', paddingTop: '4rem' }}>
-                    <div className="flex flex-col gap-4 px-4">
-                        <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
-                            <img src={QuizzLogo} style={{ width: '25%' }} />
+            <div className="flex flex-col w-full xl:w-auto xl:flex-row justify-center gap-4 my-8">
+                <div className="card relative px-0 py-0 pb-0 pt-4 lg:pt-[4rem]" style={{ alignItems: 'flex-start' }}>
+                    <div className="relative flex flex-col gap-4 px-4">
+                        <div className="flex w-full justify-center lg:absolute -top-[0px] lg:-top-[122px]">
+                            <img src={QuizzLogo} className='w-[200px]' />
                         </div>
                         <div className="message">
                             <span>Ce jeu est en version Bêta. Il se peut que lors de votre partie, vous rencontriez des problèmes de performances ou de gameplay.<br />Si c'est le cas, merci de vous rendre sur le serveur discord et de signaler le problème concerné</span>
                         </div>
                         <h3 className='text-[24px] font-bold'>Code de la room</h3>
-                        <div className="flex gap-4 w-full items-center">
+                        <div className="flex flex-col lg:flex-row gap-4 w-full items-center">
                             <div className="relative w-full">
                                 <input type="text" className='w-full' name="gameId" value={gameIdHidden ? "************************************" : globalValues.current.gameId} disabled />
                                 <div className="absolute select-none top-0 bottom-0 mx-0 my-auto right-4 h-full" onClick={handleChangeGIHidden}>
                                     {gameIdHidden ? <Eye width={32} height={"100%"} /> : <EyeHide width={32} height={"100%"} />}
                                 </div>
                             </div>
-                            <BlueButton onClick={copyLink}>Copier</BlueButton>
+                            <BlueButton className={"w-full lg:w-auto"} onClick={copyLink}>Copier</BlueButton>
                         </div>
                         <div className="flex items-center gap-3">
                             <h3 className='text-[24px] font-bold'>Liste des joueurs</h3>
                             <h3 className='text-[14px] font-bold'>{playersCount < 10 && playersCount > 0 ? `0${playersCount}` : playersCount}/20</h3>
                         </div>
-                        <div className="grid grid-cols-4 gap-4 flex-grow overflow-y-auto h-[300px] pr-4 pb-4 mb-4">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-4 flex-grow overflow-y-auto h-[300px] lg:pr-4 lg:pb-4 lg:mb-4">
                             {
                                 players.map((player, i) => {
                                     return (
                                         <UserCard
-                                            className={`h-[82px] ${player?.isConnected ?? 'opacity-40'}`}
+                                            className={`w-full lg:w-auto h-[82px] ${player?.isConnected ?? 'opacity-40'}`}
                                             twitchId={player.userId}
                                             key={i}
                                             data={{ username: (player !== undefined ? `${player?.username}` : ' - ') }}
@@ -143,13 +143,13 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                             }
                         </div>
                     </div>
-                    <div className="flex w-full justify-between px-2 py-2" style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
-                        <div className="flex gap-2">
-                            <BlueButton onClick={() => { settings.set(true) }}>
+                    <div className="flex flex-col gap-2 xl:flex-row w-full justify-between px-2 py-2" style={{ background: 'rgba(0, 0, 0, 0.1)' }}>
+                        <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+                            <BlueButton className={"w-full"} onClick={() => { settings.set(true) }}>
                                 Paramètres
                             </BlueButton>
-                            <BlueButton onClick={() => { setIsOpenHTP(true) }}>
-                                Comment jouer ?
+                            <BlueButton className={"w-full"} onClick={() => { setIsOpenHTP(true) }}>
+                                Instructions
                             </BlueButton>
                         </div>
                         {globalValues.current.isLeader &&
@@ -159,7 +159,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                         }
                     </div>
                 </div>
-                <div className="flex flex-col gap-4 min-w-[400px]">
+                <div className="flex flex-col gap-4 w-full xl:w-[400px] lg:min-w-[400px]">
                     <div className="card p-4">
                         <div className="flex flex-col items-center gap-3 w-full">
                             <InputRange
@@ -173,7 +173,7 @@ export default function QuizzLobby({ auth, globalValues, modifyValues, settings,
                             <span><b>Temps de jeu:</b> {timeGame} minutes </span>
                         </div>
                     </div>
-                    <div className="card p-4 flex-1 w-full" style={{ justifyContent: 'flex-start', gap: '16px', alignItems: 'flex-start', overflow: 'auto', flex: '1 1 0' }}>
+                    <div className="card p-4 h-[15rem] lg:h-0 lg:flex-[1_1_0] w-full" style={{ justifyContent: 'flex-start', gap: '16px', alignItems: 'flex-start', overflow: 'auto' }}>
                         {globalValues.current.themes.map((s, i) => {
 
                             if (globalValues.current.isLeader) {

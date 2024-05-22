@@ -313,16 +313,26 @@ export default function Quizz(props) {
                     transition: all 0.1s ease-in-out;
                     padding: 12px 16px;
                     border-radius: 8px;
-                    font-weight: 600;
                     text-align: center;
                     -webkit-user-select: none;
                     -ms-user-select: none;
                     user-select: none;
                     transition: all 0.1s ease-in-out;
                     min-width: 150px;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    overflow: hidden;
+                }
+                @media (max-width: 768px) {
+                    .quizz_question_show .propal_button {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+                @media (min-width: 768px) {
+                    .quizz_question_show .propal_button {
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
                 }
                 .quizz_question_show .propal_button.good {
                     background: #207019;
@@ -341,10 +351,6 @@ export default function Quizz(props) {
                     transform: scale(1.05) !important;
                 }
                 .quizz_question_show .sentenceText {
-                    padding: 6rem 10rem;
-
-
-                    font-size: 26px;
                     text-wrap: wrap;
                     text-align: center;
                     font-weight: normal;
@@ -433,8 +439,6 @@ export default function Quizz(props) {
                     padding: 16px;
                     border-radius: 8px;
                     transition: 0.2s all ease-in-out;
-                    min-width: 200px;
-                    min-height: 200px;
                 }
                 .picture_proposal.focused {
                     background: #6095d1;

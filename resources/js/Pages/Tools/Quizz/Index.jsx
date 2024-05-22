@@ -39,8 +39,8 @@ const QuizzMaster = () => {
         <>
             <MainLayout showOverflow={true}>
                 <Head title="Quizz Master" />
-                <div className="flex justify-center h-fit gap-4 relative pb-8">
-                    <div className="card items-start justify-center max-w-[800px] h-fit w-full">
+                <div className="flex flex-col items-center lg:items-start lg:flex-row justify-center h-fit gap-4 relative pb-8">
+                    <div className="card items-start justify-center w-full lg:w-[800px] lg:max-w-[800px] h-fit w-full">
                         <div className="flex justify-center w-full">
                             <img src={QuizzLogo} style={{ width: '60%' }} alt="" />
                         </div>
@@ -52,7 +52,7 @@ const QuizzMaster = () => {
                         <div className="separator my-4 w-full" style={{ background: 'var(--container_background)' }} />
                         <span className="text-[18px] font-semibold">Rejoindre via un code de partie</span>
                         <span className="text-[12px] font-light">Le leader de la partie doit vous fournir un code de partie disponible au lobby. <br />Il peut également vous fournir l'url disponible dans la barre d'adresse de son navigateur web</span>
-                        <div className="flex w-full gap-4 mt-4">
+                        <div className="flex flex-col lg:flex-row w-full gap-4 mt-4">
                             <div className="flex-1 w-full">
                                 <input type="text" className="w-full" placeholder="ID de la partie" value={idParty} onChange={(e) => { setIdParty(e.target.value) }} id="" />
                             </div>
@@ -69,7 +69,7 @@ const QuizzMaster = () => {
                             Créer la partie
                         </BlueButton>
                     </div>
-                    <div className="card justify-start items-start p-4 h-fit min-w-[350px] max-w-[560px]">
+                    <div className="card justify-start items-start p-4 h-fit w-full lg:w-[350px] lg:min-w-[350px] lg:max-w-[560px]">
                         <h2 className="text-[28px] font-bold">Patch Notes</h2>
                         {update !== undefined &&
                             <div className="updateItem w-full mt-4">

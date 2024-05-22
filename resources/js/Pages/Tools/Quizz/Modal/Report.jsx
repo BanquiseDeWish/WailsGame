@@ -99,7 +99,7 @@ export default class Report extends BaseModal {
     render() {
         return super.render(
             <>
-                <div className='modal_qm_report flex flex-col gap-[32px] w-[800px] p-8 select-none' style={{ background: 'var(--modal_background)', height: 'fit-content', borderRadius: 'inherit' }}>
+                <div className='modal_qm_report flex flex-col gap-[32px] lg:w-[800px] p-8 select-none' style={{ background: 'var(--modal_background)', height: 'fit-content', borderRadius: 'inherit' }}>
                     <div className="flex gap-2 items-center">
                         <h2 className='text-[28px] font-semibold'>Signaler un problème</h2>
                     </div>

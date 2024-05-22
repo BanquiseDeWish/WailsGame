@@ -51,7 +51,6 @@
     display: flex;
     min-width: 50%;
     min-height: 50%;
-    width: fit-content;
     height: fit-content;
     max-height: 80%;
     background-color: white;

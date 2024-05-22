@@ -35,13 +35,13 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
     const selectAnswer = (e, propoId) => {
         let answers = globalValues.current.answerCurrent;
         if (globalValues.current.answerCurrent.length > 0 && globalValues.current.questionCurrent.typeAnswer == "simple") {
-            if(answers[0] == propoId) return;
+            if (answers[0] == propoId) return;
             answers = [];
-            if(globalValues.current.questionCurrent.type == 'picture_multiple') {
+            if (globalValues.current.questionCurrent.type == 'picture_multiple') {
                 document.querySelectorAll('.quizz_question_show .picture_proposal').forEach((node) => {
                     node.classList.remove('focused')
                 })
-            }else{
+            } else {
                 document.querySelectorAll('.quizz_question_show .propal_button').forEach((node) => {
                     node.classList.remove('focused')
                 })
@@ -196,12 +196,12 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
         }
 
         return (
-            <div className="flex items-center w-full h-full gap-4 mt-8">
-                <div className="quizz_question_show relative flex flex-1 flex-col items-center gap-6 card" style={{ paddingTop: '5.5rem', minHeight: '740px', maxHeight: '740px' }}>
-                    <div className="flex w-full justify-center" style={{ position: "absolute", top: "-82px" }}>
-                        <img src={QuizzLogo} style={{ width: '20%' }} />
+            <div className="flex flex-col lg:flex-row items-center w-full h-full gap-4 mt-8">
+                <div className="quizz_question_show px-2 pb-12 relative flex flex-1 flex-col items-center gap-6 card w-full lg:w-auto h-fit lg:h-[740px]" style={{ paddingTop: '5.5rem' }}>
+                    <div className="flex w-full justify-center absolute -top-[60px] lg:-top-[82px]">
+                        <img src={QuizzLogo} className='w-[200px]' />
                     </div>
-                    <div style={{ position: 'absolute', top: '20px', left: '20px', width: 90, height: 90 }}>
+                    <div className='w-[60px] md:w-[90px]' style={{ position: 'absolute', top: '20px', left: '20px' }}>
                         <CircularProgressbar strokeWidth={10} value={percentageTimer()} text={`${globalValues.current.timerCurrent}`}
                             styles={{
                                 path: {
@@ -240,11 +240,11 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                         animate={isAnimatingNewQuestion ? { x: -100, opacity: 0 } : { x: 0, opacity: 1 }}
                         transition={{ duration: 0.1 }} className='flex justify-center items-center flex-col gap-4'>
                         <div className="idQuestion flex flex-col justify-end absolute top-3 right-3 text-right text-[12px] select-none">
-                            <div onClick={copyIdQuestion}><b>ID:</b> {questionCurrent.asset}<br /></div>
-                            <div>
+                            <div className='hidden lg:flex' onClick={copyIdQuestion}><b>ID:</b> {questionCurrent.asset}<br /></div>
+                            <div className='hidden lg:flex'>
                                 <b>Catégorie:</b> {questionCurrent.category}<br />
                             </div>
-                            <div>
+                            <div className='hidden lg:flex'>
                                 <b>Thème:</b> {questionCurrent.theme}
                             </div>
 
@@ -258,13 +258,13 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                             </div>
 
                         </div>
-                        <div className="authoQuestion absolute bottom-3 right-3 text-[12px] select-none" onClick={() => { }}>
+                        <div className="authoQuestion absolute bottom-3 right-3 text-[10px] md:text-[12px] select-none" onClick={() => { }}>
                             Proposée par <b>{questionCurrent.author !== undefined ? questionCurrent.author.name : 'le staff'}</b>
                         </div>
 
                         {questionCurrent.type == 'text' &&
                             <div className="relative rounded-[8px]" style={{ background: 'transparent' }}>
-                                <div className="sentenceText select-none">
+                                <div className="sentenceText select-none text-[20px] md:text-[26px] px-[0rem] py-[4rem] md:px-[6rem] md:py-[10rem]">
                                     {questionCurrent.sentence}
                                 </div>
                             </div>
@@ -274,10 +274,8 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                                 {!isAnimatingNewQuestion && <img src={questionPicture !== undefined ?
                                     questionPicture :
                                     `${ziggy.url}/storage/quizz/${questionCurrent?.asset}.webp`} style={{
-                                        maxHeight: "380px",
-                                        minHeight: "380px",
                                         objectFit: "fill",
-                                    }} className="rounded-xl select-none" alt="" />}
+                                    }} className="max-h-[200px] md:max-h-[380px] rounded-xl select-none" alt="" />}
                             </>
                         }
                         {questionCurrent.type == 'picture_multiple' &&
@@ -301,10 +299,8 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                                     return (
                                         <motion.div whileHover={{ scale: '1.05', transition: { duration: 800 } }} className={`picture_proposal ${isGood !== undefined ? result.answerGood[0] == picture.id ? 'good' : 'bad' : 'test'}`} onClick={(e) => { selectAnswer(e, picture.id) }}>
                                             {!isAnimatingNewQuestion && <img src={picture.url} style={{
-                                                maxHeight: "200px",
-                                                minHeight: "200px",
                                                 objectFit: "fill"
-                                            }} className="rounded-xl select-none" alt="" />}
+                                            }} className="min-w-[100px] max-w-[100px] md:min-w-[200px] md:max-w-[200px] rounded-xl select-none" alt="" />}
                                         </motion.div>
                                     )
                                 })}
@@ -318,55 +314,58 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                                         minHeight: "380px",
                                         objectFit: "fill",
                                         userSelect: "none"
-                                    }} alt="" />
+                                    }} className='w-[280px] md:w-[380px]' alt="" />
                                 </div>
                             </>
 
                         }
                         <div className="flex flex-col items-center gap-1">
-                            <span className='text-[24px] font-extralight select-none'>Question {(globalValues.current?.data?.questionCursor + 1)}/{globalValues.current?.data?.maxQuestions}</span>
-                            <h2 className="text-[24px] font-bold select-none">
+                            <span className='text-[18px] md:text-[24px] font-extralight select-none'>Question {(globalValues.current?.data?.questionCursor + 1)}/{globalValues.current?.data?.maxQuestions}</span>
+                            <h2 className="text-[18px] md:text-[24px] text-center font-bold select-none">
                                 {questionCurrent.type !== 'text' ? questionCurrent.sentence : "Répondez à la question ci-dessus"}
                             </h2>
                             {questionCurrent.type == 'picture_multiple' &&
-                                <span><i>Cliquez sur l'image correspondante</i></span>
+                                <span className='text-[14px] md:text-[18px]'><i>Cliquez sur l'image correspondante</i></span>
                             }
                         </div>
                         {/*Propal*/}
                         {questionCurrent.type !== 'picture_multiple' &&
-                            <div className="propal w-fit flex justify-center flex-wrap gap-4">
-                                {questionCurrent?.proposal?.map((propo) => {
+                            <>
+                                <div className="propal flex w-fit justify-center flex-wrap gap-4">
+                                    {questionCurrent?.proposal?.map((propo) => {
 
-                                    let isBad = undefined;
-                                    let isGood = undefined;
-                                    let isGoodNotGiven = undefined;
-                                    let answerGive = undefined;
-                                    const result = globalValues.current.resultSendAnswer;
-                                    if (result !== undefined && result.answerSend !== undefined) {
-                                        answerGive = result.answerSend?.find((answer) => answer.id == propo.id);
-                                        for (let i = 0; i < result.answerGood.length; i++) {
-                                            const answer = result.answerGood[i];
-                                            if (answer == propo.id) {
-                                                isGood = result.answerGood.includes(propo.id) && result.answerSend.find((ans) => ans.id == answer) !== undefined
-                                                isGoodNotGiven = result.answerGood.includes(propo.id) && result.answerSend.find((ans) => ans.id == answer) == undefined
+                                        let isBad = undefined;
+                                        let isGood = undefined;
+                                        let isGoodNotGiven = undefined;
+                                        let answerGive = undefined;
+                                        const result = globalValues.current.resultSendAnswer;
+                                        if (result !== undefined && result.answerSend !== undefined) {
+                                            answerGive = result.answerSend?.find((answer) => answer.id == propo.id);
+                                            for (let i = 0; i < result.answerGood.length; i++) {
+                                                const answer = result.answerGood[i];
+                                                if (answer == propo.id) {
+                                                    isGood = result.answerGood.includes(propo.id) && result.answerSend.find((ans) => ans.id == answer) !== undefined
+                                                    isGoodNotGiven = result.answerGood.includes(propo.id) && result.answerSend.find((ans) => ans.id == answer) == undefined
+                                                }
                                             }
                                         }
-                                    }
 
-                                    return (
-                                        <motion.div style={{ flex: '1 0 calc(33.33% - 20px)', maxWidth: 'calc(33.33% - 20px)', boxSizing: 'border-box' }} dataAnswer={propo.id} whileHover={{ scale: '1.05', transition: { duration: 800 } }} className={`propal_button ${isGood ? 'good' : isGoodNotGiven ? 'goodNotGiven' : answerGive !== undefined ? answerGive.isBad ? 'bad' : '' : ''}`} onClick={(e) => { selectAnswer(e, propo.id) }}>
-                                            {propo.text}
-                                        </motion.div>
-                                    )
-                                })}
-                            </div>
+                                        return (
+                                            <motion.div style={{ flex: '1 0 calc(33.33% - 20px)', maxWidth: 'calc(33.33% - 20px)', boxSizing: 'border-box' }} dataAnswer={propo.id} whileHover={{ scale: '1.05', transition: { duration: 800 } }} className={`propal_button text-[14px] desktop md:text-[16px] ${isGood ? 'good' : isGoodNotGiven ? 'goodNotGiven' : answerGive !== undefined ? answerGive.isBad ? 'bad' : '' : ''}`} onClick={(e) => { selectAnswer(e, propo.id) }}>
+                                                {propo.text}
+                                            </motion.div>
+                                        )
+                                    })}
+                                </div>
+                            </>
+
                         }
                     </motion.div>
 
                 </div>
-                <div className="flex flex-col gap-4">
+                <div className="hidden md:flex flex-col gap-4 w-full lg:w-auto pb-8 lg:pb-0">
                     <PlayersList playersListScore={playersListScore} globalValues={globalValues} />
-                    <div className="card gap-2 p-4">
+                    <div className="card gap-2 p-4 w-full">
                         <h2 className='text-[20px] font-semibold select-none'>Chat</h2>
                         <div className="messages w-full" style={{ height: '250px', overflowY: 'auto' }}>
                             {globalValues.current.messages.map((message) => {

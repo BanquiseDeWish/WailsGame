@@ -45,7 +45,7 @@ export default class GameMode extends BaseModal {
     render() {
         return super.render(
             <>
-                <div className='flex flex-col gap-[32px] w-[800px] p-8 select-none' style={{ background: 'var(--modal_background)', height: 'fit-content', borderRadius: 'inherit' }}>
+                <div className='flex flex-col gap-[32px] lg:w-[800px] p-8 select-none' style={{ background: 'var(--modal_background)', height: 'fit-content', borderRadius: 'inherit' }}>
                     <div className="flex flex-col gap-2">
                         <h2 className='text-[28px] font-semibold'>Mode de jeu</h2>
                         <span>Vous pouvez choisir le mode de jeu que vous voulez, mais vous pouvez toujours jouer de manière classique à QuizzMaster</span>
