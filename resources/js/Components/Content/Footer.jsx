@@ -34,7 +34,7 @@ export default function Footer() {
                     <Link>
                         Politique de Confidentialité
                     </Link>
-                    <Link>
+                    <Link href={route('legals.page', { page: 'mentions-legals' })}>
                         Mentions Légales
                     </Link>
                     <Link>

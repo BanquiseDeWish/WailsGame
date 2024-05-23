@@ -12,6 +12,7 @@ use App\Http\Controllers\QuizzMasterController;
 use App\Http\Controllers\TierlistController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LegalsController;
 use Inertia\Inertia;
 
 /*
@@ -108,6 +109,10 @@ Route::get('/dev/calc_stats', [VIPGameController::class, 'calcStatsView'])->midd
 
 Route::middleware('auth_twitch')->group(function() {
     Route::post('/user/update/cosmetics/', [AppareanceController::class, 'save'])->name('user.cosmetics.update');
+});
+
+Route::prefix('legals')->name('legals.')->middleware(['auth_twitch'])->group(function() {
+    Route::get('/{page}', [LegalsController::class, 'page'])->name('page');
 });
 
 require __DIR__.'/auth.php';
