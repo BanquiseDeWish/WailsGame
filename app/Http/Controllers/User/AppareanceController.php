@@ -59,6 +59,10 @@ class AppareanceController extends Controller
 
         DB::table('users__card')->updateOrInsert(['user_id' => $user->id], ['active_cosmetics' => implode(',', $cardActiveCosmetics)]);
         DB::table('users__penguin')->updateOrInsert(['user_id' => $user->id], ['active_cosmetics' => implode(',', $penguinActiveCosmetics)]);
+        if($user->active_penguin == null) {
+            $user->active_penguin = DB::table('users__penguin')->select('id')->where('user_id', $user->id)->first()->id;
+            $user->save();
+        }
 
         return response()->json(['success' => 'Cosmetics saved']);
     }
