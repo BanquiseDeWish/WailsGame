@@ -4,7 +4,7 @@ export default function CosmeticCard({className, width=200, height=200, lock=fal
 
     return (
         <div className={
-            `${className} content-center text-center flex-shrink-0 relative bg-container rounded-md p-4 flex flex-col gap-4 items-center cursor-pointer hover:bg-light_container transition-all ${lock ? 'opacity-40' : ''}
+            `${className} text-base content-center text-center flex-shrink-0 relative bg-container rounded-md p-4 flex flex-col gap-4 items-center cursor-pointer hover:bg-light_container transition-all ${lock ? 'opacity-40' : ''}
         `}
             onClick={onClick}
             {...props}
