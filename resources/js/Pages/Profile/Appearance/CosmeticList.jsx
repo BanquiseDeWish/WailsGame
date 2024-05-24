@@ -45,7 +45,7 @@ export default function CosmeticList({ cosmetics, activeTab, selectCosmetic}) {
                         case 'accessory':
                         case 'penguin_eye':
                             return (
-                                <CosmeticCard className={"w-[160px] h-[160px] md:h-[200px] md:w-[200px] overflow-hidden justify-end"} key={cosmetic.name+'_'+randomId()} onClick={() => { selectCosmetic(cosmetic) }} lock={!cosmetic.owned}>
+                                <CosmeticCard className={"h-[160px] md:h-[200px] md:w-[200px] overflow-hidden justify-end"} key={cosmetic.name+'_'+randomId()} onClick={() => { selectCosmetic(cosmetic) }} lock={!cosmetic.owned}>
                                     <div className={`flex flex-shrink-0 justify-center items-end overflow-hidden top-[-10px] w-[128px] h-[128px] absolute md:relative ${!cosmetic.owned && 'opacity-70'}`}>
                                         <div dangerouslySetInnerHTML={{ __html: cosmetic.style }} className={window.innerWidth <= 768 ? 'scale-[0.75]' : ''} />
                                     </div>
@@ -56,7 +56,7 @@ export default function CosmeticList({ cosmetics, activeTab, selectCosmetic}) {
                         case 'icon_background':
                         case 'card_background':
                             return (
-                                <CosmeticCard className={"w-[160px] h-[160px] md:h-[200px] md:w-[200px]"} key={cosmetic.name+'_'+randomId()} onClick={() => { selectCosmetic(cosmetic) }} lock={!cosmetic.owned}>
+                                <CosmeticCard className={"h-[160px] md:h-[200px] md:w-[200px]"} key={cosmetic.name+'_'+randomId()} onClick={() => { selectCosmetic(cosmetic) }} lock={!cosmetic.owned}>
                                     <div className={`flex flex-shrink-0 justify-center items-end overflow-hidden w-[84px] h-[84px] md:w-[128px] md:h-[128px] rounded-full ${!cosmetic.owned && 'opacity-70'}`}
                                         style={{ background: cosmetic.style, backgroundSize: 'cover' }}
                                     />
