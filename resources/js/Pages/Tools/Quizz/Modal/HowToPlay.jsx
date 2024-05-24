@@ -49,7 +49,7 @@ export default class HowToPlay extends BaseModal {
                         <img src={GameIcon} className='w-12 h-12' alt="" />
                         <h2 className='text-[28px] font-semibold'>Comment se déroule une partie ?</h2>
                     </div>
-                    <p>
+                    <p className='max-h-[200px] lg:max-h-none overflow-y-auto'>
                         Le principe est simple : vous répondez jusqu'à 50 questions variées pendant 15 secondes chacune. Ça peut être une simple question, une question audio ou encore une image ou des images. Le but, avoir le meilleur score pour prouver à vos amis que vous avez un BIG BRAIN.<br /><br />
                         Plus vous répondez vite, plus vous gagnerez ou perdrez de points. Cependant, à contrario, plus vous prenez votre temps pour répondre moins vous gagnerez ou perdrez de points.<br /><br />
                         <div className="flex">

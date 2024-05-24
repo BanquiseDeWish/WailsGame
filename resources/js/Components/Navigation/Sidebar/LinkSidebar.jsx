@@ -27,6 +27,7 @@ export default function LinkSidebar({className, ...otherProps}) {
                     <Link href={route('predigivre.halloffame', { filter: 'today' })}>Prédi Givrées</Link>
                     <Link href={route('kartchance.index')}>Kart Chance</Link>
                     <Link href={route('tierlist.index')}>Tierlist</Link>
+                    <Link href={route('games.quizz.index')}>QuizzMaster</Link>
                 </SidebarCategory>
             </SidebarContent>
         </Sidebar>
