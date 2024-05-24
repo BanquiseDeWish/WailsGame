@@ -41,7 +41,6 @@ export default class BDWSocket {
                 extra: JSON.stringify(this.extra),
                 ...this.args
             },
-            transports: ['websocket', 'polling'],
             ...props
         };
         this.socket = io(!this.custom?.url ? URL : this.custom.url, opts);
