@@ -68,6 +68,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                 cosmetic.rotation = cosmetic?.data?.rotation ?? 0;
                 cosmetic.pivotX = cosmetic.x + cosmetic?.data?.width * cosmetic.scale / 2;
                 cosmetic.pivotY = cosmetic.y + cosmetic?.data?.height * cosmetic.scale / 2;
+                cosmetic.flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
                 return cosmetic;
             }
         }) ?? defaultValue;
@@ -91,6 +92,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                 cosmetic.rotation = cosmetic?.data?.rotation ?? 0;
                 cosmetic.pivotX = cosmetic.x + cosmetic?.data?.width * cosmetic.scale / 2;
                 cosmetic.pivotY = cosmetic.y + cosmetic?.data?.height * cosmetic.scale / 2;
+                cosmetic.flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
                 switch (cosmetic.sub_type) {
                     case 'penguin_eye':
                         setPenguinEyes(cosmetic);
@@ -139,10 +141,11 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                     let rotation = cosmetic?.data?.rotation ?? 0;
                     let pivotX = x + cosmetic?.data?.width * scale / 2;
                     let pivotY = y + cosmetic?.data?.height * scale / 2;
+                    let flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
 
                     return (
                         <svg key={cosmetic?.name}>
-                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})`}
+                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})  ${flipHorizontally ? 'scale(-1, 1)' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
                         </svg>
                     );
@@ -242,10 +245,11 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                     let rotation = cosmetic?.data?.rotation ?? 0;
                     let pivotX = x + cosmetic?.data?.width * scale / 2;
                     let pivotY = y + cosmetic?.data?.height * scale / 2;
+                    let flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
 
                     return (
                         <svg key={`${twitchId}_${cosmetic?.name}_${index}`}>
-                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})`}
+                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale}) ${flipHorizontally ? 'scale(-1, 1)' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
                         </svg>
                     );
