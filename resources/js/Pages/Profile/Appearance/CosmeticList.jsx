@@ -6,9 +6,9 @@ import { useEffect } from "react"
 export default function CosmeticList({ cosmetics, activeTab, selectCosmetic}) {
 
     return (
-        <div className="md:order-2 md:flex md:flex-shrink-0 container justify-start items-start xl:col-span-5 col-span-3 p-4 md:p-8 select-none md:h-full overflow-hidden">
+        <div className="md:order-2 md:flex md:flex-shrink-0 container justify-start items-start xl:col-span-5 col-span-3 p-2 md:p-8 select-none md:h-full overflow-hidden">
         {!cosmetics && <div className="flex justify-center items-center w-full h-full"><div className="loader-spinner"></div></div>}
-        <div className="grid grid-cols-2 md:flex md:flex-wrap gap-4 h-full overflow-y-auto content-start">
+        <div className="grid grid-cols-2 md:flex md:flex-wrap gap-2 h-full overflow-y-auto content-start">
             {cosmetics && activeTab == 'slogan' &&
                 <CosmeticCard className={"md:h-[128px] md:w-[200px]"} key={'no_cosmetic'} onClick={() => { selectCosmetic(undefined) }}>
                     <span className="flex items-center justify-center text-center h-full w-full">Un Pingouin Voyageur</span>
