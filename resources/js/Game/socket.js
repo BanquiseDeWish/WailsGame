@@ -10,7 +10,6 @@ export default class BDWSocket {
         this.args = args;
         this.authData = authData;
         this.custom = custom;
-        console.log(this.custom)
         this.init(opts);
 
         const observeUrlChange = () => {
