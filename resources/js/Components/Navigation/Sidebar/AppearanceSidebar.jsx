@@ -15,7 +15,7 @@ export default function AppearanceSidebar({ tabs, getCosmetics, activeTab, class
             show={show}
             setShow={setShow}
             className={className}
-            sidebarStyle={{ position: 'absolute'}}
+            sidebarStyle={{ position: 'absolute', borderRadius: '0 12px 0 0'}}
             {...otherProps}
         >
             <SidebarOpener>
