@@ -30,6 +30,7 @@ class CosmeticSeeder extends Seeder
             if (isset($cosmetic['style'])) $style = $cosmetic['style'];
             if (isset($cosmetic['data'])) $data = $cosmetic['data'];
             if (isset($cosmetic['free'])) $free = $cosmetic['free'];
+            if (isset($cosmetic['rarity'])) $rarity = $cosmetic['rarity'];
 
             if ($newCosmeticItem === null) {
                 $newCosmeticItem = Cosmetic::create([
