@@ -38,7 +38,7 @@ class CosmeticController extends Controller
             return response()->json(["error" => "No sub type provided"]);
         $subTypeCosmetic = $inputs['sub_type'];
 
-        $cosmetics = Cosmetic::where('type', $typeCosmetic)->where('sub_type', $subTypeCosmetic)->where('rarity','>=', '0')->orWhereIn('id', $userSecretCosmetics)->get();
+        $cosmetics = Cosmetic::where('type', $typeCosmetic)->where('sub_type', $subTypeCosmetic)->where('rarity','>=', '0')->orWhereIn('id', $userSecretCosmetics)->where('sub_type', $subTypeCosmetic)->get();
         foreach ($cosmetics as $cosmetic) {
             $cosmetic->data = json_decode($cosmetic->data, true);
         }

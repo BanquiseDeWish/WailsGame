@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useSwipeable } from 'react-swipeable';
 import { usePage, Link } from "@inertiajs/react"
 
-export default function Sidebar({ children, className, left = true }) {
+export default function Sidebar({ children, show2, className, sidebarStyle = {}, left = true }) {
 
     const [show, setShow] = useState(false);
     const [values, setValues] = useState({
@@ -31,6 +31,11 @@ export default function Sidebar({ children, className, left = true }) {
         });
     }, []);
 
+    useEffect(() => {
+        console.log(show2)
+        setShow(show2)
+    }, [show2]);
+
     const handlers = useSwipeable({
         onSwiped: (eventData) => {
             let checkDirection = left ? "Right" : "Left"
@@ -46,7 +51,9 @@ export default function Sidebar({ children, className, left = true }) {
                     {values.opener}
                 </div>
                 <div  onClick={() => { setShow(false) }} className={`backdrop ${show ? "show" : "hide-" + (left ? "left" : "right")}`}></div>
-                <aside className={`sidebar sidebar-${left ? "left" : "right"} ${show ? "show" : "hide-" + (left ? "left" : "right")}`}>
+                <aside className={`sidebar sidebar-${left ? "left" : "right"} ${show ? "show" : "hide-" + (left ? "left" : "right")}`}
+                    style={sidebarStyle}
+                >
                     {values.content}
                 </aside>
             </div>

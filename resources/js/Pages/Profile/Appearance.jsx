@@ -168,18 +168,17 @@ export default function ProfileAppearance(props) {
     }, []);
 
     return (
-        <MainLayout showOverflow={false} className={"h-full relative p-2"}>
+        <MainLayout showOverflow={false} className={"relative p-2"}>
             <Head title="Apparence" />
 
 
-            {/*<AppearanceSidebar tabs={tabs} getCosmetics={getCosmetics} activeTab={activeTab} />*/}
             <div className="flex flex-col gap-3 md:grid xl:grid-cols-9 grid-cols-7 md:gap-6 h-full overflow-hidden">
                 {/* Save button mobile and SideBar */}
-                <div className="flex md:hidden gap-3 w-full">
-                    <div className="flex-shrink-0 rounded-md bg-container w-[48px] h-[48px]">
-
-                    </div>
-                    <BlueButton className="w-full h-[48px] text-base" onClick={saveCosmetics}>Sauvegarder</BlueButton>
+                <div className="flex md:hidden gap-3 w-full navbar z-[100000]" style={{position: "static"}}>
+                    {/*<div className="flex-shrink-0 rounded-md bg-container w-[48px] h-[48px]">
+                    </div>*/}
+                    <AppearanceSidebar className={"z-10"} tabs={tabs} getCosmetics={getCosmetics} activeTab={activeTab} />
+                    <BlueButton className="z-0 w-full h-[48px] text-base" onClick={saveCosmetics}>Sauvegarder</BlueButton>
                 </div>
 
                 {/* User */}
