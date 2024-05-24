@@ -10,15 +10,18 @@ import { randomId } from '@/Game/random';
 import QuizzLobby from './Phase/Lobby';
 import QuizzQuestionShow from './Phase/QuizzQuestionShow';
 
+import QuizzLogo from '@assets/img/QuizzMasterLogo.webp'
+import QuizzErrorServerPicture from '@assets/img/error_server.png'
 
-import QuoteUpIcon from '../../../../assets/icons/quote-up.svg'
-import QuoteDownIcon from '../../../../assets/icons/quote-down.svg'
+import QuoteUpIcon from '@assets/icons/quote-up.svg'
+import QuoteDownIcon from '@assets/icons/quote-down.svg'
 import QuizzResult from './Phase/QuizzResult';
 import Settings from './Modal/Settings';
 import Report from './Modal/Report';
 import QuizzScattegoriesShow from './Phase/QuizzScattergoriesShow';
 
-import '../../../../css/quizz.css';
+import '@css/quizz.css';
+import BlueButton from '@/Components/Navigation/Buttons/BlueButton';
 
 let socket = null;
 const DEV = false;
@@ -38,7 +41,7 @@ export default function Quizz(props) {
         socket: null,
         phaseId: 0,
         launchingGame: false,
-        connectionError: false,
+        connectionError: { state: false, message: '' },
         lastError: undefined,
         gameId: props.gameId,
         maximumQuestions: 30,
@@ -53,6 +56,7 @@ export default function Quizz(props) {
         resultSendAnswer: undefined,
         resultAnswersPlayers: undefined,
         gameMode: 'classic',
+        isLoaded: false,
         themes: [],
         players: [],
         scattergoriesDataValidator: undefined
@@ -81,6 +85,20 @@ export default function Quizz(props) {
         }
     }
 
+    const listen = (event, callback = () => {}) => {
+        if (globalValues.current.socket !== null) {
+            const socket = globalValues.current.socket;
+            socket.on(event, callback)
+        }
+    }
+
+    const unlisten = (event, callback = () => {}) => {
+        if (globalValues.current.socket !== null) {
+            const socket = globalValues.current.socket;
+            socket.off(event, callback)
+        }
+    }
+
     const changeSetting = (key, val) => {
         if(key == "chatState") {
             setSettingsValues({ ...settingsValues, chatState: val })
@@ -94,31 +112,41 @@ export default function Quizz(props) {
         localStorage.setItem(key, parseInt(val))
     }
 
+    const reconnect = () => {
+        modifyValues('connectionError', { state: false, message: '' })
+        globalValues.current.socket.reconnect()
+    }
+
     useEffect(() => {
-        if(!globalValues.current.init){
-            const socket = new BDWSocket("quizz", {}, { userName: props.auth?.twitch?.display_name }, { gameId: globalValues.current?.gameId, userId: props.auth?.twitch?.id })
+        let gvc = globalValues.current;
+        if(!gvc.init){
+            const socket = new BDWSocket("quizz", {}, { userName: props.auth?.twitch?.display_name }, { gameId: gvc?.gameId, userId: props.auth?.twitch?.id }, { reconnection: false, reconnect: false })
             modifyValues('socket', socket);
-            if (globalValues.current.socket !== null) {
+            if (gvc.socket !== null) {
                 function onConnect() {
-                    if(globalValues.current.connectionError) {
+                    if(!gvc.connectionError.state) {
                         toast.success('De nouveau connecté au serveur')
-                        modifyValues('connectionError', false)
+                        modifyValues('connectionError', { state: false, message: '' })
                     }
                 }
 
                 function onDisconnect(reason, details) {
-                    globalValues.current = defaultValues;
-                    toast.error('Déconnecté du serveur')
+                    if(!gvc.connectionError.state) {
+                        toast.error(`Connexion perdue avec le serveur`);
+                        modifyValues('isLoaded', false)
+                        modifyValues('connectionError', { state: true, message: reason })
+                    }
+                    gvc = defaultValues;
                 }
 
-                globalValues.current.socket.on('connect', onConnect);
-                globalValues.current.socket.on('disconnect', onDisconnect);
+                gvc.socket.on('connect', onConnect);
+                gvc.socket.on('disconnect', onDisconnect);
 
-                globalValues.current.socket.on('quizz_sendGameID', (args) => {
+                gvc.socket.on('quizz_sendGameID', (args) => {
                     modifyValues('gameId', args.gameID)
                 })
 
-                globalValues.current.socket.on('quizz_update_playerlist', (args) => {
+                gvc.socket.on('quizz_update_playerlist', (args) => {
 
                     //check if player is leader
                     const isLeader = args.list.find((p) => p.userId == props.auth?.twitch?.id && p.isLeader)
@@ -126,12 +154,12 @@ export default function Quizz(props) {
                     modifyValues('players', args.list)
                 })
 
-                globalValues.current.socket.on('quizz_sendThemesState', (args) => {
+                gvc.socket.on('quizz_sendThemesState', (args) => {
                     modifyValues('themes', args.list)
                 })
 
-                globalValues.current.socket.on('quizz_update_phaseid', (args) => {
-                    const gm = globalValues.current.gameMode
+                gvc.socket.on('quizz_update_phaseid', (args) => {
+                    const gm = gvc.gameMode
                     if(args.phaseId == 0) {
                         modifyValues('launchingGame', false)
                     }
@@ -145,41 +173,41 @@ export default function Quizz(props) {
                     modifyValues('phaseId', args.phaseId)
                 })
 
-                globalValues.current.socket.on('quizz_new_question_current', (args) => {
+                gvc.socket.on('quizz_new_question_current', (args) => {
                     modifyValues('questionCurrent', args.questionData)
                 })
 
-                globalValues.current.socket.on('quizz_update_timer', (args) => {
+                gvc.socket.on('quizz_update_timer', (args) => {
                     modifyValues('timerCurrent', args.timer)
                 })
 
-                globalValues.current.socket.on('quizz_answer_result', (args) => {
+                gvc.socket.on('quizz_answer_result', (args) => {
                     modifyValues('resultSendAnswer', args)
                 })
 
-                globalValues.current.socket.on('quizz_answer_result_players', (args) => {
+                gvc.socket.on('quizz_answer_result_players', (args) => {
                     modifyValues('resultAnswersPlayers', args)
                 })
 
-                globalValues.current.socket.on('quizz_update_data', (args) => {
+                gvc.socket.on('quizz_update_data', (args) => {
                     modifyValues('data', args)
                 })
 
-                globalValues.current.socket.on('quizz_launching_game', (args) => {
+                gvc.socket.on('quizz_launching_game', (args) => {
                     modifyValues('launchingGame', true)
                 })
 
-                globalValues.current.socket.on('quizz_reset_other_data', (args) => {
+                gvc.socket.on('quizz_reset_other_data', (args) => {
                     modifyValues('launchingGame', false)
-                    console.log(globalValues.current)
+                    console.log(gvc)
                 })
 
-                globalValues.current.socket.on('quizz_update_gamemode', (gameMode) => {
+                gvc.socket.on('quizz_update_gamemode', (gameMode) => {
                     modifyValues('gameMode', gameMode)
                 })
 
-                globalValues.current.socket.on('quizz_new_chat_message', (args) => {
-                    let messages = [...globalValues.current.messages]
+                gvc.socket.on('quizz_new_chat_message', (args) => {
+                    let messages = [...gvc.messages]
                     messages = [args, ...messages];
 
                     //Check settings chat
@@ -191,32 +219,35 @@ export default function Quizz(props) {
                     modifyValues('messages', messages)
                 })
 
-                globalValues.current.socket.on('quizz_send_maximum_questions', (args) => {
+                gvc.socket.on('quizz_send_maximum_questions', (args) => {
                     modifyValues('maximumQuestions', args)
                 })
 
-                globalValues.current.socket.on('quizz_new_player', (player) => {
+                gvc.socket.on('quizz_new_player', (player) => {
                     toast.info(`${player.username} a rejoint la partie !`)
                 })
 
-                globalValues.current.socket.on('quizz_reset_questions_final', (questions) => {
+                gvc.socket.on('quizz_reset_questions_final', (questions) => {
                     modifyValues('questionsFinal', [])
                 })
 
-                globalValues.current.socket.on('quizz_receive_questions_final', (questions) => {
+                gvc.socket.on('quizz_receive_questions_final', (questions) => {
                     modifyValues('questionsFinal', questions)
                 })
 
-                globalValues.current.socket.on('quizz_scattergories_validator_new_data', (args) => {
+                gvc.socket.on('quizz_scattergories_validator_new_data', (args) => {
                     modifyValues('scattergoriesDataValidator', args)
                 })
 
-                globalValues.current.socket.on('quizz_scattergories_validator_update_data', (args) => {
+                gvc.socket.on('quizz_scattergories_validator_update_data', (args) => {
                     modifyValues('scattergoriesDataValidator', args)
                 })
 
-                globalValues.current.socket.on('errorMessage', (args) => {
-                    console.log("Error Custom Message:", args)
+                gvc.socket.on('quizz_end_loaded', () => {
+                    modifyValues('isLoaded', true);
+                })
+
+                gvc.socket.on('errorMessage', (args) => {
                     modifyValues('lastError', (args.message !== "reset_error" ? args : undefined))
                     if(args.message == 'too_many_players') {
                         document.location.href = route('games.quizz.index');
@@ -227,24 +258,22 @@ export default function Quizz(props) {
                     toast.error(args.message)
                 })
 
-                globalValues.current.socket.on('error', (data) => {
-                    console.error('Error', data)
+                gvc.socket.on('error', (data) => {
                 });
 
-                globalValues.current.socket.on("connect_error", (err) => {
-                    console.error('Error', err)
-                    if(!globalValues.current.connectionError) {
+                gvc.socket.on("connect_error", (err) => {
+                    if(!gvc.connectionError.state) {
                         toast.error(`Connexion au serveur échoué`);
-                        modifyValues('connectionError', true)
+                        modifyValues('connectionError', { state: true, message: err.message })
                     }
-                    globalValues.current = defaultValues;
+                    gvc = defaultValues;
                 });
 
                 modifyValues('init', true);
 
                 return () => {
-                    globalValues.current.socket.off('connect', onConnect);
-                    globalValues.current.socket.off('disconnect', onDisconnect);
+                    gvc.socket.off('connect', onConnect);
+                    gvc.socket.off('disconnect', onDisconnect);
                 }
             }
         }
@@ -254,10 +283,10 @@ export default function Quizz(props) {
     let componentGame = undefined;
     switch(globalValues.current.gameMode) {
         case 'classic':
-            componentGame = <QuizzQuestionShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />
+            componentGame = <QuizzQuestionShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} socketListen={listen} emit={emit} />
             break;
         case 'scattergories':
-            componentGame = <QuizzScattegoriesShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />
+            componentGame = <QuizzScattegoriesShow sv={settingsValues} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} ziggy={props.ziggy} globalValues={globalValues} modifyValues={modifyValues} socketListen={listen} socketOff={unlisten} emit={emit} />
             break;
     }
 
@@ -268,9 +297,31 @@ export default function Quizz(props) {
                 <Settings fsv={changeSetting} sv={settingsValues} isOpen={isOpenSettings} setIsOpen={setIsOpenSettings} />
                 <Report gameId={globalValues.current.gameId} isOpen={isOpenReport} setIsOpen={setIsOpenReport} />
                 {globalValues.current.phaseId == -1 && <></>}
-                {globalValues.current.phaseId == 0 && <QuizzLobby report={{ state: isOpenReport, set: setIsOpenReport }} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
-                {globalValues.current.phaseId == 1 || globalValues.current.phaseId == 1.5 || globalValues.current.phaseId == 2 ? componentGame : <></>}
-                {globalValues.current.phaseId == 3 && <QuizzResult report={{ state: isOpenReport, set: setIsOpenReport }} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
+                {!globalValues.current.isLoaded ?
+                    <>
+                        <div className={`flex flex-col select-none w-full text-center ${globalValues.current.connectionError.state ? 'gap-2': 'gap-16'} h-full justify-center items-center`}>
+                            <img src={QuizzLogo} className='w-[300px]' />
+                            {!globalValues.current.connectionError.state ?
+                                <>
+                                    <div className="loader-spinner" style={{ width: '80px', height: '80px' }} />
+                                    <span><b className='text-[18px]'>Chargement de la partie</b><br/>veuillez patienter..</span>
+                                </>
+                            :
+                                <>
+                                    <img style={{ width: '300px' }} src={QuizzErrorServerPicture} alt="QuizzErrorServerPicture" />
+                                    <span><b className='text-[22px]'>OOPS ! Quelque chose s'est mal passé !</b><br />Une erreur est survenue lors de la connexion au serveur<br/><b>Raison:</b> {globalValues.current.connectionError.message}</span>
+                                    <BlueButton className={"mt-10"} onClick={reconnect}>Réessayer</BlueButton>
+                                </>
+                            }
+                        </div>
+                    </>
+                    :
+                    <>
+                        {globalValues.current.phaseId == 0 && <QuizzLobby report={{ state: isOpenReport, set: setIsOpenReport }} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
+                        {globalValues.current.phaseId == 1 || globalValues.current.phaseId == 1.5 || globalValues.current.phaseId == 2 ? componentGame : <></>}
+                        {globalValues.current.phaseId == 3 && <QuizzResult report={{ state: isOpenReport, set: setIsOpenReport }} settings={{ state: isOpenSettings, set: setIsOpenSettings }} auth={props.auth} globalValues={globalValues} modifyValues={modifyValues} emit={emit} />}
+                    </>
+                }
             </MainLayout>
             <style>{`
                 :root {
