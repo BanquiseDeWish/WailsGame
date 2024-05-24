@@ -5,7 +5,7 @@ import BDWSocket from '../../../Game/socket';
 import MainLayout from '@/Layouts/MainLayout';
 
 import { toast } from 'sonner'
-
+import env from '../../../../../env.json'
 import { randomId } from '@/Game/random';
 import QuizzLobby from './Phase/Lobby';
 import QuizzQuestionShow from './Phase/QuizzQuestionShow';
@@ -120,7 +120,7 @@ export default function Quizz(props) {
     useEffect(() => {
         let gvc = globalValues.current;
         if(!gvc.init){
-            const socket = new BDWSocket("quizz", {}, { userName: props.auth?.twitch?.display_name }, { gameId: gvc?.gameId, userId: props.auth?.twitch?.id }, { reconnection: false, reconnect: false })
+            const socket = new BDWSocket("quizz", {}, { userName: props.auth?.twitch?.display_name }, { gameId: gvc?.gameId, userId: props.auth?.twitch?.id }, { reconnection: false, reconnect: false }, { url: env.quizzmaster_server, token: env.quizzmaster_server_secret })
             modifyValues('socket', socket);
             if (gvc.socket !== null) {
                 function onConnect() {

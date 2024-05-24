@@ -56,7 +56,6 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
             document.querySelectorAll('input.answer_input').forEach((node) => {
                 node.value = ""
             })
-            setAnswers([])
         }
     }, [gvc?.phaseId])
 
@@ -84,7 +83,6 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
     const sendAnswerToServer = () => {
         const answersData = []
         document.querySelectorAll('input.answer_input').forEach((node) => {
-            console.log(node.value)
             answersData.push({ id: parseInt(node.name), val: node.value })
         })
         emit('quizz_send_answer_player', answersData)
@@ -92,7 +90,6 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
 
     useEffect(() => {
         socketListen('quizz_scattergories_demands_answers', (args) => {
-            console.log('send answers to server!', answers)
             sendAnswerToServer()
         })
         return () => {
