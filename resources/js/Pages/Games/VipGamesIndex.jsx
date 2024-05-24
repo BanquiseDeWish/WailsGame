@@ -49,7 +49,7 @@ export default function VipGamesIndex() {
                             />
                         </div>
                         <UserPenguin
-                            className={"scale-x-[-1]"}
+                            className={"hidden md:block scale-x-[-1]"}
                             width={120}
                             twitchId={props.lastWinner?.twitch_id}
                         />
