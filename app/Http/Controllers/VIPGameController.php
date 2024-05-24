@@ -124,6 +124,8 @@ class VIPGameController extends Controller
         $players_with_most_attempt = [];
 
         for ($i = 0; $i < 3; $i++) {
+            if (count($players) == 0)
+                break;
             $maxIndex = array_search(max($players), $players);
             $maxAttempt = $players[$maxIndex];
             unset($players[$maxIndex]);
@@ -134,13 +136,18 @@ class VIPGameController extends Controller
             ];
         }
 
+        if(count($tickets) == 0) $most_ticket_played = 0; else $most_ticket_played = array_search(max($tickets), $tickets);
+        if(count($playersAverage) == 0) $average_player = 0; else $average_player = intval(array_sum($playersAverage) / $vipgames_with_players_stats);
+        if(count($gameTime) == 0) $average_game_time = 0; else $average_game_time = array_sum($gameTime) / $vipgames_with_gametime_stats;
+        if(count($all_bonus) == 0) $most_bonus_used = 0; else $most_bonus_used = array_search(max($all_bonus), $all_bonus);
+
         $stats = [
-            'average_game_time' => array_sum($gameTime) / $vipgames_with_gametime_stats,
-            'most_ticket_played' => array_search(max($tickets), $tickets),
+            'average_game_time' => $average_game_time,
+            'most_ticket_played' => $most_ticket_played,
             'total_attempt' => $ticketsAttempt,
-            'average_player' => intval(array_sum($playersAverage) / $vipgames_with_players_stats),
+            'average_player' => $average_player,
             'players_with_most_attempt' => json_encode($players_with_most_attempt),
-            'most_bonus_used' => array_search(max($all_bonus), $all_bonus),
+            'most_bonus_used' => $most_bonus_used,
         ];
 
         GameStat::updateStat('vipgames', 'average_game_time', $stats['average_game_time']);
