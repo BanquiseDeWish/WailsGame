@@ -32,9 +32,9 @@ export default function ProfileSidebar({ isWeils, className, ...otherProps }) {
                     <Link href={route('profile.index')}>
                         Profil
                     </Link>
-                    <Link href={route('profile.appearance')}>
+                    {/*<Link href={route('profile.appearance')}>
                         Apparence
-                    </Link>
+                    </Link>*/}
                     {isWeils &&
                         <Link href={"/dashboard"}>
                             Espace privé
