@@ -16,6 +16,9 @@
 
 body {
     background: var(--web_background);
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
 }
 
 .light_bg {

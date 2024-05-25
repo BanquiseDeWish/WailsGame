@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { useSwipeable } from 'react-swipeable';
 import { usePage, Link } from "@inertiajs/react"
 
-export default function Sidebar({ children, show2, className, sidebarStyle = {}, left = true }) {
+export default function Sidebar({ children, show, setShow, className, sidebarStyle = {}, left = true }) {
 
-    const [show, setShow] = useState(false);
+    const [internalShow, setInternalShow] = useState(false);
     const [values, setValues] = useState({
         opener: null,
         content: null
@@ -29,29 +29,40 @@ export default function Sidebar({ children, show2, className, sidebarStyle = {},
             opener: opener,
             content: content
         });
-    }, []);
+    }, [children]);
 
     useEffect(() => {
-        console.log(show2)
-        setShow(show2)
-    }, [show2]);
+        setInternalShow(show);
+    }, [show]);
 
     const handlers = useSwipeable({
         onSwiped: (eventData) => {
             let checkDirection = left ? "Right" : "Left"
-            setShow(eventData.dir == checkDirection)
+            setInternalShow(eventData.dir == checkDirection)
         },
     });
 
+    function openSidebar() {
+        setInternalShow(true);
+        if(setShow)
+            setShow(true);
+    }
+
+    function closeSidebar() {
+        setInternalShow(false);
+        if(setShow)
+            setShow(false);
+    }
+
     return (
         <>
-            <div {...handlers} className={`flex lg:hidden ${className} ${show ? 'z-[2]' : 'z-[1]'}`}>
+            <div {...handlers} className={`flex lg:hidden ${className} ${internalShow ? 'z-[2]' : 'z-[1]'}`}>
 
-                <div className="sidebar_opener z-50" onClick={() => { setShow(true) }} >
+                <div className="sidebar_opener z-50" onClick={openSidebar} >
                     {values.opener}
                 </div>
-                <div  onClick={() => { setShow(false) }} className={`backdrop ${show ? "show" : "hide-" + (left ? "left" : "right")}`}></div>
-                <aside className={`sidebar sidebar-${left ? "left" : "right"} ${show ? "show" : "hide-" + (left ? "left" : "right")}`}
+                <div  onClick={closeSidebar} className={`backdrop ${internalShow ? "show" : "hide-" + (left ? "left" : "right")}`}></div>
+                <aside className={`sidebar sidebar-${left ? "left" : "right"} ${internalShow ? "show" : "hide-" + (left ? "left" : "right")}`}
                     style={sidebarStyle}
                 >
                     {values.content}
