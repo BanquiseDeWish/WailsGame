@@ -1,7 +1,6 @@
 import CosmeticCard from "./CosmeticCard"
 import EmptyBoxIcon from "@/Components/Icons/EmptyBoxIcon"
 import { randomId } from "@/Game/random"
-import { useEffect } from "react"
 
 export default function CosmeticList({ cosmetics, activeTab, selectCosmetic}) {
 

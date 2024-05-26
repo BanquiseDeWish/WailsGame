@@ -52,5 +52,4 @@ export default function ProfileSidebar({ isWeils, className, ...otherProps }) {
             </SidebarContent>
         </Sidebar>
     )
-
 }

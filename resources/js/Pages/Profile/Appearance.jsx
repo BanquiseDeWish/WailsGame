@@ -3,14 +3,11 @@ import MainLayout from "@/Layouts/MainLayout";
 import '@css/page/profile/appearance/appareance.css'
 import UserPenguin from "@/Components/User/UserPenguin";
 import UserCard from "@/Components/User/UserCard";
-import { act, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from 'sonner';
 import axios from "axios";
-import CosmeticCard from "@/Pages/Profile/Appearance/CosmeticCard";
 import BlueButton from "@/Components/Navigation/Buttons/BlueButton";
 import UserIcon from "@/Components/User/UserIcon";
-import EmptyBoxIcon from "@/Components/Icons/EmptyBoxIcon";
-import { randomId } from "@/Game/random";
 import AppearanceSidebar from "@/Components/Navigation/Sidebar/AppearanceSidebar";
 import CosmeticList from "./Appearance/CosmeticList";
 
