@@ -101,7 +101,7 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                     <div className="message">En attente du leader de la partie..</div>
                 }
             </div>
-            <div className="card p-2 lg:p-6 justify-start flex-1 gap-4 mb-64">
+            <div className="card p-2 lg:p-6 justify-start flex-1 gap-4 mb-64 lg:mb-0">
                 {firstPlayer.userId == auth?.twitch?.id ?
                     <div className="flex justify-center rebondissement">
                         <span className='rb-item font-bold text-[64px]' style={{ "--delay": 1 }}>V</span>

@@ -21,8 +21,9 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
     const values = useValues();
     const [cosmetics, setCosmetics] = useState(propsCosmetics ?? values.getCosmetics(twitchId));
     const [penguinColors, setPenguinColors] = useState(propsCosmetics ? getPenguinColor(propsCosmetics) : getPenguinColor(values.getCosmetics(twitchId)));
-    const [penguinEyes, setPenguinEyes] = useState(propsCosmetics ? getCosmeticWithPosition(propsCosmetics, 'penguin_eye', getDefaultEye()) : getCosmeticWithPosition(values.getCosmetics(twitchId), 'penguin_eye', getDefaultEye()));
-    const [penguinBeak, setPenguinBeak] = useState(propsCosmetics ? getCosmeticWithPosition(propsCosmetics, 'penguin_beak', getDefaultBeak()) : getCosmeticWithPosition(values.getCosmetics(twitchId), 'penguin_beak', getDefaultBeak()));
+    const [penguinEyes, setPenguinEyes] = useState(propsCosmetics ? getCosmeticWithPosition(propsCosmetics, 'penguin_eye', undefined) : getCosmeticWithPosition(values.getCosmetics(twitchId), 'penguin_eye', undefined));
+    const [penguinBeak, setPenguinBeak] = useState(propsCosmetics ? getCosmeticWithPosition(propsCosmetics, 'penguin_beak', undefined) : getCosmeticWithPosition(values.getCosmetics(twitchId), 'penguin_beak', undefined));
+    const [penguinTail, setPenguinTail] = useState(propsCosmetics ? getCosmeticWithPosition(propsCosmetics, 'penguin_tail', undefined) : getCosmeticWithPosition(values.getCosmetics(twitchId), 'penguin_tail', undefined));
 
     useEffect(() => {
         if (twitchId) {
@@ -32,64 +33,22 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                 setData(cosmetics);
             }
         }
-        else if(!propsCosmetics) {
+        else if (!propsCosmetics) {
             clearData();
         }
     }, [twitchId, values.update])
 
     useEffect(() => {
-        if(!twitchId)
+        if (!twitchId)
             clearData();
-        if(propsCosmetics?.length > 0) {
+        if (propsCosmetics?.length > 0) {
             setCosmetics(propsCosmetics);
             setData(propsCosmetics);
         }
     }, [propsCosmetics]);
 
-    function getDefaultEye() {
-        return {
-            name: 'default',
-            style: `<g id="eye">
-                        <path id="Vector_11" d="M288.77 27.6313C288.338 46.3919 291.648 68.8273 304.255 83.4833C308.6 87.9707 312.609 91.3304 319.033 91.6313C322.98 91.5842 325.139 90.7372 328.097 88.1436C331.959 84.1284 334.743 79.7328 336.966 74.6247C337.432 73.5695 337.432 73.5695 337.907 72.4929C339.184 67.0322 339.204 61.9018 336.366 56.9726C330.887 49.131 322.062 45.5862 313.566 42.0938C306.665 39.253 292.765 30.8921 288.77 27.6313Z" fill="#FAFAFB" />
-                        <g id="pupil">
-                            <circle id="Ellipse 8" cx="319.765" cy="68.3921" r="10" fill="#354357" />
-                            <circle id="Ellipse 9" cx="323.265" cy="63.8921" r="3" fill="#EAEEF0" />
-                        </g>
-                    </g>`,
-            x: 0,
-            y: 0,
-            scale: 1,
-            rotation: 0,
-            pivotX: 0,
-            pivotY: 0
-        }
-    }
-
-    function getDefaultBeak() {
-        return {
-            name: 'default',
-            style: `<g id="beak">
-                        <g id="bottom_beak">
-                            <path id="front_bottom_beak" d="M465.5 88C452.379 102.512 427.51 106.409 411 116.5C408.075 117.652 406.762 117.429 403.809 116.363C387.446 104.549 371.521 92.3842 356.733 78.6313C356.219 78.153 356.39 76.6313 356.733 76.6313C389 80 429.5 84.5 465.5 88Z" fill="#C07359" />
-                            <path id="line_bottom_beak" d="M409.5 73.5L465.5 88L357.5 77L409.5 73.5Z" fill="#93543F" />
-                            <path id="back_bottom_beak" d="M465.733 87.65C465.403 88.31 465.06 88.5 464.56 89C433.112 86.4158 401.844 82.0033 370.407 79.2777C368.101 79.0721 356.733 79.1413 356.733 76.6311C390.5 75.5 428 83 465.733 87.65Z" fill="#6E5D59" />
-                        </g>
-                        <g id="top_beak">
-                            <path id="Vector_9" d="M402.47 52.3921C407.47 53.8921 411.314 55.7141 415.81 57.5092C417.017 57.991 418.224 58.4729 419.468 58.9693C423.32 60.6783 426.681 62.9116 430.168 65.2311C433.369 67.2858 436.652 69.1834 439.966 71.0596C440.582 71.4094 441.198 71.7592 441.833 72.1196C444.386 73.567 446.942 75.0105 449.501 76.4474C451.395 77.5127 453.285 78.5858 455.174 79.66C456.288 80.2877 457.402 80.9153 458.55 81.5619C461.34 83.336 463.484 85.2736 465.733 87.65C438 86.5 411.587 67.7579 387.233 65.1313C387.233 62.0506 392.733 60.8467 394.816 58.7487C395.7 58.022 396.584 57.2952 397.494 56.5465C398.378 55.8118 399.262 55.0771 400.172 54.3201C400.86 53.7628 401.762 52.9663 402.47 52.3921Z" fill="#DEA084" />
-                            <path id="Vector_10" d="M397.546 62.8812C413.907 67.7069 427.281 77.5074 444.608 83.2562C445.983 83.7145 457.625 86.5917 459 87.05C427.5 83.2562 388 78 372.733 76.6312C372.733 72.8299 378.17 72.2789 380.733 69.6313C389.413 61.234 390.428 61.6001 397.546 62.8812Z" fill="#CD8061" />
-                        </g>
-                    </g>`,
-            x: 0,
-            y: 0,
-            scale: 1,
-            rotation: 0,
-            pivotX: 0,
-            pivotY: 0
-        };
-    }
-
     function getDefaultColors() {
-        return {main_color: MAIN_COLOR, dark_main_color: DARK_MAIN_COLOR, light_main_color: LIGHT_MAIN_COLOR};
+        return { main_color: MAIN_COLOR, dark_main_color: DARK_MAIN_COLOR, light_main_color: LIGHT_MAIN_COLOR };
     }
 
     function getPenguinColor(cosmetics) {
@@ -109,6 +68,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                 cosmetic.rotation = cosmetic?.data?.rotation ?? 0;
                 cosmetic.pivotX = cosmetic.x + cosmetic?.data?.width * cosmetic.scale / 2;
                 cosmetic.pivotY = cosmetic.y + cosmetic?.data?.height * cosmetic.scale / 2;
+                cosmetic.flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
                 return cosmetic;
             }
         }) ?? defaultValue;
@@ -118,44 +78,49 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
         let penguinColors = false;
         let penguinEyes = false;
         let penguinBeak = false;
+        let penguinTail = false;
         cosmetics?.forEach(cosmetic => {
             if (cosmetic.type == 'penguin' && cosmetic.sub_type == 'penguin_color') {
                 setPenguinColors(cosmetic.data.colors);
                 penguinColors = true;
                 return;
             }
-            else if(cosmetic.type == 'penguin' && cosmetic.sub_type == 'penguin_beak') {
+            else if (cosmetic.type == 'penguin' && ['penguin_eye', 'penguin_beak', 'penguin_tail'].includes(cosmetic.sub_type)) {
                 cosmetic.x = cosmetic?.data?.x ?? 0;
                 cosmetic.y = cosmetic?.data?.y ?? 0;
                 cosmetic.scale = cosmetic?.data?.scale ?? 1;
                 cosmetic.rotation = cosmetic?.data?.rotation ?? 0;
                 cosmetic.pivotX = cosmetic.x + cosmetic?.data?.width * cosmetic.scale / 2;
                 cosmetic.pivotY = cosmetic.y + cosmetic?.data?.height * cosmetic.scale / 2;
-                setPenguinBeak(cosmetic);
-                penguinBeak = true;
-                return;
-            }
-            else if (cosmetic.type == 'penguin' && cosmetic.sub_type == 'penguin_eye') {
-                cosmetic.x = cosmetic?.data?.x ?? 0;
-                cosmetic.y = cosmetic?.data?.y ?? 0;
-                cosmetic.scale = cosmetic?.data?.scale ?? 1;
-                cosmetic.rotation = cosmetic?.data?.rotation ?? 0;
-                cosmetic.pivotX = cosmetic.x + cosmetic?.data?.width * cosmetic.scale / 2;
-                cosmetic.pivotY = cosmetic.y + cosmetic?.data?.height * cosmetic.scale / 2;
-                setPenguinEyes(cosmetic);
-                penguinEyes = true;
+                cosmetic.flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
+                switch (cosmetic.sub_type) {
+                    case 'penguin_eye':
+                        setPenguinEyes(cosmetic);
+                        penguinEyes = true;
+                        return;
+                    case 'penguin_beak':
+                        setPenguinBeak(cosmetic);
+                        penguinBeak = true;
+                        return;
+                    case 'penguin_tail':
+                        setPenguinTail(cosmetic);
+                        penguinTail = true;
+                        return;
+                }
                 return;
             }
         });
-        if(!penguinColors) setPenguinColors(getDefaultColors());
-        if(!penguinEyes) setPenguinEyes(getDefaultEye());
-        if(!penguinBeak) setPenguinBeak(getDefaultBeak());
+        if (!penguinColors) setPenguinColors(getDefaultColors());
+        if (!penguinEyes) setPenguinEyes(undefined);
+        if (!penguinBeak) setPenguinBeak(undefined);
+        if (!penguinTail) setPenguinTail(undefined);
     }
 
     function clearData() {
         setPenguinColors(getDefaultColors());
-        setPenguinEyes(getDefaultEye());
-        setPenguinBeak(getDefaultBeak());
+        setPenguinEyes(undefined);
+        setPenguinBeak(undefined);
+        setPenguinTail(undefined);
         setCosmetics([]);
     }
 
@@ -176,10 +141,11 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                     let rotation = cosmetic?.data?.rotation ?? 0;
                     let pivotX = x + cosmetic?.data?.width * scale / 2;
                     let pivotY = y + cosmetic?.data?.height * scale / 2;
+                    let flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
 
                     return (
                         <svg key={cosmetic?.name}>
-                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})`}
+                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})  ${flipHorizontally ? 'scale(-1, 1)' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
                         </svg>
                     );
@@ -189,7 +155,17 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
 
             <svg id="penguin">
                 <g id="penguin_body" transform={`translate(${viewBoxWidth / 2 - 300},${viewBoxHeight - 700})`}>
-                    <path id="tail" d="M139.765 561.556C152.025 579.947 179.145 586.445 191.265 605.056C188.893 609.799 180.115 617.418 174.921 618.944C171.301 620.075 167.887 621.408 164.421 622.944C146.142 630.671 126 635.769 106.112 635.799C105.327 635.803 104.543 635.806 103.734 635.809C102.088 635.814 100.442 635.817 98.7956 635.817C96.3053 635.819 93.8154 635.837 91.3251 635.856C83.1918 635.884 75.6661 635.673 67.7333 633.631C71.0466 626.254 77.9856 621.423 84.3583 616.756C85.0535 616.24 85.7486 615.723 86.4648 615.19C90.7336 612.035 95.0763 609.026 99.4833 606.069C114.056 596.036 129.227 575.527 139.765 561.556Z" fill={penguinColors.dark_main_color} />
+                    {/* TAIL */}
+                    {
+                        penguinTail
+                            ?
+                            <g key={`${twitchId}_${penguinTail?.name}_${randomId()}`} transform={`rotate(${penguinTail.rotation} ${penguinTail.pivotX} ${penguinTail.pivotY}) translate(${penguinTail.x} ${penguinTail.y}) scale(${penguinTail.scale})`}
+                                dangerouslySetInnerHTML={{ __html: penguinTail.style }} />
+                            :
+                            <g id="tail">
+                                <path id="tail_path" d="M139.765 561.556C152.025 579.947 179.145 586.445 191.265 605.056C188.893 609.799 180.115 617.418 174.921 618.944C171.301 620.075 167.887 621.408 164.421 622.944C146.142 630.671 126 635.769 106.112 635.799C105.327 635.803 104.543 635.806 103.734 635.809C102.088 635.814 100.442 635.817 98.7956 635.817C96.3053 635.819 93.8154 635.837 91.3251 635.856C83.1918 635.884 75.6661 635.673 67.7333 633.631C71.0466 626.254 77.9856 621.423 84.3583 616.756C85.0535 616.24 85.7486 615.723 86.4648 615.19C90.7336 612.035 95.0763 609.026 99.4833 606.069C114.056 596.036 129.227 575.527 139.765 561.556Z" fill={penguinColors.dark_main_color} />
+                            </g>
+                    }
                     <g id="left_arm">
                         <path id="top_left_arm" d="M393.107 165.596C387.204 167.252 384.299 185.176 383.511 195.122C380.879 232.188 392.373 320.835 430.404 346.875C443.117 355.579 496.865 319.759 490.204 301.846C489.254 299.29 488.32 296.729 487.391 294.166C477.387 266.742 464.354 240.372 449.251 215.408C448.673 214.448 448.095 213.489 447.5 212.5C414.881 159.424 399.703 163.746 393.107 165.596Z" fill={penguinColors.dark_main_color} />
                         <path id="left_arm_2" d="M430.404 346.875C442.553 355.193 451.25 367.01 459.619 378.897C469.325 392.73 492.708 446.363 509.98 442.28C514.813 440.762 514.56 434.887 514.868 430.005C515.25 400.958 510.469 369.311 503 341.5C502.764 340.619 502.527 339.738 502.283 338.831C498.812 326.051 494.569 313.626 489.941 301.221C488.991 298.666 488.057 296.104 487.128 293.541C480.876 276.288 401.572 325.773 426.749 344.281C427.944 345.16 429.162 346.024 430.404 346.875Z" fill={penguinColors.dark_main_color} />
@@ -211,16 +187,40 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                             <path id="head_2" d="M385.03 16.8538C389.139 19.5553 392.978 22.4588 396.734 25.6312C397.557 26.3208 398.381 27.0105 399.23 27.721C408.479 35.7311 408.56 37.1194 414 48C417.25 54.5 414 97 412.734 115.631C412.632 116.509 412.53 117.387 412.425 118.291C411.397 125.504 407.5 138 399.5 140C356.894 150.651 190.417 160.5 208 105.5C222.94 58.766 234.606 36.4945 279.734 12.6312C289.433 7.77589 299.22 4.98755 309.734 2.63116C310.338 2.45536 310.942 2.27956 311.565 2.09844C336.25 -3.21991 363.91 3.94969 385.03 16.8538Z" fill={penguinColors.main_color} />
                             <path id="Vector_8" d="M385.031 16.8538C398.765 27.5562 402.349 27.3531 410.734 41.6312C415.924 50.3528 384.829 49.8918 382.441 47.3578C378.172 42.9466 373.634 32.6312 363.234 26.6312C337.234 11.6312 324.265 4.58609 291.765 7.58602C307.265 2.39209 344.765 -10.4438 385.031 16.8538Z" fill={penguinColors.light_main_color} />
                             {/* BEAK */}
-                            <svg key={`${twitchId}_${penguinBeak?.name}_${randomId()}`}>
-                                <g transform={`rotate(${penguinBeak.rotation} ${penguinBeak.pivotX} ${penguinBeak.pivotY}) translate(${penguinBeak.x} ${penguinBeak.y}) scale(${penguinBeak.scale})`}
-                                    dangerouslySetInnerHTML={{ __html: penguinBeak.style }} />
-                            </svg>
+                            {
+                                penguinBeak
+                                    ?
+                                    <g key={`${twitchId}_${penguinBeak?.name}_${randomId()}`} transform={`rotate(${penguinBeak.rotation} ${penguinBeak.pivotX} ${penguinBeak.pivotY}) translate(${penguinBeak.x} ${penguinBeak.y}) scale(${penguinBeak.scale})`}
+                                        dangerouslySetInnerHTML={{ __html: penguinBeak.style }} />
+                                    :
+                                    <g id="beak">
+                                        <g id="bottom_beak">
+                                            <path id="front_bottom_beak" d="M465.5 88C452.379 102.512 427.51 106.409 411 116.5C408.075 117.652 406.762 117.429 403.809 116.363C387.446 104.549 371.521 92.3842 356.733 78.6313C356.219 78.153 356.39 76.6313 356.733 76.6313C389 80 429.5 84.5 465.5 88Z" fill="#C07359" />
+                                            <path id="line_bottom_beak" d="M409.5 73.5L465.5 88L357.5 77L409.5 73.5Z" fill="#93543F" />
+                                            <path id="back_bottom_beak" d="M465.733 87.65C465.403 88.31 465.06 88.5 464.56 89C433.112 86.4158 401.844 82.0033 370.407 79.2777C368.101 79.0721 356.733 79.1413 356.733 76.6311C390.5 75.5 428 83 465.733 87.65Z" fill="#6E5D59" />
+                                        </g>
+                                        <g id="top_beak">
+                                            <path id="Vector_9" d="M402.47 52.3921C407.47 53.8921 411.314 55.7141 415.81 57.5092C417.017 57.991 418.224 58.4729 419.468 58.9693C423.32 60.6783 426.681 62.9116 430.168 65.2311C433.369 67.2858 436.652 69.1834 439.966 71.0596C440.582 71.4094 441.198 71.7592 441.833 72.1196C444.386 73.567 446.942 75.0105 449.501 76.4474C451.395 77.5127 453.285 78.5858 455.174 79.66C456.288 80.2877 457.402 80.9153 458.55 81.5619C461.34 83.336 463.484 85.2736 465.733 87.65C438 86.5 411.587 67.7579 387.233 65.1313C387.233 62.0506 392.733 60.8467 394.816 58.7487C395.7 58.022 396.584 57.2952 397.494 56.5465C398.378 55.8118 399.262 55.0771 400.172 54.3201C400.86 53.7628 401.762 52.9663 402.47 52.3921Z" fill="#DEA084" />
+                                            <path id="Vector_10" d="M397.546 62.8812C413.907 67.7069 427.281 77.5074 444.608 83.2562C445.983 83.7145 457.625 86.5917 459 87.05C427.5 83.2562 388 78 372.733 76.6312C372.733 72.8299 378.17 72.2789 380.733 69.6313C389.413 61.234 390.428 61.6001 397.546 62.8812Z" fill="#CD8061" />
+                                        </g>
+                                    </g>
+                            }
 
                             {/* EYES */}
-                            <svg key={`${twitchId}_${penguinEyes?.name}_${randomId()}`}>
-                                <g transform={`rotate(${penguinEyes.rotation} ${penguinEyes.pivotX} ${penguinEyes.pivotY}) translate(${penguinEyes.x} ${penguinEyes.y}) scale(${penguinEyes.scale})`}
-                                    dangerouslySetInnerHTML={{ __html: penguinEyes.style }} />
-                            </svg>
+                            {
+                                penguinEyes
+                                    ?
+                                    <g key={`${twitchId}_${penguinEyes?.name}_${randomId()}`} transform={`rotate(${penguinEyes.rotation} ${penguinEyes.pivotX} ${penguinEyes.pivotY}) translate(${penguinEyes.x} ${penguinEyes.y}) scale(${penguinEyes.scale})`}
+                                        dangerouslySetInnerHTML={{ __html: penguinEyes.style }} />
+                                    :
+                                    <g id="eye">
+                                        <path id="Vector_11" d="M288.77 27.6313C288.338 46.3919 291.648 68.8273 304.255 83.4833C308.6 87.9707 312.609 91.3304 319.033 91.6313C322.98 91.5842 325.139 90.7372 328.097 88.1436C331.959 84.1284 334.743 79.7328 336.966 74.6247C337.432 73.5695 337.432 73.5695 337.907 72.4929C339.184 67.0322 339.204 61.9018 336.366 56.9726C330.887 49.131 322.062 45.5862 313.566 42.0938C306.665 39.253 292.765 30.8921 288.77 27.6313Z" fill="#FAFAFB" />
+                                        <g id="pupil">
+                                            <circle id="Ellipse 8" cx="319.765" cy="68.3921" r="10" fill="#354357" />
+                                            <circle id="Ellipse 9" cx="323.265" cy="63.8921" r="3" fill="#EAEEF0" />
+                                        </g>
+                                    </g>
+                            }
                         </g>
                     </g>
                     <g id="right_foot">
@@ -245,10 +245,11 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                     let rotation = cosmetic?.data?.rotation ?? 0;
                     let pivotX = x + cosmetic?.data?.width * scale / 2;
                     let pivotY = y + cosmetic?.data?.height * scale / 2;
+                    let flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
 
                     return (
                         <svg key={`${twitchId}_${cosmetic?.name}_${index}`}>
-                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})`}
+                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale}) ${flipHorizontally ? 'scale(-1, 1)' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
                         </svg>
                     );

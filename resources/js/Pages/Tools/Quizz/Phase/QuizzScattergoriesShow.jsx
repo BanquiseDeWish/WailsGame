@@ -10,7 +10,7 @@ import RedButton from "@/Components/Navigation/Buttons/RedButton";
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
 import PlayersList from '@/Components/Games/QuizzMaster/PlayersList';
 
-export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globalValues, modifyValues, emit }) {
+export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globalValues, modifyValues, socketListen, socketOff, emit }) {
 
     const [isAnimatingNewQuestion, setIsAnimatingNewQuestion] = useState(false)
     const [messageChat, setMessageChat] = useState("")
@@ -18,7 +18,6 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
     const playersListScore = gvc.players;
     const countAnswersAttemp = gvc?.questionCurrent?.themes?.length || 0;
 
-    const [answers, setAnswers] = useState([])
     let sdd_playerAnswers = undefined;
     const timerCurrent = gvc.timerCurrent;
     const percentageTimer = () => {
@@ -53,42 +52,18 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
 
     useEffect(() => {
         const phaseId = gvc?.phaseId;
-        if (phaseId == 1.5) {
-            //Send answers to server
-            emit('quizz_send_answer_player', answers)
-        } else if (phaseId == 1) {
+        if (phaseId == 1) {
             document.querySelectorAll('input.answer_input').forEach((node) => {
                 node.value = ""
             })
-            setAnswers([])
         }
     }, [gvc?.phaseId])
 
     useEffect(() => {
-        console.log(gvc?.questionCurrent)
     }, [gvc?.questionCurrent])
 
     useEffect(() => {
-        console.log('Update sdv', gvc?.scattergoriesDataValidator)
     }, [gvc?.scattergoriesDataValidator])
-
-    const handleChangeAnswer = (e) => {
-        const val = e.target.value;
-        const name = e.target.name;
-        const answer = answers.find((ans) => ans.id == parseInt(name));
-        if (!answer) {
-            setAnswers(prevArray => {
-                const newArray = [...prevArray];
-                newArray.splice(parseInt(name), 0, { id: parseInt(name), val: val });
-                return newArray;
-            });
-        } else {
-            const answersCopy = [...answers]
-            let answer = answersCopy.find((ans) => ans.id == parseInt(name));
-            answer.val = val;
-            setAnswers(answersCopy)
-        }
-    }
 
     const handleChangeAnswerState = (idAnswer, bool) => {
         if(!globalValues.current.isLeader) return;
@@ -104,6 +79,23 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
         if(!globalValues.current.isLeader) return;
         emit('quizz_scattergories_validator_next_data', sdd)
     }
+
+    const sendAnswerToServer = () => {
+        const answersData = []
+        document.querySelectorAll('input.answer_input').forEach((node) => {
+            answersData.push({ id: parseInt(node.name), val: node.value })
+        })
+        emit('quizz_send_answer_player', answersData)
+    }
+
+    useEffect(() => {
+        socketListen('quizz_scattergories_demands_answers', (args) => {
+            sendAnswerToServer()
+        })
+        return () => {
+            socketOff('quizz_scattergories_demands_answers', sendAnswerToServer);
+        }
+    }, [])
 
     const sdd = gvc?.scattergoriesDataValidator;
     if (sdd) {
@@ -177,7 +169,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                                     return (
                                         <div key={i} className="input-group w-full">
                                             <label htmlFor="subtheme">{gvc?.questionCurrent?.themes?.[i]?.dname}</label>
-                                            <input className="answer_input w-full" type="text" name={i} onChange={handleChangeAnswer} />
+                                            <input className="answer_input w-full" type="text" name={i} />
                                         </div>
                                     )
                                 })}
@@ -186,7 +178,6 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                             <div className="flex flex-col items-center justify-start overflow-y-auto gap-4 px-8  w-full h-full py-9" style={{ boxShadow: 'inset 0 5px 5px -5px rgba(0, 0, 0, 0.5)', borderRadius: '53% 46% 10% 10% / 5% 5% 0% 0%', background: 'rgba(0, 0, 0, 0.30)' }}>
                                 {Array.from(Array(gvc?.scattergoriesDataValidator?.roundData?.themes?.length)).map((val, i) => {
                                     let isBad = false;
-                                    console.log('Before crash', sdd_playerAnswers)
                                     if(sdd_playerAnswers !== undefined) {
                                         const answer = sdd_playerAnswers.find((ans) => ans.id == gvc?.scattergoriesDataValidator?.roundData?.id)?.data?.find((ans) => ans.id == i)
                                         isBad = answer?.isBad;

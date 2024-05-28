@@ -4,13 +4,13 @@ const URL = process.env.NODE_ENV === 'production' ? env.socketServer : 'http://l
 
 export default class BDWSocket {
 
-    constructor(game, extra, args = {}, authData = {}) {
+    constructor(game, extra, args = {}, authData = {}, opts = {}, custom = {}) {
         this.game = game;
         this.extra = extra;
         this.args = args;
         this.authData = authData;
-
-        this.init();
+        this.custom = custom;
+        this.init(opts);
 
         const observeUrlChange = () => {
             let oldHref = document.location.href;
@@ -29,10 +29,10 @@ export default class BDWSocket {
         observeUrlChange();
     }
 
-    init() {
-        this.socket = io(URL, {
+    init({ ...props }) {
+        const opts = {
             auth: {
-                token: env.socketServerToken,
+                token: !this.custom?.token ? env.socketServerToken : this.custom?.token,
                 ...this.authData
             },
             perMessageDeflate: {threshold: 0},
@@ -40,8 +40,14 @@ export default class BDWSocket {
                 game: this.game,
                 extra: JSON.stringify(this.extra),
                 ...this.args
-            }
-        });
+            },
+            ...props
+        };
+        this.socket = io(!this.custom?.url ? URL : this.custom.url, opts);
+    }
+
+    reconnect() {
+        return this.socket.connect();
     }
 
     getSocket() {

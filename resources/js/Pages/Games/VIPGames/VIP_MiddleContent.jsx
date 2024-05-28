@@ -12,7 +12,7 @@ import UserCard from '@/Components/User/UserCard';
 import { randomId } from '@/Game/random';
 
 import UserIcon from '@assets/img/vipgames/user_icon.png';
-import SlotComponent from '@/Components/Games/VIPGames/Slot';
+import SlotComponent from '@/Components/Games/VIPGames/OldSlot';
 
 export default function VIP_MiddleContent() {
 
@@ -116,7 +116,7 @@ export default function VIP_MiddleContent() {
                                     <span>Joueurs</span>
                                     <SlotComponent
                                         id={'wheel_slot_1'}
-                                        type={'card'}
+                                        type={'with_icon'}
                                         onClick={() => { values.game.askRandomPlayer() }}
                                         data={values.roll_players}
                                         winner={values.choosen_player}

@@ -264,7 +264,6 @@ div:has(label + select) {
     background-color: var(--dropdown_link_hover_background);
 }
 .simple_button {
-    display: flex;
     flex-direction: row;
     gap: 16px;
     padding: 15px 30px;

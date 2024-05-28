@@ -60,7 +60,7 @@ Route::get('/vip_games', function () {
 
 Route::prefix('profile')->name('profile.')->middleware(['auth_twitch'])->group(function() {
     Route::get('/', [ProfileController::class, 'index'])->name('index');
-    Route::get('/appearance', [AppareanceController::class, 'index'])->name('appearance');
+    //Route::get('/appearance', [AppareanceController::class, 'index'])->name('appearance');
 });
 
 

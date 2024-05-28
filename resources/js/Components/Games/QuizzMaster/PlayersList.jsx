@@ -22,8 +22,8 @@ export default function PlayersList({ playersListScore, globalValues }) {
                     if (position == 1) displayPosition = `${position}er`
 
                     return (
-                        <div className={`player flex gap-0 items-center flex-row w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
-                            <h2 className='hidden md:flex text-[28px] font-semibold w-full md:w-[70px] md:min-w-[70px] text-center'>{displayPosition}</h2>
+                        <div className={`player overflow-x-hidden flex gap-2 items-center flex-row w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={i}>
+                            <h2 className='hidden md:flex text-[28px] font-semibold w-full text-center'>{displayPosition}</h2>
                             <UserCard
                                 className="w-full h-[82px] transition-all"
                                 style={{ backgroundColor: 'var(--container_background) !important;' }}

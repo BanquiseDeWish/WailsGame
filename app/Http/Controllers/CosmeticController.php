@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cosmetic;
 use App\Models\User;
+use App\Models\User\UserCosmetics;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,6 +13,22 @@ class CosmeticController extends Controller
 {
     public function getCosmetics(Request $request)
     {
+        if(!$request->session()->has('twitch')) {
+            return response()->json(['error' => 'No active session']);
+        }
+        $twitch = $request->session()->get('twitch');
+        $user = User::where('twitch_id', $twitch->id)->first();
+        $userSecretCosmetics = DB::table('users__cosmetics')
+                                    ->join('cosmetics', 'cosmetics.id', '=', 'users__cosmetics.cosmetic_id')
+                                    ->where('user_id', $user->id)
+                                    ->where('rarity', '<', 0)
+                                    ->select('cosmetics.id')
+                                    ->get()->toArray();
+        $userSecretCosmetics = array_map(function($cosmetic) {
+            return $cosmetic->id;
+        }, $userSecretCosmetics);
+        
+
         $inputs = $request->query();
         if (!isset($inputs['type']))
             return response()->json(["error" => "No type provided", "inputs" => $inputs]);
@@ -21,7 +38,7 @@ class CosmeticController extends Controller
             return response()->json(["error" => "No sub type provided"]);
         $subTypeCosmetic = $inputs['sub_type'];
 
-        $cosmetics = Cosmetic::where('type', $typeCosmetic)->where('sub_type', $subTypeCosmetic)->get();
+        $cosmetics = Cosmetic::where('type', $typeCosmetic)->where('sub_type', $subTypeCosmetic)->where('rarity','>=', '0')->orWhereIn('id', $userSecretCosmetics)->where('sub_type', $subTypeCosmetic)->get();
         foreach ($cosmetics as $cosmetic) {
             $cosmetic->data = json_decode($cosmetic->data, true);
         }

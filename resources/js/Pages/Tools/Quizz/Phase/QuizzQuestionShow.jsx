@@ -239,12 +239,12 @@ const QuizzQuestionShow = ({ auth, ziggy, sv, settings, globalValues, modifyValu
                         initial={{ x: 0, opacity: 1 }}
                         animate={isAnimatingNewQuestion ? { x: -100, opacity: 0 } : { x: 0, opacity: 1 }}
                         transition={{ duration: 0.1 }} className='flex justify-center items-center flex-col gap-4'>
-                        <div className="idQuestion flex flex-col justify-end absolute top-3 right-3 text-right text-[12px] select-none">
-                            <div className='hidden lg:flex' onClick={copyIdQuestion}><b>ID:</b> {questionCurrent.asset}<br /></div>
-                            <div className='hidden lg:flex'>
+                        <div className="idQuestion flex flex-col justify-end items-end absolute top-3 right-3 text-right text-[12px] select-none">
+                            <div className='hidden lg:flex gap-1 justify-end items-end' onClick={copyIdQuestion}><b>ID:</b> {questionCurrent.asset}<br /></div>
+                            <div className='hidden lg:flex gap-1 justify-end items-end'>
                                 <b>Catégorie:</b> {questionCurrent.category}<br />
                             </div>
-                            <div className='hidden lg:flex'>
+                            <div className='hidden lg:flex gap-1 justify-end items-end'>
                                 <b>Thème:</b> {questionCurrent.theme}
                             </div>
 
