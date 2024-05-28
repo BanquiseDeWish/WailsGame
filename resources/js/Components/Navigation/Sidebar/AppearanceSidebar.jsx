@@ -9,17 +9,13 @@ import BarMenuMobile from "@/Components/Icons/BarMenuMobile"
 export default function AppearanceSidebar({ tabs, getCosmetics, activeTab, className, ...otherProps }) {
 
     const [show, setShow] = useState(false);
-
-    useEffect(() => {
-        console.log("ACTIVE TAB CHANGED", activeTab);
-        setShow(false);
-    }, [activeTab]);
-
+    
     return (
         <Sidebar 
-            show2={show}
+            show={show}
+            setShow={setShow}
             className={className}
-            sidebarStyle={{ position: 'absolute'}}
+            sidebarStyle={{ position: 'absolute', borderRadius: '0 12px 0 0'}}
             {...otherProps}
         >
             <SidebarOpener>
