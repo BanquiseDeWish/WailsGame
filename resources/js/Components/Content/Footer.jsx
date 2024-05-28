@@ -37,10 +37,10 @@ export default function Footer() {
                     <Link href={route('legals.page', { page: 'mentions-legals' })}>
                         Mentions Légales
                     </Link>
-                    <Link>
+                    <Link href={route('legals.page', { page: 'cgu' })}>
                         CGU
                     </Link>
-                    <Link>
+                    <Link href={route('legals.page', { page: 'cgv' })}>
                         CGV
                     </Link>
                 </div>

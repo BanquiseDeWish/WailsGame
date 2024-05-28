@@ -11,6 +11,12 @@ class LegalsController extends Controller
     public function page(Request $request, $page) {
         $jsx = "";
         switch($page) {
+            case "cgu":
+                $jsx = "CGU";
+                break;
+            case "cgv":
+                $jsx = "CGV";
+                break;
             case "mentions-legals":
                 $jsx = "MentionsLegals";
                 break;

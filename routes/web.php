@@ -111,7 +111,7 @@ Route::middleware('auth_twitch')->group(function() {
     Route::post('/user/update/cosmetics/', [AppareanceController::class, 'save'])->name('user.cosmetics.update');
 });
 
-Route::prefix('legals')->name('legals.')->middleware(['auth_twitch'])->group(function() {
+Route::prefix('legals')->name('legals.')->middleware([])->group(function() {
     Route::get('/{page}', [LegalsController::class, 'page'])->name('page');
 });
 
