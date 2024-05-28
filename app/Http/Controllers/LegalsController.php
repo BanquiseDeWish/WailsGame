@@ -14,9 +14,9 @@ class LegalsController extends Controller
             case "cgu":
                 $jsx = "CGU";
                 break;
-            case "cgv":
+            /*case "cgv":
                 $jsx = "CGV";
-                break;
+                break;*/
             case "mentions-legals":
                 $jsx = "MentionsLegals";
                 break;
