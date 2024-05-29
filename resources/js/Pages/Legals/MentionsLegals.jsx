@@ -8,7 +8,7 @@ export default function MentionsLegals(props) {
             <Head title="Mentions Légales" />
 
             <section className="flex flex-col mx-8 lg:mx-48 lg:my-20 pb-20">
-                <h2 className="text-[28px] lg:text-[48px] font-bold">Conditions Générales d'Utilisation</h2>
+                <h2 className="text-[28px] lg:text-[48px] font-bold">Mentions Légales</h2>
                 <p>Conformément aux dispositions des Articles 6-III et 19 de la Loi n°2004-575 du 21 juin 2004 pour la
                 Confiance dans l’économie numérique, dite L.C.E.N., il est porté à la connaissance des utilisateurs et
                 visiteurs, ci-après "l'utilisateur", du site <a href="https://banquisedeweils.fr">https://banquisedeweils.fr</a> , ci-après le "Site", les présentes
