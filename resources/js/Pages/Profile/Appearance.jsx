@@ -58,7 +58,7 @@ export default function ProfileAppearance(props) {
                 {
                     name: 'Queue',
                     key: 'penguin_tail',
-                    active: false
+                    active: true
                 },
             ]
         },
