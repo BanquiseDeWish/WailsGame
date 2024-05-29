@@ -53,7 +53,7 @@ export default class BaseModal extends React.Component {
 
                     <div
                         id='modal'
-                        className={`modal ${this.state.openModal ? 'active' : 'inactive'}`}
+                        className={`modal w-full lg:w-auto ${this.state.openModal ? 'active' : 'inactive'}`}
                     >
                         {children}
                     </div>

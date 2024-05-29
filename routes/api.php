@@ -40,4 +40,4 @@ Route::get('/user/{twitch_id}/points/vipgames', [UserController::class, 'getUser
 Route::get('/user/all/points/vipgames', [UserController::class, 'getUserListVIPGamesPoints'])->name('user.all.points.vipgames');
 Route::post('/users/cosmetics/active', [CosmeticController::class, 'getUsersActiveCosmetics'])->name('users.cosmetics.active');
 
-Route::get('/cosmetics/get', [CosmeticController::class, 'getCosmetics'])->name('cosmetics.get');
+Route::get('/cosmetics/get', [CosmeticController::class, 'getCosmetics'])->middleware('web')->name('cosmetics.get');

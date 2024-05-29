@@ -15,7 +15,6 @@ import Confetti from 'react-confetti';
 import { useEffect } from 'react';
 import Warn from '@/Components/Icons/Warn';
 import SimpleButton from '@/Components/Navigation/Buttons/SimpleButton';
-import ResultList from '../Object/ResultList';
 
 const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
 
@@ -64,44 +63,45 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
     const yourAnswers = playersListScore.find((player) => player.userId == auth?.twitch?.id)
 
     return (
-        <div className="flex w-full h-full gap-4">
+        <div className="flex flex-col lg:flex-row w-full h-full gap-4 pb-8 mb-8">
             {firstPlayer.userId == auth?.twitch?.id &&
                 <Confetti
-                    className='confetti_index'
+                    className='confetti_index hidden xl:flex'
                     width={window.innerWidth}
                     height={window.innerHeight}
                 />
             }
-            <div className="flex flex-col w-fit h-full justify-center gap-4">
-                {
-                    playersListScore.map((player, index) => {
-                        const position = (index + 1);
-                        let displayPosition = `${position}e`
-                        if (position == 1) displayPosition = `${position}er`
-                
-                        return (
-                            <div className="flex w-full items-center gap-4">
-                                <h2 className='text-[38px] font-semibold min-w-[70px] text-center'>{displayPosition}</h2>
-                                <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={index}>
-                                    <UserCard
-                                        twitchId={player.userId}
-                                        className="w-full h-[82px]"
-                                        style={{ backgroundColor: 'var(--container_background) !important;' }}
-                                        key={index}
-                                        data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default', background_style: "var(--container_background)" }} />
+            <div className="flex flex-col w-full lg:w-fit h-full justify-center gap-4">
+                <div className="card items-start p-4 justify-start flex-1 gap-4 w-full lg:min-w-[450px] overflow-y-auto">
+                    <h2 className='text-[24px] font-semibold py-2 text-center w-full'>Classement</h2>
+                    {
+                        playersListScore.map((player, index) => {
+                            const position = (index + 1);
+                            let displayPosition = `${position}e`
+                            if (position == 1) displayPosition = `${position}er`
+
+                            return (
+                                <div className="flex w-full items-center gap-4">
+                                    <h2 className='hidden lg:flex text-[38px] font-semibold min-w-[70px] text-center'>{displayPosition}</h2>
+                                    <div className={`player w-full ${player?.isConnected ? 'opacity-100' : 'opacity-40'}`} key={index}>
+                                        <UserCard
+                                            twitchId={player.userId}
+                                            className="w-full h-[82px]"
+                                            key={index}
+                                            data={{ username: (player !== undefined ? `${player?.username}` : ' - '), points: player.score, stylePoints: 'default'}} />
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })
-                }
+                            )
+                        })
+                    }
+                </div>
                 {globalValues.current.isLeader ?
                     <BlueButton onClick={returnLobby}>Retour au lobby</BlueButton>
                     :
                     <div className="message">En attente du leader de la partie..</div>
                 }
-
             </div>
-            <div className="card justify-start flex-1 gap-4">
+            <div className="card p-2 lg:p-6 justify-start flex-1 gap-4 mb-64 lg:mb-0">
                 {firstPlayer.userId == auth?.twitch?.id ?
                     <div className="flex justify-center rebondissement">
                         <span className='rb-item font-bold text-[64px]' style={{ "--delay": 1 }}>V</span>
@@ -131,7 +131,7 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                 <h2 className='text-[24px] font-ligth'>Récap. des questions</h2>
                 {globalValues.current.gameMode == "classic" &&
                     <>
-                        <div className="flex flex-1 flex-col gap-4 w-full overflow-y-auto pr-4">
+                        <div className="flex flex-1 flex-col gap-4 w-full overflow-y-auto lg:pr-4">
                             {globalValues.current.questionsFinal.map((question, index) => {
 
                                 const pa = question.proposal.find((pro) => pro.isAnswer)
@@ -141,7 +141,7 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                                 return (
                                     <div key={question.asset} className="question_item card gap-[64px] px-6 py-4 text-left justify-between flex-row w-full" style={{ background: isBad !== undefined ? isBad ? 'linear-gradient(128deg, var(--container_background) 55%, rgba(107,32,24,1) 100%)' : 'linear-gradient(128deg, var(--container_background) 55%, rgba(32,112,25,1) 100%)' : 'var(--container_background)' }}>
                                         <div className="flex flex-col select-none">
-                                            <span className='font-bold text-[20px]'>{question.sentence}</span>
+                                            <span className='font-bold text-[14px] line-clamp-3 xl:line-clamp-none lg:text-[20px]'>{question.sentence}</span>
                                             {question.type !== "picture_multiple" ?
                                                 <span>{pa.text}</span>
                                                 :
@@ -186,18 +186,18 @@ const QuizzResult = ({ auth, globalValues, modifyValues, report, emit }) => {
                 }
                 {globalValues.current.gameMode == "scattergories" &&
                     <>
-                        <div className="flex flex-1 flex-col gap-4 w-full overflow-y-auto pr-4">
+                        <div className="flex flex-1 flex-col gap-4 w-full overflow-y-auto px-2 lg:pl-0 lg:pr-4">
                             {globalValues.current.questionsFinal.map((question, index) => {
                                 const answersTheme = yourAnswers.answers.find((answer) => answer.id == question.id)
                                 return (
                                     <div key={question.id} className="question_item card gap-[64px] px-6 py-4 text-left justify-between flex-row w-full">
                                         <div className="flex flex-col select-none flex-1 gap-4">
                                             <span className='font-bold text-[20px]'>Lettre {question.letter} - {question.themeMaster.dname}</span>
-                                            <div className="grid grid-cols-3 gap-2 w-full">
+                                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 w-full">
                                                 {answersTheme?.data?.map((answer, idx) => {
                                                     const question = globalValues.current.questionsFinal?.find((question) => question.id == answersTheme.id)
                                                     let subtheme = "N/A";
-                                                    if(question) {
+                                                    if (question) {
                                                         subtheme = question.themeMaster.subcategories[answer.id]?.dname;
                                                     }
                                                     const isBad = answer.isBad;

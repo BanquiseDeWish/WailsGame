@@ -16,6 +16,9 @@
 
 body {
     background: var(--web_background);
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
 }
 
 .light_bg {
@@ -264,7 +267,6 @@ div:has(label + select) {
     background-color: var(--dropdown_link_hover_background);
 }
 .simple_button {
-    display: flex;
     flex-direction: row;
     gap: 16px;
     padding: 15px 30px;

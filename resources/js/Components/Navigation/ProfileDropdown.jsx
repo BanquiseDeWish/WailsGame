@@ -42,6 +42,9 @@ export default function ProfileDropdown() {
                             <Link href={route('profile.index')} className="link">
                                 Profil
                             </Link>
+                            {/*<Link href={route('profile.appearance')} className="link">
+                                Apparence
+                            </Link>*/}
                             {isWeils &&
                                 <Link href={"/dashboard"} className="link">
                                     Espace privé

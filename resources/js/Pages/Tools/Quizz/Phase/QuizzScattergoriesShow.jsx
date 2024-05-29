@@ -10,7 +10,7 @@ import RedButton from "@/Components/Navigation/Buttons/RedButton";
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
 import PlayersList from '@/Components/Games/QuizzMaster/PlayersList';
 
-export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globalValues, modifyValues, emit }) {
+export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globalValues, modifyValues, socketListen, socketOff, emit }) {
 
     const [isAnimatingNewQuestion, setIsAnimatingNewQuestion] = useState(false)
     const [messageChat, setMessageChat] = useState("")
@@ -18,7 +18,6 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
     const playersListScore = gvc.players;
     const countAnswersAttemp = gvc?.questionCurrent?.themes?.length || 0;
 
-    const [answers, setAnswers] = useState([])
     let sdd_playerAnswers = undefined;
     const timerCurrent = gvc.timerCurrent;
     const percentageTimer = () => {
@@ -53,42 +52,18 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
 
     useEffect(() => {
         const phaseId = gvc?.phaseId;
-        if (phaseId == 1.5) {
-            //Send answers to server
-            emit('quizz_send_answer_player', answers)
-        } else if (phaseId == 1) {
+        if (phaseId == 1) {
             document.querySelectorAll('input.answer_input').forEach((node) => {
                 node.value = ""
             })
-            setAnswers([])
         }
     }, [gvc?.phaseId])
 
     useEffect(() => {
-        console.log(gvc?.questionCurrent)
     }, [gvc?.questionCurrent])
 
     useEffect(() => {
-        console.log('Update sdv', gvc?.scattergoriesDataValidator)
     }, [gvc?.scattergoriesDataValidator])
-
-    const handleChangeAnswer = (e) => {
-        const val = e.target.value;
-        const name = e.target.name;
-        const answer = answers.find((ans) => ans.id == parseInt(name));
-        if (!answer) {
-            setAnswers(prevArray => {
-                const newArray = [...prevArray];
-                newArray.splice(parseInt(name), 0, { id: parseInt(name), val: val });
-                return newArray;
-            });
-        } else {
-            const answersCopy = [...answers]
-            let answer = answersCopy.find((ans) => ans.id == parseInt(name));
-            answer.val = val;
-            setAnswers(answersCopy)
-        }
-    }
 
     const handleChangeAnswerState = (idAnswer, bool) => {
         if(!globalValues.current.isLeader) return;
@@ -105,6 +80,23 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
         emit('quizz_scattergories_validator_next_data', sdd)
     }
 
+    const sendAnswerToServer = () => {
+        const answersData = []
+        document.querySelectorAll('input.answer_input').forEach((node) => {
+            answersData.push({ id: parseInt(node.name), val: node.value })
+        })
+        emit('quizz_send_answer_player', answersData)
+    }
+
+    useEffect(() => {
+        socketListen('quizz_scattergories_demands_answers', (args) => {
+            sendAnswerToServer()
+        })
+        return () => {
+            socketOff('quizz_scattergories_demands_answers', sendAnswerToServer);
+        }
+    }, [])
+
     const sdd = gvc?.scattergoriesDataValidator;
     if (sdd) {
         sdd_playerAnswers = sdd.playerData?.answers;
@@ -119,8 +111,8 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
     }
 
     return (
-        <div className="flex flex-row justify-center gap-9 w-full h-full">
-            <div className="sg_gamemode w-2/6 relative">
+        <div className="flex flex-col xl:flex-row justify-center gap-9 w-full h-full mt-10 xl:mt-0">
+            <div className="sg_gamemode w-full xl:w-2/6 relative">
                 <div className="flex w-full justify-center" style={{ position: "absolute", top: "-58px" }}>
                     <img src={QuizzLogo} style={{ width: '200px' }} />
                 </div>
@@ -141,7 +133,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                         transition={{ duration: 0.4 }} className='flex justify-center items-center flex-col gap-4 w-full h-full'>
                         <div className="flex flex-col w-full items-center gap-1 px-4 pt-12 py-4">
                             {gvc?.phaseId == 1 &&
-                                <div style={{ position: 'absolute', top: '20px', left: '20px', width: 90, height: 90 }}>
+                                <div className='w-[60px] md:w-[90px]' style={{ position: 'absolute', top: '20px', left: '20px' }}>
                                     <CircularProgressbar strokeWidth={10} value={percentageTimer()} text={`${gvc?.timerCurrent}`}
                                         styles={{
                                             path: {
@@ -177,7 +169,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                                     return (
                                         <div key={i} className="input-group w-full">
                                             <label htmlFor="subtheme">{gvc?.questionCurrent?.themes?.[i]?.dname}</label>
-                                            <input className="answer_input w-full" type="text" name={i} onChange={handleChangeAnswer} />
+                                            <input className="answer_input w-full" type="text" name={i} />
                                         </div>
                                     )
                                 })}
@@ -186,12 +178,11 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                             <div className="flex flex-col items-center justify-start overflow-y-auto gap-4 px-8  w-full h-full py-9" style={{ boxShadow: 'inset 0 5px 5px -5px rgba(0, 0, 0, 0.5)', borderRadius: '53% 46% 10% 10% / 5% 5% 0% 0%', background: 'rgba(0, 0, 0, 0.30)' }}>
                                 {Array.from(Array(gvc?.scattergoriesDataValidator?.roundData?.themes?.length)).map((val, i) => {
                                     let isBad = false;
-                                    console.log('Before crash', sdd_playerAnswers)
                                     if(sdd_playerAnswers !== undefined) {
                                         const answer = sdd_playerAnswers.find((ans) => ans.id == gvc?.scattergoriesDataValidator?.roundData?.id)?.data?.find((ans) => ans.id == i)
                                         isBad = answer?.isBad;
                                         return (
-                                            <div key={i} className="flex w-full gap-2 items-end">
+                                            <div key={i} className="flex flex-col md:flex-row w-full gap-2 md:items-end">
                                                 <div className="flex flex-col gap-2 flex-1">
                                                     <span>{gvc?.scattergoriesDataValidator?.roundData?.themes?.[i]?.dname}</span>
                                                     <div className="card w-full p-4 justify-start items-start">
@@ -199,11 +190,11 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
                                                     </div>
                                                 </div>
                                                 <div className="flex gap-1">
-                                                    <div className="inline-flex rounded-lg ">
-                                                        <div onClick={() => { handleChangeAnswerState(answer?.id, false) }} className={`select-none py-3 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10  ${!isBad ? "bg-green-500 text-gray-800" : "bg-[#121A25] text-white"}  shadow-sm`}>
+                                                    <div className="inline-flex  w-full rounded-lg ">
+                                                        <div onClick={() => { handleChangeAnswerState(answer?.id, false) }} className={`select-none w-full py-3 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10  ${!isBad ? "bg-green-500 text-gray-800" : "bg-[#121A25] text-white"}  shadow-sm`}>
                                                             Correcte
                                                         </div>
-                                                        <div onClick={() => { handleChangeAnswerState(answer?.id, true) }} className={`select-none  py-3 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10  ${isBad ? "bg-red-500 text-gray-800" : "bg-[#121A25] text-white"}  shadow-sm`}>
+                                                        <div onClick={() => { handleChangeAnswerState(answer?.id, true) }} className={`select-none  w-full py-3 px-4 inline-flex items-center gap-x-2 -ms-px first:rounded-s-lg first:ms-0 last:rounded-e-lg text-sm font-medium focus:z-10  ${isBad ? "bg-red-500 text-gray-800" : "bg-[#121A25] text-white"}  shadow-sm`}>
                                                             Incorrecte
                                                         </div>
                                                     </div>
@@ -222,7 +213,7 @@ export default function QuizzScattegoriesShow({ auth, ziggy, sv, settings, globa
 
                 </div>
             </div>
-            <div className="players gap-6 h-full min-w-[350px] flex flex-col">
+            <div className="hidden xl:flex xl:flex-col players gap-6 h-full min-w-[350px]">
                 <PlayersList playersListScore={playersListScore} globalValues={globalValues} />
                 <div className="card flex-1 gap-2 p-4">
                     <h2 className='text-[20px] font-semibold select-none'>Chat</h2>

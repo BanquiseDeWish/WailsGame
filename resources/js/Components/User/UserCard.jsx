@@ -41,7 +41,7 @@ export default function UserCard({ className='', propsCosmetics, twitchId, data,
             if(cosmetics)
                 setCosmetics(cosmetics);
         }
-    }, [twitchId, values, values.cosmeticsData, skeleton])
+    }, [twitchId, values.update, skeleton])
 
     let isPAW = false;
 
@@ -79,7 +79,7 @@ export default function UserCard({ className='', propsCosmetics, twitchId, data,
                 <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
                     <div className="data flex flex-col flex-grow overflow-hidden">
                         <div className="username select-none truncate">{username}</div>
-                        <div className="description select-none truncate">{slogan}</div>
+                        {(data?.drawSlogan == undefined || data?.drawSlogan) && <div className="description select-none truncate">{data?.customSlogan ?? slogan}</div>}
                     </div>
                     {data?.points !== undefined && stylePoints == "default" &&
                         <div className="points">

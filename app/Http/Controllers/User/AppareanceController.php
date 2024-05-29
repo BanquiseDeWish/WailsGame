@@ -36,9 +36,15 @@ class AppareanceController extends Controller
         if($user == null)
             return response()->json(['error' => 'User not found']);
 
-        $cosmetics = DB::table('users__cosmetics')->join('cosmetics', 'users__cosmetics.cosmetic_id', '=', 'cosmetics.id')->whereIn('cosmetics.id', $inputs['cosmetics'])->get();
+        $cosmetics = Cosmetic::whereIn('id', 
+                            DB::table('users__cosmetics')
+                            ->rightJoin('cosmetics', 'users__cosmetics.cosmetic_id', '=', 'cosmetics.id')
+                            ->select('cosmetics.id')
+                            ->where('users__cosmetics.user_id', $user->id)
+                            ->orWhere('cosmetics.free', 1))
+                        ->whereIn('id', $inputs['cosmetics'])->get();
         if($cosmetics->count() != count($inputs['cosmetics']))
-            return response()->json(['error' => 'Some cosmetics do not exist or are not available for you']);
+            return response()->json(['error' => 'Some cosmetics do not exist or are not available for you', 'cosmetics' => $cosmetics]);
 
         $penguinActiveCosmetics = [];
         $cardActiveCosmetics = [];
@@ -53,6 +59,10 @@ class AppareanceController extends Controller
 
         DB::table('users__card')->updateOrInsert(['user_id' => $user->id], ['active_cosmetics' => implode(',', $cardActiveCosmetics)]);
         DB::table('users__penguin')->updateOrInsert(['user_id' => $user->id], ['active_cosmetics' => implode(',', $penguinActiveCosmetics)]);
+        if($user->active_penguin == null) {
+            $user->active_penguin = DB::table('users__penguin')->select('id')->where('user_id', $user->id)->first()->id;
+            $user->save();
+        }
 
         return response()->json(['success' => 'Cosmetics saved']);
     }

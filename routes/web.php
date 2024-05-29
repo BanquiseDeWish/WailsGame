@@ -13,6 +13,7 @@ use App\Http\Controllers\TierlistController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LegalsController;
 use Inertia\Inertia;
 
 /*
@@ -60,7 +61,7 @@ Route::get('/vip_games', function () {
 
 Route::prefix('profile')->name('profile.')->middleware(['auth_twitch'])->group(function() {
     Route::get('/', [ProfileController::class, 'index'])->name('index');
-    Route::get('/appearance', [AppareanceController::class, 'index'])->name('appearance');
+    //Route::get('/appearance', [AppareanceController::class, 'index'])->name('appearance');
 });
 
 
@@ -109,6 +110,10 @@ Route::get('/dev/calc_stats', [VIPGameController::class, 'calcStatsView'])->midd
 
 Route::middleware('auth_twitch')->group(function() {
     Route::post('/user/update/cosmetics/', [AppareanceController::class, 'save'])->name('user.cosmetics.update');
+});
+
+Route::prefix('legals')->name('legals.')->middleware([])->group(function() {
+    Route::get('/{page}', [LegalsController::class, 'page'])->name('page');
 });
 
 

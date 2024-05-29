@@ -1,4 +1,4 @@
-import GameSound from './audio';
+import GameSound from '@/Game/audio';
 
 export default class Slot {
 
@@ -31,11 +31,11 @@ export default class Slot {
     getNumberSlotItem(i) {
         let div = document.createElement('div');
         div.classList.add('slot_item', 'number');
-        
+
         let contentDiv = document.createElement('div');
         contentDiv.classList.add('item_content');
         contentDiv.innerHTML = this.data[i].name;
-        
+
         div.appendChild(contentDiv);
         div.setAttribute('data_id', this.data[i].id);
         return div;
@@ -71,7 +71,7 @@ export default class Slot {
         username.classList.add('username');
         username.innerHTML = this.data[i].name;
         contentDiv.appendChild(username);
-        
+
         div.appendChild(contentDiv);
         div.setAttribute('data_id', this.data[i].id);
 

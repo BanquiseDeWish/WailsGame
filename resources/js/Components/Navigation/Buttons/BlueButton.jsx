@@ -6,7 +6,7 @@ export default function BlueButton({children, routeName, className, disabled=fal
         <>
             <SimpleButton
                 routeName={routeName}
-                className={`button_blue ${className}`}
+                className={`${className} button_blue`}
                 {...otherProps}
             >
                 {children}

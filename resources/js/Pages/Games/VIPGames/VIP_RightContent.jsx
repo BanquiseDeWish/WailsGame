@@ -25,21 +25,13 @@ export default function VIP_RightContent() {
         <>
             {values.game_end ? (
 
-                <div className='flex flex-col h-full w-[440px] container justify-around'>
+                <div className='flex flex-col h-full w-[440px] container justify-around p-8'>
                     <div className='flex flex-col items-center gap-2 victory_icon_animation'>
                         <img src={VictoryLogo} alt="Victoire Icon" width={300}/>
                         <span className='font-light text-xl'>En {winner?.totalAttempt} tentative{winner?.totalAttempt > 1 && 's'} !</span>
                     </div>
                     
-                    <div className='sub_container h-[80px] justify-between p-[16px] relative current_player snow_cap_player'>
-                        <div className='flex justify-center items-center gap-[16px] p-[0px]'>
-                            <img src={values.avatar} alt="" className='rounded-full h-[48px]' width={48} />
-                            <div className='flex flex-col gap-[0px]'>
-                                <div className='item_username'>{winner?.name}</div>
-                                <div className='item_subtext'>Le Grand Pingouin Gagnant !</div>
-                            </div>
-                        </div>
-                    </div>
+                    <UserCard className='w-full' twitchId={winner?.id} data={{ username: winner?.name }} />
 
                     <UserPenguin
                         twitchId={winner?.id}
@@ -56,6 +48,7 @@ export default function VIP_RightContent() {
                 <div className='flex flex-col gap-[24px] h-full w-[440px]'>
                     {/* Current Player */}
                     <UserCard 
+                        twitchId={values.current_player.id}
                         className='relative h-[80px] w-full p-[16px] current_player container'
                         data={{
                             username: values.current_player.name,
@@ -76,7 +69,7 @@ export default function VIP_RightContent() {
                         <div id='right_menu_penguin' className='flex justify-center items-center w-full h-full absolute my-hidden'>
                             <UserPenguin
                                 twitchId={values.current_player.id}
-                                width={340}
+                                width={320}
                                 className='drop-shadow-2xl scale-x-[-1]'
                             />
                         </div>
