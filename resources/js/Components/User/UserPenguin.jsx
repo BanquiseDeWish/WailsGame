@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useValues } from '@/AppContext';
 import { randomId } from '@/Game/random';
 
-const viewBoxWidth = 700;
+const viewBoxWidth = 800;
 const viewBoxHeight = 950;
 
 const DARK_MAIN_COLOR = "#2C384F";
@@ -154,7 +154,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
 
 
             <svg id="penguin">
-                <g id="penguin_body" transform={`translate(${viewBoxWidth / 2 - 300},${viewBoxHeight - 700})`}>
+                <g id="penguin_body" transform={`translate(${viewBoxWidth / 2 - 250},${viewBoxHeight - 700})`}>
                     {/* TAIL */}
                     {
                         penguinTail
