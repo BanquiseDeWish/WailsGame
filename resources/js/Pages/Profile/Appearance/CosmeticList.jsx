@@ -1,7 +1,6 @@
 import CosmeticCard from "./CosmeticCard"
 import EmptyBoxIcon from "@/Components/Icons/EmptyBoxIcon"
 import { randomId } from "@/Game/random"
-import { useEffect } from "react"
 
 export default function CosmeticList({ cosmetics, activeTab, selectCosmetic}) {
 
@@ -40,18 +39,6 @@ export default function CosmeticList({ cosmetics, activeTab, selectCosmetic}) {
             {
                 cosmetics?.map((cosmetic, _) => {
                     switch (cosmetic.sub_type) {
-                        case 'hat':
-                        case 'backpack':
-                        case 'accessory':
-                        case 'penguin_eye':
-                            return (
-                                <CosmeticCard className={"h-[160px] md:h-[200px] md:w-[200px] overflow-hidden"} key={cosmetic.name+'_'+randomId()} onClick={() => { selectCosmetic(cosmetic) }} lock={!cosmetic.owned}>
-                                    <div className={`flex flex-shrink-0 justify-center items-center overflow-hidden w-[96px] h-[96px] ${!cosmetic.owned && 'opacity-70'}`}>
-                                        <div dangerouslySetInnerHTML={{ __html: cosmetic.style }} className={window.innerWidth <= 768 ? 'scale-[0.625]' : 'scale-[0.75]'} />
-                                    </div>
-                                    <span>{cosmetic.name}</span>
-                                </CosmeticCard>
-                            )
                         case 'penguin_color':
                         case 'icon_background':
                         case 'card_background':
@@ -67,6 +54,15 @@ export default function CosmeticList({ cosmetics, activeTab, selectCosmetic}) {
                             return (
                                 <CosmeticCard className={"h-[128px] md:w-[200px]"} key={cosmetic.name+'_'+randomId()} onClick={() => { selectCosmetic(cosmetic) }} lock={!cosmetic.owned}>
                                     <span className="flex justify-center items-center w-full h-full text-center">{cosmetic.name}</span>
+                                </CosmeticCard>
+                            )
+                        default:
+                            return (
+                                <CosmeticCard className={"h-[160px] md:h-[200px] md:w-[200px] overflow-hidden"} key={cosmetic.name+'_'+randomId()} onClick={() => { selectCosmetic(cosmetic) }} lock={!cosmetic.owned}>
+                                    <div className={`flex flex-shrink-0 justify-center items-center overflow-hidden w-[96px] h-[96px] ${!cosmetic.owned && 'opacity-70'}`}>
+                                        <div dangerouslySetInnerHTML={{ __html: cosmetic.style }} className={window.innerWidth <= 768 ? 'scale-[0.625]' : 'scale-[0.75]'} />
+                                    </div>
+                                    <span>{cosmetic.name}</span>
                                 </CosmeticCard>
                             )
                     }

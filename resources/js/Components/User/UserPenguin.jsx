@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useValues } from '@/AppContext';
 import { randomId } from '@/Game/random';
 
-const viewBoxWidth = 700;
+const viewBoxWidth = 800;
 const viewBoxHeight = 950;
 
 const DARK_MAIN_COLOR = "#2C384F";
@@ -134,7 +134,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
             {
                 cosmetics?.map((cosmetic, _) => {
                     if (!cosmetic || cosmetic.type != 'penguin' || cosmetic?.data?.position != 'back') return;
-                    if (!['hat', 'backpack', 'accessory'].includes(cosmetic.sub_type)) return;
+                    if (!['hat', 'penguin_backpack', 'penguin_accessory'].includes(cosmetic.sub_type)) return;
                     let x = cosmetic?.data?.x ?? 0;
                     let y = cosmetic?.data?.y ?? 0;
                     let scale = cosmetic?.data?.scale ?? 1;
@@ -154,7 +154,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
 
 
             <svg id="penguin">
-                <g id="penguin_body" transform={`translate(${viewBoxWidth / 2 - 300},${viewBoxHeight - 700})`}>
+                <g id="penguin_body" transform={`translate(${viewBoxWidth / 2 - 250},${viewBoxHeight - 700})`}>
                     {/* TAIL */}
                     {
                         penguinTail
@@ -238,7 +238,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
             {
                 cosmetics?.map((cosmetic, index) => {
                     if (!cosmetic || cosmetic.type != 'penguin' || cosmetic?.data?.position != "front") return;
-                    if (!['hat', 'backpack', 'accessory'].includes(cosmetic.sub_type)) return;
+                    if (!['hat', 'penguin_accessory'].includes(cosmetic.sub_type)) return;
                     let x = cosmetic?.data?.x ?? 0;
                     let y = cosmetic?.data?.y ?? 0;
                     let scale = cosmetic?.data?.scale ?? 1;

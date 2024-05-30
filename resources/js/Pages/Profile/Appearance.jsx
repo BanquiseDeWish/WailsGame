@@ -3,14 +3,11 @@ import MainLayout from "@/Layouts/MainLayout";
 import '@css/page/profile/appearance/appareance.css'
 import UserPenguin from "@/Components/User/UserPenguin";
 import UserCard from "@/Components/User/UserCard";
-import { act, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from 'sonner';
 import axios from "axios";
-import CosmeticCard from "@/Pages/Profile/Appearance/CosmeticCard";
 import BlueButton from "@/Components/Navigation/Buttons/BlueButton";
 import UserIcon from "@/Components/User/UserIcon";
-import EmptyBoxIcon from "@/Components/Icons/EmptyBoxIcon";
-import { randomId } from "@/Game/random";
 import AppearanceSidebar from "@/Components/Navigation/Sidebar/AppearanceSidebar";
 import CosmeticList from "./Appearance/CosmeticList";
 
@@ -35,13 +32,13 @@ export default function ProfileAppearance(props) {
                 },
                 {
                     name: 'Sacs à Dos',
-                    key: 'backpack',
-                    active: false
+                    key: 'penguin_backpack',
+                    active: true
                 },
                 {
                     name: 'Accessoires',
-                    key: 'accessory',
-                    active: false
+                    key: 'penguin_accessory',
+                    active: true
                 },
                 {
                     name: 'Couleurs',
@@ -56,12 +53,12 @@ export default function ProfileAppearance(props) {
                 {
                     name: 'Becs',
                     key: 'penguin_beak',
-                    active: false
+                    active: true
                 },
                 {
                     name: 'Queue',
                     key: 'penguin_tail',
-                    active: false
+                    active: true
                 },
             ]
         },
@@ -136,6 +133,7 @@ export default function ProfileAppearance(props) {
     }
 
     function selectCosmetic(cosmetic) {
+        console.log(cosmetic);
         if (!cosmetic) {
             let newCosmetics = [...activeCosmetics];
             newCosmetics = newCosmetics.filter(aCosmetic => aCosmetic.sub_type !== activeTab);
