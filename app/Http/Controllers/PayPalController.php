@@ -32,9 +32,22 @@ class PayPalController extends Controller
         try {
             $user = User::select('twitch_id', 'id')->where('twitch_id', '=', $request->session()->get('twitch')->id)->first();
             $cart = $request->input('articles');
+            if(count($cart) == 0) return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "Votre panier est vide."));
             foreach($cart as $articleId) {
-                $article = Articles::where('id', $articleId)->first();
+                $article = Articles::where('id', $articleId)->where('enable', 1)->first();
+                if($article == null) continue;
                 $cosmeticsCheck = json_decode($article->cosmetics, true);
+
+                $paymentCheck = Payments::where('payer_userid', $user->id)->get();
+                foreach($paymentCheck as $payment) {
+                    $cart_decode = json_decode($payment->cart, true);
+                    foreach($cart_decode as $item) {
+                        if(in_array($item, $cart_decode)) {
+                            return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "Vous avez déjà acheté cet article."));
+                        }
+                    }
+                }
+
                 foreach($cosmeticsCheck as $cosmetic) {
                     $itemExist = DB::table('users__cosmetics')->where('user_id', $user->id)->where('cosmetic_id', $cosmetic)->first();
 
@@ -49,7 +62,7 @@ class PayPalController extends Controller
             $items = new ItemBag();
 
             foreach($cart as $article){
-                $item = Articles::where('id', $article)->first();
+                $item = Articles::where('id', $article)->where('enable', 1)->first();
                 if($item !== null) {
                     $discountValue = ($item->price / 100) * $item->promo;
                     $priceItem = $item->price - $discountValue;
@@ -140,18 +153,18 @@ class PayPalController extends Controller
                     }
                 }
 
-                return redirect()->route('shop.index')->with('shop_redirect_success', true)->with('status', $this->toastResponse('success', 'Achat terminé!'));
+                return redirect()->route('shop.index.state', ['state' => 'success', 'payment_id' => $arr_body['id']])->with('shop_redirect_success', true)->with('status', $this->toastResponse('success', 'Achat terminé!'));
             } else {
-                return redirect()->route('shop.index')->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
+                return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => ''])->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
             }
         } else {
-            return redirect()->route('shop.index')->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
+            return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => ''])->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
         }
     }
 
     public function error(Request $request)
     {
-        return redirect()->route('shop.index')->with("status", $this->toastResponse('error', 'Transaction annulée'));
+        return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => ''])->with("status", $this->toastResponse('error', 'Transaction annulée'));
     }
 
 }

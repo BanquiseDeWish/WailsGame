@@ -59,7 +59,7 @@ export default class ShopDetailsArticle extends BaseModal {
     render() {
         return super.render(
             <>
-                <div className='relative flex self-stretch p-6 gap-8 w-full items-start justify-between select-none' style={{ background: 'var(--modal_background)', borderRadius: 'inherit' }}>
+                <div className='relative flex flex-col lg:flex-row self-stretch p-6 gap-8 w-full items-start justify-between select-none overflow-y-auto lg:overflow-y-hidden' style={{ background: 'var(--modal_background)', borderRadius: 'inherit' }}>
                     {this.state.process &&
                         <div className="loading_payemnt">
                             <div className="loader-spinner" />
@@ -69,7 +69,7 @@ export default class ShopDetailsArticle extends BaseModal {
                             </div>
                         </div>
                     }
-                    <div className="flex flex-col flex-1 h-full justify-between w-[650px]">
+                    <div className="flex flex-col flex-1 h-full justify-between w-full lg:w-[650px]">
                         <div className="flex flex-col gap-2">
                             <h2 className='text-[28px] font-semibold'>Achat de cosmétique</h2>
 
@@ -93,7 +93,7 @@ export default class ShopDetailsArticle extends BaseModal {
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 w-full lg:w-auto">
                         <UserCard propsCosmetics={this.props.chooseArticle?.cosmetics} data={{ username: this.props.twitch.display_name }} />
                         <div className="flex flex-col flex-1 gap-4 items-center p-4 rounded-md" style={{ background: 'var(--container_background)' }}>
 

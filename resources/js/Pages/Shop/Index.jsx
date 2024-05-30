@@ -11,9 +11,11 @@ import ArticleItem from '@/Components/Content/Shop/ArticleItem'
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import Cart from "@/Components/Content/Shop/Cart";
+import ShopStatusPayment from "@/Components/Modal/ShopStatusPayment";
 export default function ShopIndex(props) {
 
-    const [activeTab, setActiveTab] = useState(3);
+    const [shopStatePayment, setShopStatePayment] = useState(props?.state == "success" && props?.payment_data !== null)
+    const [activeTab, setActiveTab] = useState(props.tabs?.[0]?.subtabs?.[0]?.id);
     const [chooseArticle, setChooseArticle] = useState(undefined);
     const [shopDetailsOpen, setShopDetailsOpen] = useState(false);
     const [openCartModal, setOpenCartModal] = useState(false);
@@ -23,8 +25,6 @@ export default function ShopIndex(props) {
     const [priceCart, setPriceCart] = useState(0);
 
     const twitch = props.auth.twitch;
-
-    console.log(props)
 
     function getArticles(tab) {
         setArticles(undefined);
@@ -49,6 +49,10 @@ export default function ShopIndex(props) {
 
 
         processCart()
+
+        if(props?.state == "error") {
+            return toast.error('Une erreur est survenue lors du paiement :(')
+        }
     }, []);
 
     const processCart = () => {
@@ -77,7 +81,7 @@ export default function ShopIndex(props) {
 
     const addArticleCart = (article) => {
         const cartCopy = [...storageCart];
-        if (cartCopy.includes(article.id)) return;
+        if (cartCopy.includes(article.id)) return toast.error('Vous avez déjà ajouté cet article dans le panier.');
         cartCopy.push(article.id);
         setStorageCart(cartCopy)
         localStorage.setItem('cart', JSON.stringify(cartCopy));
@@ -100,13 +104,14 @@ export default function ShopIndex(props) {
     return (
         <MainLayout>
             <Head title="Boutique" />
-            <div className="grid xl:grid-cols-9 grid-cols-7 gap-6 h-full">
+            {props?.state == "success" && props?.payment_data !== null && <ShopStatusPayment payment_data={props.payment_data} username={twitch?.display_name} isOpen={shopStatePayment} setIsOpen={setShopStatePayment} />}
+            <div className="grid grid-cols-1 xl:grid-cols-9 gap-y-6 lg:gap-6 h-full w-full">
                 <div className="container xl:col-span-2 col-span-2 flex flex-col justify-start items-start p-6 gap-8 w-full">
-                    <div className="flex flex-col flex-1 w-full">
+                    <div className="flex flex-col flex-1 gap-8 w-full">
                         {
                             props.tabs.map((tab, _) => {
                                 return (
-                                    <div key={tab.key} className="flex flex-col gap-4 w-full">
+                                    <div key={tab.key} className="flex flex-col gap-3 w-full">
                                         <span className="font-bold text-xl" key={tab.name}>{tab.name}</span>
                                         <div className="flex flex-col ml-6">
                                             {tab.subtabs.map((subtab, _) => {
@@ -128,9 +133,9 @@ export default function ShopIndex(props) {
                     <BlueButton onClick={() => { setOpenCartModal(true) }} className={"w-full"}>Voir le panier</BlueButton>
                 </div>
 
-                <div className="container justify-start items-start xl:col-span-7 p-8 select-none overflow-y-auto">
+                <div className="container justify-start items-start xl:col-span-7 p-4 select-none overflow-y-auto w-full lg:w-auto">
                     {!articles && <div className="flex justify-center items-center w-full h-full"><div className="loader-spinner"></div></div>}
-                    <div className="flex flex-wrap gap-4">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
                         {articles?.map((article) => {
                             return (
                                 <ArticleItem key={article.id} article={article} selectArticle={selectArticle} addArticleCart={addArticleCart} />

@@ -61,7 +61,7 @@ Route::get('/vip_games', function () {
 
 Route::prefix('profile')->name('profile.')->middleware(['auth_twitch'])->group(function() {
     Route::get('/', [ProfileController::class, 'index'])->name('index');
-    //Route::get('/appearance', [AppareanceController::class, 'index'])->name('appearance');
+    Route::get('/appearance', [AppareanceController::class, 'index'])->name('appearance');
 });
 
 
@@ -116,11 +116,12 @@ Route::prefix('legals')->name('legals.')->middleware([])->group(function() {
     Route::get('/{page}', [LegalsController::class, 'page'])->name('page');
 });
 
-
 Route::prefix('shop')->name('shop.')->middleware(['auth_twitch'])->group(function() {
-    Route::get('/', [ShopController::class, 'index'])->name('index');
     Route::get('/articles/{tab_id}', [ShopController::class, 'articles'])->name('articles');
+    Route::get('/', [ShopController::class, 'index'])->name('index');
+    Route::get('/{state}/{payment_id}', [ShopController::class, 'index'])->name('index.state');
     Route::post('/cart', [ShopController::class, 'cart'])->name('cart');
+    Route::post('/claim', [ShopController::class, 'claim_free'])->name('claim_free');
 });
 
 require __DIR__.'/auth.php';
