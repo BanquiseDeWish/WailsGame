@@ -9,7 +9,7 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+        <script src="https://consent-eu.cookiefirst.com/sites/banquisedeweils.fr-07e737de-7c4e-4a4b-ae3c-dffd8d4ef132/consent.js"></script>
         <!-- Scripts -->
         @routes
         @viteReactRefresh
