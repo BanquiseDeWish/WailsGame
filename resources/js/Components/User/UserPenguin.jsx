@@ -134,7 +134,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
             {
                 cosmetics?.map((cosmetic, _) => {
                     if (!cosmetic || cosmetic.type != 'penguin' || cosmetic?.data?.position != 'back') return;
-                    if (!['hat', 'backpack', 'accessory'].includes(cosmetic.sub_type)) return;
+                    if (!['hat', 'penguin_backpack', 'penguin_accessory'].includes(cosmetic.sub_type)) return;
                     let x = cosmetic?.data?.x ?? 0;
                     let y = cosmetic?.data?.y ?? 0;
                     let scale = cosmetic?.data?.scale ?? 1;
@@ -238,7 +238,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
             {
                 cosmetics?.map((cosmetic, index) => {
                     if (!cosmetic || cosmetic.type != 'penguin' || cosmetic?.data?.position != "front") return;
-                    if (!['hat', 'backpack', 'accessory'].includes(cosmetic.sub_type)) return;
+                    if (!['hat', 'penguin_accessory'].includes(cosmetic.sub_type)) return;
                     let x = cosmetic?.data?.x ?? 0;
                     let y = cosmetic?.data?.y ?? 0;
                     let scale = cosmetic?.data?.scale ?? 1;

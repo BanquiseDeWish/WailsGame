@@ -32,13 +32,13 @@ export default function ProfileAppearance(props) {
                 },
                 {
                     name: 'Sacs à Dos',
-                    key: 'backpack',
-                    active: false
+                    key: 'penguin_backpack',
+                    active: true
                 },
                 {
                     name: 'Accessoires',
-                    key: 'accessory',
-                    active: false
+                    key: 'penguin_accessory',
+                    active: true
                 },
                 {
                     name: 'Couleurs',
@@ -53,7 +53,7 @@ export default function ProfileAppearance(props) {
                 {
                     name: 'Becs',
                     key: 'penguin_beak',
-                    active: false
+                    active: true
                 },
                 {
                     name: 'Queue',
@@ -133,6 +133,7 @@ export default function ProfileAppearance(props) {
     }
 
     function selectCosmetic(cosmetic) {
+        console.log(cosmetic);
         if (!cosmetic) {
             let newCosmetics = [...activeCosmetics];
             newCosmetics = newCosmetics.filter(aCosmetic => aCosmetic.sub_type !== activeTab);
