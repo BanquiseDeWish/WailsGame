@@ -31,7 +31,8 @@ class CosmeticSeeder extends Seeder
                     'style'   => $cosmetic['style'],
                     'data'   => $cosmetic['data'],
                     'free'   => $cosmetic['free'],
-                    'rarity'   => $cosmetic['rarity']
+                    'rarity'   => $cosmetic['rarity'],
+                    'claimable' => $cosmetic['claimable']
                 ]);
             }
             else {
@@ -42,7 +43,8 @@ class CosmeticSeeder extends Seeder
                     'style'   => $cosmetic['style'],
                     'data'   => $cosmetic['data'],
                     'free'   => $cosmetic['free'],
-                    'rarity'   => $cosmetic['rarity']
+                    'rarity'   => $cosmetic['rarity'],
+                    'claimable' => $cosmetic['claimable']
                 ]);
             }
         }
