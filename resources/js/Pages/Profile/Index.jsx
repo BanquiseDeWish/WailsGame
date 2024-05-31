@@ -11,7 +11,7 @@ export default function ProfileIndex(props) {
             <div className="info flex justify-center items-center w-full h-full">
                 <UserPenguin
                     width={300}
-                    user_id={props.auth?.twitch?.id}
+                    twitchId={props.auth?.twitch?.id}
                 />
             </div>
 
