@@ -39,12 +39,51 @@ class ShopController extends Controller
     }
 
     public function articles(Request $request, $tab_id) {
-        $articles = Articles::where('tab', '=', $tab_id)->where('enable', '=', 1)->get();
-        foreach($articles as $article) {
-            $cosmetics = json_decode($article->cosmetics, true);
-            $article->cosmetics = Cosmetic::whereIn('id', $cosmetics)->get();
-            foreach($article->cosmetics as $cosmetic) {
-                $cosmetic->data = json_decode($cosmetic->data, true);
+        $articles = [];
+        if($tab_id == -1) {
+            $user = User::select('twitch_id', 'id')->where('twitch_id', '=', $request->session()->get('twitch')->id)->first();
+            $cosmetics = Cosmetic::where('free', 0)->where('claimable', 1)->get();
+            $articles = [];
+            foreach($cosmetics as $cosmetic) {
+                $userCheck = UserCosmetics::where('user_id', $user->id)->where('cosmetic_id', $cosmetic->id)->first();
+                if($userCheck !== null) continue;
+                $fakeArticle = new Articles();
+                $fakeArticle->id = -1;
+                $fakeArticle->name = $cosmetic->name;
+                $fakeArticle->price = 0;
+                $fakeArticle->cosmetics = Cosmetic::where('id', $cosmetic->id)->get();
+                $fakeArticle->description = "";
+                $fakeArticle->promo = 0;
+                $fakeArticle->tab = -1;
+                $fakeArticle->enable = 1;
+                $fakeArticle->limited_at = null;
+                array_push($articles, $fakeArticle);
+            }
+        }else{
+            $articles = Articles::where('tab', '=', $tab_id)->where('enable', '=', 1)->get();
+            foreach($articles as $article) {
+                //CHECK LIMITED AT
+                if($article->limited_at !== null) {
+                    $dateToCheck = $article->limited_at;
+                    $checkDate = new \DateTime($dateToCheck);
+                    $currentDate = new \DateTime();
+                    if ($checkDate < $currentDate) {
+                        $article->limited_at = "UI";
+                        $idRemove = $article->id;
+                        $keyToRemove = $articles->search(function ($object) use ($idRemove) {
+                            return $object->id == $idRemove;
+                        });
+                        if ($keyToRemove !== false)
+                            $articles->forget($keyToRemove);
+                    }
+                }
+
+
+                $cosmetics = json_decode($article->cosmetics, true);
+                $article->cosmetics = Cosmetic::whereIn('id', $cosmetics)->get();
+                foreach($article->cosmetics as $cosmetic) {
+                    $cosmetic->data = json_decode($cosmetic->data, true);
+                }
             }
         }
         return response()->json($articles);
@@ -53,18 +92,46 @@ class ShopController extends Controller
     public function claim_free(Request $request) {
         $user = User::select('twitch_id', 'id')->where('twitch_id', '=', $request->session()->get('twitch')->id)->first();
         $article_id = $request->input('article_id');
-        if(!isset($article_id)) return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "Vous devez spécifier un identifiant d'article"));
-        $article = Articles::where('id', '=', $article_id)->where('price', '<=', 0)->where('enable', '=', 1)->first();
-        if($article == null) return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "L'article spécifier est introuvable"));
+        if(!isset($article_id)) return response()->json(["status" => "error", "message" => "Vous devez spécifier un identifiant d'article"]);
+
+
+        if(gettype($article_id) == "integer" && $article_id > -1) {
+            $article = Articles::where('id', '=', $article_id)->where('price', '<=', 0)->where('enable', '=', 1)->first();
+            if($article == null) return response()->json(["status" => "error", "message" =>  "L'article spécifier est introuvable"]);
+
+            $dateToCheck = $article->limited_at;
+            $checkDate = new \DateTime($dateToCheck);
+            $currentDate = new \DateTime();
+            if ($checkDate < $currentDate) {
+                return response()->json(["status" => "error", "message" =>  "La date limite a été dépassée."]);
+            }
+        }else if(gettype($article_id) == "string" && str_starts_with($article_id, '-1')) {
+            $article_id = str_replace('-1.', '', $article_id);
+            $cosmeticGet = Cosmetic::where('id', intval($article_id))->where('free', 0)->where('claimable', 1)->first();
+            if($cosmeticGet == null) return response()->json(["status" => "error", "message" =>  "Le cosmétique spécifier est introuvable"]);
+        }
+
         $paymentCheck = Payments::where('payer_userid', $user->id)->where('cart', '=', json_encode([$article_id]))->first();
-        if($paymentCheck !== null) return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "Vous avez déjà claim cet article."));
-        $cosmeticsCheck = json_decode($article->cosmetics, true);
-        foreach($cosmeticsCheck as $cosmetic) {
-            $itemExist = DB::table('users__cosmetics')->where('user_id', $user->id)->where('cosmetic_id', $cosmetic)->first();
+        if($paymentCheck !== null) return response()->json(["status" => "error", "message" =>  "Vous avez déjà claim cet article."]);
+
+        if(gettype($article_id) == "integer" && $article_id > -1) {
+            $cosmeticsCheck = json_decode($article->cosmetics, true);
+            foreach($cosmeticsCheck as $cosmetic) {
+                $itemExist = DB::table('users__cosmetics')->where('user_id', $user->id)->where('cosmetic_id', $cosmetic)->first();
+                if($itemExist == null){
+                    $uc = new UserCosmetics;
+                    $uc->user_id = $user->id;
+                    $uc->cosmetic_id = $cosmetic;
+                    $uc->payment_id = -1;
+                    $uc->save();
+                }
+            }
+        }else{
+            $itemExist = DB::table('users__cosmetics')->where('user_id', $user->id)->where('cosmetic_id', $cosmeticGet->id)->first();
             if($itemExist == null){
                 $uc = new UserCosmetics;
                 $uc->user_id = $user->id;
-                $uc->cosmetic_id = $cosmetic;
+                $uc->cosmetic_id = $cosmeticGet->id;
                 $uc->payment_id = -1;
                 $uc->save();
             }
@@ -75,13 +142,13 @@ class ShopController extends Controller
         $payment->payer_userid = $user->id;
         $payment->payer_email = "";
         $payment->payer_type = "free";
-        $payment->cart = json_encode([$article_id]);
+        $payment->cart = json_encode([intval($article_id)]);
         $payment->amount = strval(0);
         $payment->currency = "EUR";
         $payment->payment_status = "approved";
         $payment->save();
 
-        return redirect()->route('shop.index')->with("status", $this->toastResponse('success', "Vous avez bien récupérer les cosmétiques liés à cet article"));
+        return response()->json(["status" => "success", "message" => "Vous avez bien récupérer les cosmétiques liés à cet article"]);
     }
 
 

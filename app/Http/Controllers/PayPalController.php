@@ -36,6 +36,15 @@ class PayPalController extends Controller
             foreach($cart as $articleId) {
                 $article = Articles::where('id', $articleId)->where('enable', 1)->first();
                 if($article == null) continue;
+
+                //Check limited_at
+                $dateToCheck = $article->limited_at;
+                $checkDate = new \DateTime($dateToCheck);
+                $currentDate = new \DateTime();
+                if ($checkDate < $currentDate) {
+                    continue;
+                }
+
                 $cosmeticsCheck = json_decode($article->cosmetics, true);
 
                 $paymentCheck = Payments::where('payer_userid', $user->id)->get();

@@ -12,6 +12,7 @@ import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import Cart from "@/Components/Content/Shop/Cart";
 import ShopStatusPayment from "@/Components/Modal/ShopStatusPayment";
+import ShopIcon from "@/Components/Icons/Shop";
 export default function ShopIndex(props) {
 
     const [shopStatePayment, setShopStatePayment] = useState(props?.state == "success" && props?.payment_data !== null)
@@ -38,7 +39,7 @@ export default function ShopIndex(props) {
     useEffect(() => {
         getArticles(activeTab);
 
-        if(props.flash.shop_redirect_success) {
+        if (props.flash.shop_redirect_success) {
             localStorage.removeItem('cart')
             setStorageCart([])
         }
@@ -50,7 +51,7 @@ export default function ShopIndex(props) {
 
         processCart()
 
-        if(props?.state == "error") {
+        if (props?.state == "error") {
             return toast.error('Une erreur est survenue lors du paiement :(')
         }
     }, []);
@@ -101,51 +102,81 @@ export default function ShopIndex(props) {
         processCart()
     }, [storageCart])
 
+    const reloadTab = () => {
+        getArticles(activeTab)
+    }
+
+    const TabLink = (subtab) => {
+        return (
+            <span className={`hover:bg-container transition-all p-3 w-full rounded-lg select-none ${activeTab === subtab.id && 'bg-container'}`}
+                key={subtab.name}
+                onClick={() => getArticles(subtab.id)}
+            >
+                {subtab.name}
+            </span>
+        )
+    }
+
     return (
         <MainLayout>
             <Head title="Boutique" />
             {props?.state == "success" && props?.payment_data !== null && <ShopStatusPayment payment_data={props.payment_data} username={twitch?.display_name} isOpen={shopStatePayment} setIsOpen={setShopStatePayment} />}
-            <div className="grid grid-cols-1 xl:grid-cols-9 gap-y-6 lg:gap-6 h-full w-full">
-                <div className="container xl:col-span-2 col-span-2 flex flex-col justify-start items-start p-6 gap-8 w-full">
-                    <div className="flex flex-col flex-1 gap-8 w-full">
-                        {
-                            props.tabs.map((tab, _) => {
-                                return (
-                                    <div key={tab.key} className="flex flex-col gap-3 w-full">
-                                        <span className="font-bold text-xl" key={tab.name}>{tab.name}</span>
-                                        <div className="flex flex-col ml-6">
-                                            {tab.subtabs.map((subtab, _) => {
-                                                return (
-                                                    <span className={`hover:bg-container transition-all p-3 w-full rounded-lg select-none ${activeTab === subtab.id && 'bg-container'}`}
-                                                        key={subtab.name}
-                                                        onClick={() => getArticles(subtab.id)}
-                                                    >
-                                                        {subtab.name}
-                                                    </span>
-                                                )
-                                            })}
+            <div className="flex gap-4 flex-col h-full pb-12 mb-12">
+                <div className="flex items-center gap-2">
+                    <ShopIcon width={52} height={52} />
+                    <div className="flex flex-col gap-0">
+                        <h2 className="text-[28px] font-bold mb-[-4px]">Boutique</h2>
+                        <span className="leading-6" >Retrouvez ici des élements à ajouter à votre petit pingouin !</span>
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 xl:grid-cols-9 gap-y-6 lg:gap-6 h-full w-full pb-6">
+                    <div className="container xl:col-span-2 col-span-2 flex flex-col justify-start items-start p-6 gap-8 w-full">
+                        <div className="flex flex-col flex-1 gap-8 w-full">
+                            {
+                                props.tabs.map((tab, _) => {
+                                    return (
+                                        <div key={tab.key} className="flex flex-col gap-3 w-full">
+                                            <span className="font-bold text-xl" key={tab.name}>{tab.name}</span>
+                                            <div className="flex flex-col ml-6">
+                                                {tab.subtabs.map((subtab, _) => {
+                                                    return (
+                                                        <span className={`hover:bg-container transition-all p-3 w-full rounded-lg select-none ${activeTab === subtab.id && 'bg-container'}`}
+                                                            key={subtab.name}
+                                                            onClick={() => getArticles(subtab.id)}
+                                                        >
+                                                            {subtab.name}
+                                                        </span>
+                                                    )
+                                                })}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )
+                                })
+                            }
+                            <span className={`hover:bg-container transition-all p-3 w-full rounded-lg select-none ${activeTab === -1 && 'bg-container'}`}
+                                key={"free"}
+                                onClick={() => getArticles(-1)}
+                            >
+                                Cosmétiques/Skins Gratuit
+                            </span>
+                        </div>
+                        <BlueButton onClick={() => { setOpenCartModal(true) }} className={"w-full"}>Voir le panier</BlueButton>
+                    </div>
+
+                    <div className="container justify-start items-start xl:col-span-7 p-4 select-none overflow-y-auto w-full lg:w-auto">
+                        {!articles && <div className="flex justify-center items-center w-full h-full"><div className="loader-spinner"></div></div>}
+                        <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+                            {articles?.map((article) => {
+                                return (
+                                    <ArticleItem key={article.id} article={article} reloadTab={reloadTab} selectArticle={selectArticle} addArticleCart={addArticleCart} />
                                 )
-                            })
-                        }
+                            })}
+                        </div>
+                        <Cart openCart={openCartModal} deleteArticle={deleteArticle} priceCart={priceCart} cart={cart} setOpenCart={setOpenCartModal} />
                     </div>
-                    <BlueButton onClick={() => { setOpenCartModal(true) }} className={"w-full"}>Voir le panier</BlueButton>
-                </div>
 
-                <div className="container justify-start items-start xl:col-span-7 p-4 select-none overflow-y-auto w-full lg:w-auto">
-                    {!articles && <div className="flex justify-center items-center w-full h-full"><div className="loader-spinner"></div></div>}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-                        {articles?.map((article) => {
-                            return (
-                                <ArticleItem key={article.id} article={article} selectArticle={selectArticle} addArticleCart={addArticleCart} />
-                            )
-                        })}
-                    </div>
-                    <Cart openCart={openCartModal} deleteArticle={deleteArticle} priceCart={priceCart} cart={cart} setOpenCart={setOpenCartModal} />
+                    <ShopDetailsArticle twitch={twitch} chooseArticle={chooseArticle} setChooseArticle={setChooseArticle} addArticleCart={addArticleCart} />
                 </div>
-
-                <ShopDetailsArticle twitch={twitch} chooseArticle={chooseArticle} setChooseArticle={setChooseArticle} addArticleCart={addArticleCart} />
             </div>
             <style>
                 {`

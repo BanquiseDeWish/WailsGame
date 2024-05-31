@@ -25,7 +25,7 @@ export default class ShopDetailsArticle extends BaseModal {
     }
 
     componentDidMount() {
-        console.log(this.props)
+        console.log(this.props.chooseArticle?.cosmetics)
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -86,10 +86,10 @@ export default class ShopDetailsArticle extends BaseModal {
                         <div className="flex gap-2 items-center justify-between">
                             <div className="flex flex-col">
                                 <span className='text-[20px] font-light'>Prix de l'article</span>
-                                <span className='text-[18px] font-bold'>{this.props.chooseArticle?.price}€</span>
+                                <span className='text-[18px] font-bold'>{this.props.chooseArticle?.price == 0 ? "Gratuit" : `${this.props.chooseArticle?.price}€`}</span>
                             </div>
                             <div className="flex gap-4">
-                                <BlueButton onClick={() => { this.props.addArticleCart(this.props.chooseArticle); this.props.setChooseArticle(undefined) }}>Ajouter au panier</BlueButton>
+                                {this.props.chooseArticle?.price > 0 && <BlueButton onClick={() => { this.props.addArticleCart(this.props.chooseArticle); this.props.setChooseArticle(undefined) }}>Ajouter au panier</BlueButton>}
                             </div>
                         </div>
                     </div>
