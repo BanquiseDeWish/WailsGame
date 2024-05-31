@@ -5,7 +5,7 @@ import moment from "moment";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export default function ArticleItem({ article, reloadTab, selectArticle, addArticleCart }) {
+export default function ArticleItem({ article, removeArticle, selectArticle, addArticleCart }) {
 
     const [processClaim, setProcessClaim] = useState(false)
 
@@ -19,7 +19,7 @@ export default function ArticleItem({ article, reloadTab, selectArticle, addArti
                         toast.error(response.data.message)
                         return;
                     }
-                    document.querySelector(`#${domId}`).remove()
+                    removeArticle(article?.uuid)
                     toast.success(response.data.message)
                 })
                 .finally(()=> {
@@ -29,7 +29,7 @@ export default function ArticleItem({ article, reloadTab, selectArticle, addArti
 
 
     return (
-        <div key={article.id} id={domId} className="article w-[220px] h-[258px] gap-[24px] container flex-1 flex-col p-0 m-y-4 pb-6 cursor-pointer">
+        <div key={article.uuid} id={domId} className="article w-[220px] h-[258px] gap-[24px] container flex-1 flex-col p-0 m-y-4 pb-6 cursor-pointer">
             <div className="flex flex-col gap-[24px] mt-[24px] w-full items-center" onClick={(e) => { selectArticle(e, article, domId) }} >
                 {article.cosmetics.length == 1 ?
                     <div className="flex w-[128px] h-[128px]">

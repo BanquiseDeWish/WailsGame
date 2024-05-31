@@ -106,6 +106,12 @@ export default function ShopIndex(props) {
         getArticles(activeTab)
     }
 
+    const removeArticle = (uuid) => {
+        let copyArticles = [...articles];
+        copyArticles = copyArticles.filter(article => article.uuid !== uuid);
+        setArticles(copyArticles);
+    }
+
     const TabLink = (subtab) => {
         return (
             <span className={`hover:bg-container transition-all p-3 w-full rounded-lg select-none ${activeTab === subtab.id && 'bg-container'}`}
@@ -168,7 +174,7 @@ export default function ShopIndex(props) {
                         <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
                             {articles?.map((article) => {
                                 return (
-                                    <ArticleItem key={article.id} article={article} reloadTab={reloadTab} selectArticle={selectArticle} addArticleCart={addArticleCart} />
+                                    <ArticleItem key={article.uuid} article={article} reloadTab={reloadTab} removeArticle={removeArticle} selectArticle={selectArticle} addArticleCart={addArticleCart} />
                                 )
                             })}
                         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Models\Articles;
 use App\Models\Cosmetic;
 use App\Models\CosmeticsTabs;
@@ -49,6 +50,7 @@ class ShopController extends Controller
                 if($userCheck !== null) continue;
                 $fakeArticle = new Articles();
                 $fakeArticle->id = -1;
+                $fakeArticle->uuid = Str::uuid();
                 $fakeArticle->name = $cosmetic->name;
                 $fakeArticle->price = 0;
                 $fakeArticle->cosmetics = Cosmetic::where('id', $cosmetic->id)->get();
