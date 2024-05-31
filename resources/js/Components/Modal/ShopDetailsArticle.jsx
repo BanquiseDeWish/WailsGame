@@ -34,7 +34,6 @@ export default class ShopDetailsArticle extends BaseModal {
 
     componentDidUpdate(prevProps, prevState) {
         const penguins_cosmetics = this.props.chooseArticle?.cosmetics.filter((cosmetic) => cosmetic.type == "penguin")
-        //const resultat = this.props.chooseArticle?.cosmetics.group((sub_type) => sub_type)
         if (penguins_cosmetics) {
             const groupsCosmetics = Object.groupBy(penguins_cosmetics, ({ sub_type }) => sub_type)
             const listKeys = [];
@@ -70,6 +69,7 @@ export default class ShopDetailsArticle extends BaseModal {
                     clearInterval(this.intervalCosmetics);
                     this.intervalCosmetics = null;
                 }
+                this.cosmetics_loaded = false;
                 this.closeModal();
             }
         }

@@ -29,8 +29,8 @@ export default function ArticleItem({ article, removeArticle, selectArticle, add
 
 
     return (
-        <div key={article.uuid} id={domId} className="article w-[220px] h-[258px] gap-[24px] container flex-1 flex-col p-0 m-y-4 pb-6 cursor-pointer">
-            <div className="flex flex-col gap-[24px] mt-[24px] w-full items-center" onClick={(e) => { selectArticle(e, article, domId) }} >
+        <div key={article.uuid} id={domId} className="article justify-between w-[220px] gap-[24px] container flex-1 flex-col p-0 cursor-pointer">
+            <div className="flex flex-col gap-[24px] w-full items-center" onClick={(e) => { selectArticle(e, article, domId) }} >
                 {article.cosmetics.length == 1 ?
                     <div className="flex w-[128px] h-[128px]">
                         {article.cosmetics?.map((cosmetic) => {
@@ -60,11 +60,9 @@ export default function ArticleItem({ article, removeArticle, selectArticle, add
                         })}
                     </div>
                     :
-                    <div className="flex mt-[2rem]">
-                        <img src={`${route('/')}/storage/shop/articles/${article.thumbnail}.webp`} title={`thumbnail_article_${article.id}`} style={{ borderRadius: '8px', width: '130px', height: '130px' }} alt={`thumbnail_article_${article.id}`} />
-                    </div>
+                    <div className="flex w-[200px] h-[200px]" style={{ background: 'url('+route('/')+'/storage/shop/articles/'+article.thumbnail+'.webp)', backgroundSize: 'cover', backgroundPosition: 'center' }} />
                 }
-                <div className="flex flex-col items-center text-center">
+                <div className="flex flex-col items-center text-center w-full">
                     <h4 className="text-[16px] font-bold">{article.name}</h4>
                     {article.limited_at !== null && <span className="text-[10px]">Disponible jusqu'au<br/>{moment(article.limited_at).format('DD/MM/YYYY [à] HH:mm')}</span>}
                     {article.price > 0 ? <div className="text-[16px]">{article.price}€</div> : <div className="text-[16px]">GRATUIT</div>}
