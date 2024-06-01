@@ -10,6 +10,7 @@ import TwitchSVG from '@/Components/Icons/IconTwitch';
 
 import AppLogo from '@/Components/AppLogo';
 import DropdownNav from './Buttons/DropdownNav';
+import BadgeNew from '../Content/BadgeNew';
 
 export default function Navbar() {
 
@@ -35,6 +36,10 @@ export default function Navbar() {
                     <div className="link store_merch">
                         <a href="/boutique/merch" target='_blank'>Boutique Merch</a>
                     </div>
+                    <div className={`link relative ${window.location.href.startsWith(route('shop.index'))}`}>
+                        <Link href={route('games.quizz.index')}>Marché des cosmétiques</Link>
+                        <BadgeNew />
+                    </div>
                     <div className={`link ${window.location.href.startsWith(route('vipgames.index')) ? "active" : ""}`}>
                         <Link href={route('vipgames.index')}>VIPGames</Link>
                     </div>
@@ -44,7 +49,6 @@ export default function Navbar() {
                     {env.quizzmaster_state &&
                         <div className={`link relative ${window.location.href.startsWith(route('games.quizz.index'))}`}>
                             <Link href={route('games.quizz.index')}>QuizzMaster</Link>
-                            <span className="absolute top-0 right-0 bg-red-100 text-red-800 text-[10px] font-medium me-2 px-1 py-0.5 rounded dark:bg-red-900 dark:text-white">Nouveau !</span>
                         </div>
                     }
 
