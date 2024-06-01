@@ -35,7 +35,7 @@ export default function ArticleItem({ article, removeArticle, selectArticle, add
                     <div className="flex w-[128px] h-[128px]">
                         {article.cosmetics?.map((cosmetic) => {
                             switch (cosmetic.sub_type) {
-                                case 'hat':
+                                case 'penguin_hat':
                                 case 'penguin_backpack':
                                 case 'penguin_tail':
                                 case 'penguin_accessory':

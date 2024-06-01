@@ -15,7 +15,7 @@ import CosmeticList from "./Appearance/CosmeticList";
 export default function ProfileAppearance(props) {
 
     const [mainTab, setMainTab] = useState('penguin');
-    const [activeTab, setActiveTab] = useState('hat');
+    const [activeTab, setActiveTab] = useState('penguin_hat');
     const [cosmetics, setCosmetics] = useState(undefined);
     const [activeCosmetics, setActiveCosmetics] = useState(props.activeCosmetics);
     const twitch = props.auth.twitch;
@@ -27,7 +27,7 @@ export default function ProfileAppearance(props) {
             subtabs: [
                 {
                     name: 'Chapeaux',
-                    key: 'hat',
+                    key: 'penguin_hat',
                     active: true
                 },
                 {
@@ -162,7 +162,7 @@ export default function ProfileAppearance(props) {
     }
 
     useEffect(() => {
-        getCosmetics('penguin', 'hat');
+        getCosmetics('penguin', 'penguin_hat');
     }, []);
 
     return (
