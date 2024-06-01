@@ -129,10 +129,10 @@ export default function ShopIndex(props) {
     }
 
     return (
-        <MainLayout>
+        <MainLayout showOverflow={true}>
             <Head title="Boutique" />
             {props?.state == "success" && props?.payment_data !== null && <ShopStatusPayment payment_data={props.payment_data} username={twitch?.display_name} isOpen={shopStatePayment} setIsOpen={setShopStatePayment} />}
-            <div className="flex gap-4 flex-col h-full pb-12 mb-12">
+            <div className="flex gap-4 flex-col h-full" >
                 <div className="flex items-center gap-2">
                     <ShopIcon width={52} height={52} />
                     <div className="flex flex-col gap-0">
@@ -140,7 +140,7 @@ export default function ShopIndex(props) {
                         <span className="leading-6" >Retrouvez ici des élements à ajouter à votre petit pingouin !</span>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 xl:grid-cols-9 gap-y-6 lg:gap-6 h-full w-full pb-6">
+                <div className="grid grid-cols-1 xl:grid-cols-9 gap-y-6 lg:gap-6 w-full pb-6">
                     <div className="container xl:col-span-2 col-span-2 flex flex-col justify-start items-start p-6 gap-8 w-full">
                         <div className="flex flex-col flex-1 gap-8 w-full">
                             {

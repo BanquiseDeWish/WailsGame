@@ -1,4 +1,6 @@
 import GreenButton from "@/Components/Navigation/Buttons/GreenButton";
+import { randomId } from "@/Game/random";
+import CosmeticCard from "@/Pages/Profile/Appearance/CosmeticCard";
 import { router } from "@inertiajs/react";
 import axios from "axios";
 import moment from "moment";
@@ -32,29 +34,32 @@ export default function ArticleItem({ article, removeArticle, selectArticle, add
         <div key={article.uuid} id={domId} className="article justify-between w-[220px] gap-[24px] container flex-1 flex-col p-0 cursor-pointer">
             <div className="flex flex-col gap-[24px] w-full items-center" onClick={(e) => { selectArticle(e, article, domId) }} >
                 {article.cosmetics.length == 1 ?
-                    <div className="flex w-[128px] h-[128px]">
+                    <div className="flex min-w-[128px] h-[128px]">
                         {article.cosmetics?.map((cosmetic) => {
                             switch (cosmetic.sub_type) {
-                                case 'penguin_hat':
-                                case 'penguin_backpack':
-                                case 'penguin_tail':
-                                case 'penguin_accessory':
-                                    return (
-                                        <div key={cosmetic.id} className={`flex mt-[24px] justify-center items-end overflow-hidden w-[128px] h-[128px] scale-[0.75]`}
-                                            dangerouslySetInnerHTML={{ __html: cosmetic.style }}
-                                        />
-                                    )
+                                case 'penguin_color':
                                 case 'icon_background':
-                                case 'card_background':
                                     return (
                                         <div key={cosmetic.id} className={`flex mt-[24px] justify-center items-end overflow-hidden w-[128px] h-[128px] rounded-full`}
                                             style={{ background: cosmetic.style }}
+                                        />
+                                    )
+                                case 'card_background':
+                                    return (
+                                        <div className={`flex mt-[24px] justify-center items-end overflow-hidden w-[80px] h-[80px] md:w-[160px] md:h-[80px] rounded-lg`}
+                                            style={{ background: cosmetic.style, backgroundSize: 'cover' }}
                                         />
                                     )
                                 case 'slogan':
                                     return (
                                         <span key={cosmetic.id} className="flex mt-[24px] justify-center items-center w-full h-full text-center">{article.name}</span>
 
+                                    )
+                                default:
+                                    return (
+                                        <div key={cosmetic.id} className={`flex mt-[24px] justify-center items-end overflow-hidden w-[128px] h-[128px] scale-[0.75]`}
+                                            dangerouslySetInnerHTML={{ __html: cosmetic.style }}
+                                        />
                                     )
                             }
                         })}
@@ -66,6 +71,7 @@ export default function ArticleItem({ article, removeArticle, selectArticle, add
                     <h4 className="text-[16px] font-bold">{article.name}</h4>
                     {article.limited_at !== null && <span className="text-[10px]">Disponible jusqu'au<br/>{moment(article.limited_at).format('DD/MM/YYYY [à] HH:mm')}</span>}
                     {article.price > 0 ? <div className="text-[16px]">{article.price}€</div> : <div className="text-[16px]">GRATUIT</div>}
+                    {article.price_sub !== 0 && <span className="text-[11px] leading-3">Au lieu de <b>{article.price_sub}€</b></span>}
                 </div>
             </div>
 

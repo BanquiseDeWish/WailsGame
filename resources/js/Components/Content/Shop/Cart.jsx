@@ -113,6 +113,7 @@ export default function Cart({ cart, openCart, priceCart, setOpenCart, deleteArt
                                                                                     </div>
                                                                                     <div className="flex flex-col justify-end items-end">
                                                                                         <p className="">{product.price}€</p>
+                                                                                        {product.promo !== 0 && <span className="text-[12px] text-gray-400">Au lieu de <s>{product.originalPrice}€</s></span>}
                                                                                         <button
                                                                                             type="button"
                                                                                             className="font-medium text-red-500"

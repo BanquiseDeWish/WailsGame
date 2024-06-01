@@ -67,14 +67,13 @@ class PayPalController extends Controller
             }
 
 
-            $price = 0;
+            $price = 0.00;
             $items = new ItemBag();
 
             foreach($cart as $article){
                 $item = Articles::where('id', $article)->where('enable', 1)->first();
                 if($item !== null) {
-                    $discountValue = ($item->price / 100) * $item->promo;
-                    $priceItem = $item->price - $discountValue;
+                    $priceItem = $item->price;
                     $items->add([
                         'name' => $item->name,
                         'description' => $item->description,
@@ -84,6 +83,8 @@ class PayPalController extends Controller
                     $price += $priceItem;
                 }
             }
+
+
 
             $response = $this->gateway->purchase([
                 'amount' => $price,
@@ -110,7 +111,7 @@ class PayPalController extends Controller
                 return redirect()->route('shop.index')->with("status", $this->toastResponse('error', $response->getMessage()));
             }
         } catch(Exception $e) {
-            return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "Une erreur interne est survenue :'("));
+            return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "Une erreur interne est survenue :'(" . $e->getMessage()));
         }
     }
 

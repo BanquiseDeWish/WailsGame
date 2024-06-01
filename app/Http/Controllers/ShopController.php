@@ -84,6 +84,24 @@ class ShopController extends Controller
                     }
                 }
 
+                $article->price_sub = 0;
+                if($article->price > 0 && $article->tab == 10 || $article->tab == 11) {
+                    $articles_sub = json_decode($article->cosmetics, true);
+                    $price_sub_articles = 0;
+                    $all_find = true;
+                    foreach($articles_sub as $asub) {
+                        $article_get = Articles::where('cosmetics', "[".$asub."]")->first();
+                        if($article_get == null) {
+                            $all_find = false;
+                            break;
+                        }
+                        $price_sub_articles += $article_get->price;
+                    }
+                    if($all_find) {
+                        $article->price_sub = $price_sub_articles;
+                    }
+
+                }
 
                 $cosmetics = json_decode($article->cosmetics, true);
                 $article->cosmetics = Cosmetic::whereIn('id', $cosmetics)->get();
