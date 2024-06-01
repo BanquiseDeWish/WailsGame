@@ -23,7 +23,7 @@ export default function LinkSidebar({className, ...otherProps}) {
 
                 <SidebarCategory>
                     <a href="/boutique/merch" target='_blank'>Boutique Merch</a>
-                    <Link href={route('games.quizz.index')}>Marché des cosmétiques</Link>
+                    <Link href={route('shop.index')}>Marché des cosmétiques</Link>
                     <Link href={route('vipgames.index')}>VIPGames</Link>
                     <Link href={route('predigivre.halloffame', { filter: 'today' })}>Prédi Givrées</Link>
                     <Link href={route('kartchance.index')}>Kart Chance</Link>

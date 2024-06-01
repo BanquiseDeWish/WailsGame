@@ -37,7 +37,7 @@ export default function Navbar() {
                         <a href="/boutique/merch" target='_blank'>Boutique Merch</a>
                     </div>
                     <div className={`link relative ${window.location.href.startsWith(route('shop.index'))}`}>
-                        <Link href={route('games.quizz.index')}>Marché des cosmétiques</Link>
+                        <Link href={route('shop.index')}>Marché des cosmétiques</Link>
                         <BadgeNew />
                     </div>
                     <div className={`link ${window.location.href.startsWith(route('vipgames.index')) ? "active" : ""}`}>
