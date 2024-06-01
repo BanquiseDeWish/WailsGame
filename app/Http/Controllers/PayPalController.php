@@ -164,16 +164,16 @@ class PayPalController extends Controller
 
                 return redirect()->route('shop.index.state', ['state' => 'success', 'payment_id' => $arr_body['id']])->with('shop_redirect_success', true)->with('status', $this->toastResponse('success', 'Achat terminé!'));
             } else {
-                return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => ''])->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
+                return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => '-1'])->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
             }
         } else {
-            return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => ''])->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
+            return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => '-1'])->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
         }
     }
 
     public function error(Request $request)
     {
-        return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => ''])->with("status", $this->toastResponse('error', 'Transaction annulée'));
+        return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => '-1'])->with("status", $this->toastResponse('error', 'Transaction annulée'));
     }
 
 }
