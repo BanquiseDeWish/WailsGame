@@ -52,8 +52,13 @@ export default function ShopIndex(props) {
         processCart()
 
         if (props?.state == "error") {
+            setTimeout(() => {
+                const newPath = window.location.pathname.split('/')[1];
+                window.history.replaceState(null, '', '/' + newPath);
+            }, 1500)
             return toast.error('Une erreur est survenue lors du paiement :(')
         }
+
     }, []);
 
     const processCart = () => {
