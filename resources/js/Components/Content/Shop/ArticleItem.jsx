@@ -10,7 +10,7 @@ export default function ArticleItem({ article, removeArticle, selectArticle, add
     const [processClaim, setProcessClaim] = useState(false)
 
     const domId = article.id == -1 ? 'article_free_' + article.cosmetics[0]?.id : article?.id
-    const claimArticle = (article) => {
+    const claimArticle = (article, canRemove) => {
         if(processClaim) return;
         setProcessClaim(true)
         axios.post(route('shop.claim_free'), { article_id: article.id == -1 ? -1 + '.' + article.cosmetics[0]?.id : article?.id })
@@ -19,7 +19,7 @@ export default function ArticleItem({ article, removeArticle, selectArticle, add
                         toast.error(response.data.message)
                         return;
                     }
-                    removeArticle(article?.uuid)
+                    if(article.id == -1) removeArticle(article?.uuid)
                     toast.success(response.data.message)
                 })
                 .finally(()=> {

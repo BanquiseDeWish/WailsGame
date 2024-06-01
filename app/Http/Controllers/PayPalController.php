@@ -47,7 +47,7 @@ class PayPalController extends Controller
 
                 $cosmeticsCheck = json_decode($article->cosmetics, true);
 
-                $paymentCheck = Payments::where('payer_userid', $user->id)->get();
+                $paymentCheck = Payments::where('payer_userid', $user->id)->where('payment_status', 'approved')->get();
                 foreach($paymentCheck as $payment) {
                     $cart_decode = json_decode($payment->cart, true);
                     foreach($cart_decode as $item) {

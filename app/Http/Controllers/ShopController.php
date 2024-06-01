@@ -113,7 +113,7 @@ class ShopController extends Controller
             if($cosmeticGet == null) return response()->json(["status" => "error", "message" =>  "Le cosmétique spécifier est introuvable"]);
         }
 
-        $paymentCheck = Payments::where('payer_userid', $user->id)->where('cart', '=', json_encode([$article_id]))->first();
+        $paymentCheck = Payments::where('payer_userid', $user->id)->where('cart', '=', json_encode([$article_id]))->where('payment_status', 'approved')->first();
         if($paymentCheck !== null) return response()->json(["status" => "error", "message" =>  "Vous avez déjà claim cet article."]);
 
         if(gettype($article_id) == "integer" && $article_id > -1) {

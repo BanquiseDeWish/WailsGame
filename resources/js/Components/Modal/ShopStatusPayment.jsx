@@ -72,7 +72,7 @@ export default class ShopStatusPayment extends BaseModal {
                             <p>Mode de paiement: <b>PayPal</b></p>
                             <br />
                             <p>Articles Commandés :</p>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col overflow-y-auto h-36">
                                 {this.paymentData?.cart_details?.map((item, _) => {
                                     return (
                                         <div className="flex pl-4 py-2 gap-2">

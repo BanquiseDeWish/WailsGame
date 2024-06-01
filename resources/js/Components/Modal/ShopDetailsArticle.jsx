@@ -33,7 +33,7 @@ export default class ShopDetailsArticle extends BaseModal {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const penguins_cosmetics = this.props.chooseArticle?.cosmetics.filter((cosmetic) => cosmetic.type == "penguin")
+        const penguins_cosmetics = this.props.chooseArticle?.cosmetics;
         if (penguins_cosmetics) {
             const groupsCosmetics = Object.groupBy(penguins_cosmetics, ({ sub_type }) => sub_type)
             const listKeys = [];
@@ -65,7 +65,7 @@ export default class ShopDetailsArticle extends BaseModal {
             if (this.props.chooseArticle) {
                 this.openModal();
             } else if (!this.props.chooseArticle) {
-                if(this.intervalCosmetics !== null) {
+                if (this.intervalCosmetics !== null) {
                     clearInterval(this.intervalCosmetics);
                     this.intervalCosmetics = null;
                 }
@@ -125,10 +125,18 @@ export default class ShopDetailsArticle extends BaseModal {
                                     switch (cosmetic.sub_type) {
                                         case 'penguin_color':
                                         case 'icon_background':
+                                            return (
+                                                <CosmeticCard className={"h-[120px] md:h-[180px] md:w-[150px]"} key={cosmetic.name + '_' + randomId()} lock={false}>
+                                                    <div className={`flex flex-shrink-0 justify-center items-end overflow-hidden w-[80px] h-[60px] md:w-[76px] md:h-[76px] rounded-full ${false && 'opacity-70'}`}
+                                                        style={{ background: cosmetic.style, backgroundSize: 'cover' }}
+                                                    />
+                                                    <span>{cosmetic.name}</span>
+                                                </CosmeticCard>
+                                            )
                                         case 'card_background':
                                             return (
-                                                <CosmeticCard className={"h-[160px] md:h-[200px] md:w-[200px]"} key={cosmetic.name + '_' + randomId()} lock={false}>
-                                                    <div className={`flex flex-shrink-0 justify-center items-end overflow-hidden w-[80px] h-[80px] md:w-[96px] md:h-[96px] rounded-full ${false && 'opacity-70'}`}
+                                                <CosmeticCard className={"h-[120px] md:h-[180px] md:w-[150px]"} key={cosmetic.name + '_' + randomId()} lock={false}>
+                                                    <div className={`flex flex-shrink-0 justify-center items-end overflow-hidden w-[80px] h-[80px] md:w-[130px] md:h-[50px] rounded-lg`}
                                                         style={{ background: cosmetic.style, backgroundSize: 'cover' }}
                                                     />
                                                     <span>{cosmetic.name}</span>
