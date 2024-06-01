@@ -17,15 +17,15 @@ use Illuminate\Support\Facades\DB;
 class PayPalController extends Controller
 {
 
-    private $gateway;
-    private $testMode = true;
+    private $gateway = null;
 
     public function __construct()
     {
+        $testMode = (env('PAYPAL_MODE', 'production') == "sandbox");
         $this->gateway = Omnipay::create('PayPal_Rest');
-        $this->gateway->setClientId((($this->testMode) ? env('PAYPAL_SANDBOX_CLIENT_ID') : env('PAYPAL_CLIENT_ID')));
-        $this->gateway->setSecret((($this->testMode) ? env('PAYPAL_SANDBOX_CLIENT_SECRET') : env('PAYPAL_CLIENT_SECRET')));
-        $this->gateway->setTestMode($this->testMode); //set it to 'false' when go live
+        $this->gateway->setClientId((($testMode) ? env('PAYPAL_SANDBOX_CLIENT_ID') : env('PAYPAL_CLIENT_ID')));
+        $this->gateway->setSecret((($testMode) ? env('PAYPAL_SANDBOX_CLIENT_SECRET') : env('PAYPAL_CLIENT_SECRET')));
+        $this->gateway->setTestMode($testMode); //set it to 'false' when go live
     }
 
     public function start(Request $request) {
