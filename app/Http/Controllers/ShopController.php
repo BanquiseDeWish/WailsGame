@@ -48,12 +48,16 @@ class ShopController extends Controller
             foreach($cosmetics as $cosmetic) {
                 $userCheck = UserCosmetics::where('user_id', $user->id)->where('cosmetic_id', $cosmetic->id)->first();
                 if($userCheck !== null) continue;
+                $cosmetics_data = Cosmetic::where('id', $cosmetic->id)->get();
+                foreach($cosmetics_data as $cos) {
+                    $cos->data = json_decode($cos->data, true);
+                }
                 $fakeArticle = new Articles();
                 $fakeArticle->id = -1;
                 $fakeArticle->uuid = Str::uuid();
                 $fakeArticle->name = $cosmetic->name;
                 $fakeArticle->price = 0;
-                $fakeArticle->cosmetics = Cosmetic::where('id', $cosmetic->id)->get();
+                $fakeArticle->cosmetics = $cosmetics_data;
                 $fakeArticle->description = "";
                 $fakeArticle->promo = 0;
                 $fakeArticle->tab = -1;
