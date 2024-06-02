@@ -10,4 +10,9 @@ class Articles extends Model
     use HasFactory;
 
     protected $table = "articles";
+
+    public function scopeExcludeArticles($query, $articles)
+    {
+        return $query->whereNotIn('id', $articles);
+    }
 }

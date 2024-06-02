@@ -21,7 +21,7 @@ export default function ArticleItem({ article, removeArticle, selectArticle, add
                         toast.error(response.data.message)
                         return;
                     }
-                    if(article.id == -1) removeArticle(article?.uuid)
+                    removeArticle(article?.uuid)
                     toast.success(response.data.message)
                 })
                 .finally(()=> {
