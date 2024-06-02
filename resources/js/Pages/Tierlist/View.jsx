@@ -82,8 +82,8 @@ export default class TierListView extends React.Component {
                                     <span className={`${this.calcAverage(this.itemCurrent?.rating) >= 9 ? "average gold" : "average"} text-xl`}>{this.calcAverage(this.itemCurrent?.rating)}</span>
                                 </div>
                                 <div className="flex items-center gap-6">
-                                    {this.twitch.id == this.props.user.twitch_id && <a className="simple_button button_green" style={{ height: '4rem' }} href={route('tierlist.play', { id: this.tierlist.id, tls_id: this.props.tlShare?.id })}>Éditer ma Tierlist</a>}
-                                    <UserCard data={{ id: this.state.user?.id, username: this.state.user?.twitch_username == undefined ? " - " : this.state.user?.twitch_username }} />
+                                    {this.twitch.id == this.props.user.twitch_id && <a className="simple_button button_green" href={route('tierlist.play', { id: this.tierlist.id, tls_id: this.props.tlShare?.id })}>Éditer ma Tierlist</a>}
+                                    <UserCard twitchId={this.twitch.id} data={{ username: this.state.user?.twitch_username == undefined ? " - " : this.state.user?.twitch_username }} />
                                 </div>
                             </div>
                             <div className={`ratingList grid grid-cols-1 lg:grid-cols-2 pb-24 lg:pb-0 gap-4 overflow-x-hidden w-full oerflow-y-auto`}>
