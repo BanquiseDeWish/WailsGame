@@ -73,7 +73,7 @@ export default function UserCard({ className='', propsCosmetics, twitchId, data,
         let slogan = cosmetics?.find(cosmetic => cosmetic.sub_type == "slogan")?.name ?? "Un pingouin voyageur";
 
         return (
-            <div className={`${className} userCard p-[16px]`} style={{background: data?.background_style ?? background, ...style}}>
+            <div className={`${className} userCard p-[16px]`} style={{background: data?.background_style ?? background, backgroundSize: 'cover', backgroundPosition: 'center', ...style}}>
                 <UserIcon className="flex-shrink-0" propsCosmetics={cosmetics} width={data?.iconSize ?? 48}/>
 
                 <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">

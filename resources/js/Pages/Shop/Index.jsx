@@ -13,6 +13,7 @@ import { TrashIcon } from "@heroicons/react/20/solid";
 import Cart from "@/Components/Content/Shop/Cart";
 import ShopStatusPayment from "@/Components/Modal/ShopStatusPayment";
 import ShopIcon from "@/Components/Icons/Shop";
+import IllusEmptyCategory from '@assets/img/market/illus_empty_category.webp'
 export default function ShopIndex(props) {
 
     const [shopStatePayment, setShopStatePayment] = useState(props?.state == "success" && props?.payment_data !== null)
@@ -28,6 +29,7 @@ export default function ShopIndex(props) {
     const twitch = props.auth.twitch;
 
     function getArticles(tab) {
+        if(tab == activeTab) return;
         setArticles(undefined);
         setActiveTab(tab);
         axios.get(route('shop.articles', { tab_id: tab }))
@@ -52,8 +54,13 @@ export default function ShopIndex(props) {
         processCart()
 
         if (props?.state == "error") {
+            setTimeout(() => {
+                const newPath = window.location.pathname.split('/')[1];
+                window.history.replaceState(null, '', '/' + newPath);
+            }, 1500)
             return toast.error('Une erreur est survenue lors du paiement :(')
         }
+
     }, []);
 
     const processCart = () => {
@@ -124,10 +131,10 @@ export default function ShopIndex(props) {
     }
 
     return (
-        <MainLayout>
+        <MainLayout showOverflow={true}>
             <Head title="Boutique" />
             {props?.state == "success" && props?.payment_data !== null && <ShopStatusPayment payment_data={props.payment_data} username={twitch?.display_name} isOpen={shopStatePayment} setIsOpen={setShopStatePayment} />}
-            <div className="flex gap-4 flex-col h-full pb-12 mb-12">
+            <div className="flex gap-4 flex-col h-full" >
                 <div className="flex items-center gap-2">
                     <ShopIcon width={52} height={52} />
                     <div className="flex flex-col gap-0">
@@ -135,7 +142,7 @@ export default function ShopIndex(props) {
                         <span className="leading-6" >Retrouvez ici des élements à ajouter à votre petit pingouin !</span>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 xl:grid-cols-9 gap-y-6 lg:gap-6 h-full w-full pb-6">
+                <div className="grid grid-cols-1 xl:grid-cols-9 gap-y-6 lg:gap-6 w-full pb-6">
                     <div className="container xl:col-span-2 col-span-2 flex flex-col justify-start items-start p-6 gap-8 w-full">
                         <div className="flex flex-col flex-1 gap-8 w-full">
                             {
@@ -171,13 +178,24 @@ export default function ShopIndex(props) {
 
                     <div className="container justify-start items-start xl:col-span-7 p-4 select-none overflow-y-auto w-full lg:w-auto">
                         {!articles && <div className="flex justify-center items-center w-full h-full"><div className="loader-spinner"></div></div>}
-                        <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-                            {articles?.map((article) => {
-                                return (
-                                    <ArticleItem key={article.uuid} article={article} reloadTab={reloadTab} removeArticle={removeArticle} selectArticle={selectArticle} addArticleCart={addArticleCart} />
-                                )
-                            })}
-                        </div>
+                        {articles?.length > 0 &&
+                            <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+                                {articles?.map((article) => {
+                                    return (
+                                        <ArticleItem key={article.uuid} article={article} reloadTab={reloadTab} removeArticle={removeArticle} selectArticle={selectArticle} addArticleCart={addArticleCart} />
+                                    )
+                                })}
+                            </div>
+                        }
+                        {articles?.length == 0 &&
+                            <div className="flex jsutify-center items-center h-full w-full">
+                                <div className="flex flex-col w-full h-full items-center justify-center">
+                                    <img src={IllusEmptyCategory} alt="" />
+                                    <h2 className="text-[24px] font-bold">Aucun articles disponible dans cette catégorie.</h2>
+                                    <h4 className="text-center">Il se peut que vous ayez été trop gourmand sur la boutique ou que nous n'avons pas encore<br/>ajouté d'articles dans cette catégorie.</h4>
+                                </div>
+                            </div>
+                        }
                         <Cart openCart={openCartModal} deleteArticle={deleteArticle} priceCart={priceCart} cart={cart} setOpenCart={setOpenCartModal} />
                     </div>
 

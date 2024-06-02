@@ -17,15 +17,15 @@ use Illuminate\Support\Facades\DB;
 class PayPalController extends Controller
 {
 
-    private $gateway;
-    private $testMode = true;
+    private $gateway = null;
 
     public function __construct()
     {
+        $testMode = (env('PAYPAL_MODE', 'production') == "sandbox");
         $this->gateway = Omnipay::create('PayPal_Rest');
-        $this->gateway->setClientId((($this->testMode) ? env('PAYPAL_SANDBOX_CLIENT_ID') : env('PAYPAL_CLIENT_ID')));
-        $this->gateway->setSecret((($this->testMode) ? env('PAYPAL_SANDBOX_CLIENT_SECRET') : env('PAYPAL_CLIENT_SECRET')));
-        $this->gateway->setTestMode($this->testMode); //set it to 'false' when go live
+        $this->gateway->setClientId((($testMode) ? env('PAYPAL_SANDBOX_CLIENT_ID') : env('PAYPAL_CLIENT_ID')));
+        $this->gateway->setSecret((($testMode) ? env('PAYPAL_SANDBOX_CLIENT_SECRET') : env('PAYPAL_CLIENT_SECRET')));
+        $this->gateway->setTestMode($testMode); //set it to 'false' when go live
     }
 
     public function start(Request $request) {
@@ -47,7 +47,7 @@ class PayPalController extends Controller
 
                 $cosmeticsCheck = json_decode($article->cosmetics, true);
 
-                $paymentCheck = Payments::where('payer_userid', $user->id)->get();
+                $paymentCheck = Payments::where('payer_userid', $user->id)->where('payment_status', 'approved')->get();
                 foreach($paymentCheck as $payment) {
                     $cart_decode = json_decode($payment->cart, true);
                     foreach($cart_decode as $item) {
@@ -67,14 +67,13 @@ class PayPalController extends Controller
             }
 
 
-            $price = 0;
+            $price = 0.00;
             $items = new ItemBag();
 
             foreach($cart as $article){
                 $item = Articles::where('id', $article)->where('enable', 1)->first();
                 if($item !== null) {
-                    $discountValue = ($item->price / 100) * $item->promo;
-                    $priceItem = $item->price - $discountValue;
+                    $priceItem = $item->price;
                     $items->add([
                         'name' => $item->name,
                         'description' => $item->description,
@@ -84,6 +83,8 @@ class PayPalController extends Controller
                     $price += $priceItem;
                 }
             }
+
+
 
             $response = $this->gateway->purchase([
                 'amount' => $price,
@@ -110,7 +111,7 @@ class PayPalController extends Controller
                 return redirect()->route('shop.index')->with("status", $this->toastResponse('error', $response->getMessage()));
             }
         } catch(Exception $e) {
-            return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "Une erreur interne est survenue :'("));
+            return redirect()->route('shop.index')->with("status", $this->toastResponse('error', "Une erreur interne est survenue :'(" . $e->getMessage()));
         }
     }
 
@@ -164,16 +165,16 @@ class PayPalController extends Controller
 
                 return redirect()->route('shop.index.state', ['state' => 'success', 'payment_id' => $arr_body['id']])->with('shop_redirect_success', true)->with('status', $this->toastResponse('success', 'Achat terminé!'));
             } else {
-                return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => ''])->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
+                return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => '-1'])->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
             }
         } else {
-            return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => ''])->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
+            return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => '-1'])->with("status", $this->toastResponse('error', 'Une erreur inconnue est survenue'));
         }
     }
 
     public function error(Request $request)
     {
-        return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => ''])->with("status", $this->toastResponse('error', 'Transaction annulée'));
+        return redirect()->route('shop.index.state', ['state' => 'error', 'payment_id' => '-1'])->with("status", $this->toastResponse('error', 'Transaction annulée'));
     }
 
 }

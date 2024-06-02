@@ -18,14 +18,15 @@ class ShopController extends Controller
 
     public function index(Request $request, $state = "", $payment_id = "") {
         $tabs = [];
-        $tabsParent = CosmeticsTabs::where('parent', '=', null)->get();
+        $user = User::select('twitch_id', 'id')->where('twitch_id', '=', $request->session()->get('twitch')->id)->first();
+        $tabsParent = CosmeticsTabs::where('parent', '=', null)->orderBy('order')->get();
         foreach($tabsParent as $tab) {
-            $tab->subtabs = CosmeticsTabs::where('parent', '=', $tab->id)->where('active', '=', 1)->get();
+            $tab->subtabs = CosmeticsTabs::where('parent', '=', $tab->id)->where('active', '=', 1)->orderBy('order')->get();
             array_push($tabs, $tab);
         }
+
         $payment_data = null;
         if($state == "success" && $payment_id !== "") {
-            $user = User::select('twitch_id', 'id')->where('twitch_id', '=', $request->session()->get('twitch')->id)->first();
             $payment_data = Payments::select('id', 'created_at', 'cart', 'amount', 'currency')->where('payment_status', 'approved')->where('payment_id', $payment_id)->where('payer_userid', $user->id)->first();
             if($payment_data !== null) {
                 $payment_data_cart = json_decode($payment_data->cart, true);
@@ -41,19 +42,23 @@ class ShopController extends Controller
 
     public function articles(Request $request, $tab_id) {
         $articles = [];
+        $user = User::select('twitch_id', 'id')->where('twitch_id', '=', $request->session()->get('twitch')->id)->first();
         if($tab_id == -1) {
-            $user = User::select('twitch_id', 'id')->where('twitch_id', '=', $request->session()->get('twitch')->id)->first();
             $cosmetics = Cosmetic::where('free', 0)->where('claimable', 1)->get();
             $articles = [];
             foreach($cosmetics as $cosmetic) {
                 $userCheck = UserCosmetics::where('user_id', $user->id)->where('cosmetic_id', $cosmetic->id)->first();
                 if($userCheck !== null) continue;
+                $cosmetics_data = Cosmetic::where('id', $cosmetic->id)->get();
+                foreach($cosmetics_data as $cos) {
+                    $cos->data = json_decode($cos->data, true);
+                }
                 $fakeArticle = new Articles();
                 $fakeArticle->id = -1;
                 $fakeArticle->uuid = Str::uuid();
                 $fakeArticle->name = $cosmetic->name;
                 $fakeArticle->price = 0;
-                $fakeArticle->cosmetics = Cosmetic::where('id', $cosmetic->id)->get();
+                $fakeArticle->cosmetics = $cosmetics_data;
                 $fakeArticle->description = "";
                 $fakeArticle->promo = 0;
                 $fakeArticle->tab = -1;
@@ -62,7 +67,9 @@ class ShopController extends Controller
                 array_push($articles, $fakeArticle);
             }
         }else{
-            $articles = Articles::where('tab', '=', $tab_id)->where('enable', '=', 1)->get();
+            $articles_already_payed = Payments::getArticlesUserPayed($user->id);
+            $articles = Articles::where('tab', '=', $tab_id)->where('enable', '=', 1)->excludeArticles($articles_already_payed)->get();
+
             foreach($articles as $article) {
                 //CHECK LIMITED AT
                 if($article->limited_at !== null) {
@@ -79,7 +86,25 @@ class ShopController extends Controller
                             $articles->forget($keyToRemove);
                     }
                 }
+                $article->uuid = Str::uuid();
+                $article->price_sub = 0;
+                if($article->price > 0 && $article->tab == 10 || $article->tab == 11) {
+                    $articles_sub = json_decode($article->cosmetics, true);
+                    $price_sub_articles = 0;
+                    $all_find = true;
+                    foreach($articles_sub as $asub) {
+                        $article_get = Articles::where('cosmetics', "[".$asub."]")->first();
+                        if($article_get == null) {
+                            $all_find = false;
+                            break;
+                        }
+                        $price_sub_articles += $article_get->price;
+                    }
+                    if($all_find) {
+                        $article->price_sub = $price_sub_articles;
+                    }
 
+                }
 
                 $cosmetics = json_decode($article->cosmetics, true);
                 $article->cosmetics = Cosmetic::whereIn('id', $cosmetics)->get();
@@ -113,7 +138,7 @@ class ShopController extends Controller
             if($cosmeticGet == null) return response()->json(["status" => "error", "message" =>  "Le cosmétique spécifier est introuvable"]);
         }
 
-        $paymentCheck = Payments::where('payer_userid', $user->id)->where('cart', '=', json_encode([$article_id]))->first();
+        $paymentCheck = Payments::where('payer_userid', $user->id)->where('cart', '=', json_encode([$article_id]))->where('payment_status', 'approved')->first();
         if($paymentCheck !== null) return response()->json(["status" => "error", "message" =>  "Vous avez déjà claim cet article."]);
 
         if(gettype($article_id) == "integer" && $article_id > -1) {
