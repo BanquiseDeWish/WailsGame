@@ -8,10 +8,10 @@ use Illuminate\Database\Seeder;
 
 class ShopCategoriesSeeder extends Seeder
 {
-    function func() { 
-        require_once('cosmetics_tab.php'); 
-        return $cosmetics__tabs; 
-    } 
+    function func() {
+        require_once('cosmetics_tab.php');
+        return $cosmetics__tabs;
+    }
     /**
     * Run the database seeds.
     */
@@ -21,14 +21,15 @@ class ShopCategoriesSeeder extends Seeder
         foreach ($cosmetics__tabs as $tab) {
             $tabItem = CosmeticsTabs::where('id', $tab['id'])
             ->first();
-            
+
             if ($tabItem === null) {
                 $tabItem = CosmeticsTabs::create([
                     'id'   => $tab['id'],
                     'key'   => $tab['key'],
                     'name'  => $tab['name'],
                     'parent'   => $tab['parent'],
-                    'active'   => $tab['active']
+                    'active'   => $tab['active'],
+                    'order'   => $tab['order']
                 ]);
             }
             else {
@@ -37,7 +38,8 @@ class ShopCategoriesSeeder extends Seeder
                     'key'   => $tab['key'],
                     'name'  => $tab['name'],
                     'parent'   => $tab['parent'],
-                    'active'   => $tab['active']
+                    'active'   => $tab['active'],
+                    'order'   => $tab['order']
                 ]);
             }
         }
