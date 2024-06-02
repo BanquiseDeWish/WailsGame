@@ -17,7 +17,7 @@ import IllusEmptyCategory from '@assets/img/market/illus_empty_category.webp'
 export default function ShopIndex(props) {
 
     const [shopStatePayment, setShopStatePayment] = useState(props?.state == "success" && props?.payment_data !== null)
-    const [activeTab, setActiveTab] = useState(props.tabs?.[0]?.subtabs?.[0]?.id);
+    const [activeTab, setActiveTab] = useState(null);
     const [chooseArticle, setChooseArticle] = useState(undefined);
     const [shopDetailsOpen, setShopDetailsOpen] = useState(false);
     const [openCartModal, setOpenCartModal] = useState(false);
@@ -36,10 +36,13 @@ export default function ShopIndex(props) {
             .then((response) => {
                 setArticles(response.data);
             })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     useEffect(() => {
-        getArticles(activeTab);
+        getArticles(props.tabs?.[0]?.subtabs?.[0]?.id);
 
         if (props.flash.shop_redirect_success) {
             localStorage.removeItem('cart')
