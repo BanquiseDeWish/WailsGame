@@ -19,7 +19,7 @@ class Payments extends Model
 
     public static function getArticlesUserPayed($user_id) {
         $articles_already_payed = [];
-        $paymentUser = Payments::where('payer_userid', $user_id)->get();
+        $paymentUser = Payments::where('payer_userid', $user_id)->where('payment_status', 'approved')->get();
         foreach($paymentUser as $payment) {
             $cart = json_decode($payment->cart, true);
             foreach($cart as $item) {
