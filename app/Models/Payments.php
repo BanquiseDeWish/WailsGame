@@ -34,7 +34,7 @@ class Payments extends Model
     public static function getArticlesUserPayedWithDetails($user_id) {
         $articles_already_payed = [];
         $cosmetic_tabs_data = [];
-        $paymentUser = Payments::where('payer_userid', $user_id)->orderBy('created_at', 'DESC')->get();
+        $paymentUser = Payments::where('payer_userid', $user_id)->where('payment_status', 'approved')->orderBy('created_at', 'DESC')->get();
         foreach($paymentUser as $payment) {
             $cart = json_decode($payment->cart, true);
             $articles = [];
