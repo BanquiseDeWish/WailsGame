@@ -32,15 +32,20 @@ export default function ProfileIndex(props) {
     const selectTab = (key) => {
         console.log(key)
         const tab = tabs.find(tab => tab.key === key)
-        if(!tab) return;
+        if (!tab) return;
         setTab(tab.key)
 
     }
 
-    const TabItemProfile = ({t}) => {
+    const TabItemProfile = ({ t }) => {
         return (
-            <div class={`tab_item flex bg-container select-none cursor-pointer justify-center px-8 py-4 items-center w-fit h-[64px] text-[18px] font-bold ${t.key == tab ? "enable" : ""}`} onClick={()=>{selectTab(t.key)}}>
-                {t.name}
+            <div class={`tab_item flex bg-container select-none cursor-pointer justify-center px-8 py-4 items-center w-fit h-[64px] text-[18px] font-bold ${t.key == tab ? "enable" : ""}`} onClick={() => { selectTab(t.key) }}>
+                <span style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    textAlign: 'center'
+                }}>{t.name}</span>
             </div>
         )
     }
@@ -50,13 +55,13 @@ export default function ProfileIndex(props) {
     return (
         <MainLayout>
             <Head title="Profil" />
-            <div className="bg-container rounded-lg w-full h-full overflow-hidden">
-                <div className="flex gap-2 box-border">
+            <div className="bg-container flex flex-col rounded-lg w-full h-full overflow-hidden">
+                <div className="flex gap-2 box-border overflow-x-auto">
                     {tabs.map((tab, _) => {
                         return <TabItemProfile key={tab.key} t={tab} />
                     })}
                 </div>
-                <div className="content">
+                <div className="flex-1 overflow-y-auto px-4 py-4 xl:py-0 xl:px-0">
                     {tabCurrent.component}
                 </div>
             </div>

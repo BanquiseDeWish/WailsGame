@@ -23,7 +23,7 @@ class TwitchController extends Controller
     public function start()
     {
 
-        return Inertia::location($this->twitch->getOAuthAuthorizeUrl('code', ['user_read']));
+        return Inertia::location($this->twitch->getOAuthAuthorizeUrl('code', ['user_read', 'user:read:subscriptions']));
     }
 
     public function callback(Request $request)
@@ -36,7 +36,9 @@ class TwitchController extends Controller
         $token['user_id'] = $userId->user_id;
 
         $userInfo = $this->requestUserDatas($token['access_token'], $userId->user_id);
+        $subscribeWeils = $this->requestUserSubscribe($token['access_token'], $userInfo->data[0]->id);
         $request->session()->put('twitch', $userInfo->data[0]);
+        $request->session()->put('twitch_subscribe', $subscribeWeils->data[0]);
 
         User::registerOrUpdateUser($userId->user_id, $userInfo->data[0]->display_name);
 
@@ -74,6 +76,17 @@ class TwitchController extends Controller
         $authorization = "Authorization: Bearer ".$token;
         $clientID = 'Client-Id: 2rlyh4f7k4f0gv3jyds1p3jxmk7fyy';
         curl_setopt($ch, CURLOPT_HTTPHEADER, array($authorization, $clientID));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($result);
+    }
+
+    function requestUserSubscribe($token, $userId) {
+        $ch = curl_init('https://api.twitch.tv/helix/subscriptions/user?broadcaster_id='.env('TWITCH_WEILS_UID').'&user_id='.$userId);
+        $authorization = "Authorization: Bearer ".$token;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Client-Id: '.config('twitch-api.client_id', ""), $authorization ));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         $result = curl_exec($ch);

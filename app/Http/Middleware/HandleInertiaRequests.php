@@ -33,7 +33,8 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'twitch' => $request->session()->get('twitch')
+                'twitch' => $request->session()->get('twitch'),
+                'twitch_subscribe' => $request->session()->get('twitch_subscribe')
             ],
             'mode' => env('APP_ENV'),
             'weils_id' => env('TWITCH_WEILS_UID'),
