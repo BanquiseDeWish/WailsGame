@@ -78,6 +78,11 @@ export default function VipGame() {
             // wait until the slot is not spinning
             setValues(values => ({ ...values, [key]: value }));
         }
+        else if (key == 'game_start') {
+            if(value)
+                document.getElementById('tickets_pack')?.classList?.remove('my-hidden');
+            setValues(values => ({ ...values, [key]: value }));
+        }
         else {
             setValues(values => ({ ...values, [key]: value }));
         }

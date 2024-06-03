@@ -107,7 +107,7 @@ export default function VIP_MiddleContent() {
                                 </div>
                             </div>
 
-                            <div id='tickets_pack' className='transition-back absolute my-hidden'>
+                            <div id='tickets_pack' className={`transition-back absolute my-hidden`}>
                                 {values.tickets}
                             </div>
 
