@@ -68,7 +68,7 @@ class ShopController extends Controller
             }
         }else{
             $articles_already_payed = Payments::getArticlesUserPayed($user->id);
-            $articles = Articles::where('tab', '=', $tab_id)->where('enable', '=', 1)->where('payment_status', 'approved')->excludeArticles($articles_already_payed)->get();
+            $articles = Articles::where('tab', '=', $tab_id)->where('enable', '=', 1)->excludeArticles($articles_already_payed)->get();
 
             foreach($articles as $article) {
                 //CHECK LIMITED AT
