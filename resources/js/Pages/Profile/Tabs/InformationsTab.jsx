@@ -100,7 +100,7 @@ export default function InformationsTab() {
                         <BlueButton className={"w-full xl:w-auto h-fit"} href={route('profile.appearance')}>Éditer</BlueButton>
                     </div>
                     <div className="bg-container rounded-lg justify-center items-center w-full flex flex-1 overflow-hidden">
-                        <UserPenguin className={"md:scale-x-[-1.35] scale-[1] xl:scale-[1.35] h-fit"} twitchId={twitch.id} />
+                        <UserPenguin className={"scale-y-[1] md:scale-x-[-1.35] xl:scale-y-[1.35] h-fit"} twitchId={twitch.id} />
                     </div>
                 </div>
             </div>
