@@ -44,12 +44,12 @@ export default function VIP_MiddleContent() {
                 <div className='grid grid-cols-2 grid-rows-[repeat(4,_minmax(132px,_132px))] gap-6 w-full'>
                     <div className='sub_container p-6 flex flex-col h-full w-full relative overflow-hidden gap-2 justify-between'>
                         <span className='text-lg'>Numéro Gagnant</span>
-                        <span className='ticket ticket_win absolute right-0 top-0 bottom-0 m-auto scale-150 -rotate-12'>{values.game_stats?.winning_tickets[0]}</span>
+                        <span className='ticket ticket_win absolute right-0 top-0 bottom-0 m-auto scale-150 -rotate-12'>{values.game_stats?.winning_tickets[0]+1}</span>
                     </div>
 
                     <div className='sub_container p-6 flex flex-col h-full w-full relative overflow-hidden gap-2 justify-between'>
                         <span className='text-lg'>Numéro Explosif</span>
-                        <span className='ticket ticket_dead absolute right-0 top-0 bottom-0 m-auto scale-150 -rotate-12'>{values.game_stats?.dead_tickets[0]}</span>
+                        <span className='ticket ticket_dead absolute right-0 top-0 bottom-0 m-auto scale-150 -rotate-12'>{values.game_stats?.dead_tickets[0]+1}</span>
                     </div>
 
                     <div className='sub_container p-6 flex flex-col h-full w-full relative overflow-hidden gap-2 justify-between'>
@@ -147,11 +147,6 @@ export default function VIP_MiddleContent() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    {/* Winning Menu */}
-                    <div id='winning_menu' className='container w-full h-full flex absolute my-hidden'>
-
                     </div>
 
                 </div>
