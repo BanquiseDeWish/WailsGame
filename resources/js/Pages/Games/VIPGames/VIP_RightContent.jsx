@@ -49,13 +49,12 @@ export default function VIP_RightContent() {
                     {/* Current Player */}
                     <UserCard 
                         twitchId={values.current_player.id}
-                        className='relative h-[80px] w-full p-[16px] current_player container'
+                        className='relative h-[80px] w-full p-[16px] current_player'
                         data={{
                             username: values.current_player.name,
                             points: values.playCount,
                             stylePoints: 'circle',
-                            iconSize: 48,
-                            background_style: 'none',
+                            iconSize: 48
                         }}
                         components={[
                             <div id='current_player_prio' className='transition-back my-hidden'>

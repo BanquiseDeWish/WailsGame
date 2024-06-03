@@ -112,7 +112,6 @@ export default function VipGame() {
 
     function getNewsItem(player, subText) {
         return (<UserCard className='game_news_item container' data={{ iconSize: 48, username: player.name, customSlogan: subText, background_style: 'none' }} twitchId={player.id} key={randomId()} />);
-        //return (<GameNewsItem key={randomId()} userId={player.id} userName={player.name} subText={subText} />);
     }
 
     useEffect(() => {
