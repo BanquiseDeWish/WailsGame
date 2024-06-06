@@ -133,7 +133,6 @@ export default function ProfileAppearance(props) {
     }
 
     function selectCosmetic(cosmetic) {
-        console.log(cosmetic);
         if (!cosmetic) {
             let newCosmetics = [...activeCosmetics];
             newCosmetics = newCosmetics.filter(aCosmetic => aCosmetic.sub_type !== activeTab);
@@ -172,9 +171,7 @@ export default function ProfileAppearance(props) {
 
             <div className="flex flex-col gap-2 md:grid xl:grid-cols-9 grid-cols-7 md:gap-6 h-full overflow-hidden">
                 {/* Save button mobile and SideBar */}
-                <div className="flex md:hidden gap-3 w-full navbar z-[100000]" style={{position: "static"}}>
-                    {/*<div className="flex-shrink-0 rounded-md bg-container w-[48px] h-[48px]">
-                    </div>*/}
+                <div className="flex md:hidden gap-3 w-full navbar z-[100000]" style={{ position: "static" }}>
                     <AppearanceSidebar className={"z-10"} tabs={tabs} getCosmetics={getCosmetics} activeTab={activeTab} />
                     <BlueButton className="z-0 w-full h-[48px] text-base" onClick={saveCosmetics}>Sauvegarder</BlueButton>
                 </div>
@@ -182,11 +179,12 @@ export default function ProfileAppearance(props) {
                 {/* User */}
                 <div className="container md:order-3 xl:col-span-2 col-span-2 flex-col gap-12 p-4 md:p-8">
                     <div className="flex flex-col md:flex-col-reverse h-full justify-between items-center w-full">
-                        {((window.innerWidth <= 768 && mainTab == 'penguin') || (window.innerWidth > 768))  && <UserPenguin width={window.innerWidth <= 768 ? 128 : 256} propsCosmetics={activeCosmetics} className={'md:scale-x-[-1]'} />}
+                        {((window.innerWidth <= 768 && mainTab == 'penguin') || (window.innerWidth > 768)) && <UserPenguin width={window.innerWidth <= 768 ? 128 : 256} propsCosmetics={activeCosmetics} className={'md:scale-x-[-1]'} />}
                         <div className="flex md:flex-col gap-4 justify-center items-center w-full">
                             <UserIcon className={"hidden md:block"} propsCosmetics={activeCosmetics} width={window.innerWidth <= 768 ? 92 : 148} />
-                            { ((window.innerWidth <= 768 && mainTab == 'card') || (window.innerWidth > 768))  && <UserCard propsCosmetics={activeCosmetics} data={{ username: twitch.display_name }} className={'w-full'} />}
-                        </div>                    </div>
+                            {((window.innerWidth <= 768 && mainTab == 'card') || (window.innerWidth > 768)) && <UserCard propsCosmetics={activeCosmetics} data={{ username: twitch.display_name }} className={'w-full'} />}
+                        </div>
+                    </div>
                     <BlueButton className="hidden md:flex w-full" onClick={saveCosmetics}>Sauvegarder</BlueButton>
                 </div>
 
@@ -202,7 +200,7 @@ export default function ProfileAppearance(props) {
                                     <span className="font-bold text-xl" key={tab.name}>{tab.name}</span>
                                     <div className="flex flex-col ml-6">
                                         {tab.subtabs.map((subtab, _) => {
-                                            if(!subtab.active) return;
+                                            if (!subtab.active) return;
                                             return (
                                                 <span className={`hover:bg-container transition-all p-3 w-full rounded-lg select-none ${activeTab === subtab.key && 'bg-container'}`}
                                                     key={subtab.name}
