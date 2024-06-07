@@ -19,8 +19,8 @@ Pour installer et lancer ce projet, suivez les étapes ci-dessous :
 
 1. Clonez le repository :
     ```bash
-    git clone https://github.com/NiixoZ/nom-du-projet.git
-    cd nom-du-projet
+    git clone https://github.com/NiixoZ/WailsGame.git
+    cd WailsGame
     ```
 
 2. Installez les dépendances PHP avec Composer :
