@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 
 import BinIcon from '@/Components/Icons/BinIcon';
-import PlayersPointList from './Object/PlayersPointList';
 import UserCard from '@/Components/User/UserCard';
 import { randomId } from '@/Game/random';
 
