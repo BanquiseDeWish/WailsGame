@@ -163,6 +163,7 @@ export default function ProfileAppearance(props) {
       }
 
     function saveCosmetics() {
+        console.log(activeCosmetics, getIds(activeCosmetics));
         axios.post(route('user.cosmetics.update'), { cosmetics: getIds(activeCosmetics) })
             .then(response => {
                 if (response.data.success)

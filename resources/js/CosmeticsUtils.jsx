@@ -12,8 +12,8 @@ export function formatStyle(cosmetic) {
     let pivotY = y + cosmetic?.data?.height * scale / 2;
     let flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
     let flipVertically = cosmetic?.data?.flipVertically ?? false;
-    if(!NOT_SVG_COSMETICS.includes(cosmetic.sub_type))
-    cosmetic.style = <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale}) ${flipHorizontally ? 'scale(-1, 1)' : ''}`} dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
+    if (!NOT_SVG_COSMETICS.includes(cosmetic.sub_type))
+        cosmetic.style = <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale}) ${flipHorizontally ? 'scale(-1, 1)' : ''}`} dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
 }
 
 export function formatStyleMany(cosmetics) {
@@ -23,7 +23,7 @@ export function formatStyleMany(cosmetics) {
 }
 
 export function copyAndFormatStyle(cosmetic) {
-    let cosm = {...cosmetic};
+    let cosm = { ...cosmetic };
     formatStyle(cosm);
     return cosm;
 }
@@ -38,9 +38,11 @@ export function copyAndFormatStyleMany(cosmetics) {
 
 export function getDefaultColors() {
     return {
-        main_color: MAIN_COLOR,
-        dark_main_color: DARK_MAIN_COLOR,
-        light_main_color: LIGHT_MAIN_COLOR
+        style: {
+            main_color: MAIN_COLOR,
+            dark_main_color: DARK_MAIN_COLOR,
+            light_main_color: LIGHT_MAIN_COLOR
+        }
     };
 }
 
@@ -60,7 +62,7 @@ export function getDefaultCosmetics() {
         card: {
             card_background: undefined,
             icon_background: undefined,
-            slogan: {name: 'Un Pingouin Voyageur'},
+            slogan: { name: 'Un Pingouin Voyageur' },
         }
     };
 }
@@ -85,7 +87,7 @@ export function formatCosmetics(cosmeticsList) {
                     cosmetics.penguin.backpack = cosmetic;
                     break;
                 case 'penguin_color':
-                    cosmetics.penguin.color = cosmetic.data.colors;
+                    cosmetics.penguin.color = { id: cosmetic.id, style: cosmetic.data.colors };
                     break;
                 case 'penguin_accessory':
                     cosmetics.penguin.accessory = cosmetic;
