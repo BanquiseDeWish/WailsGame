@@ -19,6 +19,7 @@ import SectionHome from '@/Components/Content/SectionHome';
 import WidgetDiscord from '@/Components/Content/WidgetDiscord';
 import BadgeStream from '@/Components/Content/BadgeStream';
 import BlueButton from '@/Components/Navigation/Buttons/BlueButton';
+import UserCard from '@/Components/User/UserCard';
 
 export default function Welcome(props) {
 

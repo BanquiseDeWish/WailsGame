@@ -44,8 +44,8 @@ export function getDefaultColors() {
     };
 }
 
-export function formatCosmetics(cosmeticsList) {
-    let cosmetics = {
+export function getDefaultCosmetics() {
+    return {
         // Penguin
         hat: undefined,
         eye: undefined,
@@ -59,6 +59,11 @@ export function formatCosmetics(cosmeticsList) {
         icon_background: undefined,
         slogan: {name: 'Un Pingouin Voyageur'},
     };
+}
+
+export function formatCosmetics(cosmeticsList) {
+    let cosmetics = getDefaultCosmetics();
+    
     cosmeticsList.forEach((cosmetic, _) => {
         if (cosmetic.type == 'penguin') {
             switch (cosmetic.sub_type) {

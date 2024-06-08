@@ -25,7 +25,7 @@ import { useValues } from '@/AppContext';
      * }
      */
 export default function UserCard({ className='', propsCosmetics, twitchId, data, skeleton = false, components = [], style = {} }) {
-
+    
     const values = useValues();
     const [cosmetics, setCosmetics] = useState(propsCosmetics ?? values.getCosmetics(twitchId));
 

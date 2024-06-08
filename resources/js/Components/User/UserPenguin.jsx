@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-
 import { useValues } from '@/AppContext';
-import { randomId } from '@/Game/random';
-import { getDefaultColors } from '@/CosmeticsUtils'; 
+import { getDefaultCosmetics } from '@/CosmeticsUtils';
 
 const viewBoxWidth = 800;
 const viewBoxHeight = 950;
@@ -23,66 +21,19 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
             let cosmetics = values.getCosmetics(twitchId);
             if (cosmetics) {
                 setCosmetics(cosmetics);
-                //setData(cosmetics);
             }
         }
-        /*else if (!propsCosmetics) {
-            clearData();
-        }*/
+        else if (!propsCosmetics) {
+            setCosmetics(getDefaultCosmetics());
+        }
     }, [twitchId, values.update])
 
     useEffect(() => {
-        console.log(propsCosmetics);
-        /*if (!twitchId)
-            clearData();*/
-        if (propsCosmetics?.length > 0) {
+        if (!twitchId)
+            setCosmetics(getDefaultCosmetics());
+        if(propsCosmetics)
             setCosmetics(propsCosmetics);
-            //setData(propsCosmetics);
-        }
     }, [propsCosmetics]);
-
-    /*function setData(cosmetics) {
-        let cosmetics.colors = false;
-        let penguinEyes = false;
-        let penguinBeak = false;
-        let penguinTail = false;
-        cosmetics?.forEach(cosmetic => {
-            if (cosmetic.type == 'penguin' && cosmetic.sub_type == 'penguin_color') {
-                setcosmetics.colors(cosmetic.data.colors);
-                cosmetics.colors = true;
-                return;
-            }
-            else if (cosmetic.type == 'penguin' && ['penguin_eye', 'penguin_beak', 'penguin_tail'].includes(cosmetic.sub_type)) {
-                switch (cosmetic.sub_type) {
-                    case 'penguin_eye':
-                        setPenguinEyes(cosmetic);
-                        penguinEyes = true;
-                        return;
-                    case 'penguin_beak':
-                        setPenguinBeak(cosmetic);
-                        penguinBeak = true;
-                        return;
-                    case 'penguin_tail':
-                        setPenguinTail(cosmetic);
-                        penguinTail = true;
-                        return;
-                }
-                return;
-            }
-        });
-        if (!cosmetics.colors) setcosmetics.colors(getDefaultColors());
-        if (!penguinEyes) setPenguinEyes(undefined);
-        if (!penguinBeak) setPenguinBeak(undefined);
-        if (!penguinTail) setPenguinTail(undefined);
-    }
-
-    function clearData() {
-        setcosmetics.colors(getDefaultColors());
-        setPenguinEyes(undefined);
-        setPenguinBeak(undefined);
-        setPenguinTail(undefined);
-        setCosmetics([]);
-    }*/
 
     return (
         <svg
