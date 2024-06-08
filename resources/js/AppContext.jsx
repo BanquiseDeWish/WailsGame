@@ -6,6 +6,17 @@ import { randomId } from './Game/random';
 const DEBOUNCE_DELAY = 200;
 const AppContext = createContext(null);
 
+export function setCosmeticData(cosmetic) {
+    cosmetic.x = cosmetic?.data?.x ?? 0;
+    cosmetic.y = cosmetic?.data?.y ?? 0;
+    cosmetic.scale = cosmetic?.data?.scale ?? 1;
+    cosmetic.rotation = cosmetic?.data?.rotation ?? 0;
+    cosmetic.pivotX = cosmetic.x + cosmetic?.data?.width * cosmetic.scale / 2;
+    cosmetic.pivotY = cosmetic.y + cosmetic?.data?.height * cosmetic.scale / 2;
+    cosmetic.flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
+    cosmetic.flipVertically = cosmetic?.data?.flipVertically ?? false;
+}
+
 export function AppContextProvider({ children }) {
 
     const [update, setUpdate] = useState(0);
@@ -21,9 +32,9 @@ export function AppContextProvider({ children }) {
 
         axios.post(route('users.cosmetics.active', {twitch_ids: ids.length != 0 ? ids : [0]})).then((res) => {
             if(!res.data || res.data.error) return;
-
             res.data.cosmetics.forEach((cosmetic) => {
                 if(!cosmeticsData.current.cosmetics.includes(cosmetic)) {
+                    setCosmeticData(cosmetic);
                     cosmeticsData.current.cosmetics.push(cosmetic);
                 }
             });

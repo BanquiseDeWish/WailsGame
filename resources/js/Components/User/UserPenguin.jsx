@@ -132,20 +132,12 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
             {...props}
         >
             {
-                cosmetics?.map((cosmetic, _) => {
+                cosmetics?.map((cosmetic, index) => {
                     if (!cosmetic || cosmetic.type != 'penguin' || cosmetic?.data?.position != 'back') return;
                     if (!['penguin_hat', 'penguin_backpack', 'penguin_accessory'].includes(cosmetic.sub_type)) return;
-                    let x = cosmetic?.data?.x ?? 0;
-                    let y = cosmetic?.data?.y ?? 0;
-                    let scale = cosmetic?.data?.scale ?? 1;
-                    let rotation = cosmetic?.data?.rotation ?? 0;
-                    let pivotX = x + cosmetic?.data?.width * scale / 2;
-                    let pivotY = y + cosmetic?.data?.height * scale / 2;
-                    let flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
-
                     return (
-                        <svg key={cosmetic?.name}>
-                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale})  ${flipHorizontally ? 'scale(-1, 1)' : ''}`}
+                        <svg key={`${twitchId}_${cosmetic?.name}_${index}_front`}>
+                            <g transform={`rotate(${cosmetic.rotation} ${cosmetic.pivotX} ${cosmetic.pivotY}) translate(${cosmetic.x} ${cosmetic.y}) scale(${cosmetic.scale}) ${cosmetic.flipHorizontally ? 'scale(-1, 1)' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
                         </svg>
                     );
@@ -239,17 +231,9 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                 cosmetics?.map((cosmetic, index) => {
                     if (!cosmetic || cosmetic.type != 'penguin' || cosmetic?.data?.position != "front") return;
                     if (!['penguin_hat', 'penguin_accessory'].includes(cosmetic.sub_type)) return;
-                    let x = cosmetic?.data?.x ?? 0;
-                    let y = cosmetic?.data?.y ?? 0;
-                    let scale = cosmetic?.data?.scale ?? 1;
-                    let rotation = cosmetic?.data?.rotation ?? 0;
-                    let pivotX = x + cosmetic?.data?.width * scale / 2;
-                    let pivotY = y + cosmetic?.data?.height * scale / 2;
-                    let flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
-
                     return (
-                        <svg key={`${twitchId}_${cosmetic?.name}_${index}`}>
-                            <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale}) ${flipHorizontally ? 'scale(-1, 1)' : ''}`}
+                        <svg key={`${twitchId}_${cosmetic?.name}_${index}_back`}>
+                            <g transform={`rotate(${cosmetic.rotation} ${cosmetic.pivotX} ${cosmetic.pivotY}) translate(${cosmetic.x} ${cosmetic.y}) scale(${cosmetic.scale}) ${cosmetic.flipHorizontally ? 'scale(-1, 1)' : ''}`}
                                 dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
                         </svg>
                     );
