@@ -25,7 +25,7 @@ import { useValues } from '@/AppContext';
      * }
      */
 export default function UserCard({ className='', propsCosmetics, twitchId, data, skeleton = false, components = [], style = {} }) {
-    
+
     const values = useValues();
     const [cosmetics, setCosmetics] = useState(propsCosmetics ?? values.getCosmetics(twitchId));
 
@@ -70,13 +70,13 @@ export default function UserCard({ className='', propsCosmetics, twitchId, data,
     }
     else {
         return (
-            <div className={`${className} userCard p-[16px]`} style={{background: data?.background_style ?? cosmetics.card_background?.style, backgroundSize: 'cover', backgroundPosition: 'center', ...style}}>
+            <div className={`${className} userCard p-[16px]`} style={{background: data?.background_style ?? cosmetics.card.card_background?.style, backgroundSize: 'cover', backgroundPosition: 'center', ...style}}>
                 <UserIcon className="flex-shrink-0" propsCosmetics={cosmetics} width={data?.iconSize ?? 48}/>
 
                 <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
                     <div className="data flex flex-col flex-grow overflow-hidden">
                         <div className="username select-none truncate">{username}</div>
-                        {(data?.drawSlogan == undefined || data?.drawSlogan) && <div className="description select-none truncate">{data?.customSlogan ?? cosmetics.slogan.name}</div>}
+                        {(data?.drawSlogan == undefined || data?.drawSlogan) && <div className="description select-none truncate">{data?.customSlogan ?? cosmetics.card.slogan.name}</div>}
                     </div>
                     {data?.points !== undefined && stylePoints == "default" &&
                         <div className="points">

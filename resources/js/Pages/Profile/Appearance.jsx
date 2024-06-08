@@ -10,7 +10,7 @@ import BlueButton from "@/Components/Navigation/Buttons/BlueButton";
 import UserIcon from "@/Components/User/UserIcon";
 import AppearanceSidebar from "@/Components/Navigation/Sidebar/AppearanceSidebar";
 import CosmeticList from "./Appearance/CosmeticList";
-import { formatStyle, formatCosmetics, copyAndFormatStyleMany } from '@/CosmeticsUtils';
+import { formatStyle, formatCosmetics, copyAndFormatStyleMany, getDefaultValueFor } from '@/CosmeticsUtils';
 
 export default function ProfileAppearance(props) {
 
@@ -134,9 +134,9 @@ export default function ProfileAppearance(props) {
     }
 
     function selectCosmetic(cosmetic) {
+        let newCosmetics = {...activeCosmetics};
         if (!cosmetic) {
-            let newCosmetics = [...activeCosmetics];
-            newCosmetics = newCosmetics.filter(aCosmetic => aCosmetic.sub_type !== activeTab);
+            newCosmetics[cosmetic.type][cosmetic.sub_type] = getDefaultValueFor(cosmetic.type, cosmetic.sub_type);
             setActiveCosmetics(newCosmetics);
             return;
         }
@@ -144,14 +144,26 @@ export default function ProfileAppearance(props) {
         if (!cosmetic.owned)
             return toast.error('Vous ne possédez pas ce cosmétique', { position: 'bottom-left' });
 
-        let newCosmetics = [...activeCosmetics];
-        newCosmetics = newCosmetics.filter(aCosmetic => aCosmetic.sub_type !== cosmetic.sub_type);
-        newCosmetics.push(cosmetic);
+        newCosmetics[cosmetic.type][cosmetic.sub_type] = cosmetic;
         setActiveCosmetics(newCosmetics);
     }
 
+    function getIds(obj) {
+        const ids = [];
+        for (let key in obj) {
+          if (obj[key] && typeof obj[key] === 'object') {
+            for (let subKey in obj[key]) {
+              if (obj[key][subKey] && obj[key][subKey].id !== undefined) {
+                ids.push(obj[key][subKey].id);
+              }
+            }
+          }
+        }
+        return ids;
+      }
+
     function saveCosmetics() {
-        axios.post(route('user.cosmetics.update'), { cosmetics: activeCosmetics.map(cosmetic => cosmetic.id) })
+        axios.post(route('user.cosmetics.update'), { cosmetics: getIds(activeCosmetics) })
             .then(response => {
                 if (response.data.success)
                     toast.success('Sauvegarde effectuée avec succès', { position: 'bottom-left' });

@@ -47,59 +47,67 @@ export function getDefaultColors() {
 export function getDefaultCosmetics() {
     return {
         // Penguin
-        hat: undefined,
-        eye: undefined,
-        backpack: undefined,
-        colors: getDefaultColors(),
-        accessory: undefined,
-        beak: undefined,
-        tail: undefined,
+        penguin: {
+            hat: undefined,
+            eye: undefined,
+            backpack: undefined,
+            color: getDefaultColors(),
+            accessory: undefined,
+            beak: undefined,
+            tail: undefined,
+        },
         // Card
-        card_background: undefined,
-        icon_background: undefined,
-        slogan: {name: 'Un Pingouin Voyageur'},
+        card: {
+            card_background: undefined,
+            icon_background: undefined,
+            slogan: {name: 'Un Pingouin Voyageur'},
+        }
     };
+}
+
+export function getDefaultValueFor(type, sub_type) {
+    return getDefaultCosmetics()[type][sub_type];
 }
 
 export function formatCosmetics(cosmeticsList) {
     let cosmetics = getDefaultCosmetics();
-    
+
     cosmeticsList.forEach((cosmetic, _) => {
         if (cosmetic.type == 'penguin') {
             switch (cosmetic.sub_type) {
                 case 'penguin_hat':
-                    cosmetics.hat = cosmetic;
+                    cosmetics.penguin.hat = cosmetic;
                     break;
                 case 'penguin_eye':
-                    cosmetics.eye = cosmetic;
+                    cosmetics.penguin.eye = cosmetic;
                     break;
                 case 'penguin_backpack':
-                    cosmetics.backpack = cosmetic;
+                    cosmetics.penguin.backpack = cosmetic;
                     break;
                 case 'penguin_color':
-                    cosmetics.colors = cosmetic.data.colors;
+                    cosmetics.penguin.color = cosmetic.data.colors;
                     break;
                 case 'penguin_accessory':
-                    cosmetics.accessory = cosmetic;
+                    cosmetics.penguin.accessory = cosmetic;
                     break;
                 case 'penguin_beak':
-                    cosmetics.beak = cosmetic;
+                    cosmetics.penguin.beak = cosmetic;
                     break;
                 case 'penguin_tail':
-                    cosmetics.tail = cosmetic;
+                    cosmetics.penguin.tail = cosmetic;
                     break;
             }
         }
         else if (cosmetic.type == 'card') {
             switch (cosmetic.sub_type) {
                 case 'card_background':
-                    cosmetics.card_background = cosmetic;
+                    cosmetics.card.card_background = cosmetic;
                     break;
                 case 'icon_background':
-                    cosmetics.icon_background = cosmetic;
+                    cosmetics.card.icon_background = cosmetic;
                     break;
                 case 'slogan':
-                    cosmetics.slogan = cosmetic;
+                    cosmetics.card.slogan = cosmetic;
                     break;
             }
         }
