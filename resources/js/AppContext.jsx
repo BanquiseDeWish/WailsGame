@@ -2,20 +2,10 @@ import { createContext, useContext } from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { debounce } from './Game/utils';
 import { randomId } from './Game/random';
+import { formatStyle, formatCosmetics } from './CosmeticsUtils';
 
 const DEBOUNCE_DELAY = 200;
 const AppContext = createContext(null);
-
-export function setCosmeticData(cosmetic) {
-    cosmetic.x = cosmetic?.data?.x ?? 0;
-    cosmetic.y = cosmetic?.data?.y ?? 0;
-    cosmetic.scale = cosmetic?.data?.scale ?? 1;
-    cosmetic.rotation = cosmetic?.data?.rotation ?? 0;
-    cosmetic.pivotX = cosmetic.x + cosmetic?.data?.width * cosmetic.scale / 2;
-    cosmetic.pivotY = cosmetic.y + cosmetic?.data?.height * cosmetic.scale / 2;
-    cosmetic.flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
-    cosmetic.flipVertically = cosmetic?.data?.flipVertically ?? false;
-}
 
 export function AppContextProvider({ children }) {
 
@@ -34,7 +24,7 @@ export function AppContextProvider({ children }) {
             if(!res.data || res.data.error) return;
             res.data.cosmetics.forEach((cosmetic) => {
                 if(!cosmeticsData.current.cosmetics.includes(cosmetic)) {
-                    setCosmeticData(cosmetic);
+                    formatStyle(cosmetic);
                     cosmeticsData.current.cosmetics.push(cosmetic);
                 }
             });
@@ -56,12 +46,10 @@ export function AppContextProvider({ children }) {
                 usersIdsQueue.current.push(twitch_id);
                 debouncedGetUserCosmetics.current();
             }
-            return null;
+            return formatCosmetics([]);
         }
-        let cosmetics = cosmeticsData.current.cosmetics?.filter((cosmetic) => {
-            return cosmeticsData.current.users[twitch_id]?.includes(cosmetic.id.toString())
-        });
-        return cosmetics;
+        
+        return formatCosmetics(cosmeticsData.current.cosmetics?.filter((cosmetic) => cosmeticsData.current.users[twitch_id].includes(cosmetic.id.toString())));
     }
 
     useEffect(() => {

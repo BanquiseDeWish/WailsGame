@@ -69,17 +69,14 @@ export default function UserCard({ className='', propsCosmetics, twitchId, data,
         )
     }
     else {
-        let background = cosmetics?.find(cosmetic => cosmetic.sub_type == "card_background")?.style;
-        let slogan = cosmetics?.find(cosmetic => cosmetic.sub_type == "slogan")?.name ?? "Un pingouin voyageur";
-
         return (
-            <div className={`${className} userCard p-[16px]`} style={{background: data?.background_style ?? background, backgroundSize: 'cover', backgroundPosition: 'center', ...style}}>
+            <div className={`${className} userCard p-[16px]`} style={{background: data?.background_style ?? cosmetics.card_background?.style, backgroundSize: 'cover', backgroundPosition: 'center', ...style}}>
                 <UserIcon className="flex-shrink-0" propsCosmetics={cosmetics} width={data?.iconSize ?? 48}/>
 
                 <div className="flex justify-between items-center flex-grow gap-[8px] overflow-hidden">
                     <div className="data flex flex-col flex-grow overflow-hidden">
                         <div className="username select-none truncate">{username}</div>
-                        {(data?.drawSlogan == undefined || data?.drawSlogan) && <div className="description select-none truncate">{data?.customSlogan ?? slogan}</div>}
+                        {(data?.drawSlogan == undefined || data?.drawSlogan) && <div className="description select-none truncate">{data?.customSlogan ?? cosmetics.slogan.name}</div>}
                     </div>
                     {data?.points !== undefined && stylePoints == "default" &&
                         <div className="points">

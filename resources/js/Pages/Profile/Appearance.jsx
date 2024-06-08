@@ -10,14 +10,14 @@ import BlueButton from "@/Components/Navigation/Buttons/BlueButton";
 import UserIcon from "@/Components/User/UserIcon";
 import AppearanceSidebar from "@/Components/Navigation/Sidebar/AppearanceSidebar";
 import CosmeticList from "./Appearance/CosmeticList";
-import { setCosmeticData } from "@/AppContext";
+import { formatStyle, formatCosmetics, copyAndFormatStyleMany } from '@/CosmeticsUtils';
 
 export default function ProfileAppearance(props) {
 
     const [mainTab, setMainTab] = useState('penguin');
     const [activeTab, setActiveTab] = useState('penguin_hat');
     const [cosmetics, setCosmetics] = useState(undefined);
-    const [activeCosmetics, setActiveCosmetics] = useState(props.activeCosmetics.map(cosmetic => {setCosmeticData(cosmetic); return cosmetic;}) ?? []);
+    const [activeCosmetics, setActiveCosmetics] = useState(formatCosmetics(copyAndFormatStyleMany(props.activeCosmetics)));
     const twitch = props.auth.twitch;
 
     const tabs = [
@@ -108,7 +108,7 @@ export default function ProfileAppearance(props) {
             }).then(response => {
                 let res = response.data;
                 res.forEach((cosmetic, _) => {
-                    setCosmeticData(cosmetic);
+                    formatStyle(cosmetic);
                     if (userCosmetics?.find(userCosmetic => userCosmetic.id === cosmetic.id)) {
                         cosmetic.owned = true;
                     } else {
