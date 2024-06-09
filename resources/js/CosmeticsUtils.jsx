@@ -50,13 +50,13 @@ export function getDefaultCosmetics() {
     return {
         // Penguin
         penguin: {
-            hat: undefined,
-            eye: undefined,
-            backpack: undefined,
-            color: getDefaultColors(),
-            accessory: undefined,
-            beak: undefined,
-            tail: undefined,
+            penguin_hat: undefined,
+            penguin_eye: undefined,
+            penguin_backpack: undefined,
+            penguin_color: getDefaultColors(),
+            penguin_accessory: undefined,
+            penguin_beak: undefined,
+            penguin_tail: undefined,
         },
         // Card
         card: {
@@ -78,25 +78,25 @@ export function formatCosmetics(cosmeticsList) {
         if (cosmetic.type == 'penguin') {
             switch (cosmetic.sub_type) {
                 case 'penguin_hat':
-                    cosmetics.penguin.hat = cosmetic;
+                    cosmetics.penguin.penguin_hat = cosmetic;
                     break;
                 case 'penguin_eye':
-                    cosmetics.penguin.eye = cosmetic;
+                    cosmetics.penguin.penguin_eye = cosmetic;
                     break;
                 case 'penguin_backpack':
-                    cosmetics.penguin.backpack = cosmetic;
+                    cosmetics.penguin.penguin_backpack = cosmetic;
                     break;
                 case 'penguin_color':
-                    cosmetics.penguin.color = { id: cosmetic.id, style: cosmetic.data.colors };
+                    cosmetics.penguin.penguin_color = { id: cosmetic.id, style: cosmetic.data.colors };
                     break;
                 case 'penguin_accessory':
-                    cosmetics.penguin.accessory = cosmetic;
+                    cosmetics.penguin.penguin_accessory = cosmetic;
                     break;
                 case 'penguin_beak':
-                    cosmetics.penguin.beak = cosmetic;
+                    cosmetics.penguin.penguin_beak = cosmetic;
                     break;
                 case 'penguin_tail':
-                    cosmetics.penguin.tail = cosmetic;
+                    cosmetics.penguin.penguin_tail = cosmetic;
                     break;
             }
         }
