@@ -144,9 +144,9 @@ export default function ProfileAppearance(props) {
         if (!cosmetic.owned)
             return toast.error('Vous ne possédez pas ce cosmétique', { position: 'bottom-left' });
 
-        newCosmetics[cosmetic.type][cosmetic.sub_type] = cosmetic;
+        newCosmetics[cosmetic.type][cosmetic.sub_type] = cosmetic.sub_type == "penguin_color" ? { id: cosmetic.id, style: cosmetic.data.colors } : cosmetic;
         setActiveCosmetics(newCosmetics);
-        console.log(newCosmetics);
+        console.log(cosmetic, newCosmetics);
     }
 
     function getIds(obj) {
@@ -164,7 +164,6 @@ export default function ProfileAppearance(props) {
       }
 
     function saveCosmetics() {
-        console.log(activeCosmetics, getIds(activeCosmetics));
         axios.post(route('user.cosmetics.update'), { cosmetics: getIds(activeCosmetics) })
             .then(response => {
                 if (response.data.success)
