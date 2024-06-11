@@ -41,6 +41,7 @@ class CosmeticController extends Controller
         $cosmetics = Cosmetic::where('type', $typeCosmetic)->where('sub_type', $subTypeCosmetic)->where('rarity','>=', '0')->orWhereIn('id', $userSecretCosmetics)->where('sub_type', $subTypeCosmetic)->get();
         foreach ($cosmetics as $cosmetic) {
             $cosmetic->data = json_decode($cosmetic->data, true);
+            $cosmetic->style = json_decode($cosmetic->style, true);
         }
         return response()->json($cosmetics);
     }
@@ -83,6 +84,7 @@ class CosmeticController extends Controller
             return response()->json(['error' => 'No cosmetics found for this user']);
 
         foreach ($cosmetics as $cosmetic) {
+            $cosmetic->style = json_decode($cosmetic->style, true);
             $cosmetic->data = json_decode($cosmetic->data, true);
         }
 
@@ -116,6 +118,7 @@ class CosmeticController extends Controller
         $cosmetics = DB::table('cosmetics')->whereIn('id', $mergedCosmeticsId)->get();
         foreach ($cosmetics as $cosmetic) {
             $cosmetic->data = json_decode($cosmetic->data, true);
+            $cosmetic->styles = json_decode($cosmetic->styles, true);
         }
         return response()->json($cosmetics);
     }
@@ -151,6 +154,7 @@ class CosmeticController extends Controller
         $cosmetics = DB::table('cosmetics')->whereIn('id', $cosmeticIds)->get();
         foreach ($cosmetics as $cosmetic) {
             $cosmetic->data = json_decode($cosmetic->data, true);
+            $cosmetic->styles = json_decode($cosmetic->styles, true);
         }
         return response()->json(["cosmetics" => $cosmetics, "users" => $usersCosmeticIds]);
     }

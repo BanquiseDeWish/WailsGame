@@ -13,7 +13,10 @@ export function formatStyle(cosmetic) {
     let flipHorizontally = cosmetic?.data?.flipHorizontally ?? false;
     let flipVertically = cosmetic?.data?.flipVertically ?? false;
     if (!NOT_SVG_COSMETICS.includes(cosmetic.sub_type))
-        cosmetic.style = <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale}) ${flipHorizontally ? 'scale(-1, 1)' : ''}`} dangerouslySetInnerHTML={{ __html: cosmetic.style }} />
+        cosmetic.style.forEach((style, _) => {
+            //style.style = style.style.replace(/fill="#[0-9A-F]{6}"/g, `fill="${cosmetic?.data?.colors?.main_color ?? MAIN_COLOR}"`);
+            style.style = <g transform={`rotate(${rotation} ${pivotX} ${pivotY}) translate(${x} ${y}) scale(${scale}) ${flipHorizontally ? 'scale(-1, 1)' : ''}`} dangerouslySetInnerHTML={{ __html: style.style }} />
+        });
 }
 
 export function formatStyleMany(cosmetics) {
@@ -50,13 +53,22 @@ export function getDefaultCosmetics() {
     return {
         // Penguin
         penguin: {
-            penguin_hat: undefined,
-            penguin_eye: undefined,
-            penguin_backpack: undefined,
-            penguin_color: getDefaultColors(),
-            penguin_accessory: undefined,
-            penguin_beak: undefined,
-            penguin_tail: undefined,
+            hat_front: undefined,
+            hat_back: undefined,
+            beak: undefined,
+            eye: undefined,
+            tail: undefined,
+            backpack: undefined,
+            body_front: undefined,
+            body_back: undefined,
+            left_arm: undefined,
+            left_forearm: undefined,
+            right_arm: undefined,
+            right_forearm: undefined,
+            left_foot: undefined,
+            right_foot: undefined,
+            pet: undefined,
+            color: getDefaultColors(),
         },
         // Card
         card: {
@@ -67,8 +79,8 @@ export function getDefaultCosmetics() {
     };
 }
 
-export function getDefaultValueFor(type, sub_type) {
-    return getDefaultCosmetics()[type][sub_type];
+export function getDefaultValueFor(type, part) {
+    return getDefaultCosmetics()[type][part];
 }
 
 export function formatCosmetics(cosmeticsList) {
@@ -76,42 +88,19 @@ export function formatCosmetics(cosmeticsList) {
 
     cosmeticsList.forEach((cosmetic, _) => {
         if (cosmetic.type == 'penguin') {
-            switch (cosmetic.sub_type) {
-                case 'penguin_hat':
-                    cosmetics.penguin.penguin_hat = cosmetic;
-                    break;
-                case 'penguin_eye':
-                    cosmetics.penguin.penguin_eye = cosmetic;
-                    break;
-                case 'penguin_backpack':
-                    cosmetics.penguin.penguin_backpack = cosmetic;
-                    break;
-                case 'penguin_color':
-                    cosmetics.penguin.penguin_color = { id: cosmetic.id, style: cosmetic.data.colors };
-                    break;
-                case 'penguin_accessory':
-                    cosmetics.penguin.penguin_accessory = cosmetic;
-                    break;
-                case 'penguin_beak':
-                    cosmetics.penguin.penguin_beak = cosmetic;
-                    break;
-                case 'penguin_tail':
-                    cosmetics.penguin.penguin_tail = cosmetic;
-                    break;
-            }
+            if(cosmetic.sub_type == 'penguin_color')
+                cosmetics.penguin.color = { id: cosmetic.id, style: cosmetic.data.colors };
+            else
+                cosmetic?.style?.forEach((style, _) => {
+                    if(!style.part_name) return;
+                    cosmetics.penguin[style?.part_name] = {id: cosmetic.id, style: style?.style};
+                });
         }
         else if (cosmetic.type == 'card') {
-            switch (cosmetic.sub_type) {
-                case 'card_background':
-                    cosmetics.card.card_background = cosmetic;
-                    break;
-                case 'icon_background':
-                    cosmetics.card.icon_background = cosmetic;
-                    break;
-                case 'slogan':
-                    cosmetics.card.slogan = cosmetic;
-                    break;
-            }
+            cosmetic?.style?.forEach((style, _) => {
+                if(!style.part_name) return;
+                cosmetics.card[style?.part_name] = {id: cosmetic.id, style: style?.style};
+            });
         }
     });
     return cosmetics;

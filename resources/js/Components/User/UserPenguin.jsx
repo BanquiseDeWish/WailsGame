@@ -44,29 +44,31 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
         >
             <g id="penguin_frame">
                 <g id="penguin">
-                    { cosmetics?.penguin?.penguin_backpack?.style ?? <></>}
+                    { cosmetics?.penguin?.backpack?.style ?? <></>}
                     {
                         /* Tail */
-                        cosmetics?.penguin?.penguin_tail
+                        cosmetics?.penguin?.tail
                         ?
-                        cosmetics.penguin.penguin_tail.style
+                        cosmetics.penguin.tail.style
                         :
                         <g id="tail">
                             <path id="tail_2"
                                 d="M289.765 811.557C302.025 829.948 329.145 836.446 341.265 855.057C338.893 859.8 330.115 867.419 324.921 868.945C321.301 870.076 317.887 871.409 314.421 872.945C296.142 880.672 276 885.77 256.112 885.8C255.327 885.804 254.543 885.807 253.734 885.81C252.088 885.815 250.442 885.818 248.796 885.818C246.305 885.82 243.816 885.838 241.325 885.857C233.192 885.885 225.666 885.674 217.733 883.632C221.047 876.255 227.986 871.424 234.358 866.757C235.054 866.241 235.749 865.724 236.465 865.191C240.734 862.036 245.076 859.027 249.483 856.07C264.056 846.037 279.227 825.528 289.765 811.557Z"
-                                fill={cosmetics.penguin.penguin_color.style.dark_main_color} />
+                                fill={cosmetics.penguin.color.style.dark_main_color} />
                         </g>
                     }
                     <g id="left_arm">
                         <g id="left_arm_2">
                             <path id="left_arm_3"
                                 d="M543.107 415.596C537.204 417.252 534.299 435.176 533.511 445.122C530.879 482.188 542.373 570.835 580.404 596.875C593.117 605.579 646.865 569.759 640.204 551.846C639.254 549.29 638.32 546.729 637.391 544.166C627.387 516.742 614.354 490.372 599.251 465.408C598.673 464.448 598.095 463.489 597.5 462.5C564.881 409.424 549.703 413.746 543.107 415.596Z"
-                                fill={cosmetics.penguin.penguin_color.style.dark_main_color} />
+                                fill={cosmetics.penguin.color.style.dark_main_color} />
+                            { cosmetics?.penguin?.left_arm?.style ?? <></>}
                         </g>
                         <g id="left_forearm">
                             <path id="left_forearm_2"
                                 d="M580.404 596.875C592.553 605.193 601.25 617.01 609.619 628.897C619.325 642.73 642.708 696.363 659.98 692.28C664.813 690.762 664.56 684.887 664.868 680.005C665.25 650.958 660.469 619.311 653 591.5C652.764 590.619 652.527 589.738 652.283 588.831C648.812 576.051 644.569 563.626 639.941 551.221C638.991 548.666 638.057 546.104 637.128 543.541C630.876 526.288 551.572 575.773 576.749 594.281C577.944 595.16 579.162 596.024 580.404 596.875Z"
-                                fill={cosmetics.penguin.penguin_color.style.dark_main_color} />
+                                fill={cosmetics.penguin.color.style.dark_main_color} />
+                            { cosmetics?.penguin?.left_forearm?.style ?? <></>}
                         </g>
                     </g>
                     <g id="left_leg">
@@ -77,11 +79,13 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                             <path id="left_feet_2"
                                 d="M592.435 895.329C591.235 890.529 562.601 880.996 548.435 876.829C543.97 889.393 510.506 900.907 484.97 901.343C486.506 902.407 489.768 903.662 491.935 903.829C494.101 903.829 498.535 904.029 498.935 904.829C512.935 924.329 527.97 915.893 527.435 914.329C526.087 910.393 528.97 907.393 532.435 912.829C535.682 917.924 552.435 917.329 554.935 916.829C556.935 916.429 557.637 909.893 557.47 907.393C565.804 911.06 582.235 918.629 583.435 913.829C584.635 909.029 582.268 905.162 580.935 903.829L590.935 903.329C591.935 902.662 593.635 900.129 592.435 895.329Z"
                                 fill="#D89374" />
+                            { cosmetics?.penguin?.left_foot?.style ?? <></>}
                         </g>
                         <path id="left_leg_2"
                             d="M523.766 811.008C577.766 811.008 546.317 835.009 541 865.139C536.5 890.639 492.5 882.639 480 869.139C477.564 866.509 476.967 860.911 474.875 856.889C472 851.36 472 851.36 472 849.139C472 809.509 482.766 811.008 523.766 811.008Z"
-                            fill={cosmetics.penguin.penguin_color.style.main_color} />
+                            fill={cosmetics.penguin.color.style.main_color} />
                     </g>
+                    { cosmetics?.penguin?.body_back?.style ?? <></>}
                     <g id="body">
                         <g id="belly">
                             <path id="top_belly"
@@ -96,22 +100,23 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                         </g>
                         <path id="body_2"
                             d="M557.818 389.672C555.537 399.619 554.26 406.192 559.671 415.131C569.386 432.348 585.555 463.392 584.505 487.892C579.784 474.725 573.633 460.336 564.734 448.631C564.117 447.817 563.501 447.002 562.866 446.162C547.11 426.958 522.572 419.235 498.734 416.631C460.514 413.554 418.637 429.989 389.761 454.291C349.009 491.96 328.497 602.857 328.546 654.506C328.546 655.569 328.547 656.632 328.547 657.727C328.568 675.443 329.109 692.981 330.734 710.631C330.835 711.787 330.937 712.944 331.042 714.135C335.006 757.981 346.472 804.167 381.546 834.006C390.233 841.396 414.5 851.5 424 853C421.815 860.404 408.696 879.675 398 882.6C385.358 886.057 341.066 873.514 328.734 866.631C297.867 849.403 285.058 840.131 275.322 807.372C271.276 793.662 268.53 779.895 266.25 765.793C265.912 763.725 265.561 761.66 265.193 759.598C245.674 649.129 284.96 524.196 331.421 422.506C333.813 417.255 336.188 411.996 338.597 406.752C342.996 397.148 346.614 387.474 349.817 377.411C385.756 264.5 582.738 281 557.818 389.672Z"
-                            fill={cosmetics.penguin.penguin_color.style.main_color} />
+                            fill={cosmetics.penguin.color.style.main_color} />
                         <path id="bottom_body"
                             d="M491.5 872.501C463.513 880.221 424.809 882.521 396 883C396 871.856 402.697 857.012 409.5 848.6C450.504 858.597 500.083 855.513 541 846.07C534.267 852.439 520.5 864.501 491.5 872.501Z"
-                            fill={cosmetics.penguin.penguin_color.style.light_main_color} />
-                        { cosmetics?.penguin?.penguin_accessory?.style ?? <></>}
+                            fill={cosmetics.penguin.color.style.light_main_color} />
+                        { cosmetics?.penguin?.body_front?.style ?? <></>}
                         <g id="head">
+                            { cosmetics?.penguin?.hat_back?.style ?? <></>}
                             <path id="head_2"
                                 d="M535.03 266.854C539.139 269.555 542.978 272.459 546.734 275.631C547.557 276.321 548.381 277.011 549.23 277.721C558.479 285.731 558.56 287.119 564 298C567.25 304.5 564 347 562.734 365.631C562.632 366.509 562.53 367.387 562.425 368.291C561.397 375.504 557.5 388 549.5 390C506.894 400.651 340.417 410.5 358 355.5C372.94 308.766 384.606 286.495 429.734 262.631C439.433 257.776 449.22 254.988 459.734 252.631C460.338 252.455 460.942 252.28 461.565 252.098C486.25 246.78 513.91 253.95 535.03 266.854Z"
-                                fill={cosmetics.penguin.penguin_color.style.main_color} />
+                                fill={cosmetics.penguin.color.style.main_color} />
                             <path id="head_reflet"
                                 d="M535.031 266.854C548.765 277.556 552.349 277.353 560.734 291.631C565.924 300.353 534.829 299.892 532.441 297.358C528.172 292.947 523.634 282.631 513.234 276.631C487.234 261.631 474.265 254.586 441.765 257.586C457.265 252.392 494.765 239.556 535.031 266.854Z"
-                                fill={cosmetics.penguin.penguin_color.style.light_main_color} />
+                                fill={cosmetics.penguin.color.style.light_main_color} />
                             { /* Beak */
-                                cosmetics?.penguin.penguin_beak
+                                cosmetics?.penguin.beak
                                     ?
-                                    cosmetics.penguin.penguin_beak.style
+                                    cosmetics.penguin.beak.style
                                     :
                                     <g id="beak">
                                         <g id="bottom_beak">
@@ -136,9 +141,9 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                             }
                             {
                                 /* Eyes */
-                                cosmetics?.penguin.penguin_eye
+                                cosmetics?.penguin.eye
                                     ?
-                                    cosmetics.penguin.penguin_eye.style
+                                    cosmetics.penguin.eye.style
                                     :
                                     <g id="eye">
                                         <path id="white_eye"
@@ -150,7 +155,7 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                                         </g>
                                     </g>
                             }
-                            { cosmetics?.penguin?.penguin_hat?.style ?? <></>}
+                            { cosmetics?.penguin?.hat_front?.style ?? <></>}
                         </g>
                     </g>
                     <g id="right_leg">
@@ -161,23 +166,29 @@ export default function UserPenguin({ className, propsCosmetics, twitchId, width
                             <path id="right_feet_2"
                                 d="M445.401 914.025C444.201 909.225 415.568 899.692 401.401 895.525C396.47 909.892 354.47 919.559 338.401 920.192C338.97 920.559 342.734 922.359 344.901 922.525C347.068 922.525 351.501 922.725 351.901 923.525C365.901 943.025 380.968 937.131 380.935 936.328C380.906 935.631 380.935 925.828 385.401 931.525C389.129 936.28 405.401 936.025 407.901 935.525C409.901 935.125 410.637 929.392 410.47 926.892C418.804 930.559 435.201 937.325 436.401 932.525C437.601 927.725 435.234 923.859 433.901 922.525L443.901 922.025C444.901 921.359 446.601 918.825 445.401 914.025Z"
                                 fill="#D89374" />
+                            { cosmetics?.penguin?.right_foot?.style ?? <></>}
                         </g>
                         <path id="right_leg_2"
                             d="M380.5 828.501C434.5 828.501 403.051 852.501 397.734 882.632C393.234 908.132 349.234 900.132 336.734 886.632C334.297 884.001 333.7 878.404 331.609 874.382C328.734 868.852 328.734 868.852 328.734 866.632C328.734 827.001 339.5 828.501 380.5 828.501Z"
-                            fill={cosmetics.penguin.penguin_color.style.main_color} />
+                            fill={cosmetics.penguin.color.style.main_color} />
                     </g>
                     <g id="right_arm">
                         <g id="right_arm_2">
                             <path id="right_arm_3"
                                 d="M344.671 455.006C351.047 458.126 350.607 479.144 349.424 490.633C344.671 533.392 313.047 631.931 264.296 653.631C248 660.885 198.695 611.5 210.025 592.496C211.642 589.784 213.241 587.063 214.835 584.338C231.96 555.203 252.315 527.9 274.734 502.631C275.592 501.659 276.451 500.687 277.335 499.686C325.576 446.068 337.547 451.52 344.671 455.006Z"
-                                fill={cosmetics.penguin.penguin_color.style.dark_main_color} />
+                                fill={cosmetics.penguin.color.style.dark_main_color} />
+                            { cosmetics?.penguin?.right_arm?.style ?? <></>}
                         </g>
                         <g id="right_forearm">
                             <path id="right_forearm_2"
                                 d="M264.296 653.631C248.722 660.563 236.348 672.2 224.333 683.986C210.388 697.709 172.547 753.892 153.734 745.631C148.547 742.892 150.064 736.255 150.734 730.631C156.372 697.475 172.413 665.737 186.734 635.631C187.187 634.678 187.64 633.724 188.108 632.741C194.733 618.914 202.162 605.654 210.026 592.496C211.642 589.784 213.241 587.063 214.835 584.338C225.561 566 301.54 635.631 269 651.442C267.456 652.193 265.888 652.923 264.296 653.631Z"
-                                fill={cosmetics.penguin.penguin_color.style.dark_main_color} />
+                                fill={cosmetics.penguin.color.style.dark_main_color} />
+                            { cosmetics?.penguin?.right_forearm?.style ?? <></>}
                         </g>
                     </g>
+                </g>
+                <g id="pet">
+                    { cosmetics?.penguin?.pet?.style ?? <></>}
                 </g>
             </g>
         </svg>

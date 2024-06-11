@@ -56,8 +56,13 @@ export default function ProfileAppearance(props) {
                     active: true
                 },
                 {
-                    name: 'Queue',
+                    name: 'Queux',
                     key: 'penguin_tail',
+                    active: true
+                },
+                {
+                    name: 'Pets',
+                    key: 'penguin_pet',
                     active: true
                 },
             ]
@@ -108,7 +113,6 @@ export default function ProfileAppearance(props) {
             }).then(response => {
                 let res = response.data;
                 res.forEach((cosmetic, _) => {
-                    formatStyle(cosmetic);
                     if (userCosmetics?.find(userCosmetic => userCosmetic.id === cosmetic.id)) {
                         cosmetic.owned = true;
                     } else {
@@ -136,7 +140,9 @@ export default function ProfileAppearance(props) {
     function selectCosmetic(cosmetic, remove = false) {
         let newCosmetics = {...activeCosmetics};
         if (remove) {
-            newCosmetics[cosmetic.type][cosmetic.sub_type] = getDefaultValueFor(cosmetic.type, cosmetic.sub_type);
+            cosmetic.style.forEach((style, _) => {
+                newCosmetics[cosmetic.type][style.part_name] = getDefaultValueFor(cosmetic.type, style.part_name);
+            });
             setActiveCosmetics(newCosmetics);
             return;
         }
@@ -144,9 +150,11 @@ export default function ProfileAppearance(props) {
         if (!cosmetic.owned)
             return toast.error('Vous ne possédez pas ce cosmétique', { position: 'bottom-left' });
 
-        newCosmetics[cosmetic.type][cosmetic.sub_type] = cosmetic.sub_type == "penguin_color" ? { id: cosmetic.id, style: cosmetic.data.colors } : cosmetic;
+        cosmetic.style.forEach((style, _) => {
+            newCosmetics[cosmetic.type][style.part_name] =  cosmetic.sub_type == "penguin_color" ? { id: cosmetic.id, style: cosmetic.data.colors } : { id: cosmetic.id, ...style };
+        });
+        //newCosmetics[cosmetic.type][cosmetic.sub_type] = cosmetic.sub_type == "penguin_color" ? { id: cosmetic.id, style: cosmetic.data.colors } : cosmetic;
         setActiveCosmetics(newCosmetics);
-        console.log(cosmetic, newCosmetics);
     }
 
     function getIds(obj) {
