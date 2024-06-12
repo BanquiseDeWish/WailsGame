@@ -2,19 +2,19 @@ import CosmeticCard from "./CosmeticCard"
 import EmptyBoxIcon from "@/Components/Icons/EmptyBoxIcon"
 import { randomId } from "@/Game/random"
 
-export default function CosmeticList({ cosmetics, mainTab, activeTab, selectCosmetic }) {
+export default function CosmeticList({ cosmetics, activeTab, selectCosmetic }) {
 
     return (
         <div className="md:order-2 md:flex md:flex-shrink-0 container justify-start items-start xl:col-span-5 col-span-3 p-2 md:p-8 select-none h-full overflow-hidden">
             {!cosmetics && <div className="col-span-2 flex justify-center items-center w-full h-full"><div className="loader-spinner"></div></div>}
             {cosmetics && <div className="grid grid-cols-2 md:flex w-full md:flex-wrap gap-2 md:gap-4 h-full overflow-y-auto content-start">
                 {cosmetics && activeTab == 'slogan' &&
-                    <CosmeticCard className={"md:h-[128px] md:w-[200px]"} key={'no_cosmetic'} onClick={() => { selectCosmetic({type: mainTab, sub_type: activeTab}, true) }}>
+                    <CosmeticCard className={"md:h-[128px] md:w-[200px]"} key={'no_cosmetic'} onClick={() => { selectCosmetic(undefined) }}>
                         <span className="flex items-center justify-center text-center h-full w-full">Un Pingouin Voyageur</span>
                     </CosmeticCard>
                 }
                 {cosmetics && activeTab == 'penguin_eye' &&
-                    <CosmeticCard className={"h-[160px] md:h-[200px] md:w-[200px]"} key={'no_cosmetic'} onClick={() => { selectCosmetic({type: mainTab, sub_type: activeTab}, true) }}>
+                    <CosmeticCard className={"h-[160px] md:h-[200px] md:w-[200px]"} key={'no_cosmetic'} onClick={() => { selectCosmetic(undefined) }}>
                         <div className={'scale-[0.75]'}>
                             <svg width={128} height={128}>
                                 <g id="eye" transform="translate(-250,0)">
@@ -29,7 +29,7 @@ export default function CosmeticList({ cosmetics, mainTab, activeTab, selectCosm
                     </CosmeticCard>
                 }
                 {cosmetics && activeTab != 'slogan' && activeTab != 'penguin_eye' &&
-                    <CosmeticCard className={"h-[160px] md:h-[200px] md:w-[200px] justify-end"} key={'no_cosmetic_1'} onClick={() => { selectCosmetic({type: mainTab, sub_type: activeTab}, true) }}>
+                    <CosmeticCard className={"h-[160px] md:h-[200px] md:w-[200px] justify-end"} key={'no_cosmetic_1'} onClick={() => { selectCosmetic(undefined) }}>
                         <div className={`flex justify-center items-end overflow-hidden w-[96px] h-[96px]`}>
                             <EmptyBoxIcon className="flex-shrink-0" width={window.innerWidth <= 768 ? 64 : 96} height={window.innerWidth <= 768 ? 64 : 96} />
                         </div>

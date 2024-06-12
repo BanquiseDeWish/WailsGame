@@ -27,6 +27,10 @@ export function formatStyleMany(cosmetics) {
 
 export function copyAndFormatStyle(cosmetic) {
     let cosm = { ...cosmetic };
+    cosm.style = [];
+    cosmetic.style.forEach((style, _) => {
+        cosm.style.push({ ...style }); 
+    });
     formatStyle(cosm);
     return cosm;
 }

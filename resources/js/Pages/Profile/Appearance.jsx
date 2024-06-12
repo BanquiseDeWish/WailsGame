@@ -3,14 +3,14 @@ import MainLayout from "@/Layouts/MainLayout";
 import '@css/page/profile/appearance/appareance.css'
 import UserPenguin from "@/Components/User/UserPenguin";
 import UserCard from "@/Components/User/UserCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toast } from 'sonner';
 import axios from "axios";
 import BlueButton from "@/Components/Navigation/Buttons/BlueButton";
 import UserIcon from "@/Components/User/UserIcon";
 import AppearanceSidebar from "@/Components/Navigation/Sidebar/AppearanceSidebar";
 import CosmeticList from "./Appearance/CosmeticList";
-import { formatStyle, formatCosmetics, copyAndFormatStyleMany, getDefaultValueFor } from '@/CosmeticsUtils';
+import { copyAndFormatStyle, formatCosmetics, copyAndFormatStyleMany, getDefaultValueFor } from '@/CosmeticsUtils';
 
 export default function ProfileAppearance(props) {
 
@@ -18,6 +18,7 @@ export default function ProfileAppearance(props) {
     const [activeTab, setActiveTab] = useState('penguin_hat');
     const [cosmetics, setCosmetics] = useState(undefined);
     const [activeCosmetics, setActiveCosmetics] = useState(formatCosmetics(copyAndFormatStyleMany(props.activeCosmetics)));
+    const activeCosmeticsIds = useRef(props.activeCosmetics.map(cosmetic => cosmetic.id));useRef(props.activeCosmetics.map(cosmetic => cosmetic.id));
     const twitch = props.auth.twitch;
 
     const tabs = [
@@ -137,11 +138,21 @@ export default function ProfileAppearance(props) {
         });
     }
 
-    function selectCosmetic(cosmetic, remove = false) {
-        let newCosmetics = {...activeCosmetics};
-        if (remove) {
-            cosmetic.style.forEach((style, _) => {
-                newCosmetics[cosmetic.type][style.part_name] = getDefaultValueFor(cosmetic.type, style.part_name);
+    function removeCosmetic(cosmetic) {
+        let newCosmetics = { ...activeCosmetics };
+        cosmetic.style.forEach((style, _) => {
+            newCosmetics[cosmetic.type][style.part_name] = getDefaultValueFor(cosmetic.type, style.part_name);
+        });
+        activeCosmeticsIds.current = activeCosmeticsIds.current.filter(id => id !== cosmetic.id);
+        setActiveCosmetics(newCosmetics);
+    }
+
+    function selectCosmetic(cosmetic) {
+        let newCosmetics = { ...activeCosmetics };
+        if (!cosmetic) {
+            let activeCosmeticsInTab = cosmetics.filter(cosm => activeCosmeticsIds.current.includes(cosm.id));
+            activeCosmeticsInTab.forEach(cosm => {
+                removeCosmetic(cosm);
             });
             setActiveCosmetics(newCosmetics);
             return;
@@ -150,8 +161,30 @@ export default function ProfileAppearance(props) {
         if (!cosmetic.owned)
             return toast.error('Vous ne possédez pas ce cosmétique', { position: 'bottom-left' });
 
-        cosmetic.style.forEach((style, _) => {
-            newCosmetics[cosmetic.type][style.part_name] =  cosmetic.sub_type == "penguin_color" ? { id: cosmetic.id, style: cosmetic.data.colors } : { id: cosmetic.id, ...style };
+        if(activeCosmeticsIds.current.includes(cosmetic.id)) {
+            removeCosmetic(cosmetic);
+            return;
+        }
+
+        let copy = copyAndFormatStyle(cosmetic);
+        // Verify if style part are already used and remove them
+        copy.style.forEach((style, _) => {
+            if(activeCosmetics[copy.type][style.part_name] !== undefined) {
+                let id = activeCosmetics[copy.type][style.part_name].id;
+                Object.entries(activeCosmetics).forEach((entry) => {
+                    Object.entries(entry[1]).forEach((subEntry) => {
+                        if(subEntry[1]?.id === id) {
+                            removeCosmetic({ id: id, type: entry[0], style: [subEntry[1]] });
+                        }
+                    });
+                });
+                activeCosmeticsIds.current = activeCosmeticsIds.current.filter(cosmId => cosmId !== id);
+            }
+        });
+
+        activeCosmeticsIds.current.push(copy.id);
+        copy.style.forEach((style, _) => {
+            newCosmetics[copy.type][style.part_name] = copy.sub_type == "penguin_color" ? { id: copy.id, style: copy.data.colors } : { id: copy.id, ...style };
         });
         //newCosmetics[cosmetic.type][cosmetic.sub_type] = cosmetic.sub_type == "penguin_color" ? { id: cosmetic.id, style: cosmetic.data.colors } : cosmetic;
         setActiveCosmetics(newCosmetics);
@@ -160,19 +193,19 @@ export default function ProfileAppearance(props) {
     function getIds(obj) {
         const ids = [];
         for (let key in obj) {
-          if (obj[key] && typeof obj[key] === 'object') {
-            for (let subKey in obj[key]) {
-              if (obj[key][subKey] && obj[key][subKey].id !== undefined) {
-                ids.push(obj[key][subKey].id);
-              }
+            if (obj[key] && typeof obj[key] === 'object') {
+                for (let subKey in obj[key]) {
+                    if (obj[key][subKey] && obj[key][subKey].id !== undefined) {
+                        ids.push(obj[key][subKey].id);
+                    }
+                }
             }
-          }
         }
         return ids;
-      }
+    }
 
     function saveCosmetics() {
-        axios.post(route('user.cosmetics.update'), { cosmetics: getIds(activeCosmetics) })
+        axios.post(route('user.cosmetics.update'), { cosmetics: activeCosmeticsIds.current })
             .then(response => {
                 if (response.data.success)
                     toast.success('Sauvegarde effectuée avec succès', { position: 'bottom-left' });
@@ -211,7 +244,7 @@ export default function ProfileAppearance(props) {
                 </div>
 
                 {/* Cosmetics */}
-                <CosmeticList cosmetics={cosmetics} mainTab={mainTab} activeTab={activeTab} selectCosmetic={selectCosmetic} />
+                <CosmeticList cosmetics={cosmetics} activeTab={activeTab} selectCosmetic={selectCosmetic} />
 
                 {/* Menu */}
                 <div className="hidden md:order-1 md:flex container xl:col-span-2 col-span-2 flex-col justify-start items-start p-3 md:p-6 gap-8">
