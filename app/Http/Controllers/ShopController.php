@@ -110,7 +110,7 @@ class ShopController extends Controller
                 $article->cosmetics = Cosmetic::whereIn('id', $cosmetics)->get();
                 foreach($article->cosmetics as $cosmetic) {
                     $cosmetic->data = json_decode($cosmetic->data, true);
-                    $cosmetic->styles = json_decode($cosmetic->styles, true);
+                    $cosmetic->style = json_decode($cosmetic->style, true);
                 }
             }
         }

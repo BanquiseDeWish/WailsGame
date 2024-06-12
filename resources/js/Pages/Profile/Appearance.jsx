@@ -189,21 +189,7 @@ export default function ProfileAppearance(props) {
         //newCosmetics[cosmetic.type][cosmetic.sub_type] = cosmetic.sub_type == "penguin_color" ? { id: cosmetic.id, style: cosmetic.data.colors } : cosmetic;
         setActiveCosmetics(newCosmetics);
     }
-
-    function getIds(obj) {
-        const ids = [];
-        for (let key in obj) {
-            if (obj[key] && typeof obj[key] === 'object') {
-                for (let subKey in obj[key]) {
-                    if (obj[key][subKey] && obj[key][subKey].id !== undefined) {
-                        ids.push(obj[key][subKey].id);
-                    }
-                }
-            }
-        }
-        return ids;
-    }
-
+    
     function saveCosmetics() {
         axios.post(route('user.cosmetics.update'), { cosmetics: activeCosmeticsIds.current })
             .then(response => {

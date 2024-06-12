@@ -118,7 +118,7 @@ class CosmeticController extends Controller
         $cosmetics = DB::table('cosmetics')->whereIn('id', $mergedCosmeticsId)->get();
         foreach ($cosmetics as $cosmetic) {
             $cosmetic->data = json_decode($cosmetic->data, true);
-            $cosmetic->styles = json_decode($cosmetic->styles, true);
+            $cosmetic->style = json_decode($cosmetic->style, true);
         }
         return response()->json($cosmetics);
     }
@@ -154,7 +154,7 @@ class CosmeticController extends Controller
         $cosmetics = DB::table('cosmetics')->whereIn('id', $cosmeticIds)->get();
         foreach ($cosmetics as $cosmetic) {
             $cosmetic->data = json_decode($cosmetic->data, true);
-            $cosmetic->styles = json_decode($cosmetic->styles, true);
+            $cosmetic->style = json_decode($cosmetic->style, true);
         }
         return response()->json(["cosmetics" => $cosmetics, "users" => $usersCosmeticIds]);
     }

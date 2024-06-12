@@ -48,7 +48,6 @@ export function AppContextProvider({ children }) {
             }
             return formatCosmetics([]);
         }
-        
         return formatCosmetics(cosmeticsData.current.cosmetics?.filter((cosmetic) => cosmeticsData.current.users[twitch_id].includes(cosmetic.id.toString())));
     }
 
