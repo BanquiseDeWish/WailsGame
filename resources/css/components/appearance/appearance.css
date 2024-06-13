@@ -55,6 +55,6 @@
     transform: translateY(0);
 }
 
-.cosmeticCard:hover .cosmeticCardChildren {
+.cosmeticCard:hover .cosmeticCardChildrenAnimation {
     transform: translateY(-24px);
 }

@@ -10,7 +10,7 @@ export default function CosmeticCard({className, width=200, height=200, lock=fal
             {...props}
         >
             <span className={`absolute bottom-0 left-0 w-full h-full ${'rarity_' + rarity}`}></span>
-            <div className="cosmeticCardChildren transition-all">{children}</div>
+            <div className={`${name ? 'cosmeticCardChildrenAnimation transition-all' : ''}`}>{children}</div>
             {name && <span className="cosmeticName h-fit flex-shrink-0 transition-all">{name}</span>}
             {lock && <LockIcon width={38} className="absolute -top-2 right-1"/>}
             {active && <svg className="absolute top-0 left-0" width="87" height="37" viewBox="0 0 87 37" fill="none" xmlns="http://www.w3.org/2000/svg">

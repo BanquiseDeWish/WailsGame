@@ -9,8 +9,8 @@ export default function CosmeticList({ cosmetics, activeTab, selectCosmetic, act
             {!cosmetics && <div className="col-span-2 flex justify-center items-center w-full h-full"><div className="loader-spinner"></div></div>}
             {cosmetics && <div className="grid grid-cols-2 md:flex w-full md:flex-wrap gap-2 md:gap-4 overflow-y-scroll p-2 md:p-8 h-full content-start">
                 {cosmetics && activeTab == 'slogan' &&
-                    <CosmeticCard c
-                        lassName={"md:h-[128px] md:w-[200px]"} 
+                    <CosmeticCard
+                        className={"md:h-[128px] md:w-[200px]"} 
                         key={'no_cosmetic'} onClick={() => { selectCosmetic(undefined) }}
                     >
                         <span className="flex items-center justify-center text-center h-full w-full">Un Pingouin Voyageur</span>
