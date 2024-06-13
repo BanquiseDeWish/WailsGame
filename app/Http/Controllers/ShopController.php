@@ -70,6 +70,7 @@ class ShopController extends Controller
             $articles_already_payed = Payments::getArticlesUserPayed($user->id);
             $articles = Articles::where('tab', '=', $tab_id)->where('enable', '=', 1)->excludeArticles($articles_already_payed)->get();
 
+            $articlesFiltered = [];
             foreach($articles as $article) {
                 //CHECK LIMITED AT
                 if($article->limited_at !== null) {
@@ -82,8 +83,7 @@ class ShopController extends Controller
                         $keyToRemove = $articles->search(function ($object) use ($idRemove) {
                             return $object->id == $idRemove;
                         });
-                        if ($keyToRemove !== false)
-                            $articles->forget($keyToRemove);
+                        if ($keyToRemove !== false) continue;
                     }
                 }
                 $article->uuid = Str::uuid();
@@ -112,9 +112,10 @@ class ShopController extends Controller
                     $cosmetic->data = json_decode($cosmetic->data, true);
                     $cosmetic->style = json_decode($cosmetic->style, true);
                 }
+                array_push($articlesFiltered, $article);
             }
         }
-        return response()->json($articles);
+        return response()->json($articlesFiltered);
     }
 
     public function claim_free(Request $request) {
