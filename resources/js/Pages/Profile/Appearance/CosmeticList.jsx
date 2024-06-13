@@ -75,16 +75,14 @@ export default function CosmeticList({ cosmetics, activeTab, selectCosmetic, act
                                         name={cosmetic.name}
                                         rarity={cosmetic.rarity}
                                     >
-                                        <div className={`flex flex-shrink-0 justify-center items-center overflow-hidden w-[96px] h-[96px] ${!cosmetic.owned && 'opacity-70'}`}>
-                                            <div className={window.innerWidth <= 768 ? 'scale-[0.625]' : 'scale-[0.75]'}>
-                                                <svg viewBox="0 0 128 128" width={128} height={128}>
+                                        <div className={`flex flex-shrink-0 justify-center items-center overflow-hidden ${!cosmetic.owned && 'opacity-70'} ${window.innerWidth <= 768 ? 'scale-[0.625]' : 'scale-[0.85]'} `}>
+                                                <svg  viewBox="0 0 128 128" width={128} height={128}>
                                                     {
                                                         cosmetic.style.map((style, _) => {
                                                             return <g dangerouslySetInnerHTML={{ __html: style.style }} />
                                                         })
                                                     }
                                                 </svg>
-                                            </div>
                                         </div>
                                     </CosmeticCard>
                                 )

@@ -4,14 +4,14 @@ export default function CosmeticCard({className, width=200, height=200, lock=fal
 
     return (
         <div className={
-            `text-sm md:text-base content-center text-center flex-shrink-0 relative bg-container rounded-md p-4 flex flex-col gap-2 md:gap-4 items-center cursor-pointer hover:bg-light_container transition-all justify-end ${lock ? 'opacity-40' : ''} ${className} 
+            `cosmeticCard text-sm md:text-base content-center text-center flex-shrink-0 relative bg-container rounded-md px-2 flex flex-col gap-2 md:gap-4 justify-center items-center cursor-pointer hover:bg-light_container transition-all ${lock ? 'opacity-40' : ''} ${className} 
         `}
             onClick={onClick}
             {...props}
         >
             <span className={`absolute bottom-0 left-0 w-full h-full ${'rarity_' + rarity}`}></span>
-            {children}
-            <span>{name}</span>
+            <div className="cosmeticCardChildren transition-all">{children}</div>
+            {name && <span className="cosmeticName h-fit flex-shrink-0 transition-all">{name}</span>}
             {lock && <LockIcon width={38} className="absolute -top-2 right-1"/>}
             {active && <svg className="absolute top-0 left-0" width="87" height="37" viewBox="0 0 87 37" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path

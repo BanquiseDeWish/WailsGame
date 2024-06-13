@@ -12,6 +12,8 @@ import AppearanceSidebar from "@/Components/Navigation/Sidebar/AppearanceSidebar
 import CosmeticList from "./Appearance/CosmeticList";
 import { copyAndFormatStyle, formatCosmetics, copyAndFormatStyleMany, getDefaultValueFor } from '@/CosmeticsUtils';
 
+import '@css/components/appearance/appearance.css';
+
 export default function ProfileAppearance(props) {
 
     const [mainTab, setMainTab] = useState('penguin');
