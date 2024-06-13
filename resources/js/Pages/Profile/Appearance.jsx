@@ -186,7 +186,6 @@ export default function ProfileAppearance(props) {
         copy.style.forEach((style, _) => {
             newCosmetics[copy.type][style.part_name] = copy.sub_type == "penguin_color" ? { id: copy.id, style: copy.data.colors } : { id: copy.id, ...style };
         });
-        //newCosmetics[cosmetic.type][cosmetic.sub_type] = cosmetic.sub_type == "penguin_color" ? { id: cosmetic.id, style: cosmetic.data.colors } : cosmetic;
         setActiveCosmetics(newCosmetics);
     }
     

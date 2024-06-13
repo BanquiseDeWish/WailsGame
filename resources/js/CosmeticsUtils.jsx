@@ -78,7 +78,7 @@ export function getDefaultCosmetics() {
         card: {
             card_background: undefined,
             icon_background: undefined,
-            slogan: { name: 'Un Pingouin Voyageur' },
+            slogan: {style:'Un Pingouin Voyageur'},
         }
     };
 }
