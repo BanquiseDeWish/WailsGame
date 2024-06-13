@@ -1,0 +1,50 @@
+.cosmeticCard {
+    position: relative;
+    overflow: visible;
+    z-index: 0;
+}
+
+.cosmeticActive {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    height: inherit;
+    width: inherit;
+    filter: blur(20px);
+    background: linear-gradient(135deg, #F5CF47, #E78262, #F5CF47, #F5CF47);
+    background-size: 200% 200%;
+    animation: animateGlow 3s linear infinite;
+    z-index: -1;
+}
+
+@keyframes animateGlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 250% 0%;
+    }
+}
+
+.rarity_1 {
+    background: linear-gradient(180deg, rgba(111, 167, 109, 0) 10.5%,rgb(111, 167, 109) 100%);
+}
+
+.rarity_2 {
+    background: linear-gradient(180deg, rgba(154, 122, 185, 0) 10.5%,rgb(154, 122, 185) 100%);
+}
+
+.rarity_3 {
+    background: linear-gradient(180deg, rgba(200, 171, 115, 0) 10.5%,rgb(200, 171, 115) 100%);
+}
+
+.rarity_4 {
+    background: linear-gradient(180deg, rgba(185, 122, 122, 0) 10.5%,rgb(185, 122, 122) 100%);
+}
+
+.rarity_-1 {
+    background: linear-gradient(180deg, rgba(122, 140, 185, 0) 10.5%,rgb(122, 140, 185) 100%);
+}

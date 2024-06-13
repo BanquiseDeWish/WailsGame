@@ -229,7 +229,7 @@ export default function ProfileAppearance(props) {
                 </div>
 
                 {/* Cosmetics */}
-                <CosmeticList cosmetics={cosmetics} activeTab={activeTab} selectCosmetic={selectCosmetic} />
+                <CosmeticList cosmetics={cosmetics} activeTab={activeTab} selectCosmetic={selectCosmetic} activeCosmeticsIds={activeCosmeticsIds.current} />
 
                 {/* Menu */}
                 <div className="hidden md:order-1 md:flex container xl:col-span-2 col-span-2 flex-col justify-start items-start p-3 md:p-6 gap-8">
