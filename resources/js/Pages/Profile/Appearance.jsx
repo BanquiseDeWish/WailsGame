@@ -18,7 +18,7 @@ export default function ProfileAppearance(props) {
     const [activeTab, setActiveTab] = useState('penguin_hat');
     const [cosmetics, setCosmetics] = useState(undefined);
     const [activeCosmetics, setActiveCosmetics] = useState(formatCosmetics(copyAndFormatStyleMany(props.activeCosmetics)));
-    const activeCosmeticsIds = useRef(props.activeCosmetics.map(cosmetic => cosmetic.id));useRef(props.activeCosmetics.map(cosmetic => cosmetic.id));
+    const activeCosmeticsIds = useRef(props.activeCosmetics.map(cosmetic => cosmetic.id));
     const twitch = props.auth.twitch;
 
     const tabs = [
@@ -174,7 +174,7 @@ export default function ProfileAppearance(props) {
                 Object.entries(activeCosmetics).forEach((entry) => {
                     Object.entries(entry[1]).forEach((subEntry) => {
                         if(subEntry[1]?.id === id) {
-                            removeCosmetic({ id: id, type: entry[0], style: [subEntry[1]] });
+                            removeCosmetic({ id: id, type: entry[0], style: [{part_name: subEntry[0],...subEntry[1]}] });
                         }
                     });
                 });
